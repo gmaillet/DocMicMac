@@ -1,0 +1,243 @@
+\chapter{Vrac -Bis }
+
+Suite du Vrac. Regroupe plut\^ot des  bribes de documentation interne 
+eLiSe .
+
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+
+\section{Utilisation des foncteur compil\'es}
+
+On retrace ici le (long \dots) chemin qui conduit de l'utilisation
+finale d'un foncteur jusqu'\`a la modification d'un syst\`eme (L2 ou L1).
+Il s'agit d'extrait de code avec plein de coupure.
+
+\subsection {Fili\`ere non indexee}
+
+{\small
+\begin{verbatim}
+void  cEqObsRotVect::AddObservation (...)
+{
+    mN2.SetEtat(aDir2/euclid(aDir2)); ....
+    mSet.AddEqFonctToSys(mFoncEqResidu,aPds,WithD2);
+
+}
+
+REAL cSetEqFormelles::AddEqFonctToSys ( const tContFcteur & aCont ...)
+{
+   VAddEqFonctToSys(aFonct,aPds,WithDerSec);
+}
+
+const std::vector<REAL> & cSetEqFormelles::VAddEqFonctToSys (cElCompiledFonc * aFonct)
+{
+    aFonct->SetCoordCur(mAlloc.ValsVar()); // Met les val courrantes
+    aFonct->SetValDer();   // Fait le calcul
+    aFonct->AddDevLimOrd1ToSysSurRes(*mSys,aPds,true); // Transfert a la matrice
+}
+
+void cElCompiledFonc::AddDevLimOrd1ToSysSurRes
+     (cGenSysSurResol & aSys,REAL aPds,bool EnPtsCur)
+{
+     AddContrainteEqSSR(false,aPds,aSys,EnPtsCur);
+}
+
+// Peut etre appelee par AddDevLimOrd1ToSysSurRe, mais aussi pour mettre
+// des contraintes
+void cElCompiledFonc::AddContrainteEqSSR
+     (bool contr,REAL aPds,cGenSysSurResol & aSys,bool EnPtsCur)
+{
+   // met les valeur des derivees dans mRealDer qui, apparament 
+   // est un tableau ayant la meme taille que le systeme global !
+   for ( aD ...)
+       aSys.GSSR_AddNewEquation(aPds,&(mRealDer[aD][0]),aB);
+}
+
+void cGenSysSurResol::GSSR_AddNewEquation(REAL aPds,REAL * aL,REAL aB)
+{
+     V_GSSR_AddNewEquation(aPds,aL,aB);
+}
+
+  // Ensuite il y a differente variante, en L2 ca donne
+void L2SysSurResol::V_GSSR_AddNewEquation(REAL aPds,REAL * aCoeff,REAL aB)
+{
+    AddEquation(aPds,aCoeff,aB);
+}
+
+void L2SysSurResol::AddEquation(REAL aPds,REAL * aCoeff,REAL aB)
+{
+    // selectione (! enfin ...) les coeffs non nuls dans une table d'indexe
+    L2SysSurResol::V_GSSR_AddNewEquation_Indexe(VInd,aPds,&VALS[0],aB);
+}
+
+// En L1 ca donne simplement 
+
+void SystLinSurResolu::V_GSSR_AddNewEquation(REAL aPds,REAL * aCoeff,REAL aB)
+{
+     PushEquation(aCoeff,aB,aPds);
+}
+
+
+\end{verbatim}
+}
+
+
+Cette fili\`ere est tr\`es lourde, cependant elle est indispensable en $L_1$, puisque
+chaque \'equation doit \^etre repr\'ent\'ee explicitement et de mani\`ere compl\`ete.
+
+
+\subsection {Fili\`ere indexee}
+
+Elle est utilisee par les foncteur ayant un tres grand nombre d'inconnue
+et (par consequence) des matrices creuses. Par exemple dans
+{\tt src/photogram/phgr\_cGridIncImageMnt.cpp}?
+
+
+{\small
+\begin{verbatim}
+void cGridIncImageMnt::OneStepRegulD2 (REAL aPds)
+{
+    ..
+     pSetIncs->AddEqIndexeToSys(pRegD2,aPds/4,mIncs);
+}
+
+const std::vector<REAL> & cSetEqFormelles::AddEqIndexeToSys
+   ( cElCompiledFonc * aFonct, REAL aPds, const std::vector<INT>  & aVInd)
+{
+    aFonct->SVD_And_AddEqSysSurResol(... ValVar() ...);
+}
+
+void cElCompiledFonc::SVD_And_AddEqSysSurResol
+     (
+           const std::vector<INT> & aVInd,
+           REAL aPds,
+           REAL *       Pts,
+           cGenSysSurResol & aSys,
+           bool EnPtsCur
+      )
+{
+   // Si oui le systeme aSys sait utiliser des directement des
+   // matrice
+      bool UseMat = aSys.GSSR_UseEqMatIndexee();
+
+    ...
+      if (UseMat)
+      {
+           double ** aDM = aMat.data();
+	   double  * aDF = aFLin.data();
+
+           aSys.GSSR_EqMatIndexee(aVInd,aPds,aDM,aDF,aCste);
+      }
+      else
+      {
+          aSys.GSSR_AddNewEquation_Indexe(aVInd,aPds,&(mCompDer[aD][0]),aB);;
+      }
+}
+
+  GSSR_UseEqMatIndexee :
+     - vrai pour L2SysSurResol (matrice pleine)
+     - faux pour cGenSysSurResol (donc pour L1 qui en derive sans redef)
+     - vrai pour cFormQuadCreuse  (donc cElMatCreuseMap et cElMatCreuseStrFixe)
+
+Par ailleur GSSR_AddNewEquation_Indexe , plante en L1.
+\end{verbatim}
+}
+
+Optimisation a faire pour les grandes aeros :
+
+\begin{itemize}
+   \item   switcher, sans doute a partir de AddEqFonctToSys, vers le
+   mode indexe;
+    \item sauf si le system ne le supporte pas ! Donc par ex L1;
+\end{itemize}
+
+
+\section{Communication avec les syst\`emes sur-contraints}
+
+\subsection{Convention d'\'ecritures}
+
+Soit un ensemble d'\'equations d'observations :
+
+\begin{equation}
+   F^j(X)- O^j = 0;
+\end{equation}
+
+Un foncteur correpond a une lin\'erisation de  ces equations.  On 
+regroupe plusieur \'equations en un seul foncteur, lorsqu'il y a une
+synergie permettant de mettre en commun les calcul (cas courant, projection
+image en $x$ et $y$).  A VOIR : PEUT ON GAGNER DU TEMPS EN FACTORISANT TOUTE
+LES OBSERVARION D'UNE PROJECTION SUR UNE MEME CAMERA.
+
+Si on linéarise l'\'equation en $X_0$, on a :
+
+\begin{equation}
+   F^j(X_0) + \sum{\frac{\partial F^j}{\partial X_k} \delta_k} - O^j = 0;
+\end{equation}
+
+En notant :
+
+\begin{equation}
+      D^j_k= \frac{\partial F^j}{\partial X_k} = {\tt mCompDer[j][k]} 
+\end{equation}
+\begin{equation}
+      V^j =  F^j(X_0) - O^j = {\tt mVal[j]}
+\end{equation}
+
+On a l'\'equation lin\'eaire  dont les para\`etres sont calcul\'es dans le foncteur:
+
+\begin{equation}
+    \sum{ D^j_k \delta_k}  + V^j = 0;
+\end{equation}
+
+
+Dans l'interface des syst\`emes lin\'eaire, le m\'ethod {\tt GSSR\_AddNewEquation(P,A,B)}
+correspond \`a l'observation :
+
+\begin{equation}
+    (\sum{ A_k X_k} = B ) * P;
+\end{equation}
+
+
+C'est pour cela que dans {\tt AddContrainteEqSSR} on a $B=-V$.
+
+A priori, dans toutes ces \'equations, l'inconnue est directement un delta 
+par rapport au point courant (param\`etre {\tt EnPtsCur} vaut {\tt true}).
+Si ce n'\'etait pas le cas,  les inconnues seraient $x_k$ et les  \'equation
+deviendraient :
+
+\begin{equation}
+   F^j(X_0) + \sum{\frac{\partial F^j}{\partial X_k} (x_k-{X_0}_k} - O^j = 0;
+\end{equation}
+
+Soit  :
+
+\begin{equation}
+    \sum{D^j_k x_k} =   \sum{D^j_k {X_0}_k} -V;
+\end{equation}
+
+D'o\`u le code extrait de {\tt cElCompiledFonc::AddContrainteEqSSR} :
+
+\begin{verbatim}
+   REAL aB = -mVal[aD];
+    ...
+         aB +=  mCompDer[aD][aIC] * mCompCoord[aIC]
+\end{verbatim}
+
+
+\subsection{UseEqMatIndexee}
+
+
+Si le syst\`eme d'\'equation l'autorise, on va \'ecrire directemnt un forme
+quadratique . Chaque \'equation :
+
+\begin{equation}
+    P (^t L  X =  B)  
+\end{equation}
+
+Appporte une contribution :
+
+\begin{equation}
+    P (^t L  X -  B) ^2  = P (^t X (^tLL)X  -2B^tL X + B^2)
+\end{equation}
+
+
