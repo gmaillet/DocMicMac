@@ -1,0 +1,304 @@
+\chapter{Data exchange with other tools}
+
+\section{Generalities}
+
+As many developper, in MicMac/Apero, I often could not resist to 
+define my own format, sometime because I thought that existing 
+format were not suited for what I needed and sometime just because I was in
+hurry and thought that the format question was a minor issue that could be
+dealt with later \dots In fact, often, there were no ideal solution, because 
+photogrammetry has such a long history and in many case it is often difficult to
+know what is "the" standard.
+
+\vspace{\baselineskip}
+By the way, now that the user community is developping, it appears that the format issue
+is not a minor one. There are two chapters dealing with the format issue:
+
+\begin{itemize}
+   \item  the chapter~\ref{Chap:GeoLoc} describes the internal format used
+          by {\tt Apero/MicMac} ; as all these
+          format are open format and most of them in text mode, it should theoretically be sufficient
+          to create interface at any point of the process;
+
+   \item  this chapter, which describes some facilities that have been developped to communicate
+          with some existing \emph{de facto} standard;
+\end{itemize}
+
+The directory {\tt TestPM/} on {\tt ExempleDoc/} contains example that will be used for
+illustrating this chapter.
+
+
+%=======================================================================================================
+\section{Orientation's convention}
+
+Basically there are two convention in MicMac/Apero, that can create
+difficulties for importing orientations :
+
+\begin{itemize}
+    \item for internal orientation, all the calibration are given in pixel;
+          although this is quite natural with digital camera, this is
+          not the "photogrammetric tradition" which, dealing initially with
+          analog images, rather work in milimeters;
+
+    \item for external orientation, I store directly the rotation matrix which
+          has few ambiguities \footnote{even if internally I use $3$ angles in 
+          optimization step} ; however many sofwares use angles, the problem
+          with angles being that almost each software has its own convention \dots
+\end{itemize}
+
+This section describes how calibration in milimeters and some orientation in angles
+can be direcly imported in {\tt Apero/MicMac}. If you have data that cannot be
+imported with the facilities described here, I may be open to add the facilities in
+{\tt MicMac/Apero} if I am convinced that I can do it easily and that it will 
+be usefull to others; concretely it means that at least the following conditions should apply :
+
+\begin{itemize}
+      \item  you have some document that describe formally the convention/format;
+      \item  you have a reasonably small data-set (image+meta data) that can  be used
+             to validate the import/export;
+      \item  these data can be distributed, with aknowledgement, as open data on the 
+             MicMac/Apero site;
+\end{itemize}
+ %------------------------------------------
+
+\subsection{Internal orientation}
+
+For using angle in external orientation, you can use the {\tt  <CodageAngulaire> }
+option under the {\tt <ParamRotation>}. On {\tt Ori-OMApero/} from data set
+{\tt TestPM/} we can open for example the file {\tt Orientation-DSC\_6443.jpg.xml} :
+
+\begin{verbatim}
+ExportAPERO>
+     <OrientationConique>
+...
+          <FileInterne> Ori-OMApero/AutoCal350.xml</FileInterne>
+          <RelativeNameFI>true</RelativeNameFI>
+          <Externe>
+...
+               <Centre>   852.7267 374.238 663.2607   </Centre>
+               <ParamRotation>
+                    <CodageAngulaire>   -1.824705 48.7837 90.50795 </CodageAngulaire>
+               </ParamRotation>
+          </Externe>
+          <ConvOri>
+               <KnownConv> eConvAngPhotoMDegre </KnownConv>
+          </ConvOri>
+     </OrientationConique>
+</ExportAPERO>
+
+\end{verbatim}
+
+Inside the {\tt  <CodageAngulaire>} tag, there are three angles. As there are many
+conventions for coding rotation by three angles, a very important part is :
+
+\begin{itemize}
+      \item {\tt <KnownConv> eConvAngPhotoMDegre </KnownConv>}
+\end{itemize}
+
+Here this tag means that the angles are coded using the photo modeler software convention.
+The convention that have been recently tested and worked correctly are :
+
+\begin{itemize}
+      \item {\tt eConvAngPhotoMDegre}  works for {\tt PhotoModeler} and {\tt Bingo};
+      \item {\tt eConvAngPhotoMGrade}  same as previous with angle in grade;
+\end{itemize}
+
+There exist convention that I have not tested for a long time, and I do not have dataset to
+check if they work. You can give it a try, if it works perfect, else you can contact me:
+
+\begin{itemize}
+    \item {\tt eConvAngErdas}
+    \item {\tt eConvAngErdas\_Grade}
+    \item {\tt eConvAngLPSDegre}
+\end{itemize}
+
+ %------------------------------------------
+
+\subsection{External orientation}
+
+When you use a calibration in mm, and do not want to "translate" by hand the values
+in pixel, the optional {\tt <OrIntGlob>},  of {\tt <CalibrationInternConique>} allows
+to add an affinity to the internal orientation. In some way it is redundant with the 
+{\tt <OrIntImaM2C>} described in~\ref{Image:Int:Ori}; however the {\tt <OrIntImaM2C>} 
+must be defined for each image and is rather convenient when dealing with the 
+scanning of analog image. In the file {\tt  Ori-OMApero/AutoCal350.xml} of  data set
+{\tt TestPM/}  we find the import of a calibration that was made with {\tt PhotoModeler} :
+
+\begin{verbatim}
+<ExportAPERO>
+     <CalibrationInternConique>
+          <KnownConv>eConvApero_DistM2C</KnownConv>
+          <PP>12.0347079589749999 8.02237118679700068</PP>
+          <F>37.7672246925810029</F>
+          <SzIm>3872 2592</SzIm>
+          <OrIntGlob>
+               <Affinite>
+                    <I00>0 0</I00>
+                    <V10>0.00619834710000000035 0</V10>
+                    <V01>0 0.00619834710000000035</V01>
+               </Affinite>
+               <C2M>true</C2M>
+          </OrIntGlob>
+          <CalibDistortion>
+               <ModPhgrStd>
+                    <RadialePart>
+                         <CDist>12.0347079589749999 8.02237118679700068</CDist>
+                         <CoeffDist>-6.64705e-05</CoeffDist>
+                         <CoeffDist>6.03669999999999873e-08</CoeffDist>
+                         <CoeffDist>-6.19999999999999798e-11</CoeffDist>
+                    </RadialePart>
+                    <P1>1.31971999999999996e-05</P1>
+                    <P2>8.07707000000000058e-06</P2>
+                    <b1>0</b1>
+                    <b2>0</b2>
+               </ModPhgrStd>
+          </CalibDistortion>
+     </CalibrationInternConique>
+</ExportAPERO>
+\end{verbatim}
+
+
+The tag {\tt <C2M>} mean that the affinity is given from camera coordinate to word coordinate.
+For example here , to transform a pixel $x,y$ in milimeter we use $x*0.0061\dots,y*0.0061\dots$.
+You can check the files {\tt AutoCal350-V0.xml} and {\tt AutoCal350-V1.xml},
+they define exactly the same calibration, the first with {\tt C2M=true } and the second {\tt C2M=false}.
+The files {\tt AutoCal350-V2.xml} and {\tt AutoCal350-V3.xml} define also the same
+calibration than  {\tt AutoCal350-V0.xml}, using the tag {\tt <I00>}, they correspond to the case
+where  {\tt  <CDist>} and {\tt <PP>} are defined relatively to the center of sensor (instead of $(0,0)$).
+
+
+The following commands were used to test the import of orientation :
+
+\begin{verbatim}
+Tapioca All ".*jpg" 1200
+AperiCloud  ".*jpg" OMApero
+Malt  GeomImage "DSC_64(56|57|43).jpg" OMApero  Master=DSC_6457.jpg
+\end{verbatim}
+
+%=======================================================================================================
+\section{Conversion tools}
+
+These section describes some conversion tools  written to transform
+datas from some text format to the {\tt Xml} format used in {\tt Apero/MicMac}.
+
+\subsection{Ground Control Point Convertion: GCPConvert}
+\label{GCPConvert}
+
+The command {\tt GCPConvert} is used to:
+\begin{itemize}
+ \item transform a set of ground control points from most text format to {\tt MicMac}'s {\tt Xml} format 
+\item transform the ground control points into an euclidean coordinate system, suitable for {\tt MicMac}. 
+\end{itemize}
+
+\subsubsection{File format conversion with GCPConvert}
+
+Consider the file {\tt CP3D.txt}
+of directory {\tt TestPM/}, here are two lines extracted :
+
+
+\begin{verbatim}
+157     233.28   144.03    103.05  0.00332    0.0034    0.0039 
+158     317.011  -0.00000  0.0000  0.0053     0.0060    0.0071
+...
+\end{verbatim}
+
+The format should be quite obvious to human, each line contains the name of point,
+then $X,Y,Z$ , then accuracy on $X,Y,Z$. However, we have to specify this format to the computer.
+One way to do it, is to add first line in the file that specifies the format.
+This is done in the file {\tt CP3D\_Format.txt}, the beginning is :
+
+
+\begin{verbatim}
+#F= N X Y Z  Ix Iy Iz
+157     233.28   144.03    103.05  0.00332    0.0034    0.0039 
+158     317.011  -0.00000  0.0000  0.0053     0.0060    0.0071
+...
+\end{verbatim}
+
+The first line must be interpreted like :
+
+\begin{itemize}
+   \item  the first character {\tt \#}  means that  all line beginning by a {\tt \#} will be
+          a comment;
+   \item  the two characters {\tt F=}  mean that this is really a format specification;
+   \item  {\tt N}  means the first string of each line is the name of the point;
+   \item  {\tt X Y Z}  means that this strings number $2$, $3$ and $4$ are the coordinates;
+   \item  {\tt Ix Iy Iz}  means that this strings number $5$, $6$ and $7$ are the accuracy;
+\end{itemize}
+
+
+Here is another example with the {\tt app} format used in some IGN's process :
+
+\begin{verbatim}
+#F= N S X Y Z
+300     3       94.208685       658.506787      42.39556
+301     3       95.323427       656.409116      43.502239
+302     3       97.008135       654.424482      45.084237
+...
+\end{verbatim}
+
+In this case  the {\tt S} means that there is a string that won't be interpreted. It can
+also be seen that the accuracy is not mandatory.
+Once the file has been modified, the following command can be used:
+
+\begin{verbatim}
+GCPConvert AppInFile CP3D_Format.txt
+\end{verbatim}
+
+For the first arg, the key word {\tt AppInFile} means that the format specification is given
+at the first line of the file. If you don't want to modify the file it is possible to  
+give the format specification directly on the command line. If the first argument is not
+a known keyword, then it will try to interpret it as a format specification. The syntax
+is a bit uggly because it is not possible to give white space in the shell, so they must
+be replaced by {\tt \_}. Here is an example:
+
+\begin{verbatim}
+GCPConvert  "#F=N_X_Y_Z_Ix_Iy_Iz" CP3D.txt
+\end{verbatim}
+
+As usual, to have the full syntax:
+
+\begin{verbatim}
+ GCPConvert -help
+Valide Types for MNS : 
+   AppEgels
+   AppGeoCub
+   AppInFile
+   AppXML
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args : 
+  * string :: {Format specification}
+  * string :: {GCP  File}
+Named args : 
+  * [Name=Out] string :: {Xml Out File}
+  * [Name=ChSys] string :: {Change coordinate file}
+\end{verbatim}
+
+
+For the format arg, its values can be:
+
+\begin{itemize}
+   \item  {\tt AppEgels}, the format  is {\tt \#F= N S X Y Z};
+   \item  {\tt AppGeoCub}, the format  is {\tt \#F= N X Y Z};
+   \item  {\tt AppInFile}, format is in the file, as seen above;
+   \item  {\tt AppXML}, format is already {\tt MicMac}'s {\tt Xml} format (do nothing);
+   \item  any other value, it is a format specification, as seen above;
+\end{itemize}
+
+\vspace{\baselineskip}
+The meaning of the other arguments is:
+
+\begin{itemize}
+    \item first arg, contains the format specification, as seen above;
+    \item second arg, is the name of the file containing the GCP data;
+    \item third optional arg {\tt Out}, is the name of the xml output file;
+    \item optional arg {\tt ChSys}, is the specification for coordinate system transform, see below;
+\end{itemize}
+
+\subsubsection{Coordinate system conversion with GCPConvert}
+
+The optional arg {\tt ChSys} can describe a file for coordinate change as described in~\ref{Coordinat:System}
+
+
