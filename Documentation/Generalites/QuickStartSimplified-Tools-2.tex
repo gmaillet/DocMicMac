@@ -13,17 +13,17 @@
 \label{Vincennes:DataSet}
 
 On {\tt micmac\_data/ExempleDoc/} the directory {\tt Vincennes} contains
-$106$ of the Vincennes's castel \footnote{they are low resolution images
+$106$ images of the Vincennes's castel \footnote{they are low resolution images
 to limit the  downloading time}. This data set illustrate how
-the tools described here can be used to achieve a typical architectural task :
+the tools described here can be used to achieve a typical architectural task:
 compute for each of the main facade an ortho photo, these ortho photo
-must be referenced in the same  coordinate system.  Although the ortho-cylindric
-option for geometry describe to process thi acquisition seems a very specific
-and narrow technicall case, practically it corresponds to very current case
+must be referenced in the same coordinate system.  Although the ortho-cylindric
+option for geometry described to process thi acquisition seems a very specific
+and narrow technical case, practically it corresponds to very current case
 for facade processing.
 
 
-The $106$ of Vincenne's data set are organized in $4$ subset :
+The $106$ images of Vincenne's data set are organized in $4$ subset :
 
 
 \begin{itemize}
@@ -36,9 +36,9 @@ The $106$ of Vincenne's data set are organized in $4$ subset :
 \end{itemize}
 
 Note that, \emph{before any processing}, the images have been renamed taking 
-into account the acquisition structire. It is highly recommanded to do the
-same thing before processing  set of data having some complexity. It avoid
-the creation of tricky regular expression. These image are jpeg low resolution
+into account the acquisition structure. It is highly recommanded to do the
+same thing before processing data sets having some complexity. It avoids
+the creation of tricky regular expression. These images are jpeg low resolution
 images to limit the bandwith when one upload the data, but of course in
 real case the full resolution raw image will be prefered.
 
@@ -63,7 +63,7 @@ real case the full resolution raw image will be prefered.
 
 
 
-The file {\tt  ExeCmd.txt} contains all the command that will entered.
+The file {\tt  ExeCmd.txt} contains all the commands that we will need to process these images.
 
 
 %-------------------------------------------------------------------
@@ -97,7 +97,7 @@ Tapioca All  "((Lnk12-IMGP[0-9]{4})|(Face1-IMGP529[0-9])|(Face2-IMGP531[0-9])).J
 
     %  -  -  -  -  -  -  -  -  -  -  -  -
 
-\subsubsection{Relative orientaion}
+\subsubsection{Relative orientation}
 
 Then we want to make a first calibration with the calibration data set, and
 use this calibration as an initial value to the global orientation of
@@ -110,7 +110,7 @@ Tapas RadialStd "(Face1|Face2|Lnk12)-IMGP[0-9]{4}.JPG" Out=All InCal=Calib
 
     %  -  -  -  -  -  -  -  -  -  -  -  -
 
-\subsubsection{Option, absolute orientaion}
+\subsubsection{Option, absolute orientation}
 
 Finally, we want to transform the orientation from an arbitrary relative 
 orientation to some physically based orientation. If we have some ground
@@ -124,7 +124,7 @@ GCPBascule  "(Face1|Face2|Lnk12)-IMGP[0-9]{4}.JPG" All Ground Mesure-TestApInit-
 
     %  -  -  -  -  -  -  -  -  -  -  -  -
 
-\subsubsection{Option, scene-based orientaion}
+\subsubsection{Option, scene-based orientation}
 
 Alternatively, if we do not have any GCP and want to put the data in an orientation
 having some physical meaning, we can use the {\tt SBGlobBascule} command (see~\ref{ScBas:Basc}) :
@@ -220,9 +220,9 @@ to aerial acquisition. But it is not always possible to have such material and, 
 it would be interesting to be abble to obtain a relatively good quality ortho photo even when
 all the camera are aligned.
 
-In fact for theoreticall reasons described in~\cite{Penard},
+In fact for theoretical reasons described in~\cite{Penard},
 this problem are  much more important in ground geometry than in image geometry.
-With the option we have seen until now, we bascically this alternative :
+With the option we have seen until now, we have basically this alternative:
 
 \begin{itemize}
    \item  use the ground geometry with a simple process but obtain bad qualitiy results such those of 
@@ -234,16 +234,16 @@ With the option we have seen until now, we bascically this alternative :
 
 
 With such acquisition, the ortho-cylindrical geometry combine the benefit of these
-two geometry. Intuitively this geometry is equivalent to the geometry a virtual push-broom
+two geometries. Intuitively this geometry is equivalent to the geometry of a virtual push-broom
 camera, the line of this virtual push-broom being the line on which are located the 
 camera center. More formally :
 
 
 \begin{itemize}
-   \item  let  $X,Y,Z$ be a coordinate system such that $Y=0$ be approximatively line on wich the camera
-          are located, and $Z=D$ be approximatvely the plane of the wall;
+   \item  let  $X,Y,Z$ be a coordinate system such that $Y=0$ be approximatively the line on which the camera
+          are located, and $Z=D$ be approximatively the plane of the wall;
 
-   \item  let  $U,V,L$ be the coordinate system befined by
+   \item  let  $U,V,L$ be the coordinate system defined by
 \begin{itemize}
     \item  $U= D \tan^{-1} (\frac{X}{Z})$
     \item  $V=Y$ and $L=Z$;
@@ -251,14 +251,14 @@ camera center. More formally :
    \item   we  will then compute the DSM as a function $L= F(U,V)$.
 \end{itemize}
 
-To use this geometry, we just need  to set {\tt OrthoCyl=true} in the command {\tt RepLocBascule} :
+To use this geometry, we just need to set {\tt OrthoCyl=true} in the command {\tt RepLocBascule} :
 
 \begin{verbatim}
 RepLocBascule  "(Face1)-IMGP[0-9]{4}.JPG" Ground  MesureBascFace1.xml Ortho-Cyl1.xml\
    PostPlan=_MasqPlanFace1 OrthoCyl=true
 \end{verbatim}
 
-With this option, {\tt RepLocBascule} will also compute, using least meanst square,
+With this option, {\tt RepLocBascule} will also compute, using least mean square,
 the line that fit the best the alignment of camera perspective centers. If we take 
 a look at file {\tt Ortho-Cyl1.xml} we can see  this line coded by {\tt <P0>}
 and {\tt <P1>}  (plus the previous local repair  {\tt <Repere>}) :
@@ -289,8 +289,8 @@ and {\tt <P1>}  (plus the previous local repair  {\tt <Repere>}) :
 \subsubsection{Concrete use of "Ortho-cylindric" option}
 
 It is then sufficient to give the file created by  {\tt RepLocBascule} 
-as an optionnal parameter to {\tt Tarama} and {\tt Malt} to compute 
-in the adequate geometry; for facade one, we can enter :
+as an optional parameter to {\tt Tarama} and {\tt Malt} to compute 
+in the adequate geometry; for facade one, we can enter:
 
 
 \begin{verbatim}
@@ -313,7 +313,7 @@ Malt Ortho  "(Face2)-IMGP[0-9]{4}.JPG"  Ground  Repere=Ortho-Cyl2.xml  SzW=1 Zoo
 Tawny Ortho-UnAnam-Malt-OC-F2/
 \end{verbatim}
 
-Note some options of these commands :
+Note some options of these commands:
 
 \begin{itemize}
    \item in {\tt RepLocBascule}, the {\tt OrthoCyl=true} as described above;
@@ -346,7 +346,7 @@ using the unanamorphosed depth-map. Here for example, they are
 generated under {\tt Ortho-UnAnam-Malt-OC-F1/} and {\tt Ortho-UnAnam-Malt-OC-F2/}.
 
 
-Figure~\ref{FIG:OK:Vincenne} present some results obtained after this process :
+Figure~\ref{FIG:OK:Vincenne} present some results obtained after this process:
 
 \begin{itemize}
     \item first line present the depth-map computed in ortho-cylindric geometry using
@@ -377,7 +377,7 @@ Although all the tool described in this section are rather optimized
 for ortho-photo generation, it is still possible to generate 3D cloud points.
 As usual in ground geometry, we use the result of matching for the 3D and
 the ortho-photo for textures.
-For example :
+For example:
 
 
 \begin{verbatim}
@@ -429,7 +429,100 @@ naturally mergeable as can be seen on figure~\ref{FIG:TroidD:Vincenne}.
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
 
+\section{The Saint-Michel de Cuxa data set}
 
+%-------------------------------------------------------------------
+
+\subsection{Description of the data set}
+\label{Cuxa:DataSet}
+
+On {\tt micmac\_data/ExempleDoc/} the directory {\tt MiniCuxha} contains
+$48$ images of the St-Michel de Cuxa's abbey \footnote{they are low resolution images
+to limit the  downloading time}. This data set illustrate how to
+do a bundle adjustment with ground control points and compute an ortho-image from aerial images.
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=150mm]{FIGS/SaintMicheldeCuxa/Planche.jpg}
+\caption{Image of Saint-Michel de Cuxa's data set }
+\end{center}
+\label{FIG:Glob:Cuxa}
+\end{figure}
+
+
+These images have been taken with an helicopter drone at an approximate height of ??? meters, in a typical aerial photogrammetric setup.
+
+
+The file {\tt CmdAbbey.txt} contains all the commands needed to process these data.
+
+
+%-------------------------------------------------------------------
+
+\subsection{Computing tie points and orientations}
+
+    %  -  -  -  -  -  -  -  -  -  -  -  -
+
+\subsubsection{Tie points}
+
+For tie points we want to compute points between all pairs of calibration data set. This is done by:
+
+
+\begin{verbatim}
+Tapioca MulScale "Abbey-IMG_.*.jpg" 200 800
+\end{verbatim}
+
+    %  -  -  -  -  -  -  -  -  -  -  -  -  
+	
+\subsubsection{Relative orientation}
+
+Then we want to make a first calibration with a subset of the whole data, and
+use this calibration as an initial value to the global orientation of all images. This is done by:
+
+\begin{verbatim}
+Tapas RadialBasic "Abbey-IMG_(0248|0247|0249|0238|0239|0240).jpg" Out=Calib
+Tapas RadialBasic "Abbey-.*.jpg" InCal=Calib Out=All-Rel
+\end{verbatim}
+
+We can verify that relative orientation was successful by checking the ``Residu Liaison Moyens'' value that should be under 1 pixel.
+We can also check visually the result of orientation running AperiCloud: 
+
+\begin{verbatim}
+AperiCloud  "Abbey-IMG_[0-9]*.jpg" All-Rel RGB=0
+\end{verbatim}
+
+This will generate the AperiCloud.ply file containing tie points and camera location.
+\begin{figure}
+\begin{center}
+\includegraphics[width=150mm]{FIGS/SaintMicheldeCuxa/AperiCloud.jpg}
+\caption{Result of relative orientation, computed with AperiCloud}
+\end{center}
+\end{figure}
+
+    %  -  -  -  -  -  -  -  -  -  -  -  -
+		
+\subsubsection{Ground control point coordinates conversion}
+
+In this use case, we have got ground control points expressed in {\tt WGS84} system. We need to convert them into a local euclidean coordinate system.
+This is done with the GCPConvert tool (detailed in \ref{GCPConvert}):
+
+\begin{verbatim}
+GCPConvert "#F=N_X_Y_Z_I" F120601.txt ChSys=DegreeWGS84@SysCoRTL.xml Out=AppRTL.xml
+\end{verbatim}
+
+\subsubsection{Ground control point image coordinates input}
+
+\begin{verbatim}
+SaisieAppuisInit  "Abbey-IMG_0211.jpg"  All-Rel  NamePointInit.txt  MesureInit.xml
+\end{verbatim}
+
+\subsubsection{Coordinate system backward conversion}
+
+\begin{verbatim}
+ChgSysCo  "Abbey.*.jpg" RTL-Compense   SysCoRTL.xml@SysCoSinus90W.xml   Sin90
+\end{verbatim}
+
+Once the image have been transformed back in there original coordinate system, one can verify that Z coordinate for the whole data set is nearly constant, which corresponds to the data acquisition setup.
 
 
 

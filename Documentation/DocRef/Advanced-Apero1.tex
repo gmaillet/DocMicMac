@@ -48,7 +48,7 @@ sufficient.
   % - - - - - - - - - - - - - - - - - - - - -
 \subsection{How to create unknowns}
 
-The optionnal section {\tt <CalibPerPose>}, under {\tt <CalibrationCameraInc>},
+The optional section {\tt <CalibPerPose>}, under {\tt <CalibrationCameraInc>},
 allow to handle these cases. It contains a mandatory args {\tt   <KeyPose2Cal>}:
 
 
@@ -223,7 +223,7 @@ have to give an initial value in file {\tt Ori-CalibInit}. Some comments on this
 \begin{itemize}
     \item  the sz of image {\tt <SzIm>} is also in $mm$ (as the normalization focale
             {\tt <Etats>}  and all parameters).
-     \item  the optionnal {\tt  <ScannedAnalogik> } is set to true, this is required because
+     \item  the optional {\tt  <ScannedAnalogik> } is set to true, this is required because
             it will indicate to {\tt Apero} to be "tolerant" is tie points are detected out 
             of the bounding box $[0,0]x[24,36]$;
 \end{itemize}

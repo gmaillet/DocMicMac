@@ -3,16 +3,16 @@
 \label{Simp:Tool:One}
 
 
-This chapter described simplified tools that allow to make
+This chapter describes simplified tools that allow to make
 computations without filling XML-files.
-Of course they cannnot deal with all the situation that are
+Of course they cannot deal with all the situation that are
 handled by complex tools, but I hope that in near future they
 will be sufficient for $95\%$ of usages.
 
 
 \section{All in one command}
 
-Sorry this tool do not exist, but it will come \dots
+Sorry this tool does not exist, but it will come \dots
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
@@ -93,11 +93,9 @@ The meaning of arguments is:
                         to \UNCLEAR{parallelize the process}; %simultaneously
                        default is the number of
                         processors described in~\ref{Mic:File:Config}.
-
             \end{itemize}
 
 \end{itemize}
-
 
 If you do not remember the possible mode key words, just type: 
 
@@ -139,7 +137,7 @@ of the directory.
 The parameter {\tt Size} is used to shrink the images. It does not specify
 a scale but the desired width for shrinking the images. For example, if the initial
 image has a width of $5000$, and the value is $2000$, it will specify
-a scaling of $0.4$.  If its value is $-1$, it means, conventionally, no shrinking.
+a scaling of $0.4$. If its value is $-1$, it means, conventionally, no shrinking.
 This is the value chosen in the examples, in order  to limit the size of the transmitted
 data, the images have already been shrinked. With real images, I do not
 recommend the value $-1$ but rather a value corresponding to a scaling
@@ -306,7 +304,7 @@ The three first mandatory args :
 \end{itemize}
 
 
-The optionnal args :
+The optional args :
 
 \begin{itemize}
     \item {\tt \bf TagC} XML tag for centre (default = {\tt Centre});
@@ -343,7 +341,7 @@ GrapheHom ./   ".*.ARW" -A0-Navig-UTM
 
 The general tool for computing orientation of images is {\tt Apero},
 this is a relatively complex tool an overview of which is given in chapter~\ref{Intro:QuickApero}.
-These sections decribe a set of basic tools offering  a simplified interface
+These sections describe a set of basic tools offering a simplified interface
 to some of the elementaries functionalities of {\tt Apero} :
 
 \begin{itemize}
@@ -504,7 +502,7 @@ The possible value of  {\tt ModeCalib} are :
          $1$ for focal length  , $2$ for principal point, $2$ for distorsion center , 
          $3$ for coefficients of radial distorsion ($r^3$, $r^5$  $r^7$),
          $2$ for decentric parameters, $2$ for affine parameters;
-         the optionnal parameters {\tt LibAff} and {\tt LibDec} (def value true) can
+         the optional parameters {\tt LibAff} and {\tt LibDec} (def value true) can
          be set to false if decentric of affine parameters must stay frozen;
 
 
@@ -771,7 +769,7 @@ we would like to proceed this way:
     \item  compute the calibrations of the camera;
     \item  compute the orientations of the $10mm$ images only;
     \item  compute the orientations of the $17mm$ images,  in the same
-           coordinates system that the already oriented  $10mm$ images;
+           coordinate system that the already oriented  $10mm$ images;
 \end{itemize}
 
 The following commands could realize this program :
@@ -1004,18 +1002,18 @@ compensation;  {\tt FrozenPoses} is a generalized regular expression
 \subsection{The tool {\tt AperiCloud}}
 \label{APERICLOUD}
 
-This section describe {\tt AperiCloud} a simplified version of the
+This section describes {\tt AperiCloud} a simplified version of the
 {\tt <ExportNuage>} section of {\tt Apero} described in~\ref{Ap:Exp:Nuage}.
 
 
-For example with Mur Saint Martin :
+For example with Mur Saint Martin:
 
 \begin{verbatim}
 AperiCloud "./IMGP41((6[7-9])|([7-8][0-9])).JPG" Mur
 \end{verbatim}
 
 
-Typing {\tt AperiCloud -help}, one gets :
+Typing {\tt AperiCloud -help}, one gets:
 
 \begin{verbatim}
 *****************************
@@ -1042,7 +1040,6 @@ Meaning of args is :
    \item optional {\tt RGB}, def = $1$ , set to  $0$  if the point are to be coloured with black
           and white images (usefull to save time);
 \end{itemize}
-
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
@@ -1082,7 +1079,7 @@ orientation is required. The tools for bascule are :
 
 
         %  -    -    -    -    -    -    -     -
-\subsubsection{Scene based orientaion with {\tt SBGlobBascule}}
+\subsubsection{Scene based orientation with {\tt SBGlobBascule}}
 
 \label{ScBas:Basc}
  
@@ -1129,7 +1126,7 @@ With the dataset od street Saint Martin, an example of use is :
 SBGlobBascule "IMGP41((6[7-9])|([7-8][0-9])).JPG" Mur MesureBasc.xml  LocBasc PostPlan=_MasqPlan  DistFS=0.6
 \end{verbatim}
 
-The meaning of the arguments are :
+The meaning of the arguments are:
 
 \begin{itemize}
   \item first arg, is the pattern defining the image we want to use;
@@ -1144,7 +1141,7 @@ The meaning of the arguments are :
   \item optional args {\tt PostPlan=\_MasqPlan}  means that if image is {\tt IMGP4171.JPG} 
         (or {\tt IMGP4171.CR2} or \dots), then the associated mask {\tt IMGP4171\_MasqPlan.tif}
 
-   \item  if there are several masak it will use all them for
+   \item  if there are several masks it will use all them for
          fitting the plane (which can be usefull with wide dataset when high accuracy  is required);
          of course if there are no exitsing mask an error will occur;
   
@@ -1154,11 +1151,11 @@ The meaning of the arguments are :
 
 Open the file {\tt MesureBasc.xml}, you will see that it contains measurement
 of points in image. Although the syntax should be quite obvious, it is
-described in section~\ref{GCP:Org}.  To create a file like {\tt MesureBasc.xml}
-user can of course do it with a text editor, altenertively he can, on Linux,
+described in section~\ref{GCP:Org}. To create a file like {\tt MesureBasc.xml}
+user can of course do it with a text editor, alternatively he can, on Linux,
 use the interactive tool {\tt SaisieBasc}  described in \ref{SaisieBasc}.
 Once created, the following information will be looked for by  {\tt SBGlobBascule}
-in this file  :
+in this file:
 
 \begin{itemize}
    \item measurement of points named {\tt Line1} and  {\tt Line2};
@@ -1180,7 +1177,7 @@ in this file  :
          exist in at least two images, an error occurs;
 \end{itemize}
 
-To have the full syntax, as usall :
+To have the full syntax, as usual:
 
 \begin{verbatim}
    SBGlobBascule -help
@@ -1207,7 +1204,7 @@ The {\tt Rep} is decsribed in section~\ref{SGB:Rep}.
 
 \label{Sec:GCPBascule}
 
-In the Mur Saint Marin data set, you cand find two files :
+In the Mur Saint Marin data set, you cand find two files:
 
 \begin{itemize}
   \item {\tt Ground-Pts3D.xml} contains the definition of $3$D points, using
@@ -1219,7 +1216,7 @@ In the Mur Saint Marin data set, you cand find two files :
 
 The {\tt GCPBascule} command, allows to transform a purely relative orientation,
 as  computed with  {\tt Tapas}, in an absolute one, as soon as there is at leat
-$3$ GCP whose projection are known in at least $2$  image.  Here for example :
+$3$ GCP whose projection are known in at least $2$  image. Here for example:
 
 
 \begin{verbatim}
@@ -1243,7 +1240,7 @@ Named args :
 \end{verbatim}
 
 
-The meaning  should be quite obvious :
+The meaning should be quite obvious:
 
 \begin{itemize}
   \item  first arg define the set of images, which you want to change orientation;
@@ -1262,7 +1259,7 @@ The meaning  should be quite obvious :
 
 Although it is generally difficult to analyse in detail the results of orientation
 by inspecting the file, you can check rapidely that there is some coherence in the result.
-For exemple if you type {\tt grep Centre Ori-Ground/*}, you get :
+For exemple if you type {\tt grep Centre Ori-Ground/*}, you get:
 
 
 {\scriptsize
@@ -1287,19 +1284,19 @@ the acquisition I did.
 \label{Sec:RepLocBascule}
 
 When {\tt MicMac} and derived tools are used in ground geometry, the
-defaut convention is :
+defaut convention is:
 
 \begin{itemize}
-   \item  for rectification, the images are  generateed with $Z=Cste$ ;
-   \item  for matching, the genarated grid represents $Z=f(x,y)$ ;
+   \item  for rectification, the images are  generated with $Z=Cste$ ;
+   \item  for matching, the generated grid represents $Z=f(x,y)$ ;
 \end{itemize}
 
 
-These conventions are perfectly ok in  aerial photogrammetry, 
+These conventions are perfectly ok in aerial photogrammetry, 
 the context  in which {\tt MicMac} was originally developped. However,
-it wont work in architectural context, to make the orthophoto of a
-verical wall in some ground coordinate systeme where $Z$ axis  is vertical.
-For example, suppose  we want to use the rectification tool {\tt Tarama} (see~\ref{Sec:Tarama})
+it won't work in architectural context, to make the orthophoto of a
+vertical wall in some ground coordinate system where $Z$ axis  is vertical.
+For example, suppose we want to use the rectification tool {\tt Tarama} (see~\ref{Sec:Tarama})
 with the orientation {\tt Ground} defined, in~\ref{Sec:GCPBascule}.
 If we type :
 
@@ -1307,7 +1304,7 @@ If we type :
 Tarama "IMGP41((6[7-9])|([7-8][0-9])).JPG" Ground Zoom=32
 \end{verbatim}
 
-Then we get the "rectified" image of figuree~\ref{FIG:PBRec:StMartin}. This
+Then we get the "rectified" image of figure ~\ref{FIG:PBRec:StMartin}. This
 is probably not what we wanted.
 
 
@@ -1322,9 +1319,9 @@ is probably not what we wanted.
 In such case, what we want to do is to define, for the matching, rectification \dots
 purpose a \emph{local} repair with $Z$ axis orthogonal to the wall. These local repairs
 will not be used to change the orientation (we want to maintain all the data in the
-same ground coordinate system), but they will be used  to specify, during matching
-and rectification,  a geometry adapted to the scene.
-The command to define such repair is  {\tt RepLocBascule}, the syntax is :
+same ground coordinate system), but they will be used to specify, during matching
+and rectification, a geometry adapted to the scene.
+The command to define such repair is {\tt RepLocBascule}, the syntax is:
 
 \begin{verbatim}
 RepLocBascule -help
@@ -1342,17 +1339,17 @@ Named args :
   * [Name=OrthoCyl] bool :: {Is the repere in ortho-cylindric mode ?}
 \end{verbatim}
 
-The meaning of the three first arg is simimar to {\tt SBGlobBascule}. The fourth 
-arg specify the output xml file.
+The meaning of the three first args is similar to {\tt SBGlobBascule}. The fourth 
+arg specifies the output xml file.
 
-In the data set of Mur Saint Martin, one could type :
+In the data set of Mur Saint Martin, one could type:
 
 \begin{verbatim}
 RepLocBascule "IMGP41((6[7-9])|([7-8][0-9])).JPG" Ground MesureBasc.xml RepCorr.xml PostPlan=_MasqPlan
 \end{verbatim}
 
-The generated XML file {\tt RepCorr.xml} contain the necessary information to
-describe a local repair : an origin and $3$ axis. Here :
+The generated XML file {\tt RepCorr.xml} contains the necessary information to
+describe a local repair: an origin and $3$ axis. Here:
 
 \begin{verbatim}
 <RepereLoc>
@@ -1366,8 +1363,8 @@ describe a local repair : an origin and $3$ axis. Here :
 \end{verbatim}
 
 Next sections will describe how they can be used. The general principle is
-simply to give thise repair as optional argument to the program. For
-example :
+simply to give these repair as optional argument to the program. For
+example:
 
 \begin{verbatim}
 Tarama "IMGP41((6[7-9])|([7-8][0-9])).JPG" Ground  Repere=RepCorr.xml
@@ -1401,26 +1398,26 @@ This will generate the rectified image of figure~\ref{FIG:OkRec:StMartin}.
 \label{Sec:Tarama}
 
 To run the matching process (with {\tt MicMac} or {\tt Malt}) the
-programm must decide which space  has to be explored. If no
-information is given, the programms will adopt a default strategy it
-will select  points of the scene that are visible on at least $N$ images
+programm must decide which space has to be explored. If no
+information is given, the programs will adopt a default strategy it
+will select points of the scene that are visible on at least $N$ images
 \footnote{generally $N=2$ or $N=3$}, 
 making the assomption that the scene is globally flat. Althoug this
 strategy may be perfectly ok on aerial acquisition, in the the general
 case it may create a uselessly too large area. In general case, the
-area selection require some semantic interpretation of the scene
+area selection requires some semantic interpretation of the scene
 and can only me made by, you, the user who only knows what he wants.
-For example, in the Saint Martin data set, an automatic programm has no
+For example, in the Saint Martin data set, an automatic program has no
 information to determine that you want  to do the matching on the wall
 and not on the street.
 
 An easy way to indicate which part of the scene you want to use,
-is to create a mask on a rectified mosaic.  The tool Tarama allow
+is to create a mask on a rectified mosaic.  The tool Tarama allows
 to create such mosaic. At this step the relief is unkonw and the 
 rectification is made with the assumption that $Z=ZMoy$, so of
 course these mosaic are not very precise.
 
-The syntax is :
+The syntax is:
 
 \begin{verbatim}
  Tarama -help
@@ -1436,27 +1433,27 @@ Named args :
   * [Name=Out] string :: {drectory for output (Deg=TA)}
 \end{verbatim}
 
-The meaning of the two first mandotary argument should be quite obvious now.
-For the optionnal arguments :
+The meaning of the two first mandotary arguments should be quite obvious now.
+For the optional arguments:
 
 \begin{itemize}
-   \item  {\tt Zoom} indicate the resolution of the mosaic, is must be a power
+   \item  {\tt Zoom} indicates the resolution of the mosaic, it must be a power
           of $2$ as it is made using the image pyramid of {\tt MicMac};
 
-   \item  {\tt Repere} indicate and optionnal repair created by {\tt RepLocBascule}
+   \item  {\tt Repere} indicates and optional repair created by {\tt RepLocBascule}
           as described in~\ref{Sec:RepLocBascule}
    \item {\tt Out} describes the directory where the mosaic will be created.
 \end{itemize}
 
 With the Mur Saint Martin data set,  using the orientation created with
-{\tt SBGlobBascule} (\ref{ScBas:Basc}), on can type :
+{\tt SBGlobBascule} (\ref{ScBas:Basc}), one can type:
 
 \begin{verbatim}
 Tarama "IMGP41((6[7-9])|([7-8][0-9])).JPG" LocBasc
 \end{verbatim}
 
 The mosaic image will creatd on {\tt TA/TA\_LeChantier.tif}. 
-Figure~\ref{FIG:Rectif:StMartin} show the result.
+Figure~\ref{FIG:Rectif:StMartin} shows the result.
 
 
 \begin{figure}
@@ -1474,7 +1471,7 @@ Example using local repair, have be done in~\ref{Sec:RepLocBascule}.
 
 \subsection{Simplified matching in ground geometry with {\tt Malt}}
 
-\subsubsection{General caraterisctics}
+\subsubsection{General characteristics}
 
 {\tt Malt} is a simplified  interface to  {\tt MicMac}. Currently it can
 handle matching in ground geometry (see~\ref{Ground:Geom}) and 
@@ -1483,36 +1480,35 @@ ground-image geometry (see~\ref{EX:TER:IM:GEOM}).
 
 Ground geometry is adapted
 when the scene can be described by a single function $Z=f(X,Y)$ (with $X,Y,Z$
-beging euclidean coordinates); these case occurs quite often when the
+being euclidean coordinates); this case occurs quite often when the
 scene is relatively flat and the acquisition is made by photo acquired 
-orthogonally to the main plane. The main use case are :
+orthogonaly to the main plane. The main use cases are:
 
 \begin{itemize}
-    \item  modelization of facades to generate ortho photo in  architecture;
-    \item  modelization of   earth surface from aerial acquisition;
+    \item  modelization of facades to generate ortho photo in architecture;
+    \item  modelization of earth surface from aerial acquisition;
 \end{itemize}
 
-Ground image geometry is  very general and flexible and can be used in
+Ground image geometry is very general and flexible and can be used in
 almost all acquisition. Its main drawbacks is that it requires~\footnote{for
 now, I hope it will change in $2013$} some interaction to select the master images,
 the mask of these images and  the associated secondary images.
 
-
-The basic syntax requires $3$ args :
+The basic syntax requires $3$ args:
 
 \begin{verbatim}
 Malt Type Pattern Orient
 \end{verbatim}
 
-The meaning being :
+The meaning being:
 
 \begin{itemize}
-    \item  first args is a enumerated value, specyfing the kind of matching required;
-           the two possible value are :
+    \item  first args is a enumerated value, specifying the kind of matching required;
+           the two possible values are:
 
      \begin{itemize}
-          \item {\bf \tt Ortho} , for a matchin adapted to ortho photo generation;
-          \item {\bf \tt UrbanMNE} , for a matchin adapted to urban digital elevation model;
+          \item {\bf \tt Ortho} , for a matching adapted to ortho photo generation;
+          \item {\bf \tt UrbanMNE} , for a matching adapted to urban digital elevation model;
           \item {\bf \tt GeomImage} , for a matching in ground image geometry;
      \end{itemize}
 
@@ -1522,7 +1518,7 @@ The meaning being :
 \end{itemize}
 
 
-An example with data set of Mur Saint Martin :
+An example with data set of Mur Saint Martin:
 
 
 \begin{verbatim}
@@ -1531,7 +1527,7 @@ Malt Ortho "./IMGP41((6[7-9])|([7-8][0-9])).JPG" Basc
   
 
 
-A basic help can be asked with {\tt Malt -help} :
+A basic help can be asked with {\tt Malt -help}:
 
 {\scriptsize
 \begin{verbatim}
@@ -1581,8 +1577,8 @@ Named args :
 }
 
 For  optional parameters, the default value is generally dependant of the first
-parameter. For example the parameter {\tt SzW}, define the size of correlation
-windows, its default value is
+parameter. For example the parameter {\tt SzW}, defines the correlation
+windows size, its default value is:
 
 
 \begin{itemize}
@@ -1591,7 +1587,7 @@ windows, its default value is
    \item $2$ (ie window $5x5$) for ortho generation, because the priority here is robustness;
 \end{itemize}
 
-As usual these default value can be change explicitely, for example :
+As usual these default values can be changed explicitly, for example:
 
 
 \begin{verbatim}
@@ -1625,7 +1621,7 @@ Table~\ref{Tab:ArgMalt} presents a summary of meaning and default value of
 \label{Tab:ArgMalt}
 \end{figure}
 
-Some comments :
+Some comments:
 
 \begin{itemize}
    \item  the {\tt ZPas} does not specify directly a value in ground geometry;
@@ -1642,13 +1638,13 @@ Some comments :
 \subsection{Image geometry with {\tt Malt}}
 
 An example of using {\tt Malt} in mode {\tt GeomImage} 
-with the {\tt Ramses} data set :
+with the {\tt Ramses} data set:
 
 \begin{verbatim}
 Malt GeomImage ".*CR2" All Master=IMG_0355.CR2
 \end{verbatim}
 
-There are some specificities when using {\tt Malt} in the mode {\tt GeomImage} :
+There are some specificities when using {\tt Malt} in the mode {\tt GeomImage}:
 
 \begin{itemize}
    \item  the parameter {\tt Master} must have a value, as it is the only way to
@@ -1679,11 +1675,11 @@ See~\ref{Analog:Image} for an example of using the {\tt Spherik} option.
 
 The simplified tool for generating ortho mosaic is {\tt Tawny}, it is
 an interface to the {\tt Porto} tool described in~\ref{Porto}. 
-The use of {\tt Tawny} is quite simple because it suppose that
+The use of {\tt Tawny} is quite simple because it assumes that
 the data have been correctly prepared and organized during the matching
 process. Practically this is done when the macthing has been made using 
 {\tt Malt} and I recommand to only use {\tt Tawny}  in conjonction with
-{\tt Malt}.   In Ortho Mode, {\tt Malt} has created a set of
+{\tt Malt}. In Ortho Mode, {\tt Malt} has created a set of
 individual ortho images, associated mask, incidence image, \dots in
 a directory {\tt Ortho-MEC-Malt/}; see for example~\ref{FIG:Malt:Input}. 
  The job of {\tt Tawny} is essentially to merge these data and to optionnaly do some
@@ -1702,7 +1698,7 @@ radiometric equalization.
 
 For the radiometric equalization, {\tt Tawny}  will compute for each
 individual ortho image $O_i$, a polynom $P_i$ such that, $\forall i,j,x,y$
-where ortho image $O_i$ and $O_j$ are both defined in $x,y$ we have the relation :
+where ortho image $O_i$ and $O_j$ are both defined in $x,y$ we have the relation:
 
 \begin{equation}
    O_i(x,y) P_i(x,y) = O_j(x,y) P_j(x,y)
@@ -1710,8 +1706,8 @@ where ortho image $O_i$ and $O_j$ are both defined in $x,y$ we have the relation
 \end{equation}
 
 
-The problem with such formula is than it can lead to important  drift in radiometry.
-So there is also a global polynom $R$ that is computed, this polynome is such that :
+The problem with such formula is that it can lead to important drift in radiometry.
+So there is also a global polynom $R$ that is computed, this polynom is such that:
 
 \begin{equation}
    O_i(x,y) P_i(x,y) R(x,y) =  O_i(x,y)
@@ -1721,8 +1717,8 @@ So there is also a global polynom $R$ that is computed, this polynome is such th
 The radiometry of each image used for the otho photo will finally be $O_i(x,y) P_i(x,y) R(x,y)$.
 Of course for equation~\ref{Eq:Rad:PolIndiv} and~\ref{Eq:Rad:PolGlob}, there is
 much more observations than unknowns and they are solved using least mean square.
-The user can control the radiometric equalizaion by specifying the 
-degree of the polynom. The syntax is :
+The user can control the radiometric equalization by specifying the 
+degree of the polynom. The syntax is:
 
 
 
@@ -1735,12 +1731,12 @@ Tawny -help
 Unamed args : 
   * string :: {Directory where are the datas}
 Named args : 
-  * [Name=DEq] INT :: {Degre of equalization (Def=1)}
-  * [Name=DEq] INT :: {Degre of equalization (Def=1)}
-  * [Name=DEqXY] Pt2di :: {Degre of equalization, if diff in X and Y}
+  * [Name=DEq] INT :: {Degree of equalization (Def=1)}
+  * [Name=DEq] INT :: {Degree of equalization (Def=1)}
+  * [Name=DEqXY] Pt2di :: {Degree of equalization, if diff in X and Y}
   * [Name=AddCste] bool :: {Add unknown constant for equalization (Def=false)}
-  * [Name=DegRap] INT :: {Degre of rappel to initial values, Def = 0}
-  * [Name=DegRapXY] Pt2di :: {Degre of rappel to initial values, Def = 0}
+  * [Name=DegRap] INT :: {Degree of rappel to initial values, Def = 0}
+  * [Name=DegRapXY] Pt2di :: {Degree of rappel to initial values, Def = 0}
   * [Name=RGP] bool :: {Rappel glob on physycally equalized, Def = true}
   * [Name=DynG] REAL :: {Global Dynamic (to correcyt saturation problems)}
   * [Name=ImPrio] string :: {Pattern of image with high prio, def=.*}
@@ -1749,23 +1745,23 @@ Named args :
   * [Name=NbPerIm] REAL :: {Average number of point per image}
 \end{verbatim}
 
-The only mandatory argument it is the directory where the 
+The only mandatory argument is the directory where the 
 elementary ortho images have been created by {\tt Malt}. The parameters
 {\tt DEq, DEqXY, AddCste, DegRap, DegRapXY} are relative to the correction
-function used in radiometric equalization process :
+function used in radiometric equalization process:
 
 \begin{itemize}
-  \item {\tt DEq} specifies the degree of polynoms $O_i$, the defalut value is
-        $1$ , wich means that for each ortho image, $A_i,B_i,C_i$ are computed
+  \item {\tt DEq} specifies the degree of polynoms $O_i$, the default value is
+        $1$ , which means that for each ortho image, $A_i,B_i,C_i$ are computed
         to satisfy according to least mean square the equation~\ref{Eq:Rad:Mon};
 
-   \item {\tt DEqXY} specifie the case where the degree of $O_i$ are different in
-         $x$ and $y$, if  {\tt DEqXY=[$D_X$,$D_Y$]}, the unknowm monoms will
+   \item {\tt DEqXY} specifies the case where the degree of $O_i$ are different in
+         $x$ and $y$, if  {\tt DEqXY=[$D_X$,$D_Y$]}, the unknown monoms will
          be $x^n,y^m$ such that $n\leq D_X$ , $m\leq D_Y$ ,   $n+m\leq Max(D_X,D_Y)$;
 
-   \item {\tt AddCste} in this case an unknown consntant $K_i$ is add to each ortho $O_i$ and
+   \item {\tt AddCste} in this case an unknown constant $K_i$ is add to each ortho $O_i$ and
           the equation ~\ref{Eq:Rad:PolIndiv} is replaced by ~\ref{Eq:Rad:PolIndivCste};
-          in allmost every case, it is preferable to let the defaut value {\tt AddCste=false};
+          in almost every case, it is preferable to let the default value {\tt AddCste=false};
 
    \item {\tt DegRap} fix the degree of global polynom $R$;
 
@@ -1785,7 +1781,7 @@ O_i(x,y)(A_i+B_ix+C_iy)=O_j(x,y)(A_j+B_jx+C_jy);
 \label{Eq:Rad:PolIndivCste}
 \end{equation}
 
-The table~\ref{Tab:Ortho:Polyn} illustrate the influence of this parameter :
+The table~\ref{Tab:Ortho:Polyn} illustrate the influence of this parameter:
 
 \begin{itemize}
    \item first line, with the minimum degree parameter, {\tt DEq=0 DegRap=0} some
@@ -1798,8 +1794,8 @@ The table~\ref{Tab:Ortho:Polyn} illustrate the influence of this parameter :
          has disappeared except at points close to the border;
 \end{itemize}
 
-Note howevern that this data-set is surprisingly difficult to equalize for such a
-small set. With many data set, the default parameters already give an acceptable result.
+Note however that this data-set is surprisingly difficult to equalize for such a
+small set. With many data sets, the default parameters already give an acceptable result.
 
 % \includegraphics[width=25mm]{FIGS/MurSaintMartin/Small-IMGP4160.JPG}
 \begin{figure}
@@ -1816,7 +1812,7 @@ small set. With many data set, the default parameters already give an acceptable
 
 
 The parameters {\tt SzV, CorThr, NbPerIm} are relative to the choice of the point
-used for the radiometric equalization :
+used for the radiometric equalization:
 
 
 \begin{itemize}
@@ -1831,9 +1827,9 @@ used for the radiometric equalization :
 \end{itemize}
 
 
-On many data set the defautlt values should be OK. However it happened with difficult data
-set that all the measure were refused for some pair of images, which obvioulsy led to an error.
-Here is an example of the command I used on a data set with such difficulties :
+On many data sets the default values should be OK. However it happened with difficult data
+sets that all the measures were refused for some images pair, which obviously led to an error.
+Here is an example of the command I used on a data set with such difficulties:
 
 
 \begin{verbatim}

@@ -49,7 +49,7 @@ With :
         plane of the sensor,  it depends of  the lenses of the camera and, classicaly is parametrized by 
          focal lentgh, principal point and distorsion;
 
-  \item  $\pi$ being the canonic projection tranforming a point,  in the camera coordinates, to ray direction in the
+  \item  $\pi$ being the canonic projection transforming a point,  in the camera coordinates, to ray direction in the
          case of conic projection;
 
   \item  $R_k,O_k$ being the external orientation of the camera having taken image $k$, it contains a projection
@@ -75,7 +75,7 @@ files. The main sections of this file are :
 \end{verbatim}
 }
 
-The meaning  of the different sections are :
+The meaning of the different sections are:
 
 \begin{itemize}
     \item {\tt <OrIntImaM2C> } contains the data for the interior orientation $\mathbb{J}$;
@@ -86,7 +86,7 @@ The meaning  of the different sections are :
     \item {\tt <Externe> } contains the data for the external orientation $R_k,O_k$ ;
  
      \item {\tt  <Verif> } does not contains any data usefull to compute the function $\Pi_k$,
-           it contains optionnal data allowing programms to check that they interpret 
+           it contains optional data allowing programms to check that they interpret 
            correctly the  previous data;
         
      \item {\tt  <ConvOri> } contains data to specify some of the convention  for storing
@@ -289,7 +289,7 @@ tolerance given by {\tt <Tol>}. When it is not the case, an error occurs.
 
 For a developper importing orientation from {\tt Apero} in its programms, it would be a good idea to check
 the equation ~\ref{Eq:Verig:Appui} on existing  {\tt <Appuis>} to ensure that all the data
-have been correctly interpreted. Similarly, for a programmer, exporting orientaion to {\tt MicMac}
+have been correctly interpreted. Similarly, for a programmer, exporting orientation to {\tt MicMac}
 or other programms, it would be a good idea  to add {\tt <Appuis>} datas to ensure that his
 data are correctly interpreted by  {\tt MicMac}.
 
@@ -441,7 +441,7 @@ It corresponds to :
     \rho^2 = d_u ^2 + d_v ^2  
 \end{equation}
 
-If the boolean optionnal value {\tt PPaEqPPs} is set to  {\tt true}, then the center
+If the boolean optional value {\tt PPaEqPPs} is set to  {\tt true}, then the center
 of distorsion will be contrained to be equal to principal point in all the bundle
 adjustment.
 
@@ -805,7 +805,7 @@ the ground point {\tt X Y Z} to the final image point :
    \item  {\tt -0-CamCoord} : the point in camera corrdinate system;
    \item  {\tt -1-ImSsDist} : the image point before applying distorsion;
    \item  {\tt -2-ImDist 1} : previous image point after applying first distorsion;
-   \item  {\tt -3-ImDist N} : previous image point after applying optionnal complementary distorsion:
+   \item  {\tt -3-ImDist N} : previous image point after applying optional complementary distorsion:
    \item  {\tt -4-ImFinale} : previous image point after applying internal orientation.
 \end{itemize}
 
@@ -845,14 +845,14 @@ TestCam TestOri-2.xml 0.1 0 1
 
 \subsection{Generalities}
 
-A coordinate system decsribe a mapig between its coordinates 
-and the geo-centric ( greenwitch origini ??) system, considered
+A coordinate system describes a mapping between its coordinates 
+and the geo-centric ( Greenwich origin ??) system, considered
 as "the" reference.
 
 The abstract \CPP  class is {\tt cSysCoord}.
 Interface specification in {\tt include/general/ptxd.h}.
 Implementation files in {\tt src/util/cSysCoor.cpp}.
-Interface :
+Interface:
 
 \begin{itemize}
     \item {\tt Pt3dr ToGeoC(const Pt3dr \&) const}
@@ -861,7 +861,7 @@ Interface :
          used as a rouh estimation of the size, in meter, of each coordinates;
 \end{itemize}
 
-Existing implemented systems, are  :
+Existing implemented systems, are:
 
 \begin{itemize}
    \item  {\tt GeoC}
@@ -892,7 +892,7 @@ Existing implemented systems, are  :
 A  {\tt BasicSystemeCoord}  is made from :
 
 \begin{itemize}
-   \item  a {\tt TypeCoord}  fiels , of type {\tt eTypeCoord};
+   \item  a {\tt TypeCoord}  field , of type {\tt eTypeCoord};
    \item auxiliary vectors of values : {\tt AuxR} for doubles, {\tt AuxI} for integers,
          {\tt AuxStr} for strings, {\tt AuxRUnite} for unities ; the  number and semantic of these datas is
          varying according  to  the  {\tt TypeCoord};
@@ -901,7 +901,7 @@ A  {\tt BasicSystemeCoord}  is made from :
     
 \end{itemize}
 
-The enumerated possible values of a  {\tt eTypeCoord} are :
+The enumerated possible values of a {\tt eTypeCoord} are :
 
 \begin{itemize}
    \item  {\tt eTC\_WGS84};
@@ -911,25 +911,25 @@ The enumerated possible values of a  {\tt eTypeCoord} are :
    \item  {\tt eTC\_Unknown} 
 \end{itemize}
 
-Obviously, the set of possible values may  grow in the future.
+Obviously, the set of possible values may grow in the future.
 
               %   -   -   -   -   -   -   -   -   -
 
 \subsubsection{Geocentric}
 
-A geocentric coordinates system, defined by  {\tt eTC\_GeoCentr}, requires no argument.
+A geocentric coordinate system, defined by  {\tt eTC\_GeoCentr}, requires no argument.
 
               %   -   -   -   -   -   -   -   -   -
 \subsubsection{eTC\_WGS84}
 
-A WGS84 coordinates system, defined by  {\tt eTC\_WGS84}, requires no argument.
+A WGS84 coordinate system, defined by  {\tt eTC\_WGS84}, requires no argument.
 
               %   -   -   -   -   -   -   -   -   -
 
 \subsubsection{Exterior file coordinate system}
 
-It is often convenient to define once a coordinates systmes in a file, and
-to use it several times. In  this  case, for the XML-structure :
+It is often convenient to define once a coordinate system in a file, and
+to use it several times. In  this case, for the XML-structure :
 
 
 \begin{itemize}
@@ -966,7 +966,7 @@ of example, the analytic formula being unknown.  In this case, it can be stored
 as a polynomial tranformation between a known coordinate system and the unknown
 system.
 
-A polynomial coordinates systems, specified by {\tt eTC\_Polyn},
+A polynomial coordinate system, specified by {\tt eTC\_Polyn},
  is stored this way in XML format :
 
 \begin{itemize}
@@ -984,7 +984,7 @@ A polynomial coordinates systems, specified by {\tt eTC\_Polyn},
 
 %===========================================================================
 
-\section{Tools for processing trajectory and coodinate systems}
+\section{Tools for processing trajectory and coordinate systems}
 
 Essentially tools for transformation of some txt format to "my" XML format.
 
@@ -1021,15 +1021,15 @@ By the way, for now we necessarly have $S=S'=WGS84$, but could be changed easily
 
 
 Of course, the best way would be that Apero/MicMac knows all the possible coordinate system.
-Well, for now I am ,not sure that I want to be linked to libs like Proj4: may
-creates dependancies and installation problem  .  To be discussed \dots However
-for now there is this possibility of tranfsorming any system into a polynomial
+Well, for now I am not sure that I want to be linked to libs like Proj4: may
+creates dependancies and installation problems.  To be discussed \dots However
+for now there is this possibility of transforming any system into a polynomial
 representing if you can generate a set of learning pair.
 
 
 \subsection{The TrAJ2 command}
 
-A tool for converting some basic trajectorgrahy format, and ground point,
+A tool for converting some basic trajectography format, and ground point,
 all in txt, in XML format for MicMac/Apero.
 
 
