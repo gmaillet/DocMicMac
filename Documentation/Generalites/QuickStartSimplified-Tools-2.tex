@@ -110,7 +110,7 @@ Tapas RadialStd "(Face1|Face2|Lnk12)-IMGP[0-9]{4}.JPG" Out=All InCal=Calib
 
     %  -  -  -  -  -  -  -  -  -  -  -  -
 
-\subsubsection{Option, absolute orientation}
+\subsubsection{Optional, absolute orientation}
 
 Finally, we want to transform the orientation from an arbitrary relative 
 orientation to some physically based orientation. If we have some ground
@@ -124,7 +124,7 @@ GCPBascule  "(Face1|Face2|Lnk12)-IMGP[0-9]{4}.JPG" All Ground Mesure-TestApInit-
 
     %  -  -  -  -  -  -  -  -  -  -  -  -
 
-\subsubsection{Option, scene-based orientation}
+\subsubsection{Optional, scene-based orientation}
 
 Alternatively, if we do not have any GCP and want to put the data in an orientation
 having some physical meaning, we can use the {\tt SBGlobBascule} command (see~\ref{ScBas:Basc}) :
@@ -457,9 +457,9 @@ The "standard pipeline" to do a bundle adjustment with ground control points wit
 \begin{itemize}
 \item compute images relative orientations, with {\tt Tapioca} and {\tt Tapas};
 \item transform GCP coordinates into a local euclidean coordinate system, with {\tt GCPConvert};
-\item measure image coordinates for a small set of GCPs, with {\tt SaisieAppuisInit};
+\item measure image coordinates for a small set of GCP, with {\tt SaisieAppuisInit};
 \item transform image relative orientations into the same local coordinate system, with {\tt GCPBascule};
-\item measure image coordinates for all GCPs, with {\tt SaisieAppuisPredic};
+\item measure image coordinates for all GCP, with {\tt SaisieAppuisPredic};
 \item transform image relative orientations into the local coordinate system, with {\tt GCPBascule};
 \item run the bundle adjustment, with {\tt Campari};
 \item transform back relative orientations into an appropriate coordinate system, with {\tt ChgSysCo};
@@ -540,7 +540,7 @@ To add image coordinates measures, we can use the {\tt SaisieAppuisInit} interfa
 SaisieAppuisInit  "Abbey-IMG_0211.jpg"  All-Rel  NamePointInit.txt  MesureInit.xml
 \end{verbatim}
 
-This will create two {\tt Xml} files MesureInit-S2D.xml and MesureInit-S3D.xml, which respectively contains images coordinates and corresponding 3D coordinates, computed from images coordinates matches.
+This will create two {\tt Xml} files {\tt MesureInit-S2D.xml} and {\tt MesureInit-S3D.xml}, which respectively contain images coordinates and corresponding 3D coordinates, computed by spatial resection.
 
 \subsubsection{Bascule}
 
@@ -551,14 +551,15 @@ into the local euclidean coordinate system, using 2D images coordinates measures
 GCPBascule "Abbey-.*jpg" All-Rel  RTL-Init  AppRTL.xml  MesureInit-S2D.xml 
 \end{verbatim}
 
-Possible error: " {\tt Not enough samples (Min 3) in cRansacBasculementRigide}". It means that there is not enough points to compute a Bascule transform. You should add more points with {\tt SaisieAppuisInit}:
-at least 3 GCP whose projection are known in at least 2 images are needed.
+Once the images relative orientations have been transformed back in local euclidean coordinate system, one can verify that Z coordinates for the whole data set is nearly constant, which corresponds to the data acquisition setup.
 
-%Once the image have been transformed back in there original coordinate system, one can verify that Z coordinate for the whole data set is nearly constant, which corresponds to the data acquisition setup.
+\vspace{\baselineskip}
+Possible error: "{\tt Not enough samples (Min 3) in cRansacBasculementRigide}". It means that there is not enough points to compute a Bascule transform. You should add more points with {\tt SaisieAppuisInit}:
+at least 3 GCP whose projection are known in at least 2 images are needed.
 
 \subsubsection{Adding points with predictive interface {\tt SaisieAppuisPredic}}
 
-When the global transform between ground control points and image relative orientations is known, we can switch to the predictive interface {\tt SaisieAppuisPredic} which will display the remaining ground control points, loaded from the {\tt Xml} file AppRTL.xml.
+When the global transform between ground control points and image relative orientations is known, we can switch to the predictive interface {\tt SaisieAppuisPredic} which will display the remaining ground control points, loaded from the {\tt Xml} file {\tt AppRTL.xml}.
 You need to adjust points image location and validate them.
 
 \begin{verbatim}
@@ -608,12 +609,12 @@ Tawny Ortho-MEC-Malt/
 \end{center}
 \end{figure}
 
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=150mm]{FIGS/Cuxa/SinusShade.jpg}
-\caption{Shading in sinusoidal projection, with {\tt GrShade}}
-\end{center}
-\end{figure}
+%\begin{figure}[H]
+%\begin{center}
+%\includegraphics[width=150mm]{FIGS/Cuxa/SinusShade.jpg}
+%\caption{Shading in sinusoidal projection, with {\tt GrShade}}
+%\end{center}
+%\end{figure}
 
 The result is ugly, but if we have a look to the global earth mapping with sinusoidal projection, it is obvious that we cannot have a good representation at the european longitude with the sinusoidal projection.
 
@@ -627,7 +628,7 @@ The result is ugly, but if we have a look to the global earth mapping with sinus
 What we expect would be more like the result of a projection in Lambert93 coordinate system:
 
 \begin{verbatim}
-mm3d ChgSysCo  "Abbey.*.jpg" RTL-Compense SysCoRTL.xml@Lambert93 L93
+ChgSysCo  "Abbey.*.jpg" RTL-Compense SysCoRTL.xml@Lambert93 L93
 
 Tarama  "Abbey.*.jpg" L93
 
@@ -643,7 +644,7 @@ Tawny Ortho-MEC-Malt/
 \end{center}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}
 \begin{center}
 \includegraphics[width=160mm]{FIGS/Cuxa/L93-Shade.jpg}
 \caption{Shading in Lambert93 projection, with {\tt GrShade}}
