@@ -516,6 +516,14 @@ GCPConvert "#F=N_X_Y_Z_I" F120601.txt ChSys=DegreeWGS84@SysCoRTL.xml Out=AppRTL.
 SaisieAppuisInit  "Abbey-IMG_0211.jpg"  All-Rel  NamePointInit.txt  MesureInit.xml
 \end{verbatim}
 
+\subsubsection{Bascule}
+
+\begin{verbatim}
+GCPBascule "Abbey-.*jpg" All-Rel  RTL-Init  AppRTL.xml  MesureInit-S2D.xml 
+\end{verbatim}
+
+Possible error: Not enough samples (Min 3) in cRansacBasculementRigide. It means that there is not enough points to compute a Bascule  transform. You should add more points with SaisieAppuisInit
+
 \subsubsection{Coordinate system backward conversion}
 
 \begin{verbatim}
