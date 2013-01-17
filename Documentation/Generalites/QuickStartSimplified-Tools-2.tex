@@ -159,12 +159,12 @@ as seen in~\ref{Simp:Tool:One}, is for each facade :
 
 \begin{itemize} 
    \item compute a local repair to define the facade with {\tt RepLocBascule};
-   \item compute a rectified image {\tt Tarama}; 
+   \item compute a rectified image with {\tt Tarama}; 
    \item make the matching with {\tt Malt};
    \item generate the ortho image with {\tt  Tawny};
 \end{itemize} 
 
-This can be done by the succession of commands :
+This can be done by the succession of commands:
 
 \begin{verbatim}
 RepLocBascule  "(Face1)-IMGP[0-9]{4}.JPG" Ground  MesureBascFace1.xml Repere-F1.xml\
@@ -202,7 +202,7 @@ encountered problem :
 \includegraphics[width=160mm]{FIGS/Vincennes/MNT-Moche.jpg}
 
 \end{center}
-\caption{Problem with standard processing on Vincennes Facade : bas quality ortho photo,
+\caption{Problem with standard processing on Vincennes Facade : low quality ortho photo,
 aligment of cameras, poor dept map especially for linear structure parallel to camera alignment}
 \label{FIG:Pb:Vincenne}
 \end{figure}
@@ -413,7 +413,7 @@ the {\tt <RepereGlob>} balise):
 </XML_ParamNuage3DMaille>
 \end{verbatim}
 
-The point cloud are then generated  in the same global repair and are
+The point cloud are then generated in the same global repair and are
 naturally mergeable as can be seen on figure~\ref{FIG:TroidD:Vincenne}.
 
 
@@ -438,35 +438,49 @@ naturally mergeable as can be seen on figure~\ref{FIG:TroidD:Vincenne}.
 
 On {\tt micmac\_data/ExempleDoc/} the directory {\tt MiniCuxha} contains
 $48$ images of the St-Michel de Cuxa's abbey \footnote{they are low resolution images
-to limit the  downloading time}. This data set illustrate how to
-do a bundle adjustment with ground control points and compute an ortho-image from aerial images.
+to limit the  downloading time}. This data set illustrates how to
+do a bundle adjustment with ground control points.
 
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
-\includegraphics[width=150mm]{FIGS/SaintMicheldeCuxa/Planche.jpg}
+\includegraphics[width=160mm]{FIGS/Cuxa/Planche.jpg}
 \caption{Image of Saint-Michel de Cuxa's data set }
 \end{center}
 \label{FIG:Glob:Cuxa}
 \end{figure}
 
-
 These images have been taken with an helicopter drone at an approximate height of ??? meters, in a typical aerial photogrammetric setup.
 
+\vspace{\baselineskip}
+The "standard pipeline" to do a bundle adjustment with ground control points with {\tt MicMac} is:
+\begin{itemize}
+\item compute images relative orientations, with {\tt Tapioca} and {\tt Tapas};
+\item transform GCP coordinates into a local euclidean coordinate system, with {\tt GCPConvert};
+\item measure image coordinates for a small set of GCPs, with {\tt SaisieAppuisInit};
+\item transform image relative orientations into the same local coordinate system, with {\tt GCPBascule};
+\item measure image coordinates for all GCPs, with {\tt SaisieAppuisPredic};
+\item transform image relative orientations into the local coordinate system, with {\tt GCPBascule};
+\item run the bundle adjustment, with {\tt Campari};
+\item transform back relative orientations into an appropriate coordinate system, with {\tt ChgSysCo};
+\item compute a rectified image, with {\tt Tarama};
+\item make the matching with {\tt Malt};
+\item generate the ortho image with {\tt Tawny};
+\end{itemize}
 
+\vspace{\baselineskip}
 The file {\tt CmdAbbey.txt} contains all the commands needed to process these data.
 
 
 %-------------------------------------------------------------------
 
-\subsection{Computing tie points and orientations}
+\subsection{Computing tie points and relative orientations}
 
     %  -  -  -  -  -  -  -  -  -  -  -  -
 
 \subsubsection{Tie points}
 
-For tie points we want to compute points between all pairs of calibration data set. This is done by:
-
+As usual, we want to compute matches between all pairs of calibration data set. This is done by:
 
 \begin{verbatim}
 Tapioca MulScale "Abbey-IMG_.*.jpg" 200 800
@@ -477,34 +491,42 @@ Tapioca MulScale "Abbey-IMG_.*.jpg" 200 800
 \subsubsection{Relative orientation}
 
 Then we want to make a first calibration with a subset of the whole data, and
-use this calibration as an initial value to the global orientation of all images. This is done by:
+use this calibration as an initial value to the global relative orientation of all images. This is done by:
 
 \begin{verbatim}
 Tapas RadialBasic "Abbey-IMG_(0248|0247|0249|0238|0239|0240).jpg" Out=Calib
 Tapas RadialBasic "Abbey-.*.jpg" InCal=Calib Out=All-Rel
 \end{verbatim}
 
-We can verify that relative orientation was successful by checking the ``Residu Liaison Moyens'' value that should be under 1 pixel.
-We can also check visually the result of orientation running AperiCloud: 
+We can verify that relative orientation was successful by checking the ``Residu Liaison Moyens'' (root mean square error) value that should be around 0.5 pixel.
+We can also check visually the result of orientation running {\tt AperiCloud}, described in \ref{APERICLOUD}: 
 
 \begin{verbatim}
 AperiCloud  "Abbey-IMG_[0-9]*.jpg" All-Rel RGB=0
 \end{verbatim}
 
-This will generate the AperiCloud.ply file containing tie points and camera location.
-\begin{figure}
+This will generate the AperiCloud.ply file containing tie points and cameras locations. We can see that cameras are on the same plane, and that the relative orientations match the flight
+plan:
+
+\begin{figure}[H]
 \begin{center}
-\includegraphics[width=150mm]{FIGS/SaintMicheldeCuxa/AperiCloud.jpg}
-\caption{Result of relative orientation, computed with AperiCloud}
+\includegraphics[width=180pt]{FIGS/Cuxa/AperiCloud.jpg}
+\includegraphics[width=208pt]{FIGS/Cuxa/Aero.jpg}
+\caption{Result of relative orientation, computed with {\tt AperiCloud}, perspective and top view.}
 \end{center}
 \end{figure}
 
-    %  -  -  -  -  -  -  -  -  -  -  -  -
+%-------------------------------------------------------------------
+
+\subsection{GCP transforms}
 		
+    %  -  -  -  -  -  -  -  -  -  -  -  -
+
 \subsubsection{Ground control point coordinates conversion}
 
-In this use case, we have got ground control points expressed in {\tt WGS84} system. We need to convert them into a local euclidean coordinate system.
-This is done with the GCPConvert tool (detailed in \ref{GCPConvert}):
+In this use case, we have got ground control points expressed in {\tt WGS84} system. We need to convert them into a local euclidean coordinate system. The important thing is that the local system is euclidean, because all the {\tt MicMac} tools
+need this assumption to solve equations. Most of the cartographic coordinate systems are not euclidean systems, so we define a local tangent system, defined around a 3D point and its tangent plane, that will lead to a geometry compliant with {\tt MicMac}'s one.
+This is done with the {\tt GCPConvert} tool (detailed in \ref{GCPConvert}):
 
 \begin{verbatim}
 GCPConvert "#F=N_X_Y_Z_I" F120601.txt ChSys=DegreeWGS84@SysCoRTL.xml Out=AppRTL.xml
@@ -512,26 +534,120 @@ GCPConvert "#F=N_X_Y_Z_I" F120601.txt ChSys=DegreeWGS84@SysCoRTL.xml Out=AppRTL.
 
 \subsubsection{Ground control point image coordinates input}
 
+To add image coordinates measures, we can use the {\tt SaisieAppuisInit} interface in Linux (detailed in \ref{SaisieAppuisInit}):
+
 \begin{verbatim}
 SaisieAppuisInit  "Abbey-IMG_0211.jpg"  All-Rel  NamePointInit.txt  MesureInit.xml
 \end{verbatim}
 
+This will create two {\tt Xml} files MesureInit-S2D.xml and MesureInit-S3D.xml, which respectively contains images coordinates and corresponding 3D coordinates, computed from images coordinates matches.
+
 \subsubsection{Bascule}
+
+Now we can transform images relative orientations, as computed with Tapas, expressed in an arbitrary coordinate system,
+into the local euclidean coordinate system, using 2D images coordinates measures and 3D corresponding ground control points. 
 
 \begin{verbatim}
 GCPBascule "Abbey-.*jpg" All-Rel  RTL-Init  AppRTL.xml  MesureInit-S2D.xml 
 \end{verbatim}
 
-Possible error: Not enough samples (Min 3) in cRansacBasculementRigide. It means that there is not enough points to compute a Bascule  transform. You should add more points with SaisieAppuisInit
+Possible error: " {\tt Not enough samples (Min 3) in cRansacBasculementRigide}". It means that there is not enough points to compute a Bascule transform. You should add more points with {\tt SaisieAppuisInit}:
+at least 3 GCP whose projection are known in at least 2 images are needed.
 
-\subsubsection{Coordinate system backward conversion}
+%Once the image have been transformed back in there original coordinate system, one can verify that Z coordinate for the whole data set is nearly constant, which corresponds to the data acquisition setup.
+
+\subsubsection{Adding points with predictive interface {\tt SaisieAppuisPredic}}
+
+When the global transform between ground control points and image relative orientations is known, we can switch to the predictive interface {\tt SaisieAppuisPredic} which will display the remaining ground control points, loaded from the {\tt Xml} file AppRTL.xml.
+You need to adjust points image location and validate them.
 
 \begin{verbatim}
-ChgSysCo  "Abbey.*.jpg" RTL-Compense   SysCoRTL.xml@SysCoSinus90W.xml   Sin90
+SaisieAppuisPredic  "Abbey-.*jpg" RTL-Init AppRTL.xml  MesureFinale.xml
 \end{verbatim}
 
-Once the image have been transformed back in there original coordinate system, one can verify that Z coordinate for the whole data set is nearly constant, which corresponds to the data acquisition setup.
+\subsubsection{Bascule}
 
+Again we can transform images relative orientations, this time with a more substantial number of images measures, which will give a better transform.
+\begin{verbatim}
+GCPBascule "Abbey.*jpg" All-Rel  RTL-Bascule AppRTL.xml MesureFinale-S2D.xml
+\end{verbatim}
 
+%-------------------------------------------------------------------
+
+\subsection{Bundle adjustment with ground control points}
+
+Now we can run a constrained bundle adjustment combining ground control points and tie points.
+
+\begin{verbatim}
+Campari "Abbey.*.jpg"  RTL-Bascule RTL-Compense GCP=[AppRTL.xml,0.1,MesureFinale-S2D.xml,0.5]
+\end{verbatim}
+
+%-------------------------------------------------------------------
+
+\subsection{Post-processing}
+
+\subsubsection{Coordinate system backward transform}
+
+Then one can transform coordinates from the local euclidean coordinate system to a geographic coordinate system, and compute ortho-images which can be superimposed on vectorial maps (and \textit{vice versa}). 
+For example, if we want to transform our data into the sinusoidal projection, for which we have got a file {\tt SysCoSinus90W.xml} storing the transformation parameters, the command is:
+
+\begin{verbatim}
+ChgSysCo  "Abbey.*.jpg" RTL-Compense SysCoRTL.xml@SysCoSinus90W.xml Sin90
+
+Tarama  "Abbey.*.jpg" Sin90
+
+Malt Ortho  "Abbey.*.jpg" Sin90 SzW=1 AffineLast=false DefCor=0.0
+
+Tawny Ortho-MEC-Malt/
+\end{verbatim}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=150mm]{FIGS/Cuxa/Sinus-Ortho-Eg-Test-Redr.jpg}
+\caption{Image rectification in sinusoidal projection, with {\tt Tarama}}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=150mm]{FIGS/Cuxa/SinusShade.jpg}
+\caption{Shading in sinusoidal projection, with {\tt GrShade}}
+\end{center}
+\end{figure}
+
+The result is ugly, but if we have a look to the global earth mapping with sinusoidal projection, it is obvious that we cannot have a good representation at the european longitude with the sinusoidal projection.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=182pt]{FIGS/Cuxa/Sinus90.jpg}
+\caption{Sinusoidal projection, with Central Meridian $90\,^{\circ}$W}
+\end{center}
+\end{figure}
+
+What we expect would be more like the result of a projection in Lambert93 coordinate system:
+
+\begin{verbatim}
+mm3d ChgSysCo  "Abbey.*.jpg" RTL-Compense SysCoRTL.xml@Lambert93 L93
+
+Tarama  "Abbey.*.jpg" L93
+
+Malt Ortho  "Abbey.*.jpg" L93 SzW=1 AffineLast=false DefCor=0.0
+
+Tawny Ortho-MEC-Malt/
+\end{verbatim}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=160mm]{FIGS/Cuxa/L93-Ortho-Eg-Test-Redr.jpg}
+\caption{Image rectification in Lambert93 projection, with {\tt Tawny}}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=160mm]{FIGS/Cuxa/L93-Shade.jpg}
+\caption{Shading in Lambert93 projection, with {\tt GrShade}}
+\end{center}
+\end{figure}
 
 
