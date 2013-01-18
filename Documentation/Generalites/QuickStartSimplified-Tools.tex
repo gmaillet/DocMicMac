@@ -350,6 +350,8 @@ to some of the elementaries functionalities of {\tt Apero} :
 
    \item {\tt AperiCloud}, in~\ref{APERICLOUD} for generating a vizualisation of camera
          position and sparse $3D$ model;
+		 
+   \item {\tt Campari}, in~\ref{CAMPARI} is a tool for compensation of heterogenous measures (tie points and ground control points);
 
    \item {\tt Bascule}, in~\ref{BASCULE}, for generating orientations coherent with
         some physical information on the scene;
@@ -1029,17 +1031,77 @@ Named args :
   * [Name=RGB] INT
 \end{verbatim}
 
-Meaning of args is :
+Meaning of args is:
 
 \begin{itemize}
-   \item First arg : pattern specifying the set of images ;
-   \item Second  arg : pattern specifying the directory where orientation are located:
+   \item First arg: pattern specifying the set of images ;
+   \item Second  arg: pattern specifying the directory where orientations are located:
    \item optional {\tt ExpTxt}, def = $0$, set to $1$ if tie points are to be red in text format;
    \item optional {\tt Out}, def = AperiCloud.ply , specify the name of the generated ply file;
    \item optional {\tt Bin}, def = $1$ , set to  $0$  if ply file are to be generated in text format;
    \item optional {\tt RGB}, def = $1$ , set to  $0$  if the point are to be coloured with black
           and white images (usefull to save time);
 \end{itemize}
+
+%-------------------------------------------------------------------
+
+\subsection{The tool {\tt Campari}}
+\label{CAMPARI}
+
+This section describes {\tt Campari} an interface to {\tt Apero}, for compensation 
+of heterogenous measures, that is: tie points and ground control points.
+
+\vspace{\baselineskip}
+For example:
+
+\begin{verbatim}
+Campari "MyDir\IMG_.*.jpg" OriIn OriOut GCP=[GroundMeasures.xml,0.1,ImgMeasures.xml,0.5]
+\end{verbatim}
+
+Typing {\tt Campari -help}, one gets:
+
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args :
+  * string :: {Full Directory (Dir+Pattern)}
+  * string :: {Input Orientation}
+  * string :: {Output Orientation}
+Named args :
+  * [Name=GCP] vector<std::string> :: {[GrMes.xml,GrUncertainty,ImMes.xml,ImUnc]
+\end{verbatim}
+
+Meaning of args is:
+
+\begin{itemize}
+   \item First arg: pattern specifying the set of images ;
+   \item Second arg: pattern specifying the directory where orientations are located:
+   \item Third arg: pattern specifying the directory where to write output orientations:
+   \item optional {\tt GCP}, specifying the ground and image measures files, with their respective uncertainties;
+\end{itemize}
+
+\vspace{\baselineskip}
+Mandatory part of GCP:
+\begin{itemize}
+\item xml file with 3D coordinates for GCP
+\item GCP ground uncertainty
+\item xml file with 2D coordinates for GCP
+\item GCP image uncertainty
+\end{itemize}
+
+\vspace{\baselineskip}
+The xml file containing 3D coordinates has to verify a specific format.
+A tool to convert existing coordinates listing files into this format 
+is proposed with {\tt GCPConvert} and described in \ref{GCPConvert}.
+
+\vspace{\baselineskip}
+The xml file containing 2D coordinates can be generated using interfaces 
+{\tt SaisiePointsInit} and {\tt SaisiePointsPredic} in Linux, described in \ref{SaisieAppuisInit}.
+
+\vspace{\baselineskip}
+For a detailed example on how to use {\tt Campari} in a typical aerial 
+surveying workflow, see \ref{Cuxa:DataSet}.
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
@@ -1110,7 +1172,7 @@ This can be done with the tool {\tt SBGlobBascule}:
 \end{itemize}
 
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=50mm]{FIGS/MurSaintMartin/Plan1.jpg}
 \includegraphics[width=50mm]{FIGS/MurSaintMartin/Plan2.jpg}
