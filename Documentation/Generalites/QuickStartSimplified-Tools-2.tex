@@ -582,7 +582,7 @@ GCPBascule "Abbey.*jpg" All-Rel  RTL-Bascule AppRTL.xml MesureFinale-S2D.xml
 
 \subsection{Bundle adjustment with ground control points}
 
-Now we can run a constrained bundle adjustment combining ground control points and tie points.
+Now we can run a constrained bundle adjustment combining ground control points and tie points, with the {\tt Campari} command, described in \ref{CAMPARI}.
 
 \begin{verbatim}
 Campari "Abbey.*.jpg"  RTL-Bascule RTL-Compense GCP=[AppRTL.xml,0.1,MesureFinale-S2D.xml,0.5]
