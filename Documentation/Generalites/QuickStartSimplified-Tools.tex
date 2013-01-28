@@ -18,6 +18,162 @@ Sorry this tool does not exist, but it will come \dots
 %-------------------------------------------------------------------
 %-----------------------------------------------------------------
 
+\section{Modification since Mercurial version}
+
+Since end of $2012$, several modification on the general organization of the project occured.
+This section describes the main modification. Althoug much care were taken to warrantee a strict 
+compatibility with previous version, it is recommanded to use the new mechanisms.
+
+
+\subsection{Installing the tools}
+
+The main modification on the distribution are :
+
+\begin{itemize}
+   \item  the versionning tool is now {\tt mercurial}
+   \item  the tools are working on {\tt Linux}, {\tt MacOs} and  {\tt Windows};
+   \item  the tools are also distributed on binary  version (however, it  remains of course
+          an open source project and it is still possible to dowload the source code).
+\end{itemize}
+
+To get the binary version, go on the following link :
+
+\begin{verbatim}
+   mm3d Command arg1 arg2 ... argn  NameOpt1=Argot1 ...
+\end{verbatim}
+
+To get the source (you will need to installate the mercurial versionning system) type :
+
+\begin{verbatim}
+ hg clone https://geoportail.forge.ign.fr/hg/culture3d 
+\end{verbatim}
+
+Id is {\tt culture3d} and password is also  {\tt culture3d}.
+
+
+\subsection{The \emph{new universal} command {\tt mm3d}}
+
+This section describe a significative modification that occured since end of $2012$. To decrease the
+size of binary version, and to facilitate and unify the development, the syntax for calling the tools is now
+based on a unique command {\tt mm3d}. The general syntax is :
+
+\begin{verbatim}
+   mm3d Command arg1 arg2 ... argn  NameOpt1=Argot1 ...
+\end{verbatim}
+
+For example, a possible call to the {\tt Tapas} tool with the new syntax would be :
+
+\begin{verbatim}
+   mm3d Tapas  RadialStd ".*.PEF" Out=All
+\end{verbatim}
+
+
+For backward compatibility (support of existing user's script), the old syntax is still supported
+for most of the existing tool. For example, it is still valid to write :
+
+\begin{verbatim}
+   Tapas  RadialStd ".*.PEF" Out=All
+\end{verbatim}
+
+However, it is recommaned that new script are based on the universal command {\tt mm3d}.
+
+
+
+\subsection{Help with {\tt mm3d}}
+
+When typing only {\tt mm3d}, user can get a list of existing commands :
+
+
+\begin{verbatim}
+ mm3d
+mm3d : Allowed commands 
+ AperiCloud	 Visualisation of camera in ply file
+ Apero	 Compute external and internal orientations
+ AperoChImSecMM	Select secondary images for MicMac 
+ Bascule	 Generate orientations coherent with some physical information on the scene
+ BatchFDC	 Tool for batching a set of commands
+ Campari	 Interface to Apero, for compensation of heterogenous measures
+ ChgSysCo	 Chang coordinate system of orientation
+ CmpCalib	 Do some stuff
+ cod	 Do some stuff
+ CreateEpip	 Tool create epipolar images
+ Dequant	 Tool for dequantifying an image
+ Devlop	 Do some stuff
+ ElDcraw	 Do some stuff
+....
+\end{verbatim}
+
+If the first aergument is not an existing command, some indication is given to help to find 
+the "good" name. For example, if one knows that command begin by {\tt ta}  :
+
+\begin{verbatim}
+ mm3d ta
+Suggest by Prefix Match
+    Tapas
+    Tapioca
+    Tarama
+    Tawny
+\end{verbatim}
+
+On the other hand, if you type {\tt mm3d ascul} , as there is no command begining by {\tt ascul},
+one will get all the command containg {\tt ascul} :
+
+
+\begin{verbatim}
+mm3d ascu
+Suggest by Subex Match
+    Bascule
+    GCPBascule
+    CenterBascule
+    NuageBascule
+    RepLocBascule
+    SBGlobBascule
+\end{verbatim}
+
+
+Finaly if arg is nor a prefix nor a subexpression of any command, it will be tested as posix regular 
+expression :
+
+\begin{verbatim}
+mm3d .*C.*asc.*
+Suggest by Pattern Match
+    GCPBascule
+    CenterBascule
+    RepLocBascule
+\end{verbatim}
+
+\subsection{Log files}
+
+For the main command, a log file {\tt mm3d-LogFile.txt} is created, this file stores
+a global history of all the processing. An example extracted from my dataset :
+
+\begin{verbatim}
+home/marc/MMM/culture3d/bin/mm3d Tapioca MulScale Abbey-IMG_.*.jpg 200 800
+   [Beginning at ] Wed Jan  2 22:34:04 2013
+   [Ending correctly at] Wed Jan  2 22:35:19 2013
+=================================================================
+/home/marc/MMM/culture3d/bin/mm3d Tapas RadialBasic Abbey-IMG_02[1-2][0-9].jpg Out=Calib
+   [Beginning at ] Wed Jan  2 22:37:11 2013
+   [Failing with code 256 at ] Wed Jan  2 22:37:24 2013
+=================================================================
+/home/marc/MMM/culture3d/bin/mm3d Tapas RadialBasic Abbey-IMG_03.*.jpg Out=Calib
+   [Beginning at ] Wed Jan  2 22:39:22 2013
+   [Ending correctly at] Wed Jan  2 22:39:24 2013
+=================================================================
+/home/marc/MMM/culture3d/bin/mm3d Tapas RadialBasic Abbey-.*.jpg InCal=Calib Out=All-Rel
+   [Beginning at ] Wed Jan  2 22:39:57 2013
+   [Ending correctly at] Wed Jan  2 22:40:21 2013
+=================================================================
+/home/marc/MMM/culture3d/bin/mm3d Campari Abbey.*.jpg RTL-Bascule RTL-Compense GCP=[AppRTL.xml,0.1,MesureFinale-S2D.xml,0.5]
+   [Beginning at ] Mon Jan  7 15:17:22 2013
+   [Ending correctly at] Mon Jan  7 15:17:42 2013
+....
+\end{verbatim}
+
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+%-----------------------------------------------------------------
+
 
 
 
