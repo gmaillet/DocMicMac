@@ -294,11 +294,83 @@ The meaning of the other arguments is:
     \item first arg, contains the format specification, as seen above;
     \item second arg, is the name of the file containing the GCP data;
     \item third optional arg {\tt Out}, is the name of the xml output file;
-    \item optional arg {\tt ChSys}, is the specification for coordinate system transform, see below;
+    \item optional arg {\tt ChSys}, is the specification for coordinate system transform; 
 \end{itemize}
-
-\subsubsection{Coordinate system conversion with {\tt GCPConvert}}
-
+\vspace{\baselineskip}
 The optional arg {\tt ChSys} can describe a file for coordinate change as described in~\ref{Coordinat:System}
 
 
+\subsection{Orientations convertion for {\tt PMVS}: {\tt Apero2PMVS} }
+
+Thanks to Luc Girod, we have got a tool which converts orientations generated with Apero (or Tapas) into PMVS orientations and builds the whole repository structure for {\tt PMVS}.
+It also corrects images from distortion, as PMVS needs undistorted images as input.
+Here is an example for calling the {\tt Apero2PMVS} command:
+
+\begin{verbatim}
+mm3d Apero2PMVS "myDirectory\IMG_[0-9]{4}.tif" RadialExtended
+\end{verbatim}
+
+To get the general syntax, one can type:
+
+\begin{verbatim}
+mm3d Apero2PMVS -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args :
+  * string :: {Images' name pattern}
+  * string :: {Orientation name}
+\end{verbatim}
+
+The two mandatory arguments are:
+\begin{itemize}
+    \item first arg, the pattern for images' name for which orientation has to be converted;
+    \item second arg, the orientation name (where orientation {\tt xml} files are stored, for example {\tt Ori-RadialExtended});
+\end{itemize}
+
+\vspace{\baselineskip}
+NB: it is quite obvious that orientations stored in the {\tt Ori-RadialExtended} folder should match the images' name pattern.
+
+\vspace{\baselineskip}
+{\tt Apero2PMVS} builds the needed folders for PMVS in a folder with {\tt pmvs-} as suffix, followed by the orientation name (for example {\tt pmvs-RadialExtended}):
+\begin{itemize}
+     \item the {\tt visualize} folder contains images corrected from distortion, computed with the {\tt DRUNK} tool, and renamed with the PMVS convention,
+     \item the {\tt txt} folder contains orientation files,
+     \item the {\tt models} folder is empty, it is the folder where {\tt PMVS} will store output models.
+\end{itemize}
+
+\subsubsection{Distortion removing with {\tt DRUNK} }
+
+The {\tt DRUNK} tool, also written by Luc Girod, allows to remove distortion from images, knowing internal orientations. This tool is called by {\tt Apero2PMVS} to prepare data in the {\tt PMVS} way, but one can call it alone. The {\tt DRUNK} command can be called the same way as {\tt Apero2PMVS}:
+
+\begin{verbatim}
+mm3d Drunk "myDirectory\IMG_[0-9]{4}.tif" RadialExtended
+\end{verbatim}
+
+To get the general syntax, as always:
+
+\begin{verbatim}
+mm3d Drunk -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args :
+  * string :: {Images Pattern}
+  * string :: {Orientation name}
+Named args :
+  * [Name=Out] string :: {Output folder (end with /) and/or prefix (end with another char)}
+  * [Name=Talk] bool :: {Turn on-off commentaries}
+\end{verbatim}
+
+The two mandatory arguments are:
+\begin{itemize}
+    \item first arg, the pattern for images' name for which distortion has to be removed;
+    \item second arg, the orientation name (where orientation {\tt xml} files are stored, for example {\tt Ori-RadialExtended})
+\end{itemize}
+
+\vspace{\baselineskip}
+The two optional arguments are:
+\begin{itemize}
+    \item first arg, is understood as the output folder name, if it ends with \textbackslash, or as a prefix which will be followed by the orientation name, if it ends with another char;
+    \item second arg, a boolean to allow or avoid commentaries
+\end{itemize}
