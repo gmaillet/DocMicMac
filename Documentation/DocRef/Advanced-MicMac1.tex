@@ -9,12 +9,12 @@ usefull for  a more detailled presentation  of MicMac's parameters.
 
 \subsection{Geometric notations}
 
-Generally, we have $N$  images to match, they are noted $Im_k(u,v)_{k\in [1,N]}$.
-We use the notations :
+Generally, we have $N$ images to match, they are noted $Im_k(u,v)_{k\in [1,N]}$.
+We use the notations:
 
 
 \begin{itemize}
-   \item \ETer,  with  $\ETer = \RR ^2$,  the "ground" space , this is
+   \item \ETer,  with  $\ETer = \RR ^2$,  the "ground" space, this is
          the space in which the depth is computed; note that according
          to the selected restitution geometry , this space can be the 
          euclidean space, or the "master" image space;
@@ -28,8 +28,8 @@ We use the notations :
 \end{itemize}
 
 
-Internally, for MicMac , the geometry of images is manipulated using
-a function  $\pi_k$ for each image : 
+Internally, for MicMac, the geometry of images is manipulated using
+a function  $\pi_k$ for each image: 
 
 \begin{equation}
    \pi_k :   \ETer \otimes \EPx \rightarrow \EIm
@@ -39,9 +39,9 @@ a function  $\pi_k$ for each image :
 \end{equation}
 
 With $p_x=z$ when $\EPx = \RR$ and   $p_x=(p_{x_1},p_{x_2})$
-when $\EPx = \RR^2$. For a given  $p_x$,  the  function $\pi_k$,
+when $\EPx = \RR^2$. For a given $p_x$, the function $\pi_k$,
 considered as function from \ETer into  \EIm, are one to one mapping,
-and we write    $\pi_k^{-1}$ the invert function defined by :
+and we write $\pi_k^{-1}$ the inverse function defined by :
 
 
 \begin{equation}
@@ -69,11 +69,11 @@ We note ${\FPx}^d,d\in [1,\DimPx]$ the components of \FPx.
 \label{Disc:Quant}
 
 
-In most cases, MicMac work by discretization of
-spaces \ETer and \EPx (this not the case for 
-variationnal approaches, still undevelopped in MicMac).
+In most cases, MicMac works by discretization of
+spaces \ETer and \EPx (this is not the case for 
+variational approaches, still undevelopped in MicMac).
 At each stage of muti resolution process (see ~\ref{Appr:Multi:Resol}),
-steps  of quantification must be defined  : $\Delta^{xy}$ for \ETer ,
+steps of quantification must be defined: $\Delta^{xy}$ for \ETer ,
 and $\Delta^{px}_k, k \in [1,\DimPx]$ for  \EPx.
 
 
@@ -81,13 +81,12 @@ and $\Delta^{px}_k, k \in [1,\DimPx]$ for  \EPx.
 For a given stage, a resolution  step \DeltaI of image space
 is also selected ; in most cases  \DeltaI is choosen to be equivalent
 to $\Delta^{xy}$ (but there can be exceptions).
-For each used $\DeltaI$, MicMac computes  images down sampled o
-of a size $\DeltaI$, we note $Im_{ki}^{\DeltaI}$  these images
+For each used $\DeltaI$, MicMac computes images down sampled of a size $\DeltaI$, we note $Im_{ki}^{\DeltaI}$  these images
 and $\EIm^{\DeltaI}$  their associated spaces.
 
 
 
-For a given quantification, we define a discret  version
+For a given quantification, we define a discrete version
 of $\pi_k$ by ;
 
 
@@ -100,8 +99,8 @@ of $\pi_k$ by ;
 \label{EQ:Disc:Proj}
 \end{equation}
 
-For given steps   $\Delta^{xy}$ and $\Delta^{px}_k$ , the objective of
-the matching process is to compute a table $F_{px}$ , from $\ZZ^2$  to
+For given steps $\Delta^{xy}$ and $\Delta^{px}_k$, the objective of
+the matching process is to compute a table $F_{px}$, from $\ZZ^2$  to
 $\ZZ^{\DimPx}$, which is a discrete version of \FPx:
 
 
@@ -117,7 +116,7 @@ $\ZZ^{\DimPx}$, which is a discrete version of \FPx:
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-\section{Enegergetic formumation and regularisation}
+\section{Energetic formumation and regularisation}
 
 \subsection{Generalities}
 
@@ -146,7 +145,7 @@ Let's write :
 \end{itemize}
 
 
-In energetic formulation, one  tries to minimize a global energetic function $\Energ(\FPx)$  :
+In energetic formulation, one tries to minimize a global energetic function $\Energ(\FPx)$  :
 
 \begin{equation}
    \Energ(\FPx) = \iint_\ETer \Ress(x,y,\FPx(x,y)) + \| \nabla(\FPx) \|^{reg}
@@ -176,7 +175,7 @@ second component (usable only when $\DimPx=2$). Typically we will have :
 
 
 
-MicMac offers (too ?) many option for optimization :
+MicMac offers (too ?) many option for optimization:
 
 \begin{itemize}
     \item  options on the cost function;
@@ -185,9 +184,9 @@ MicMac offers (too ?) many option for optimization :
            for optimization of the function  $\Energ$;
 \end{itemize}
 
-However there are several resrtictions in the combination of these options.
-The following table sum up the main restriction between the choice of algorithm
-and options :
+However there are several restrictions in the combination of these options.
+The following table sums up the main restrictions between the choice of algorithm
+and options:
 
 
 \begin{tabular} { c | c | c | c| c| c | c} % \\  \hline
@@ -202,16 +201,16 @@ and options :
 \end{tabular}
 
 
-Let's comment some column :
+Let's comment some columns:
 
 \begin{itemize}
-  \item {\bf Cost func} describes which cost function are avalaible for each algorithm;
-        this refers to MicMac implementation and not theoreticall possibility (for example
-        max flow allow any convex function);
+  \item {\bf Cost func} describes which cost functions are avalaible for each algorithm;
+        this refers to MicMac implementation and not theoretical possibility (for example
+        max flow allows any convex function);
        
-  \item {\bf Disp  Dim}  indicates  the  algorithm can handle 2 dimensionnal disparity;
+  \item {\bf Disp  Dim}  indicates that the algorithm can handle 2 dimensional disparity;
 
-  \item {\bf Disp  Opt}  indicates  the  algorithm makes the optimization in two dimension;
+  \item {\bf Disp  Opt}  indicates that the algorithm makes the optimization in two dimensions;
         
 \end{itemize}
 
