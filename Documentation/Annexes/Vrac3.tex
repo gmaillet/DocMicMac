@@ -240,4 +240,117 @@ Appporte une contribution :
     P (^t L  X -  B) ^2  = P (^t X (^tLL)X  -2B^tL X + B^2)
 \end{equation}
 
+\section{Calculs de masques automatiques}
+
+Les commandes successives \`a appeler sont :
+
+\begin{itemize}
+\item {\tt Malt} with ZoomF=4 (or 8 if you tweak the code...) or use meshlab to downsample point cloud after Nuage2Ply and MergePly (clustered vertex sampling, with cell size = 0,25 %, and average parameter)
+\item {\tt Nuage2Ply} with Normale=5 option: computes local normal for each point and writes a .ply file with X Y Z NX NY NZ format.
+\item {\tt MergePly} writes one ply file from multiple ply files (deals only with .ply with the previous format)
+\item {\tt Poisson} computes a mesh from the previous ply file
+\item {\tt Mascarpone} computes a mask using normal directions and then runs a graph-cut to get smoother region (currently fails).
+\end{itemize}
+
+\subsection{Commande {\tt Nuage2Ply} :}
+
+"Normale" parameters indicates the window size to compute normal: should be 3, 5, 7, etc...
+
+\subsection{Commande {\tt MergePly} :}
+
+La commande MergePly concat\`ene plusieurs fichiers .ply.
+
+Les noms de fichiers \`a fusionner doivent \^etre list\'es et s\'epar\'es par un \#
+
+\subsection{Exemple}
+
+\begin{verbatim} 
+mm3d Nuage2Ply NuageImProf_Geom-Im-5564_Etape_5.xml Normale=5 Out=Fic0.ply
+mm3d Nuage2Ply NuageImProf_Geom-Im-5581_Etape_5.xml Normale=5 Out=Fic1.ply
+mm3d Nuage2Ply NuageImProf_Geom-Im-5588_Etape_5.xml Normale=5 Out=Fic2.ply
+
+mm3d MergePly fic0.ply#fic1.ply#fic2.ply Out=merged.ply Normale=1
+
+mm3d Poisson --in merged.ply --out result_poisson --depth 10				 	 
+
+mm3d Mascarpone NuageImProf_Geom-Im-5564_Etape_5.xml#NuageImProf_Geom-Im-5581_Etape_5.xml#NuageImProf_Geom-Im-5588_Etape_5.xml 
+Ply=result_poisson.ply Out=FileOut.tif Max=80
+\end{verbatim} 
+
+\subsection{Helps}
+
+\begin{verbatim}   
+mm3d MergePly
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args :
+  * string
+Named args :
+  * [Name=Out] string
+  * [Name=Comments] vector<std::string>
+  * [Name=Bin] INT :: {Generate Binary or Ascii (Def=1, Binary)}
+  * [Name=Normale] INT
+\end{verbatim}
+  
+\begin{verbatim}   
+mm3d Poisson
+Usage: Poisson
+         --in  <input points>
+        [--out <ouput triangle mesh>]
+        [--voxel <ouput voxel grid>]
+        [--depth <maximum reconstruction depth>=8]
+                 Running at depth d corresponds to solving on a 2^d x 2^d x 2^d voxel grid.
+        [--voxelDepth <depth at which to extract the voxel grid>=<depth>]
+        [--scale <scale factor>=1.100000]
+                 Specifies the factor of the bounding cube that the input samples should fit into.
+        [--solverDivide <subdivision depth>=8]
+                 The depth at which a block Gauss-Seidel solver is used to solve the Laplacian.
+        [--samplesPerNode <minimum number of samples per node>=1.000000]
+                 This parameter specifies the minimum number of points that should fall within an octree node.
+        [--threads <num threads>=1]
+                 This parameter specifies the number of threads across which the solver should be parallelizeds.
+        [--confidence]
+                 If this flag is enabled, the size of a sample's normals is used as a confidence value, affecting the sample's constribution to the reconstruction process.
+        [--nonManifold]
+                 If this flag is enabled, the isosurface extraction does not add a planar polygon's barycenter in order to ensure that the output mesh is manifold.
+        [--polygonMesh]
+                 If this flag is enabled, the isosurface extraction returns polygons rather than triangles.
+        [--pointWeight <interpolation weight>=4.000000]
+                 This value specifies the weight that point interpolation constraints are given when defining the (screened) Poisson system.
+        [--minDepth <minimum depth>=5]
+                 This flag specifies the minimum depth at which the octree is to be adaptive.
+        [--accuracy <solver accuracy>=0.001]
+        [--minIters <minimum number of solver iterations>=8]
+        [--nonAdaptive]
+                 If this flag is enabled, point weights are not adapted to depth.
+        [--performance]
+                 If this flag is enabled, the running time and peak memory usage is output after the reconstruction.
+        [--ascii]
+                 If this flag is enabled, the output file is written out in ASCII format.
+        [--noComments]
+                 If this flag is enabled, the output file will not include comments.
+        [--verbose]
+                 If this flag is enabled, the progress of the reconstructor will be output to STDOUT.
+\end{verbatim}
+
+Pour plus d'infos sur le code de Misha Khazdan:
+
+http://www.cs.jhu.edu/~misha/Code/PoissonRecon/Version4/
+	
+\vspace{\baselineskip}
+(Reste à mettre le Help au format MicMac...)
+
+\begin{verbatim} 
+mm3d Mascarpone
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args :
+  * string
+Named args :
+  * [Name=Ply] string
+  * [Name=Out] string
+  * [Name=Max] REAL :: {Max angle between surface and viewing direction (degree expected in ]0,90]) - default is 90}
+\end{verbatim}
 
