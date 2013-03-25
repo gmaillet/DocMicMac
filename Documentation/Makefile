@@ -11,6 +11,7 @@ FTEX=   DocMicMac.tex\
 	Generalites/ParamSpec.tex\
 	Generalites/NameFileSpec.tex\
 	Generalites/InteractiveTool.tex\
+	Generalites/UseCase2D.tex\
 	DocRef/ConvTool.tex\
 	DocRef/GeoLocalisation.tex\
 	DocRef/Advanced-Apero1.tex\
