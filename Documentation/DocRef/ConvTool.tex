@@ -374,3 +374,160 @@ The two optional arguments are:
     \item first arg, is understood as the output folder name, if it ends with \textbackslash, or as a prefix which will be followed by the orientation name, if it ends with another char;
     \item second arg, a boolean to allow or avoid commentaries
 \end{itemize}
+
+\subsection{Embedded GPS Conversion: {\tt OriConvert}}\label{OriConvert}
+
+The tool {\tt OriConvert} is a versatile command used to:
+\begin{itemize}
+\item transform embedded GPS data from text format to {\tt MicMac}'s {\tt Xml} orientation format. 
+\item transform the GPS coordinate system, potentially into an euclidean coordinate system.
+\item generate image pattern for selecting a sample of the image block.
+\item compute relative speed of each camera in order to determine and correct GPS systematic error (delay).
+\item importing external orientation from others software: {\tt to come}. 
+\end{itemize}
+
+\subsubsection{File format conversion with {\tt OriConvert}}
+
+GPS and attitude extracted from telemetry logs are generally structured as followed:
+
+\begin{verbatim}
+image	latitude	longitude	altitude	yaw	pitch	roll
+R0040438.JPG	50.5860992029	4.7957755452	375.046	319.9	8.2	-2.1
+R0040439.JPG	50.5864719060	4.7953921650	376.604	319.4	10.1	3.6
+...
+\end{verbatim}
+
+
+In this example (from the UAS Grand-Leez data set, file {\tt GPS\_WPK\_Grand-Leez.csv}), column titles are specified on the first line. Nevertheless, {\tt MicMac} has its own convention regarding column title. We have to add columns specs as explained in previous section (\ref{GCPConvert}) but with the symbols $K$, $W$, $P$ standing for kappa, omega and phi. 
+
+\begin{verbatim}
+#F=N Y X Z K W P
+#
+#image	latitude	longitude	altitude	yaw	pitch	roll
+R0040438.JPG	50.5860992029	4.7957755452	375.046	319.9	8.2	-2.1
+R0040439.JPG	50.5864719060	4.7953921650	376.604	319.4	10.1	3.6
+...
+\end{verbatim}
+
+Once the file has been modified, the following command can be used:
+
+\begin{verbatim}
+mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-Brut NameCple=FileImagesNeighbour.xml
+\end{verbatim}
+
+Which will produce an orientation database named {\tt Nav-Brut} (for raw-navigation) containing the database of the center, this is the position of each camera during the shooting. For the first arg, {\tt OriTxtInFile} means that the format specification is given at the first line of the file. If the optional argument {\tt NameCple} is used, image pairs file will be generated and stored in a xml file (here {\tt FileImagesNeighbour.xml}).
+One may require to transform the orientation into a euclidean coordinate system, which is achieved by using the optional argument {\tt ChSys} with the appropriate file {\tt SysCoRTL.xml} that specified the locally tangent repair (as presented in section ~\ref{Coordinat:System}):
+
+\begin{verbatim}
+mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-Brut-RTL ChSys=DegreeWGS84@SysCoRTL.xml 
+\end{verbatim}
+
+As usual, to display the succinct help, type {\tt mm3d OriConvert -help}:
+
+\begin{verbatim}
+mm3d OriConvert -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args : 
+  * string :: {Format specification}
+  * string :: {Orientation   File}
+  * string :: {Targeted orientation}
+Named args : 
+  * [Name=ChSys] string :: {Change coordinate file}
+	...
+  * [Name=ImC] string :: {Image "Center" for computing AltiSol}
+  * [Name=NbImC] INT :: {Number of neigboor around Image "Center" (Def=50)}
+ 	...
+  * [Name=CalcV] bool :: {Calcul speed (def = false)}
+  * [Name=Delay] REAL :: {Delay to take into account after speed estimate}
+	...
+  * [Name=NameCple] string :: {Name of XML file to save couples}
+	...
+  * [Name=MTD1] bool :: {Compute Metadata only for first image (tuning)}
+	...
+\end{verbatim}
+
+Here is the meaning of some of the optional arguments:
+
+\begin{itemize}
+    \item {\tt ChSys}, enable to change (and define) the coordinate system;
+    \item {\tt ImC}, is the name of the image which will be considered as the central image of the sub-block;
+    \item {\tt NbImC}, is the number of neighbour images of {\tt ImC} that will be selected and gathered in a image pattern {\tt PATC}, referring to a sub-block potentially used for determining the delay;
+		\item {\tt CalcV}, based on the camera trajectory analysis, enable the computation of the relative speed of the platform during the shooting;
+		\item {\tt Delay}, once the eventual delay is determined, its will be used through this argument for correcting GPS data;
+		\item {\tt NameCple}, is the name of the file containing the images pairs that is used for the computation of tie points;
+		\item {\tt MTD1}, indicate if image metadata has to be extracted only from one image's exifs (appropriate if only one sensor and one focal length).
+\end{itemize}
+\vspace{\baselineskip}
+
+\subsubsection{Taking into account a GPS delay with {\tt OriConvert}}\label{OriConvert:GPSdelay}
+% oriconvert  -----------------------
+
+GPS data of small platform as mini-UAS may possibly be marred by a systematic error which follow flight trajectory, due among other to the lap of time between GPS position recording by the autopilot system (at the exact time of camera triggering) and the image shot (a few time after camera triggering). Not considering this delay may of course impact the accuracy of the georeferencing. In particular, the scale of the model will be underestimated. Correction for this delay may be performed by means of the joint use of {\tt OriConvert} and {\tt CenterBascule}. The delay is determined with {\tt CenterBascule} by a modified bascule tool that solves the delay in addition to the 7 parameters of the global transformation. An orientation is so required and may be obtained with these commands:
+
+\begin{verbatim}
+mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-Brut-RTL MTD1=1\
+ChSys=DegreeWGS84@SysCoRTL.xml NameCple=FileImagesNeighbour.xml CalcV=1
+\end{verbatim}
+
+As delay determination use trajectory information, the argument {\tt CalcV} is set to $1$, which means that relative speed of the camera will be computed. The relative time is defined a the time require for the camera to move from one pose to the next pose.
+Image pairs file is subsequently used in the classic pipeline:
+
+\begin{verbatim}
+Tapioca File ``FileImagesNeighbour.xml'' -1
+Tapas RadialBasic ``R.*.JPG'' Out=All-Rel
+\end{verbatim}
+
+Then, delay is determined with {\tt CenterBascule} using the options {\tt CalcV}.  :
+
+\begin{verbatim}
+CenterBascule ``R.*.JPG'' All-Rel Nav-Brut-RTL tmp CalcV=1
+\end{verbatim}
+
+The resulting orientation is not interesting, so it is named {\tt tmp} and is subsequently send to the bin. The result of {\tt CenterBascule} is located somewhere in terminal messages and normally looks like that:
+
+\begin{verbatim}
+....
+END AMD 
+delay init :::    -0.0854304
+Basc-Residual R0040439.JPG [4.12465,-8.48416,60.1676]
+....
+\end{verbatim}
+
+The value of the delay is eventually utilized back again in {\tt OriConvert} by means of the optional argument {\tt Delay}:
+
+\begin{verbatim}
+mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-adjusted-RTL \
+	ChSys=DegreeWGS84@SysCoRTL.xml 	MTD1=1 Delay=-0.0854304
+\end{verbatim}
+
+It is important to notice that the orientation {\tt  Nav-adjusted-RTL} is different than {\tt Nav-Brut}, hopefully, and this can be visualized by using the commands {\tt grep Centre Ori-Nav-Brut-RTL/*} and {\tt grep Centre Ori-Nav-adjusted-RTL/*}. The orientation {\tt  Nav-adjusted-RTL} is subsequently used for georeferencing a project by the means of {\tt CenterBascule}:
+
+\begin{verbatim}
+CenterBascule "R.*.JPG" All-Rel Nav-adjusted-RTL All-RTL
+\end{verbatim}
+
+In this example, the image pairs file used in {\tt Tapioca} has been generated on the basis of the uncorrected embedded GPS data. In some cases, the delay may be very important, due either to inappropriate GPS position extraction from telemetry logs, high platform speed (strong wind) or very small base (high overlap combined with low altitude), and the images pairs determination may be strongly affected by this delay. In such specific cases, considering that there may have too many images for generating tie points with {\tt Tapioca MulScale}, one could compute the delay on a sub-block of images. Images pattern of a sub-block may be generated with {\tt OriConvert}.
+
+\subsubsection{Selection of a image sub-block with {\tt OriConvert}}\label{OriConvert:subbloc}
+
+When dealing with numerous images, it is often appropriate to select a sample of the data set, e.g. for camera calibration. The options {\tt ImC} and {\tt NumC} enable the generation of a image pattern corresponding to a sample of {\tt NumC} images centered on the central image {\tt ImC}.
+
+\begin{verbatim}
+mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-Brut-RTL ImC=R0040536.JPG NbImC=25 \
+ChSys=DegreeWGS84@SysCoRTL.xml
+\end{verbatim}
+
+In the terminal, just before the end of the processing, a message containing the sub-block image pattern will be delivered:
+
+\begin{verbatim}
+....
+PATC = R0040536.JPG|R0040537.JPG|R0040535.JPG|R0040578.JPG|R0040498.JPG|R0040499.JPG|
+R0040579.JPG|R0040538.JPG|R0040577.JPG|R0040534.JPG|R0040497.JPG|R0040500.JPG|R0040580.JPG
+|R0040456.JPG|R0040616.JPG|R0040576.JPG|R0040496.JPG|R0040617.JPG|R0040455.JPG|R0040457.JPG
+|R0040615.JPG|R0040539.JPG|R0040501.JPG|R0040581.JPG|R0040533.JPG
+....
+\end{verbatim}
+
+This pattern may be utilized advantageously with {\tt Tapiocas} and {\tt Tapas} for example. Attention must be paid when using {\tt OriConvert} for the selection of a sub-block that coordinate system is an euclidean coordinate system, as well as for the image pairs file generation.
