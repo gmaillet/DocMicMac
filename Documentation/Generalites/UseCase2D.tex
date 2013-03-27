@@ -29,7 +29,7 @@ a $2$ dimensionnal problem. This can occurs in the following situation :
 \includegraphics[width=35mm]{FIGS/Mars/Px2.jpg}
 
 \end{center}
-\caption{Mars data-set : the two  images, the $X$ paralaxe, in gray-level, and the $Y$-paralax in 
+\caption{Mars data-set : the two  images, the $X$ paralaxe, in gray-level, and the $Y$-paralax in
 hue colour}
 \label{FIG:OK:Mars}
 \end{figure}
@@ -114,18 +114,19 @@ As expected :
 
 
 
-\section{The Gulyia Seism data-set}
+\section{The Gulyia Earthquake Data-Set}
 %-------------------------------------------------------------------
 
 \subsection{Description of the data set}
 
-The data can be found in directory {\tt SeismGuyla/} of directory {\tt ExempleDoc/}.
-It consist of  two \emph{Spot 5} ortho photo of the same scen taken in $2002$ and
-$2008$. Between these two dates, a seism occured and image matching can be used to
-localize the break and quantify the movement.
+The data can be found in the directory {\tt \textcolor{blue}{SeismGuyla/}} % pourquoi Guyla et non pas Guliya
+ of directory {\tt ExempleDoc/}. % micmac_data/ExempleDoc/
+It consists of  two \emph{Spot 5} ortho photos of the same scene taken in $2002$ and
+$2008$. Between these two dates, an earthquake occured and image matching can be used to
+localize the \textcolor{blue}{rupture} and quantify the movement.
 
-We want to use MicMac to measure very fin displacement (arround $\frac{1}{10}$ pixel) in
-a context where the image are quite different. Figure~\ref{FIG:OK:Guylia} present the two
+We want to use MicMac to measure very \textcolor{blue}{small} displacements (arround $\frac{1}{10}$ pixel) in
+a context where the images are quite different. Figure~\ref{FIG:OK:Guylia} presents the two
 ortho images.
 
 \begin{figure}
@@ -133,10 +134,10 @@ ortho images.
 \includegraphics[width=35mm]{FIGS/SeismGuylia/250802_ortho.jpg}
 \includegraphics[width=35mm]{FIGS/SeismGuylia/260608_ortho.jpg}
 \includegraphics[width=35mm]{FIGS/SeismGuylia/Px1.jpg}
-\includegraphics[width=35mm]{FIGS/SeismGuylia/Correl.jpg}
+\includegraphics[width=35mm]{FIGS/SeismGuylia/Correl.jpg} %pourquoi la hauteur de l'image de correl est plus petite que le reste?
 
 \end{center}
-\caption{Guliya data set : the two ortho images, the $X$-paralaxed computed, and the correlation
+\caption{Guliya data set : the two ortho images, the $X$-parallax computed, and the correlation
 coefficient computed}
 \label{FIG:OK:Guylia}
 \end{figure}
@@ -144,12 +145,12 @@ coefficient computed}
 
 
 
-\subsection{Comment on the paramaters}
+\subsection{Comment on the parameters}
 
 
 \subsubsection{Interpolation}
 
-Aiming at measuring very fine displacment, we use a sinus cardinal interpolation :
+Aiming at measuring very \textcolor{blue}{small} displacements, we use a sinus cardinal interpolation :
 
 \begin{itemize}
    \item {\tt <ModeInterpolation> eInterpolSinCard </ModeInterpolation>}
@@ -165,16 +166,16 @@ Aiming at measuring very fine displacment, we use a sinus cardinal interpolation
 \subsubsection{Image term}
 
 By default in MicMac, the image term is $1-Cor$ where $Cor$ is the normalized cross correlation
-coefficient. In such data-set, where the is locally very important change, this can be not
-adequate because when there is changes of nature (snow \dots)  the correlation has no 
-signification and it is better to consider that there is no information.
-Three paramaters are used here to control the meaning of correlation :
+coefficient. In such data-set, where there is a very important change locally, this can not be
+suitable because when there is changes of the nature (snow \dots)  the correlation has no
+signification and it is better to consider that there is no information. %pourquoi?
+Three parameters are used here to control the meaning of the correlation:
 
 
 \begin{itemize}
-   \item {\tt  <CorrelMin> }=$C^{min}$ ,  
-         so  that correlation bellow $<C^{min}$ have no influence;
-   \item {\tt  <GammaCorrel> }=$\gamma$  , higher ie $\gamma$ higher is the influence of correlation
+   \item {\tt  <CorrelMin> }=$C^{min}$ ,
+         so  that correlation bellow $<C^{min}$ has no influence;
+   \item {\tt  <GammaCorrel> }=$\gamma$, with $\gamma$ higher, higher is the influence of the correlation
          close to $1$;
    \item {\tt  <DynamiqueCorrel>=eCoeffGamma } to activate the previous one \dots
 \end{itemize}
@@ -182,7 +183,7 @@ Three paramaters are used here to control the meaning of correlation :
 Following equations indicate how these parameters define the conversion from correlation to cost :
 
 \begin{equation}
-    C_1=Max(Cor,C^{min}) , 
+    C_1=Max(Cor,C^{min}) ,
 \end{equation}
 
 \begin{equation}
@@ -197,24 +198,24 @@ Following equations indicate how these parameters define the conversion from cor
    Cost  = (1-C_3) * (1-C^{min});
 \end{equation}
 
-On figure~\ref{FIG:OK:Guylia}, left image present the corremlation coefficients. The yellow value corresponds to the threshold value (here $<0?5$).
+On figure~\ref{FIG:OK:Guylia}, the image on the left presents the correlation coefficients. The yellow value corresponds to the threshold value (here $<0.5$).
 
 
-\subsubsection{Non isotropics regularization}
+\subsubsection{Non isotropic regularization}
 
-It can happen that we have \emph{a priori} knowledge for privilegiate some direction of regularization.
-This can be done using in conjonction the following parameters of {\tt EtapeProgDyn}:
+It can happen that we have an \emph{a priori} knowledge for favouring some direction of regularization.
+This can be done using in conjunction the following parameters of {\tt EtapeProgDyn}:
 
 \begin{itemize}
    \item  {\tt  <NbDir>}=$N$  fixes the number of direction that will be explored;
-   \item  {\tt  <Teta0>}=$\theta_0$  fixes the number of direction that will be explored;
+   \item  {\tt  <Teta0>}=$\theta_0$  \textcolor{blue}{fixes the angle of the favoured direction};
    \item  the direction that will explored are $\alpha_k=\theta_0 + k\frac{\pi}{N} , k\in[0,N-1]$
    \item if the parameters  {\tt <Px1MultRegul>}=$V_1$ or {\tt <Px2MultRegul> } are used, then the value
-         of regulalrization in direction  $\alpha_k$ is  mutiplied by $V_1[k]$ ($V_1$ is a vector);
+         of regularization in the direction  $\alpha_k$ is  mutiplied by $V_1[k]$ ($V_1$ is a vector);
 \end{itemize}
 
-In this example, we regularise more direction close to $\frac{\pi}{2}$, with a weight 
-$\frac{1}{1+\frac{10}{N}*K}$
+In this example, we regularise more the direction close to $\frac{\pi}{2}$, with a weight
+$\frac{1}{1+\frac{10}{N}*K}$.
 
 
 
