@@ -110,11 +110,28 @@ As expected :
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
-%-------------------------------------------------------------------
 
 
 
 \section{The Gulyia Earthquake Data-Set}
+
+
+\subsection{Introduction}
+
+Since september $2011$ CNES\footnote{Centre National d'Etudes Spatiales, the french spatial agencny}
+has been funding a devlopment for using MicMac for  Earthquake quantification. This development
+was made as collaboration between CNES, CEA, IPGP and IGN/ENSG. The main devlopper of this part
+is Ana-Maria Rosu.
+
+Although there exist other tools for doing this, the objective was :
+
+\begin{itemize}
+   \item have a totally free tool, that scientific can use in open source mode;
+   \item have a more parametrizable tool;
+\end{itemize}
+
+Although the study is not finished, the tool  is now operationnal.
+
 %-------------------------------------------------------------------
 
 \subsection{Description of the data set}
@@ -143,10 +160,37 @@ coefficient computed}
 \end{figure}
 
 
+%-------------------------------------------------------------------
+\subsection{Simplified interface}
+
+A simplified interface has been written. At the time being, it gives acces to few parameters, but 
+it will evolves.
+
+\begin{verbatim}
+$ mm3d MM2DPosSism
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unnamed args : 
+  * string :: {Image 1}
+  * string :: {Image 2}
+Named args : 
+  * [Name=Masq] string :: {Masq of focus zone (def=none)}
+  * [Name=Teta] REAL :: {Direction of seism if any (in radian)}
+  * [Name=Exe] bool :: {Execute command , def=true (tuning purpose)}
+\end{verbatim}
+
+An example of use :
+
+\begin{verbatim}
+    mm3d MM2DPosSism 250802_ortho.tif 260608_ortho.tif Teta=1.5
+\end{verbatim}
 
 
+%-------------------------------------------------------------------
 \subsection{Comment on the parameters}
 
+This section describe the "classical" interface using the {\tt XML} parameters.
 
 \subsubsection{Interpolation}
 
