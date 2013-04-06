@@ -9,10 +9,25 @@ Of course they cannot deal with all the situation that are
 handled by complex tools, but I hope that in near future they
 will be sufficient for $95\%$ of usages.
 
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
 
 \section{All in one command}
 
-Sorry this tool does not exist, but it will come \dots
+
+These tools are still in devlopment but, I hope, the first complete version
+will be avalaible soon. However many tools already exist, what is ready now :
+
+
+
+\begin{itemize}
+    \item full automatic tie points computation works (see {\tt Tapioca} tool in~\ref{Tapioca});
+    \item full automatic orientation computation works (see {\tt Tapas} tool in~\ref{Tapas});
+    \item full automatic matching is not achieved,  there exist some piece  of 
+          code that may be already usefull for some users, see~\ref{FullAutoMatch};
+    \item semi-automatic matching works with tool {\tt Malt}, see~\ref{SemiAutoMatch};
+\end{itemize}
+
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
@@ -39,7 +54,7 @@ The main modification on the distribution are :
 To get the binary version, go on the following link :
 
 \begin{verbatim}
-   mm3d Command arg1 arg2 ... argn  NameOpt1=Argot1 ...
+          http://logiciels.ign.fr/?Telechargement,20
 \end{verbatim}
 
 To get the source (you will need to installate the mercurial versionning system) type :
@@ -490,6 +505,7 @@ GrapheHom ./   ".*.ARW" -A0-Navig-UTM
 
 \section{Simple relative orientation and calibration with Tapas}
 
+\label{Tapas}
 
      % - - - - - - - - - - - - - - - - -  - - - - - 
 
@@ -1653,7 +1669,258 @@ The command line {\tt grep Centre All-RTL/*} enable you to quickly check the res
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
 
-\section{Tools for simplified matching}
+
+
+\section{Tools for full automatic  matching}
+
+This section is incomplete.
+
+\label{FullAutoMatch}
+
+\subsection{The tortue data set}
+
+This data set is made  of $53$ photo acquired to modelize a statue of a tortoise in the
+pagode of Hue (Vietnam), see figure ~\ref{FIG:Tortue:Input} . Although I take some precaution when taking the images,
+with several point of view having "optimale" angles for stereoscopy, I did not take any
+note; in these situation,  it is hard and borrying for a human to recover \emph{a posteriori} the organisation
+of the acquisition. This is a typical situation where to use these tools.
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=60mm]{FIGS/Tortue/AllTortues.jpg}
+\includegraphics[width=60mm]{FIGS/Tortue/AP-snapshot00.jpg}
+\end{center}
+\caption{Set of tortoise images and visualisation of orientation with AperiCloud}
+\label{FIG:Tortue:Input}
+\end{figure}
+
+
+
+
+The processing begins classically with tie points and orientation :
+
+\begin{verbatim}
+Tapioca MulScale ".*JPG" 400 1500
+Tapas RadialBasic "IMGP68(5[0-9]|6[0-5]).*JPG" Out=Calib
+Tapas RadialStd ".*JPG" InOri=Calib Out=All
+\end{verbatim}
+
+The result of orientation can be seen in figure ~\ref{FIG:Tortue:Input}.
+
+
+%-------------------------------------------------------------------
+
+\subsection{The tool {\tt AperoChImSecMM}}
+
+To compute a posteriori the structure of an acquisition, the first thing is to know,
+for each potential master image, what would be the best set of secondary  image.
+This what does the tool {\tt AperoChImSecMM}. The meaning of its argument should be
+quite obvious from inline help :
+
+\begin{verbatim}
+$ mm3d AperoChImSecMM
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unnamed args : 
+  * string :: {Dir + Pattern}
+  * string :: {Orientation}
+Named args : 
+  * [Name=ExpTxt] bool :: {Have tie point been exported in text format (def = false)}
+  * [Name=Out] string :: {Out Put destination (Def= same as Orientation-parameter)}
+\end{verbatim}
+
+Using it with the tortoise data-set we enter :
+
+\begin{verbatim}
+ mm3d AperoChImSecMM ".*JPG" All 
+\end{verbatim}
+
+Although , for further use, it is not strictly necessary to understand what was done this can
+never be bad \footnote{at least, this is the "philosophy" with free open source products} \dots 
+When it is finished, we can take a look at  {\tt Ori-All} directory, it
+contains $53$ files  {\tt ImSec-XXXX.xml}. Each file contains possible sets of secondary images.
+For example, if we open {\tt ImSec-IMGP6857.JPG.xml}  :
+
+{\small
+\begin{verbatim}
+<ImSecOfMaster>
+     <Master>IMGP6857.JPG</Master>
+     <Sols>
+          <Images>IMGP6860.JPG</Images>
+          <Images>IMGP6858.JPG</Images>
+          <Coverage>0.55945759911913906</Coverage>
+          <Score>0.487036128053463691</Score>
+     </Sols>
+     <Sols>
+          <Images>IMGP6860.JPG</Images>
+          <Images>IMGP6858.JPG</Images>
+          <Images>IMGP6861.JPG</Images>
+          <Coverage>0.816071725376866897</Coverage>
+          <Score>0.655094691337392177</Score>
+     </Sols>
+     <Sols>
+          <Images>IMGP6860.JPG</Images>
+          <Images>IMGP6859.JPG</Images>
+          <Images>IMGP6858.JPG</Images>
+          <Images>IMGP6863.JPG</Images>
+          <Coverage>0.874862347681766073</Coverage>
+          <Score>0.663021676898716383</Score>
+     </Sols>
+     <Sols>
+          <Images>IMGP6860.JPG</Images>
+          <Images>IMGP6859.JPG</Images>
+          <Images>IMGP6858.JPG</Images>
+          <Images>IMGP6861.JPG</Images>
+          <Images>IMGP6863.JPG</Images>
+          <Coverage>0.874862347681766073</Coverage>
+          <Score>0.634082438117069547</Score>
+     </Sols>
+     <Sols>
+          <Images>IMGP6860.JPG</Images>
+          <Images>IMGP6859.JPG</Images>
+          <Images>IMGP6858.JPG</Images>
+          <Images>IMGP6861.JPG</Images>
+          <Images>IMGP6863.JPG</Images>
+          <Images>IMGP6862.JPG</Images>
+          <Coverage>0.874862347681766073</Coverage>
+          <Score>0.611377533752188174</Score>
+     </Sols>
+\end{verbatim}
+}
+
+Each {\tt Sol} contain a possible set of secondary images. There is several sets because there is no universal
+criteria to define the best set : it must covers  all the direction arround the master image
+(to avoid hidden part), it must contains images with the "good" angles for stereocopy, it
+must avoid redundancy and have a minimal number of images (for efficienncy). A these criteria
+are generally contradictory, {\tt AperoChImSecMM} propose an optimall set for each cardinal
+(between $2$ and $6$). Although to facilitate an automatic exploitation, each set has an
+associated score. Here the "best" set according to {\tt AperoChImSecMM} has $4$ image with
+a score of $0.663....$.
+
+These result will used implicitelly in the following automatic tools. It is also possible to use them explicitely
+"by hand" in creating your own {\tt xml} file for {\tt MicMac} \footnote{Use in {\tt Malt} will come soon}. 
+See for example of how to use this inside {\tt MICMAC} the section {\tt ImSecCalcApero} of file 
+{\tt include/XML\_MicMac/MM-TieP.xml}.
+
+
+%-------------------------------------------------------------------
+
+\subsection{The tool {\tt MMInitialModel}}
+
+The tool {\tt MMInitialModel} is used to create fully automatically a regularly dense but coarse $3D$ model
+out of a set of images. Although its main purpose is to create a model that will be used
+to drive the future tools, it can already be used now for those who only need a regular coarse 3D model.
+This tool requires that the {\tt AperoChImSecMM} command has been executed before.
+The syntax is:
+
+\begin{verbatim}
+$ mm3d MMInitialModel
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unnamed args : 
+  * string :: {Dir + Pattern}
+  * string :: {Orientation}
+Named args : 
+  * [Name=Visu] bool :: {Interactif Visualization (tuning purpose, programm will stop at breakpoint)}
+  * [Name=DoPly] bool :: {Generate ply ,for tuning purpose, (Def=false)}
+  * [Name=Zoom] INT :: {Zoom of computed models, (def=8)}
+  * [Name=ReduceExp] REAL :: {Down scaling of cloud , XML and ply, (def = 3)}
+\end{verbatim}
+
+When using it now, do not forget the arg {\tt \bf DoPly=1}, else you won't get any ply file! An example of use :
+
+
+\begin{verbatim}
+mm3d MMInitialModel ".*JPG" All  DoPly=1
+\end{verbatim}
+
+Figure~\ref{FIG:Tortue:Output} present the result of this command. 
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=60mm]{FIGS/Tortue/snapshot00.jpg}
+\includegraphics[width=60mm]{FIGS/Tortue/snapshot01.jpg}
+
+\includegraphics[width=60mm]{FIGS/Tortue/snapshot02.jpg}
+\includegraphics[width=60mm]{FIGS/Tortue/snapshot03.jpg}
+\end{center}
+\caption{Some view point of the coarse model create with MMInitialModel on tortoise data-set}
+\label{FIG:Tortue:Output}
+\end{figure}
+
+
+
+For curious users who wants to see the real time progression,  the {\tt Visu=1} option can be
+used on system where {\tt X11} is installed. Of course, it's then better to use it with only one
+image. For example try :
+
+
+\begin{verbatim}
+mm3d MMInitialModel IMGP6857.JPG All Visu=1
+\end{verbatim}
+
+Figure~\ref{FIG:Tortue:Dump} presents some snapshot of the windows obtained when using
+this option.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_0.jpg}
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_1.jpg}
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_2.jpg}
+
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_3.jpg}
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_4.jpg}
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_5.jpg}
+
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_6.jpg}
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_7.jpg}
+\includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_8.jpg}
+\end{center}
+\caption{Evolution of 3D model, as can be seen with {\tt Visu=1} option 
+of {\tt MMInitialModel}}
+\label{FIG:Tortue:Dump}
+\end{figure}
+
+
+
+%-------------------------------------------------------------------
+\subsection{The tool {\tt MMTestAllAuto}}
+
+The tool {\tt MMTestAllAuto} is a \emph{precursor} of the fully automatic tool that will
+be executed, driven by the coarse model of {\tt MMInitialModel} . It assume that  {\tt AperoChImSecMM} 
+has been executed, and compute a "fine" 3D model for a given master image using a predefined parametrization
+of {\tt MICMAC}.
+
+The tool works generally well when the master image has "good" secondary image. Conversely, 
+the  result can be almost empty in the other cases. Figure~\ref{FIG:Tortue:AllAuto} illustrates the
+results.
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=60mm]{FIGS/Tortue/Dep1.jpg}
+\includegraphics[width=60mm]{FIGS/Tortue/Dep2.jpg}
+
+\includegraphics[width=60mm]{FIGS/Tortue/Dep3.jpg}
+\includegraphics[width=60mm]{FIGS/Tortue/RIMGP6900.JPG}
+\end{center}
+\caption{Illustration of the {\tt MMTestAllAuto} tool; up two view where it works correctly;
+down one view (and it corresponding original image) where, due to lack of good secondary image, 
+the result is almost empty}
+\label{FIG:Tortue:AllAuto}
+\end{figure}
+
+
+%-------------------------------------------------------------------
+\section{Tools for simplified semi-automatic matching}
+
+\label{SemiAutoMatch}
+
+Even when the full automatic matching will be avalaible, many use will need to have
+is some circonstances a finer control of the process. This is the aim of these tool.
 
 \subsection{Basic rectification with {\tt Tarama}}
 
@@ -1957,6 +2224,9 @@ radiometric equalization.
 \caption{Individual ortho image, and mask image for image {\tt IMGP4182.jpg}}
 \label{FIG:Malt:Input}
 \end{figure}
+
+
+
 
 For the radiometric equalization, {\tt Tawny}  will compute for each
 individual ortho image $O_i$, a polynom $P_i$ such that, $\forall i,j,x,y$
