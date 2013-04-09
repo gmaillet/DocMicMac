@@ -1681,7 +1681,7 @@ This section is incomplete.
 
 This data set is made  of $53$ photo acquired to modelize a statue of a tortoise in the
 pagode of Hue (Vietnam), see figure ~\ref{FIG:Tortue:Input} . Although I take some precaution when taking the images,
-with several point of view having "optimale" angles for stereoscopy, I did not take any
+with several point of view having "optimal" angles for stereoscopy, I did not take any
 note; in these situation,  it is hard and borrying for a human to recover \emph{a posteriori} the organisation
 of the acquisition. This is a typical situation where to use these tools.
 
@@ -1713,8 +1713,8 @@ The result of orientation can be seen in figure ~\ref{FIG:Tortue:Input}.
 
 \subsection{The tool {\tt AperoChImSecMM}}
 
-To compute a posteriori the structure of an acquisition, the first thing is to know,
-for each potential master image, what would be the best set of secondary  image.
+To compute \emph{a posteriori} the structure of an acquisition, the first thing is to know,
+for each potential master image, what would be the best set of secondary  images.
 This what does the tool {\tt AperoChImSecMM}. The meaning of its argument should be
 quite obvious from inline help :
 
@@ -1737,8 +1737,9 @@ Using it with the tortoise data-set we enter :
  mm3d AperoChImSecMM ".*JPG" All 
 \end{verbatim}
 
-Although , for further use, it is not strictly necessary to understand what was done this can
-never be bad \footnote{at least, this is the "philosophy" with free open source products} \dots 
+For further use, it is not strictly necessary to understand what is done
+ by {\tt AperoChImSecMM}; however, it  can never be bad  to understand the tool you use
+\footnote{at least, this is the "philosophy" with free open source products} \dots 
 When it is finished, we can take a look at  {\tt Ori-All} directory, it
 contains $53$ files  {\tt ImSec-XXXX.xml}. Each file contains possible sets of secondary images.
 For example, if we open {\tt ImSec-IMGP6857.JPG.xml}  :
@@ -1799,7 +1800,7 @@ are generally contradictory, {\tt AperoChImSecMM} propose an optimall set for ea
 associated score. Here the "best" set according to {\tt AperoChImSecMM} has $4$ image with
 a score of $0.663....$.
 
-These result will used implicitelly in the following automatic tools. It is also possible to use them explicitely
+These result will be used implicitelly in the following automatic tools. It is also possible to use them explicitely
 "by hand" in creating your own {\tt xml} file for {\tt MicMac} \footnote{Use in {\tt Malt} will come soon}. 
 See for example of how to use this inside {\tt MICMAC} the section {\tt ImSecCalcApero} of file 
 {\tt include/XML\_MicMac/MM-TieP.xml}.
@@ -1811,7 +1812,7 @@ See for example of how to use this inside {\tt MICMAC} the section {\tt ImSecCal
 
 The tool {\tt MMInitialModel} is used to create fully automatically a regularly dense but coarse $3D$ model
 out of a set of images. Although its main purpose is to create a model that will be used
-to drive the future tools, it can already be used now for those who only need a regular coarse 3D model.
+to drive future tools, it can already be used now for those who only need a regular coarse 3D model.
 This tool requires that the {\tt AperoChImSecMM} command has been executed before.
 The syntax is:
 
