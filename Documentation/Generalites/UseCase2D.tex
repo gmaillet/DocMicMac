@@ -6,10 +6,10 @@ a $2$ dimensionnal problem. This can occurs in the following situation :
 
 \begin{itemize}
    \item the problem is intrinsiquely $2$ dimensionnal, for example in
-         movement detection;
+         movement detection (see~\ref{Gulya});
 
    \item the problem shoulde be $1$ dimensionnal, but the orientation parameters
-         are unknown or, at least, unaccurate;
+         are unknown (see~\ref{Mars}) or, at least, unaccurate;
 \end{itemize}
 
 %-------------------------------------------------------------------
@@ -18,6 +18,8 @@ a $2$ dimensionnal problem. This can occurs in the following situation :
 
 
 \section{The Mars data-set}
+
+\label{Mars}
 
 
 
@@ -37,7 +39,7 @@ hue colour}
 \subsection{Description of the data set}
 
 The data can be found in directory {\tt Mars/} of directory {\tt ExempleDoc/}.
-It consist of two stereo images acquired by Cassini (??) sond. In this case
+It consist of two stereo images acquired by Cassini (??) sond of the planete Mars. In this case
 we do not have the physicall model of the sensor, but we know that :
 
 \begin{itemize}
@@ -115,6 +117,7 @@ As expected :
 
 \section{The Gulyia Earthquake Data-Set}
 
+\label{Gulya}
 
 \subsection{Introduction}
 
@@ -130,7 +133,15 @@ Although there exist other tools for doing this, the objective was :
    \item have a more parametrizable tool;
 \end{itemize}
 
-Although the study is not finished, the tool  is now operationnal.
+Although the study is not finished, the tool  is now operationnal. The programm has been
+tested on $3$ real data set and several synthetic data set, and compared to several existing solutions 
+working in frequency domain. From a purely subjective evaluation, these test show that the
+result with MicMac are generally equivalent in quality to frequency approach and, on one of the
+real data-set, the results of MicMac where "better"\footnote{i.e. subjectively easier to intepret
+for scientist} . One of the drawback of the dense approach of
+MicMac is the computation time : $15$ minutes, with a $8$ core computer, with the $1600*3600$
+images of the Gulyia data-set.
+
 
 %-------------------------------------------------------------------
 
