@@ -1,14 +1,14 @@
 \chapter{Use cases for $2D$ Matching}
 
-The chapter cover example of using MicMac when the matching problem is
-a $2$ dimensionnal problem. This can occurs in the following situation :
+The chapter covers examples of using MicMac when the matching problem is
+a $2$ dimensionnal one. This can occur in the following situation:
 
 
 \begin{itemize}
-   \item the problem is intrinsiquely $2$ dimensionnal, for example in
+   \item the problem is intrinsically $2$ dimensionnal, for example in
          movement detection (see~\ref{Gulya});
 
-   \item the problem shoulde be $1$ dimensionnal, but the orientation parameters
+   \item the problem should be $1$ dimensionnal, but the orientation parameters
          are unknown (see~\ref{Mars}) or, at least, unaccurate;
 \end{itemize}
 
@@ -31,16 +31,16 @@ a $2$ dimensionnal problem. This can occurs in the following situation :
 \includegraphics[width=35mm]{FIGS/Mars/Px2.jpg}
 
 \end{center}
-\caption{Mars data-set : the two  images, the $X$ paralaxe, in gray-level, and the $Y$-paralax in
+\caption{Mars data-set : the two  images, the $X$ parallax, in gray-level, and the $Y$-parallax in
 hue colour}
 \label{FIG:OK:Mars}
 \end{figure}
 
 \subsection{Description of the data set}
 
-The data can be found in directory {\tt Mars/} of directory {\tt ExempleDoc/}.
-It consist of two stereo images acquired by Cassini (??) sond of the planete Mars. In this case
-we do not have the physicall model of the sensor, but we know that :
+The data can be found in the directory {\tt Mars/} of directory {\tt ExempleDoc/}.
+It consists of two stereo images acquired by Cassini (??) probe of the planet Mars. In this case
+we do not have the physicall model of the sensor, but we know that:
 
 \begin{itemize}
    \item the satellite is a  pushbroom-satellite;
@@ -51,11 +51,11 @@ we do not have the physicall model of the sensor, but we know that :
 
 \subsubsection{Geometry}
 
-The tags controlling geometry are :
+The tags controlling geometry are:
 
 \begin{itemize}
 
-   \item   {\tt <GeomImages> eGeomImage\_Hom\_Px </GeomImages>} indicate the geometry of the acquisition,
+   \item   {\tt <GeomImages> eGeomImage\_Hom\_Px </GeomImages>} indicates the geometry of the acquisition,
           here it means that there is a principal homography $H$, let $P_1=x_1,y_1$ and  $P_2=x_2,y_2$ be two
           homologous points, MicMac will compute $U(P_1)$ and $V(P_1)$ such that
 
@@ -69,8 +69,8 @@ The tags controlling geometry are :
           where {\tt MicMac} must look for the tie points (see directory {\tt Homol-Man/});
 
 
-   \item  {\tt <GeomMNT> eGeomPxBiDim  </GeomMNT>} indicateseGeomImage the geoemtry of restitution,
-          the value {\tt eGeomPxBiDim} indicate that what is copmuted is pixel offset, in fact this value
+   \item  {\tt <GeomMNT> eGeomPxBiDim  </GeomMNT>} indicates the geometry of restitution,
+          the value {\tt eGeomPxBiDim} indicates that what is computed is the pixel offset, in fact this value
           is mandatory when using {\tt eGeomImage\_Hom\_Px}
 
 
@@ -78,35 +78,35 @@ The tags controlling geometry are :
 
 \subsubsection{Matching}
 
-In this case, the two paralax direction have completely different meanings :
+In this case, the two parallax directions have completely different meanings:
 
 \begin{itemize}
-   \item the paralax $1$ represente mainly the relief, it is expected to contain high frequencies;
-   \item the paralax $2$ represente mainly the error of the geometric model, it is expected to have
+   \item the parallax $1$ represents mainly the relief, it is expected to contain high frequencies;
+   \item the parallax $2$ represents mainly the error of the geometric model, it is expected to have
          low amplitude and low frequencies;
 \end{itemize}
 
-This dissymetry in \emph{a priori} knowledge on paralax is specified at different part of the file :
+This asymmetry in the \emph{a priori} knowledge of parallax is specified at different parts of the file :
 
 \begin{itemize}
-   \item {\tt <Px1IncCalc>}   and {\tt <Px2IncCalc>},  representinng the global incertitude on each paralax;
-   \item {\tt <Px1Regul>}   and {\tt <Px2Regul>},  representinng the \emph{a priori} knowledge on regularity of each
-         paralax;
-   \item {\tt <Px1PenteMax>}   and {\tt <Px2PenteMax>},  representinng the \emph{a priori} knowledge on the
-         steep of each paralax;
+   \item {\tt <Px1IncCalc>}   and {\tt <Px2IncCalc>},  representing the global uncertainty on each parallax;
+   \item {\tt <Px1Regul>}   and {\tt <Px2Regul>},  representing the \emph{a priori} knowledge of the regularity of each
+         parallax;
+   \item {\tt <Px1PenteMax>}   and {\tt <Px2PenteMax>},  representinng the \emph{a priori} knowledge of the
+         \UNCLEAR{steep} of each parallax;
    \item {\tt <Px1Pas>}   and {\tt <Px2Pas>},  representing the discretization step (as Px2 is low frequency and
          low amplitude, we can compute it with higher precision);
-   \item {\tt <Px1DilatAlti>}   and {\tt <Px2DilatAlti>}, to gain som time, we decide not re-estimate Px2 at last step;
+   \item {\tt <Px1DilatAlti>}   and {\tt <Px2DilatAlti>}, to gain some time, we decide not to re-estimate Px2 at the last step;
 \end{itemize}
 
 \subsubsection{Results}
 
-Figure~\ref{FIG:OK:Mars} present the two images and the results of computed paralax.
-As expected :
+Figure~\ref{FIG:OK:Mars} presents the two images and the results of the computed parallax.
+As expected:
 
 \begin{itemize}
    \item The Px1 contains mainly high frequency information on the relief;
-   \item The Px2 contains mainly low frequency information on  geometry of the sensor.
+   \item The Px2 contains mainly low frequency information on  the geometry of the sensor.
 \end{itemize}
 
 
@@ -115,45 +115,45 @@ As expected :
 
 
 
-\section{The Gulyia Earthquake Data-Set}
+\section{The Gulya Earthquake Data-Set}
 
 \label{Gulya}
 
 \subsection{Introduction}
 
-Since september $2011$ CNES\footnote{Centre National d'Etudes Spatiales, the french spatial agencny}
-has been funding a devlopment for using MicMac for  Earthquake quantification. This development
-was made as collaboration between CNES, CEA, IPGP and IGN/ENSG. The main devlopper of this part
+Since september $2011$ CNES\footnote{Centre National d'Etudes Spatiales, the French spatial agency}
+has been funding a development for using MicMac for  earthquake quantification. This development
+was made as a collaboration between CNES, CEA, IPGP and IGN/ENSG. The main developer of this part
 is Ana-Maria Rosu.
 
-Although there exist other tools for doing this, the objective was :
+Although there exist other tools for doing this, the objective was:
 
 \begin{itemize}
-   \item have a totally free tool, that scientific can use in open source mode;
+   \item have a totally free tool, that scientists can use in open source mode;
    \item have a more parametrizable tool;
 \end{itemize}
 
-Although the study is not finished, the tool  is now operationnal. The programm has been
+Although the study is not finished, the tool  is now operational. The program has been
 tested on $3$ real data set and several synthetic data set, and compared to several existing solutions 
-working in frequency domain. From a purely subjective evaluation, these test show that the
-result with MicMac are generally equivalent in quality to frequency approach and, on one of the
+working in frequency domain. From a purely subjective evaluation, these tests show that the
+results with MicMac are generally equivalent in quality to frequency approach and, on one of the
 real data-set, the results of MicMac where "better"\footnote{i.e. subjectively easier to intepret
 for scientist} . One of the drawback of the dense approach of
 MicMac is the computation time : $15$ minutes, with a $8$ core computer, with the $1600*3600$
-images of the Gulyia data-set.
+images of the Gulya data-set.
 
 
 %-------------------------------------------------------------------
 
 \subsection{Description of the data set}
 
-The data can be found in the directory {\tt \textcolor{blue}{SeismGuyla/}} % pourquoi Guyla et non pas Guliya
+The data can be found in the directory {\tt {SeismGuyla/}} 
  of directory {\tt ExempleDoc/}. % micmac_data/ExempleDoc/
 It consists of  two \emph{Spot 5} ortho photos of the same scene taken in $2002$ and
 $2008$. Between these two dates, an earthquake occured and image matching can be used to
-localize the \textcolor{blue}{rupture} and quantify the movement.
+localize the rupture and quantify the movement.
 
-We want to use MicMac to measure very \textcolor{blue}{small} displacements (arround $\frac{1}{10}$ pixel) in
+We want to use MicMac to measure very small displacements (arround $\frac{1}{10}$ pixel) in
 a context where the images are quite different. Figure~\ref{FIG:OK:Guylia} presents the two
 ortho images.
 
@@ -175,7 +175,7 @@ coefficient computed}
 \subsection{Simplified interface}
 
 A simplified interface has been written. At the time being, it gives acces to few parameters, but 
-it will evolves.
+it will evolve.
 
 \begin{verbatim}
 $ mm3d MM2DPosSism
@@ -201,11 +201,11 @@ An example of use :
 %-------------------------------------------------------------------
 \subsection{Comment on the parameters}
 
-This section describe the "classical" interface using the {\tt XML} parameters.
+This section describes the "classical" interface using the {\tt XML} parameters.
 
 \subsubsection{Interpolation}
 
-Aiming at measuring very \textcolor{blue}{small} displacements, we use a sinus cardinal interpolation :
+Aiming at measuring very small displacements, we use a sinus cardinal interpolation :
 
 \begin{itemize}
    \item {\tt <ModeInterpolation> eInterpolSinCard </ModeInterpolation>}
@@ -221,8 +221,8 @@ Aiming at measuring very \textcolor{blue}{small} displacements, we use a sinus c
 \subsubsection{Image term}
 
 By default in MicMac, the image term is $1-Cor$ where $Cor$ is the normalized cross correlation
-coefficient. In such data-set, where there is a very important change locally, this can not be
-suitable because when there is changes of the nature (snow \dots)  the correlation has no
+coefficient. In such data-sets, where there is a very important change locally, this can not be
+suitable because when there are changes of the nature (snow \dots)  the correlation has no
 signification and it is better to consider that there is no information. %pourquoi?
 Three parameters are used here to control the meaning of the correlation:
 
@@ -235,7 +235,7 @@ Three parameters are used here to control the meaning of the correlation:
    \item {\tt  <DynamiqueCorrel>=eCoeffGamma } to activate the previous one \dots
 \end{itemize}
 
-Following equations indicate how these parameters define the conversion from correlation to cost :
+The following equations indicate how these parameters define the conversion from correlation to cost:
 
 \begin{equation}
     C_1=Max(Cor,C^{min}) ,
@@ -263,8 +263,8 @@ This can be done using in conjunction the following parameters of {\tt EtapeProg
 
 \begin{itemize}
    \item  {\tt  <NbDir>}=$N$  fixes the number of direction that will be explored;
-   \item  {\tt  <Teta0>}=$\theta_0$  \textcolor{blue}{fixes the angle of the favoured direction};
-   \item  the direction that will explored are $\alpha_k=\theta_0 + k\frac{\pi}{N} , k\in[0,N-1]$
+   \item  {\tt  <Teta0>}=$\theta_0$  fixes the angle of the favoured direction;
+   \item  the directions that will be explored are $\alpha_k=\theta_0 + k\frac{\pi}{N} , k\in[0,N-1]$
    \item if the parameters  {\tt <Px1MultRegul>}=$V_1$ or {\tt <Px2MultRegul> } are used, then the value
          of regularization in the direction  $\alpha_k$ is  mutiplied by $V_1[k]$ ($V_1$ is a vector);
 \end{itemize}
