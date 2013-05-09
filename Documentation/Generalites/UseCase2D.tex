@@ -6,11 +6,150 @@ a $2$ dimensionnal one. This can occur in the following situation:
 
 \begin{itemize}
    \item the problem is intrinsically $2$ dimensionnal, for example in
-         movement detection (see~\ref{Gulya});
+         movement detection (see~\ref{Gulya}); this can be done with a simplified tool;
 
    \item the problem should be $1$ dimensionnal, but the orientation parameters
-         are unknown (see~\ref{Mars}) or, at least, unaccurate;
+         are unknown (see~\ref{Mars}) or, at least, "very" unaccurate; at the time being,
+         this requires a parametrization of {\tt MICMAC} with {\tt XML} file;
+
+   \item the problem should be $1$ dimensionnal, the orientation parameters have been computed,
+         but for some reason, there are doubts on their accuracy and the user want to check
+         this accuracy (see~\ref{CheckOri});  this can be done with a simplified tool;
 \end{itemize}
+
+
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+
+\section{Checking orientation}
+\label{CheckOri}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=45mm]{FIGS/TestOri/DraixIl.JPG}
+\includegraphics[width=45mm]{FIGS/TestOri/DraixPx1.jpg}
+\includegraphics[width=45mm]{FIGS/TestOri/DraixPx2.jpg}
+\end{center}
+\caption{Image, deptht map and transverse paralaxe with draix data set
+(images P4090163.JPG and P4090134.JPG)
+}
+\label{FIG:Draix:PxTr}
+\end{figure}
+
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=45mm]{FIGS/TestOri/CuxIm.jpg}
+\includegraphics[width=45mm]{FIGS/TestOri/CuxPx1.jpg}
+\includegraphics[width=45mm]{FIGS/TestOri/CuxPx2.jpg}
+\end{center}
+\caption{Image, deptht map and transverse paralaxe with MiniCuxa data set
+(images Abbey-IMG\_0208.jpg and Abbey-IMG\_0209.jpg), the correlation between two paralax
+is lightly visible
+}
+\label{FIG:Cuxa:PxTr}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=60mm]{FIGS/TestOri/FullCuxPx1.jpg}
+\includegraphics[width=60mm]{FIGS/TestOri/FullCuxPx2.jpg}
+\end{center}
+\caption{deptht map and transverse paralaxe with full resolution Cuxa images,
+correlation between both is clearly visible, amplitude is $\pm 1$ pixel.
+}
+\label{FIG:CuxaFull:PxTr}
+\end{figure}
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=60mm]{FIGS/TestOri/Mun1.jpg}
+\includegraphics[width=60mm]{FIGS/TestOri/Mun2.jpg}
+\end{center}
+\caption{deptht map and transverse paralaxe with $10$ cm image of Munich, acquired with a DMC,
+except in "noisy part" like the river, amplitued of transverse parals is $\pm\, 0.1$ pixel
+}
+\label{FIG:Mubich:PxTr}
+\end{figure}
+
+
+
+
+In image geometry {\tt MicMac} has "special" modes where the matching can be done
+taking into account a possible unaccuracy of the orientation. Although, it can be used
+to match badly oriented images, this is generally not a good idea (it's a better idea to
+understand what was wrong in orientation or acquisition and to correct it !!). However,
+when the user has doubts on orientation parameters, these tool can  be convenient to check
+these orientations. In these mode :
+
+\begin{itemize}
+   \item the matching is done in image geometry : there is a master image, and the $X,Y$
+         are the pixel of this master image;
+   \item there is \emph{only} one secondary image;
+   \item for each pixel of the master image, two value are computed, one represents the depths
+         and the other represents the "transverse paralax" : it is the displacement in the direction
+         orthogonal to the epipolar;
+\end{itemize}
+
+These mode can be fairly complex to use directly in {\tt XML} mode, so it's generaly sufficient
+to use the simplied tool {\tt MMTestOrient}. The  arguments should be quite obvious from
+inline help :
+
+\begin{verbatim}
+mm3d MMTestOrient -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unnamed args : 
+  * string :: {First Image}
+  * string :: {Second Images}
+  * string :: {Orientation}
+Named args : 
+  * [Name=Dir] string :: {Directory, Def=./}
+  * [Name=Zoom0] INT :: {Zoom init, pow of 2  in [128,8], Def depend of size}
+  * [Name=ZoomF] INT :: {Zoom init,  pow of 2  in [4,1], Def=2}
+\end{verbatim}
+
+The result of transverse paralaxes in stored in images {\tt Px2\dots}, the number of the last
+and most accurate image depends of the other parameters, so you have to check what is 
+present on the directory {\tt GeoI-Px}. 
+
+How can these image be used ? Basically, the idea is that with a "perfect" orientation the 
+transverse paralax should be zero on all the image. In real life, this is more complicated, because this
+paralax can be noisy ($2d$ general matching problem can be fairly ambiguous). So what is important is not
+only the amplitude of the transverse paralax but also it spatial analysis : is there systematism in
+this paralax ? Does it present low frequency movement ? Is this transverse paralax correlated to the
+depth map ? \dots 
+It is not so easy to make an automatic quantitative analyse 
+of the results and the firt purpose of this tool is to help human expertise in a qualitative analysis of
+the result.  The {\tt MMTestOrient} is illustrated on three examples (in each case with {\tt ZoomF=1}) :
+
+\begin{itemize}
+   \item on figure~\ref{FIG:Draix:PxTr} , with image from the Draix data set; in this case
+          the transverse paralax is a bit noisy but does not show  obvious systematism;
+
+   \item on figure~\ref{FIG:Cuxa:PxTr} , the amplitude of transverse paralax do not seem
+         very high, but here it is computed on reduced images, and conversely one can guess
+         some systematism and a correlation between the depth and the transverse paralax;
+
+   \item on figure~\ref{FIG:CuxaFull:PxTr} ,  the full resolution image of Cuxa  have been 
+         used (they are not in the data-set); in this case, the tool show clearly a high systematism in
+         the transverse paralax  , if we except the noisy part like the tree ~\footnote{for tree the
+         transverse paralaxe can be created by wind} the amplitude in almost $\pm\,1$pixel
+         between highest and lowest value; furthermore the high correlation bewteen two paralax
+         maybe originated by a calibration problem , probably due to focal length;
+
+   \item figure~\ref{FIG:Mubich:PxTr} present an almost perfect orientation; with these $14144,15552$
+         coming from a $DMC$ camera the amplitude of transverse paralax is $\pm\, 0.1$ pixel on most
+         of the image; the only part of the image where the amplitude is significatively higher is
+         the river, but as can be seen on the depth image, the matching is very noisy here and the 
+         result has meaning in such part;
+
+\end{itemize}
+
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
@@ -35,6 +174,8 @@ a $2$ dimensionnal one. This can occur in the following situation:
 hue colour}
 \label{FIG:OK:Mars}
 \end{figure}
+
+
 
 \subsection{Description of the data set}
 
