@@ -253,9 +253,6 @@ As expected:
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
-
-
-
 \section{The Gulya Earthquake Data-Set}
 
 \label{Gulya}
@@ -412,6 +409,59 @@ This can be done using in conjunction the following parameters of {\tt EtapeProg
 
 In this example, we regularise more the direction close to $\frac{\pi}{2}$, with a weight
 $\frac{1}{1+\frac{10}{N}*K}$.
+
+
+
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+\section{The Concrete Data-Set and civil engineering}
+
+\label{Concrete}
+
+\subsection{Introduction}
+
+The data set {\tt Concrete/} is an example of using MicMac for measuring very fine displacement in civil engineering. In this experiment, constraint were applyed to a concrete beam, and a fix camera was used to measure the displacement during breakin phase. Figure~\ref{FIG:OK:Concrete} illustrate this data set :
+
+\begin{itemize}
+    \item  (up left) a full view of on of the two images used for this correlation;
+    \item  (up right) a zoom on a detail of this image, as it can be seen, the concrete a been 
+           painted to create an "optimal" texture for matching
+    \item  (bottom left) the x displacement (total amplitude is arround $\frac{1}{4}$ of pixel);
+    \item  (bottom right) the y displacement (total amplitude is arround $\frac{1}{4}$ of pixel).
+\end{itemize}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=74mm]{FIGS/Beton/IM1.jpg}
+\includegraphics[width=56mm]{FIGS/Beton/IMCROP.jpg}
+
+\includegraphics[width=65mm]{FIGS/Beton/Px1.jpg}
+\includegraphics[width=65mm]{FIGS/Beton/Px2.jpg}
+
+\end{center}
+\caption{Concrete data'set, one of the image, a crop and the two displacement field}
+\label{FIG:OK:Concrete}
+\end{figure}
+
+%-------------------------------------------------------------------
+
+\subsection{Parametring}
+
+
+The file {\tt Param-OneResol.xml} contain the MicMac's parametring used for this experience.
+Although the parametring should be quite easy to understand after March's exemple, we can
+do the following comments :
+
+\begin{itemize}
+    \item  the use of homographic model is well suited, it allow to modelize a possible translation
+          of the camera; the $9$ point used for the homography have been seized on the concrete, this
+          way the computed displacement is exaclty the deformation;
+
+    \item  we have not use the multi-scale approach beacause the quasi periodic texture uses was
+           such that the reduced images where almost textureless at sub-resolution $8$ and very
+           aliased at resolution $4$;
+\end{itemize}
+
 
 
 
