@@ -1,0 +1,67 @@
+\chapter{Advanced matching, practicall aspect}
+
+
+\section{Cost function}
+
+
+The discrete version of the cost function is:
+
+
+\begin{equation}
+   E(Z) = \sum Corr(i,j,Z(i,j)) + F(|Z(i+1,j)-Z(i,j)|)  + \dots
+\end{equation}
+
+The $F$ function allows to control the apriori on the Z:
+ 
+\begin{itemize}
+   \item  if the desired model is smooth, a convex   $F$  can be adequate (its better to
+          climb a given jump by regular step);
+
+   \item  if  the desired model has many discontinuities, a $F$   concave can be adequate 
+          (it's better to climn a given jump in one single step);
+
+   \item when there is no strong a prioir, the  default choice is to have $F$ linear;
+
+\end{itemize}
+
+
+The basic form of $F$ has two parameter $R$ and $Q$ :
+
+\begin{equation}
+   F(\Delta_Z) =  R |\Delta_Z| + Q {\Delta_Z}^2
+\end{equation}
+
+
+This allows to create linear and convex function. To create concavity,
+there exists parameters $S$  and $A$ such that:
+
+\begin{equation}
+   F(\Delta_Z) =  R |\Delta_Z| + Q {\Delta_Z}^2 ,  |\Delta_Z| < S
+\end{equation}
+
+\begin{equation}
+   F(\Delta_Z) =  R S +   R A (|\Delta_Z|-S)   + Q {\Delta_Z}^2 ,  |\Delta_Z| \geq  S
+\end{equation}
+
+
+Typically this means that when $Z$ is over the threshold $S$, the slope is multiplied by $A$.
+
+\begin{itemize}
+   \item {\bf ZRegul} add a linear term $ZRegul |\Delta_Z| $ to $F$;
+\end{itemize}
+
+
+The MicMac tag for this parameters are:
+
+\begin{itemize}
+   \item {\tt <ZRegul>}  for $R$;
+   \item {\tt <ZRegul\_Quad>}  for $Q$;
+   \item {\tt <SeuilAttenZRegul>}  for $S$;
+   \item {\tt <AttenRelatifSeuilZ>}  for $A$;
+\end{itemize}
+
+
+
+
+
+
