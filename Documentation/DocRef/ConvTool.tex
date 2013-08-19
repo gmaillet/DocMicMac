@@ -2,7 +2,7 @@
 
 \section{Generalities}
 
-As many developper, in {\tt MicMac/Apero}, I often could not resist to 
+As many developers, in {\tt MicMac/Apero}, I often could not resist to 
 define my own format, sometime because I thought that existing 
 format were not suited for what I needed and sometime just because I was in
 hurry and thought that the format question was a minor issue that could be
@@ -11,7 +11,7 @@ photogrammetry has such a long history and in many case it is often difficult to
 know what is "the" standard.
 
 \vspace{\baselineskip}
-By the way, now that the user community is developping, it appears that the format issue
+By the way, now that the user community is developing, it appears that the format issue
 is not a minor one. There are two chapters dealing with the format issue:
 
 \begin{itemize}
@@ -20,7 +20,7 @@ is not a minor one. There are two chapters dealing with the format issue:
           format are open format and most of them in text mode, it should theoretically be sufficient
           to create interface at any point of the process;
 
-   \item  this chapter, which describes some facilities that have been developped to communicate
+   \item  this chapter, which describes some facilities that have been developed to communicate
           with some existing \emph{de facto} standard;
 \end{itemize}
 
@@ -38,16 +38,16 @@ difficulties for importing orientations :
     \item for internal orientation, all the calibration are given in pixel;
           although this is quite natural with digital camera, this is
           not the "photogrammetric tradition" which, dealing initially with
-          analog images, rather work in milimeters;
+          analog images, rather work in millimeters;
 
     \item for external orientation, I store directly the rotation matrix which
           has few ambiguities \footnote{even if internally I use $3$ angles in 
-          optimization step} ; however many sofwares use angles, the problem
+          optimization step} ; however many softwares use angles, the problem
           with angles being that almost each software has its own convention \dots
 \end{itemize}
 
-This section describes how calibration in milimeters and some orientation in angles
-can be direcly imported in {\tt Apero/MicMac}. If you have data that cannot be
+This section describes how calibration in millimeters and some orientation in angles
+can be directly imported in {\tt Apero/MicMac}. If you have data that cannot be
 imported with the facilities described here, I may be open to add the facilities in
 {\tt MicMac/Apero} if I am convinced that I can do it easily and that it will 
 be usefull to others; concretely it means that at least the following conditions should apply :
@@ -56,7 +56,7 @@ be usefull to others; concretely it means that at least the following conditions
       \item  you have some document that describe formally the convention/format;
       \item  you have a reasonably small data-set (image+meta data) that can  be used
              to validate the import/export;
-      \item  these data can be distributed, with aknowledgement, as open data on the 
+      \item  these data can be distributed, with acknowledgment, as open data on the 
              MicMac/Apero site;
 \end{itemize}
  %------------------------------------------
