@@ -304,6 +304,7 @@ The output of this command is the corrected images, by default in a folder calle
 \item{\textit{InVig (string)} defines a vignette calibration folder (if any)}
 \item{\textit{Out (string)} defines the output directory}
 \item{\textit{NbIte (string)} defines the number of iterations of the process (def=5)}
+\item{\textit{ThreshDisp (string)} defines the disparity threshold between the tie points (Def=1.4 for 40\%)}
 \end{itemize}
 
 \subsection{Algorithm}
@@ -319,9 +320,9 @@ In order to have a more accurate, denser and more interest-zone focused set of t
 \subsubsection{Equalization}
 
 In a first step, a correction factor is computed for each tie point with an inverse distance weighting and a self weighting value (the image is self influencing). For each radiometric channel of each point, $j$, we have the following formula ($i$ is the tie point currently used in the interpolation): 
-\[Cor(TiePointj)=\sum_{i=1}^{n} \frac{(1+K_{i})/2}{\sqrt{(X_{i}-X_{j})^2+(Y_{i}-Y_{j})^2}}\]
+\[Cor(TiePointj)=\sum_{i=1}^{n} \frac{(K_{i})/2}{\sqrt{(X_{i}-X_{j})^2+(Y_{i}-Y_{j})^2}}\]
 
-This process is then iterated. A filtering system is yet to be developed to prevent radiometric outliers to push the model after too many iterations.
+This process is then iterated. A filtering system is yet to be developed to prevent radiometric outliers to push the model after too many iterations. An outlier is a point where Kr, Kg or Kb is more than \textit{ThreshDisp}\% different than the average value for the image considered.
 
 
 The corrected tie points are then applied to a grid also through inverse distance weighting, the interpolated to the whole image through bilinear interpolation. The grid is computed by the formula bellow, with $i$ the tie point index and $(X,Y)$ the grid point's coordinates : \[Cor(X,Y)=\sum_{i=1}^{n} \frac{K_{i}}{\sqrt{(X_{i}-X)^2+(Y_{i}-Y)^2}}\]
