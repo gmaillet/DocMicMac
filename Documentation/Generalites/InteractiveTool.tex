@@ -7,7 +7,44 @@ Generate with make input.
 %=======================================
 \section{Entering masq with {\tt SaisieMasq}}
 
+SaisieMasq is a very simple tool to edit mask images. 
+It creates a binary mask image from a polygonal selection in the displayed image.
 
+Typing {\tt SaisieMasq -help}, one gets:
+
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args : 
+  * string
+Named args : 
+  * [Name=SzW] Pt2di
+  * [Name=Post] string
+  * [Name=Name] string
+  * [Name=Gama] REAL
+  * [Name=Attr] string
+\end{verbatim}
+
+Meaning of args is:
+
+\begin{itemize}
+   \item First arg: pattern specifying the images to load (can be 1 or more images) - regular expression are supported;
+   \item optional {\tt SzW}, def = [$900,700$], size of display window;
+   \item optional {\tt Post}, def = "Masq" , postfix to add to output filename;
+   \item optional {\tt Name}, currently not available;
+   \item optional {\tt Gama}, def = $1.0$ , gama applied to images, it can help with dark images, or wide dynamics;
+   \item optional {\tt Attr}, text to add to postfix;
+\end{itemize}
+
+Processing is as follow:
+\begin{itemize}
+\item Clic: add a point to polygon
+\item Shift clic: close polygon and apply selection
+\item Ctrl + right clic: delete last point
+\item Shift + right clic + Coul : switch between add mode and remove mode
+\item Shift + right clic + Exit : save mask image and {\tt Xml} file and quit
+\end{itemize}
 %========================================
 
 \section{Entering points}
