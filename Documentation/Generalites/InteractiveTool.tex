@@ -29,7 +29,7 @@ To input points, some menus can be displayed with these shortcuts:
 \begin{itemize}
 \item Right-clic: geometry menu
 \item Shift + left-clic: info menu
-\item Shift + right-clic: contextual menu
+\item Shift + right-clic: undo menu
 \item Ctrl + right-clic: zoom menu
 \end{itemize}
 
@@ -46,11 +46,11 @@ This menu can be shown with a right-clic:
 
 The corresponding actions are:
 \begin{itemize}
-\item ;-) validate a point;
-\item (/) unvalidate a point;
-\item ? :
-\item skull and bones: don't use the closest point (the point is displayed in red)
-\item HL :
+\item ;-) validate closest point;
+\item (/) unvalidate closest point;
+\item ? : set point status to dubious
+\item skull: don't use closest point 
+\item HL: highlight point
 \item empty box: escape menu (do nothing)
 \end{itemize}
 
@@ -73,11 +73,11 @@ The corresponding actions are:
 \item Min5:
 \item Max3:
 \item Max5:
-\item skull and bones: delete the point in all images (needs a confirmation)
+\item skull: delete the point in all images (needs a confirmation)
 \item empty box: escape menu (do nothing)
 \end{itemize}
 
-\subsubsection{Contextual menu}
+\subsubsection{Undo menu}
 
 This menu can be shown with Shift + right-clic:
 
@@ -94,7 +94,7 @@ The corresponding actions are:
 \item Exit: quit the interface, saving {\tt Xml} files
 \item Undo: undo last action
 \item Redo: redo last action in history
-\item Ref:
+\item Ref: display or not refuted points
 \item NoD/Ret: display or not the points names
 \item empty box: escape menu (do nothing)
 \end{itemize}
