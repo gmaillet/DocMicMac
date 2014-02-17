@@ -7,7 +7,44 @@ Generate with make input.
 %=======================================
 \section{Entering masq with {\tt SaisieMasq}}
 
+SaisieMasq is a very simple tool to edit mask images. 
+It creates a binary mask image from a polygonal selection in the displayed image.
 
+Typing {\tt SaisieMasq -help}, one gets:
+
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args : 
+  * string
+Named args : 
+  * [Name=SzW] Pt2di
+  * [Name=Post] string
+  * [Name=Name] string
+  * [Name=Gama] REAL
+  * [Name=Attr] string
+\end{verbatim}
+
+Meaning of args is:
+
+\begin{itemize}
+   \item First arg: pattern specifying the images to load (can be 1 or more images) - regular expression are supported;
+   \item optional {\tt SzW}, def = [$900,700$], size of display window;
+   \item optional {\tt Post}, def = "Masq" , postfix to add to output filename;
+   \item optional {\tt Name}, currently not available;
+   \item optional {\tt Gama}, def = $1.0$ , gama applied to images, it can help with dark images, or wide dynamics;
+   \item optional {\tt Attr}, text to add to postfix;
+\end{itemize}
+
+Processing is as follow:
+\begin{itemize}
+\item Clic: add a point to polygon
+\item Shift clic: close polygon and apply selection
+\item Ctrl + right clic: delete last point
+\item Shift + right clic + Coul : switch between add mode and remove mode
+\item Shift + right clic + Exit : save mask image and {\tt Xml} file and quit
+\end{itemize}
 %========================================
 
 \section{Entering points}
@@ -29,7 +66,7 @@ To input points, some menus can be displayed with these shortcuts:
 \begin{itemize}
 \item Right-clic: geometry menu
 \item Shift + left-clic: info menu
-\item Shift + right-clic: contextual menu
+\item Shift + right-clic: undo menu
 \item Ctrl + right-clic: zoom menu
 \end{itemize}
 
@@ -46,11 +83,11 @@ This menu can be shown with a right-clic:
 
 The corresponding actions are:
 \begin{itemize}
-\item ;-) validate a point;
-\item (/) unvalidate a point;
-\item ? :
-\item skull and bones: don't use the closest point (the point is displayed in red)
-\item HL :
+\item ;-) validate closest point;
+\item (/) unvalidate closest point;
+\item ? : set point status to dubious
+\item skull: don't use closest point 
+\item HL: highlight point
 \item empty box: escape menu (do nothing)
 \end{itemize}
 
@@ -73,11 +110,11 @@ The corresponding actions are:
 \item Min5:
 \item Max3:
 \item Max5:
-\item skull and bones: delete the point in all images (needs a confirmation)
+\item skull: delete the point in all images (needs a confirmation)
 \item empty box: escape menu (do nothing)
 \end{itemize}
 
-\subsubsection{Contextual menu}
+\subsubsection{Undo menu}
 
 This menu can be shown with Shift + right-clic:
 
@@ -94,7 +131,7 @@ The corresponding actions are:
 \item Exit: quit the interface, saving {\tt Xml} files
 \item Undo: undo last action
 \item Redo: redo last action in history
-\item Ref:
+\item Ref: display or not refuted points
 \item NoD/Ret: display or not the points names
 \item empty box: escape menu (do nothing)
 \end{itemize}
