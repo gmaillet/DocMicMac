@@ -720,6 +720,100 @@ The meaning of the tags is:
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+
+\subsubsection{Weighting of homogeneous and heterogeneous observations}
+
+In this section, we present the different ways to cope with the weighting of observations used in the bundle adjustment. Prior to the description of the functioning of weighting in {\tt Apero} (and {\tt Campari}), we review briefly the different categories of measurements/observations that can be used in the bundle bloc adjustment (in french, the {\it compensation par faisceaux}).
+
+In many cases, the bundle block adjustment is performed based exclusively on one type of observations: {\bf tie points}. 
+Sets of tie points are abundant observations that are generated automatically by means of image feature descriptor, as e.g. SIFT (tool {\tt Tapioca}). 
+The quality of the set of tie point measurements is related to the images themselves: their quality and overlap, the complexity of the structure of the objects visible on the images, etc. For example, what may be a good tie point is a tie point located on a motionless object corner, detected on more than two images. A low quality tie point may be a tie point detected on the edge of a shadow, as the interval of time between two image shots involves a motion of the illumination source (the sun) and thus of the shadow as well. Presence of outliers in the tie point measurements is not scarce. 
+The great advantage of tie points, which are measured on the images (image measurement), is the fact that they are numerous and automatically measured.
+
+In addition, it is appropriate to provide to the bundle adjustment some observation about the {\bf camera inner orientation}, i.e. the calibration. 
+Contrary to tie points, observations related to camera calibration are not numerous, as the calibration is shared by many images. 
+Camera calibration is crucial in photogrammetry [{\it MPD 2011, personal communication}]. 
+There is no weighting of calibration parameters implemented in {\tt Apero}.
+
+For aerial acquisition, embedded GPS and possibly inertial measurement unit (IMU) can deliver an initial image exterior orientation (i.e. image position, $X$, $Y$, $Z$ and image orientation $omega$, $phi$, $kappa$). 
+Bundle adjustment process can integrated the {\bf embedded GPS} observations ($X$, $Y$, $Z$). 
+These measurements may have different level of accuracy, depending on the GPS itself. 
+There is obviously a maximum of one GPS measurement per image. 
+These observations are not as numerous as the tie point for example (often hundreds of tie points per image), but for very large image block (hundreds or thousands of images), these measurements can be abundant. 
+Depending on the GPS system, lever arm and boresight bias may be present, i.e. the difference in the GPS position and the camera position. 
+In addition, badly synchronization between the GPS and the camera triggering may result in a delay (see section \ref{OriConvert:GPSdelay} for an example in Unmanned Aerial Systems photogrammetry).
+
+The last category of observation that can be supported in the bundle adjustment implemented in {\tt Apero} are {\bf ground control point}. 
+Ground control points (GCPs) are of capital importance, because they are in many cases the best way to reference accurately the model in a consistent coordinate system. 
+GCPs are features clearly recognizable on the images for which coordinates have been measured in the real world. 
+As GCPs are mainly used in aerial photogrammetry, we refer to as {\it ground measurement}  the coordinate measurement of these features in the physical world. 
+Ground measurements of GCPs may be the planimetric and altimetric position ($X$, $Y$ and $Z$) or only the planimetric or the altimetric position ($X$ and $Y$ or only $Z$). 
+Generally, ground measurement of GCPs are of good accuracy and the number of observations is about a dozens of GCPs. 
+To be supported in the bundle adjustment, GCPs have additionally to be measured on the images. 
+Each GCP have to be identified (generally manually) on at least 2 images, resulting in {\it image measurements} similar than tie point. 
+
+There are 3 ways to deal with weighting of measurements in {\tt Apero}. 
+These three techniques are cumulative and optional, offering to the user a flexible (and complicated) tool. 
+The different way of weighting may be perceive as redundant. 
+
+The first way can be utilized either to weight observations of different categories, or to weight observations from a single category. 
+It is based on the uncertainty of the measurement and can be controlled by means of the tag {\tt <EcartMesureIndiv>} and more specifically for the ground measurements of the GCPs through the tag {\tt <Incertitude>}. 
+Each observation is multiplied by $\frac1{Ec^2}$, $Ec$ being the uncertainty of the measurement. 
+$Ec$ units are the same than the measurement: for tie point, $Ec$ is in pixels. 
+For embedded GPS, the uncertainty is in meter is the coordinate system is metric. 
+This weighting has no effect is the value of $Ec$ is equal to $1$. 
+It is possible to assign an uncertainty value for tie points, embedded GPS observations and GCPs image measurements. 
+In addition, it is possible to assign a value of uncertainty for ground measurement of GCPs, individually (the tag {\tt <Incertitude>} pertaining to a single GCP). 
+For a set of embedded GPS measurements, it is currently not possible to define an uncertainty for a single embedded GPS observation: the whole set of GPS measurements share the same uncertainty. 
+To conclude, setting uncertainty is useful for controlling the respective influence of each set of measurements, and can be utilized additionally for differentiating different level of accuracy in GCP ground measurements. 
+
+The second way to control the weighting of observation is to limit the influence of a specific category of measurement. 
+Let's consider an example in which we use a bundle block adjustment supporting, in addition to tie points, both embedded GPS and ground control points. 
+Considering this fictitious example, the number of observation per category is the following: tie points are the more abundant (thousands, e.g. 25k), followed by embedded GPS (hundreds, e.g. 200 images) and eventually by GCPs (dozens, e.g. 15 GCPs with a total of 75 image measurements, each GCP being visible on 5 images).
+Without any weighting, tie points would absolutely lead the solving of the bundle adjustment. 
+In order to limit the impact of the set of tie points measurements, a threshold can be set, referred to as $Nbmax$ (tag {\tt <Nbmax>}). 
+This threshold limit the influence of the set of $x$ observations below the influence of a set of $Nbmax$ observations by means of the following weighting function:
+
+\begin{equation}
+   \label{EQ:weighting:Nbmax}
+     \frac{(\frac{x*Nbmax}{x+Nbmax})}{x}
+\end{equation}
+
+For a threshold value of $Nbmax$ equals to 100, each tie point measurement of the set of 25 000 observation ($x$) is multiplied by $0.00398$ (equation \ref{EQ:weighting:Nbmax}, illustrated on figure \ref{FIG:weighting:Nbmax}). 
+The weight of the whole set of tie points is $\frac{x*Nbmax}{x+Nbmax}$, either $99.6$.
+Theirs influence will thus will be limited, given more importance to the other categories of observations (embedded GPS and GCPs). 
+In a similar way, impact of the embedded GPS data or of the GCP image measurements can be control with the same weighting function, provided that a threshold of $Nbmax$ is set for these observation categories.
+On the other hand, this is not possible to limit the number of GCP ground measurement with this weighting function. 
+Indeed, {\tt Apero} is right in assuming that the number of GCP ground measurement is never exceeding.
+In our example, there is a large number of embedded GPS measurements ($x= 200$). We may want to limit their impact in a similar way, setting $Nbmax$ to $50$ for e.g. 
+The weight of the whole set of embedded GPS observations is thus reduced to a value of $40$. 
+Weights for tie points, embedded GPS, GCP ground measurements and GCP images measurement are thus $99.6$, $40$, $15$ and $75$ respectively.
+
+\begin{figure}
+\centering
+\subfigure{\includegraphics[width=0.49\linewidth]{FIGS/Other/weighting_Nbmax.png}\label{FIG:weighting:Nbmax}}
+\subfigure{\includegraphics[width=0.49\linewidth]{FIGS/Other/weighting_resid.png}\label{FIG:weighting:resid}}
+\caption{ Visual representation of 2 weighting functions. Left, figure \ref{FIG:weighting:Nbmax}: weighting heterogeneous observation set with threshold $Nbmax$ (equation \ref{EQ:weighting:Nbmax}). The goals is to limit the impact of large set of observation as tie points, in order to give more weight to other kind of observation as ground control points. Right, figure \ref{FIG:weighting:resid}: weighting observation by their residuals with {\it L1Secured} (equation \ref{EQ:L1:SEC}). The objective is to reduce the weight of observation presenting a high residuals (e.g. reprojection error for a tie points) and to filter the outliers.}
+\end{figure}
+
+The third and last way to control the weighting of a measurement is to link the weight of an observation to its residual in the bundle block adjustment. 
+The approach is based on the assumption that a set of observation of a specific category is made up of measurements characterized by different levels of accuracy. The goal of this weighting function is to give more weight to observations with a high level of accuracy and less weight to measurement with a low level of accuracy.
+In addition, a filter is implemented in order to exclude measurements that seem to be outliers or to have a very low level of accuracy. 
+This weighting function has been previously described in this document and is illustrated on figure \ref{FIG:weighting:resid}. 
+On this figure, two weighting functions are compared, the weighting function {\it L1Secured} (equation \ref{EQ:L1:SEC}) and {\it L1} ($\rho(x)=\frac1x$). 
+The behavior of {\it L1} for very low residual values is unappropriated, as it gives too much weight on observations presenting such a residual. 
+This is the reason why {\it L1Secured} is more appropriated, but have the drawback to require the parameterization of two parameters, {\tt EcartMax}  ($B$) and {\tt SigmaPond}  ($\sigma$). 
+To illustrate the functioning of the weighting function {\it L1Secured}, let's consider an example of a set of tie points, among them three tie points $TP1$, $TP2$ and $TP2$. 
+{\it L1Secured} is parameterized, for the tie points measurements, in the same way than in the figure \ref{FIG:weighting:resid}, with {\tt SigmaPond} equals 1 and {\tt EcartMax} equals 3 pixels. 
+In the bundle adjustment, for one of the numerous iteration, $TP1$ has a reprojection error (residual) of 1.32 pixels. 
+Its weight for the following iteration is then 0.604. 
+$TP2$ shows a better result of a reprojection error of 0.45 pixel. 
+It weight for the next iteration is thus 0.912. 
+Regarding $TP3$, its reprojection error is quite high, about 3.3 pixels. 
+As this residual exceeds the threshold {\tt EcartMax}, this tie point is considered as an outliers and will not be taken into account in the following adjustment iteration.
+
+
+
 \subsection{Understanding the Message}
 
 Run now the command line:
