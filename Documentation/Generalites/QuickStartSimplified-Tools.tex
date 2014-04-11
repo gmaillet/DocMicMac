@@ -994,6 +994,7 @@ Let's comment  :
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
+
 \section{Camera data base and exif handling}
 
 \subsection{How {\tt Tapas} initialize calibration}
@@ -1102,7 +1103,7 @@ case for example when images where acquired by industrial camera, or when the im
 result from conversion by various software. In this case, the information can be indicated "dynamically"
 by creating specific key in the {\tt  MicMac-LocalChantierDescripteur.xml}.
 
-The {\tt ENAC} dataset  illustrate this usage :
+The {\tt ENAC} dataset  illustrates this usage :
 
 \begin{itemize}
     \item to indicate camera names, the user must define a rule 
@@ -1144,6 +1145,64 @@ Then execute this command file on the desired images by something like :
 \begin{verbatim}
 exiv2 -m"Cmd.txt"  *.PEF
 \end{verbatim}
+
+%-------------------------------------------------------------------
+
+\section{Using Raw images}
+
+Sometime the images are in a pure Raw format, with no header describing the physicall representation
+of the image on hard disk. It is possible to use these images in {\tt Apero/MicMac} but user has
+to explain the missing information . This is done this way :
+
+\begin{itemize}
+       \item for each kind of format create file containing a structure {\tt SpecifFormatRaw};
+
+       \item in {\tt MicMac-LocalChantierDescripteur.xml} change the value of the key {\tt NKS-Assoc-SpecifRaw} to associate to each Raw images its file containg the {\tt SpecifFormatRaw};
+
+\end{itemize}
+
+An example is given in folder {\tt Documentation/NEW-DATA/RAW-IMAGES}. This case corresponds to :
+
+
+\begin{itemize}
+
+       \item a set of images with name {\tt "*.dlr"};
+
+       \item each image has the same size $2448 * 2048$ and are $8$ bits unsigned integer images;
+
+       \item in this case the optional {\tt <BayPat>} tag indicate that the image are bayer images;
+
+       \item the {\tt <Focalmm>}, {\tt <FocalEqui35>} , {\tt <Camera>} tags are used to fit the minimal 
+             xif information for using at the end in {\tt Apero/Tapas}. 
+
+\end{itemize}
+
+If the tag {\tt <BayPat>} is present the image is interpreted as a colour image acquired by bayer matrix 
+specified the string. If is not present, the images is considered  as a gray scale image. This is 
+illustrated by figure~\ref{FIG:RawBayer}. This figure present crops of results of the command 
+{\tt ConvertIm} wih different value of {\tt <BayPat>} tag in the file {\tt  SpecRaw.xml}~:
+
+
+\begin{itemize}
+       \item left : with the correct value for these images ({\tt RGGB} here), a standard RGB value
+             is obtained;
+
+       \item middle : the optional {\tt <BayPat>} tag is absent, the image is interpred as a gray value
+             image (which generate the checkboard effect);
+
+       \item right : a false value (here  {\tt GBRG}) , the colour are swapped. 
+\end{itemize}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=50mm]{FIGS/RawImages/Coul.jpg}
+\includegraphics[width=50mm]{FIGS/RawImages/Gray.jpg}
+\includegraphics[width=50mm]{FIGS/RawImages/CoulBuged.jpg}
+\end{center}
+\caption{Results (crop) of command {\tt ConvertIm} with different value {\tt <BayPat>} : {\tt RGGB}, absent, {\tt GBRG}   }
+\label{FIG:RawBayer}
+\end{figure}
+
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
@@ -1274,6 +1333,12 @@ The xml file containing 2D coordinates can be generated using interfaces
 \vspace{\baselineskip}
 For a detailed example on how to use {\tt Campari} in a typical aerial 
 surveying workflow, see \ref{Cuxa:DataSet}.
+
+
+
+\subsection{Convention for Orientation name}
+
+In "old" version of Apero/MicMac :
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
