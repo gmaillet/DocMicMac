@@ -1,0 +1,388 @@
+
+French version bellow
+
+=====================================================================================
+
+You receive this mail as a potential user or presciptor
+of IGN'S open source photogrammetric suite Apero-MicMac.
+If these mails bothers you, just tell me and I will remove
+your adress.
+
+       ---------------------------------
+
+Dear Collegue , 3 main points in this "letter" :
+
+1- A summary of architecture evolution since the begining of culture 3D project.
+2- A summary of new function  in MicMac/Apero during since the last "letter" 6 month ago.
+3- The announcement of formation session in english.
+
+
+    -----------  1 Architecture Evolution -------
+
+The developpers of culture 3D team arrived in september 2012. The main evolution are :
+
+  * the versionning version is now mercurial, if you want to upload the latest version of source
+    code, you will need to installate mercurial package; the syntax for upload is then :
+
+hg clone https://geoportail.forge.ign.fr/hg/culture3d
+User Id and password are both culture3d
+
+  * the tools  are now operationnal on Linux, Windows and MacOs
+
+  * the tools are also distributed on binary version on :
+
+http://logiciels.ign.fr/?Telechargement,20
+
+   This page wil also contain the "stable" version of source code.
+
+   * there is now a unique command to access to all the tools, this command is mm3d,
+     however for backward compatibility there is some aliasing system that  make work
+     the previous commands;
+
+   * creation of a log file that store automatically an history of the processing
+
+See 3.1 of DocMicMac.pdf
+
+
+    -----------  2 New functionnalities -------------------
+
+[4.2] Describe a use case for UAV image processing, it introduce :
+
+   * the handling of cartographic coordinate system  in MicMac Apero
+     (for example, to produce  ortho photo in Lambert93 while
+      GCP are in WGS84, requires the installation of proj4);
+
+[3.8.2]  The Campari Tool for compensation.
+
+[8]  Interface tools for seizing GCP (only avalaible on Linux, and MacOs if
+X11 has been installed).
+
+Non documented tools :
+
+   * TestKey  (for tuning to test regular expression)
+   * CenterBascule,   use GPS position on center to transform relative to absolute orientation
+
+
+    -----------  3 Formation session in english -------
+
+As there were several demand from foreign colleagues, ENSG will try to organize a formations
+session in english.  The main  information :
+
+    *  28, 29 and 30 of may 2013;
+    * in Marne la Vallee (near Paris)
+    * the fee should be arround 800 Euros
+    * the session will be in englidh
+    * the contact personn for administrative information is Nathalie.Ruiz-Lambert@ensg.eu
+    * if you are interested, please make a.s.a.p. a pre registration to Nathalie;  the session  will
+       be confirmed if there is a sufficient number of people, this will be done defintively
+       before 20th of march so that attendee can book their flight in time;
+
+------------------------------------------------------------------------------
+
+If you have any technical question, do not hesitate to post it on the forum :
+
+http://forum-micmac.forumprod.com/
+
+
+Best regards,
+Marc Pierrot Deseilligny
+
+=====================================================================================
+=====================================================================================
+=====                      VERSIONS FRANCAISE                                   =====
+=====                      VERSIONS FRANCAISE                                   =====
+=====                      VERSIONS FRANCAISE                                   =====
+=====================================================================================
+=====================================================================================
+
+Vous recevez ce mail en tant qu'utilisateur ou prescripteur
+potentiel de la suite photogrammétrique open source Apero-MicMac
+développé par l'IGN. Si ces mails vous importunent, dites le moi
+et je vous supprimerai de la liste.
+
+
+       ---------------------------------
+
+Chers collègues, trois  points dans cette "lettre" :
+
+
+1- Un appel à coopération autour du projet MicMac
+
+2- Les principales évolutions du projets depuis 1 ans et celles à venir prochainement ;
+
+3- L'annonce de plusieurs formations  liées à la photogrammétrie et (au moins en partie) à MicMac :
+
+   3-1 Formation courte à la suite MicMac
+   3-2 Formation destinée aux architecte-archéologues
+   3-3 Formation pour les développeurs souhaitant utiliser les classes de la suite
+   3-4 Formation de type mastère professionnel en photogrammétrie.
+
+
+  ==================================================================================
+  =====================  1  Appel à coopération  ===================================
+  ==================================================================================
+
+  ==================================================================================
+  =====================  2 Evolution des logiciels   ===============================
+  ==================================================================================
+
+    -  2.1) Interface graphique
+    -  2.2) Saisie sur Windows
+    -  2.3) GPU
+    -  2.4) Egalisation radiometrique
+    -  2.5) Divers
+    -  2.6) Prochainement
+
+    -----------  2.1 Interface graphique (GUI) -------
+
+C'est une demande ancienne de beaucoup d'utilisateurs .....
+
+Le premier prototype d'interface graphique utilisateur est maintenant disponible. Le principe est de conserver la même architecture avec les mêmes commandes mais  de remplir les champs de la commande via une fenêtre graphique .  Pour chaque commande "Com" que l'utilisateur souhaite lancer, au lieu de l'appeler avec ses paramètre il suffit de renter "mm3d vCom" pour rentrer dans le menu interactif.
+
+Par exemple :
+
+mm3d vTapas
+
+C'est encore en phase de beta-test, mais les plus curieux peuvent déjà l'utiliser et poser leur question sur le forum. J'espère avoir une version finalisée avant l'été.
+
+Il faut (ainsi que pour 1.2) avoir installé QT4 (ou QT5) au moins et lancer cmake avec  -DWITH_QT4=1 (ou WITH_QT5) et -DWITH_SAISIEQT=1
+
+
+    -----------  2.2 Saisie sur Windows --------------------
+
+Les outils de saisie graphique (saisie masq, point d'appuis) restaient les seuls outils non portés sous windows. Ce portage est en cours par Matthieu Deveau en utilisant la bibliothèque QT. Les outils déjà portés sont :
+
+   * SaisieMasqQT qui remplace SaisieMasq , (un version 3D pour saisir un masq sur nuage de point existe pour le futur pipeline 100% automatique);
+   * SaisieAppuisInitQT  qui remplace SaisieAppuisInit
+   * SaisieAppuisPredicQT : très bientôt ....
+
+L'utilisation devrait être assez intuitive. Sinon postez  sur le forum.
+
+
+    -----------  2.3 GPU  ----------
+
+Le parallélisme Gpu est disponible dans Malt et MicMac  :
+
+    Malt en mode GeomImage avec l’option UseGpu à true
+
+
+Pour les plus "experts" dans MicMac, dans deux algorithmes :
+
+
+               ********   
+L’algorithme corrélation dense (GPU_CorrelBasik)
+
+Ajouter dans EtapeMEC du <DeZoom>-1</DeZoom>
+<CorrelAdHoc>
+          <SzBlocAH > 128 </SzBlocAH>
+          <TypeCAH>
+             <GPU_CorrelBasik >  true   </GPU_CorrelBasik>
+          </TypeCAH>
+</CorrelAdHoc>
+
+Cet algorithme supporte les classes d’équivalence.
+
+               ********   
+L’algorithme de régularisation (eAlgoTestGPU)
+
+Remplacer
+<AlgoRegul>  eAlgo2PrgDyn </AlgoRegul>
+par
+<AlgoRegul>  eAlgoTestGPU </AlgoRegul >
+
+               ********   
+Attention, ces algorithmes Cuda doivent être compilés pour être accessible.
+Comment compiler les algorithmes Cuda
+Le pré requis matériel est une carte nvidia d’une  “CUDA compute capabilities” >= 2.0 ( voir ce site : https://developer.nvidia.com/cuda-gpus)
+La compilation nécessite :
+* Les librairies Boost
+* Cuda SDK (4.0 minimum) : Cuda toolkit, cuda dev et Cuda samples (https://developer.nvidia.com/cuda-downloads)
+Les options CMake pour la compilation Cuda
+* CUDA_ENABLED         : ON
+* WITH_OPEN_MP         : OFF (l’utilisation d’OpenMP n’est pas conseillé)
+* CUDA_SDK_ROOT_DIR    : (votre dossier cuda samples)/common
+
+    -----------  2.4  Egalisation radiometrique -------
+
+Outil Vodka pour calculer  le vignettage (voir documentation) 
+
+    -----------  2.5  Divers -------
+
+
+
+En vrac les modifs suivantes :
+
+   * option "equi" dans Malt pour ne corréler que les images de la même classe d'équivalence
+   * option "EZA" dans  Malt pour exporter des z absolus
+   * option "IncMax" pour limiter l'incidence des images à corréler;
+   * option "CorMS" dans Malt pour une corrélation multi échelle à résolution donnée (plus robuste)
+   * outil "HomolFilterMasq" pour filtrer les points homologues à partir de masque images
+   * modeles de distorsion radiaux avec des degré  éléve (Four7x2 à Four19x2) dans Tapas (et Apero) pour modéliser éventuellement de manière "très" fine les distorsion radiales;
+   * possibilite dans Campari de ponderer par les mesure GPS sur les sommet (option EmGPS)
+   * possibilite dans Ori-Convert de générer rapidement des orientations approchees à partir de l'option "CalOFC"
+   * possibilite chaque fois qu'une orientation existante est attendue de passer "Ori-All" ou "Ori-All/" au lieu de "All"
+   * possibilite dans Tawny d'adapter la dynamique et de fixer les priorités dans les images à utiliser;
+   * gestion des fichier tiff jusqu'à 4 Go (au lieu de 2)
+   * possibilite dans Campari d'avoir une calibration par image (options CPI1 et CPI2)
+   * outils MMTestOrient pour tester la qualité des orientation.
+   * un outil MM2DPosSism pour faire de la corrélation 2D fine (du type de celle utilisee pour des mesure de déformation post-sismique);
+
+
+
+    -----------  2.6  Prochainement -------
+
+  ==================================================================================
+  ============================  3 Formations   ===================================== 
+  ==================================================================================
+
+
+
+
+    -----------  2  functionnalités nouvelles -------------------
+
+Le [4.2]  décrit , sur un cas d'utilisation à partir  de drone, des fonctionnalités
+de géo-référencement; il y a notamment la gestion des système de projection (en interface
+avec proj4), qui permet par exemple de générer directement une ortho-photo en Lambert 93
+sur un chantier où les points d'appuis sont en WGS84;
+
+
+[3.8.2]  L'outil simplifié Campari pour la compensation.
+
+[8]  Des outils d'interface, notamment pour saisir des points de controles
+(les outils d'interface nécessite un serveur X:  ils tournent sur linux,
+sur MacOs si le serveur a été installé, ils n'ont pas été testé avec les
+serveur X sous windows).
+
+Parmi les outils non encore documentés :
+
+   * TestKey  (outil de mis au point pour tester les expressions régulières)
+   * CenterBascule,   interface simplifiée pour basculer du relatif à l'absolu à partir
+     du GPS embarqué;
+
+
+    -----------  3 Session de formation en anglais -------
+
+Pour répondre à plusieurs demandes de collègues étrangers, l'ENSG va essayer d'organiser
+une session de formation en anglais. Les principales informations ;
+
+    * 28, 29 et 30  mai 2013;
+    * Marne la Vallee
+    * les droits devrait etre d'environ 800 Euros:
+    * la session aura lieu en anglais;
+    * la  personne contacte pour les aspects administratifs est Nathalie.Ruiz-Lambert@ensg.eu
+    * si vous êtes intéressé, pré inscrivez vous a.s.a.p. auprès de Nathalie;  la session  ne
+      sera confirmée définitivement que s'il y a suffisemment d'inscrits; cette confirmation
+      arrivera avant le 20 mars afin que les participants puissent réserver leur voyage suffisemment
+      à l'avance;
+
+------------------------------------------------------------------------------
+
+N'hésitez pas à poster toute question technique sur le forum:
+
+http://forum-micmac.forumprod.com/
+
+Best regards,
+Marc Pierrot Deseilligny
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       ---------------------------------
+Chers Collegues, 3 points dans cette "lettre" :
+
+1- Un resume des evolution de MicMac/Apero durant ces 6 derniers mois;
+2- Les evolution attendues dans les annees a venir;
+3- L'annonce d'une session de formation.
+
+    -----------  1 Evolutions Recentes -------
+
+Pour des raisons evidentes, je  me limites aux evolutions documentees :
+
+
+  - En 3.8  , un ensemble d'outil pour basculer des orientations;
+  - En 3.9  , un nouvel outil pour donner un acces simplifie aux options
+      les plus courrantes de MicMac dans le contexte de prduction 3D
+  - En 3.10 ,  un nouvel outil pour generer de maniere simplifiee des ortho photos;
+    il y a aussi la correction de pas mal de problemes dans l'egalisation (enfin j'espere !
+    de toute facon le probleme est loin d'etre resolu);
+
+  -  au chapitre  4, la description d'un flux de production, et d'option, specialement
+    adapte a la generation d'ortho photographie de facade en contexte architectural,
+
+  -  au chapitre  11 : quelques outils et options pour importer des donner issus
+     d'autres logiciels (tres embryonnaire ...)
+
+  -  au chapitre 13 : la description   des techniques permettant de gérer une caméra par
+     image ou par groupe d'image;
+
+
+    -----------  2 Evolution sur les prochaines annees -------
+
+
+Une tres bonne nouvelle pour ces logiciels, est qu'il sont inclus dans le projet
+"Culture'3D Cloud" finance par le gouvernement. Trois developpeurs vont arriver
+pour 2 ans d'ici debut octobre :
+
+    * Matthieu Deveau
+    * Gerald Choqueux
+    * Jeremy Belveau
+
+Bienvenu a eu, avec leur aide le projet va multiplier par 4 sa productivite.
+Durant ces deux ans, grace au travail de Matthieu, Gerald et Jeremy ,
+nous comptons ameliorer ces outils selon les 3 axes suivants :
+
+    [A]  Genie logiciel : en faire des outils plus stables, mieux documentes,
+         et totalement portable sur Linux, Mac .... et Windows
+
+    [B]  Les rendre plus rapide, notamment grace au GPU qui est bien maitrise
+        par plusieurs personne de l'equipe;
+
+    [C]  Les rendre plus facile a utilise, notamment en creant des pipeline
+         100% automatique pour les cas simple (petits objets, statues ...)
+
+Avec  Gregoire Maillet de l'equipe de developpement, nous somme encore en train
+de reflechir au planing. En tout cas, a court terme, il me semble a peu pres
+certain qu'il y aura une version operationnelle sous Windows avant fin 2012.
+
+
+
+    -----------  3 Session de formation -------
+
+L'ENSG va organiser une session de formation de 3 jours
+sur MicMac/Apero. Contrairement aux precedentes, elle ne pourra pas etre
+gratuite puisqu'elle est batie expres pour les personne exterieure a
+l'IGN. Les informations pratiques :
+
+    * 5, 6 et 7 fevrier 2013;
+    *  Marne la Vallee (pres de Paris)
+    * les droits devrait etre d'environ 800 Euros:
+    * la session sera en francais (il est possible d'organiser une session
+      en anglais s'il y a suffisamment de demandes);
+    *  pour tout renseignement lie à a l'organisation vous pouvez
+       contacter  Nathalie.Ruiz-Lambert@ensg.eu
+
+
+
+
+       ---------------------------------
+
+Bien cordialement,
+Marc Pierrot Deseilligny
+
+
+
+
