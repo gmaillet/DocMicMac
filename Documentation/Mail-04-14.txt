@@ -63,7 +63,7 @@ If you have programming skill in C/C++, you can obviously joint the programmer c
    - because you just want to contrinute, with no precise target (in this case contact us for suggestions);
 
 
-Whatever the case, just contact me for discussing you project and its possible integration in MicMac. You will also probably be interested be the, in construction, teaching session for programmers , see 3.3 of this letter.
+Whatever the case, just contact me for discussing you project and its possible integration in MicMac. You will also probably be interested  to assist to the (in construction) traininig session for programmers , see 3.3 of this letter.
 
 
     -----------  1.2 Participate to collaborative project ---
@@ -225,7 +225,7 @@ Actions in development :
     * GUI  finalized and ful port of seizing tools on windows 
 
 
-Les chantiers à venir :
+Will begin soon :
 
 
    * GPU  port of the "by pair" matching;
@@ -245,7 +245,7 @@ Les chantiers à venir :
 
     -----------  3.1 Initiation  to MicMac tools -------
 
-Inside its continuous training activity, ENSG organize regularly 3 days session to Apero/MicMac. This session are rather targeted for beginers. They are note free of charge.
+Inside its continuous training activity, ENSG organize regularly 3 days session to Apero/MicMac. This session are rather targeted for beginers. They are not free of charge.
 
 Next session will be from 17 to 19 june in french.
 
@@ -256,7 +256,7 @@ For all practicall information, the person to contact is :
 
     -----------  3.2 Training session  targeted for  architects and archéologs --- 
 
-L'ENSG is organising the  4rth edition of its summer school on "photogrammetry for archeologos and architects" from 25 to 29 of August. The programm will include the principle of photogrammetry then they are used on different free of charge software (including Apero/MicMac). This session is not free of charge. More information on :
+L'ENSG is organising the  4rth edition of its summer school on "photogrammetry for archeologs and architects" from 25 to 29 of August. The programm will include the principle of photogrammetry then they are used on different free of charge software (including Apero/MicMac). This session is not free of charge. More information on :
 
 
 http://www.ensg.eu/Ecole-d-ete-en-photogrammetrie
