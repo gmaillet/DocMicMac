@@ -98,7 +98,7 @@ For any question, contact  Marc.Pierrot-Deseilligny@ensg.eu
 
 This has been a demand of many users for a long time ...
 
-The first prototype of GUI is now avalaible. The architecture of the pipeline and commands is exactly the same, but the GUI allox to fill the parameters in a grahical windows, which shoul avoid many error. For each command "Com", user who whish to run the command graphically, just has to enter "mm3d cCom" with no parameter, it will run the interactive menu.
+The first prototype of GUI is now avalaible. The architecture of the pipeline and commands is exactly the same, but the GUI allox to fill the parameters in a grahical windows, which shoul avoid many error. For each command "Com", user who whish to run the command graphically, just has to enter "mm3d vCom" with no parameter, it will run the interactive menu.
 
 For example :
 
