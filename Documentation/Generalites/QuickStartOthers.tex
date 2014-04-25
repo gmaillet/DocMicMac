@@ -230,22 +230,25 @@ presents the main results.
 \section{V.O.D.K.A.}
 \label{V.O.D.K.A.}
 
-
 \subsection{Theory}
 
-For example :
+The vignetting is an optical effect that results in a gradual radial drop-off in images (the corners of images are relatively darker than the center). The figure (\ref{image_vignette}) shows an example of this effect.
 
+\begin{figure}[htb]
+\centering
+\includegraphics[width=8cm]{FIGS/Arsenic/vignette.jpg}
+\caption{Vignette from the Nikkor 18-105 mm VR, F/3.6,18mm, fixed on a Nikon D90. The image is one of an homogeneous grey field}
+\label{image_vignette}
+\end{figure}
 
+Read more about vignetting :
 \begin{itemize}
    \item http://en.wikipedia.org/wiki/Vignetting
    \item http://fr.wikipedia.org/wiki/Vignettage
 \end{itemize}
 
-
-
 \subsection{Name et function}
 Vodka stands for "\textit{Vignette Of Digital Kamera Analysis}".
-
 
 This command estimates the vignetting effect for a set of images with the same aperture and focal length without the need of a laboratory setup (classically an integrating sphere). The vignette model that is used is an even 6th degree polynomial function centered on the middle of the image. With r the distance to the center of the image and $\alpha$, $\beta$ and $\gamma$ the polynomial coefficients, we have : \[V(r)=1+ \alpha r^2 + \beta r^4 + \gamma r^6\]
 
