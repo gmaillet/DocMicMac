@@ -35,6 +35,8 @@ will be avalaible soon. However many tools already exist, what is ready now :
 
 \section{Modification since Mercurial version}
 
+\label{MERCURIAL}
+
 Since end of $2012$, several modification on the general organization of the project occured.
 This section describes the main modification. Althoug much care were taken to warrantee a strict 
 compatibility with previous version, it is recommanded to use the new mechanisms.
@@ -1145,6 +1147,47 @@ Then execute this command file on the desired images by something like :
 \begin{verbatim}
 exiv2 -m"Cmd.txt"  *.PEF
 \end{verbatim}
+
+
+    % - - - - - - - - - - - - - - - - - - -
+
+\subsection{XML "cache" version of xif information}
+
+As exif extraction can be relatively slow, since mercurial revision $3293$, there exist a
+"cache" mecanism to save this xif information in {\tt xml} file and reload it more quickly.
+The tool {\tt MMXmlXif} can be used for explicitely creating this files :
+
+\begin{itemize}
+   \item call {\tt mm3d MMXmlXif Pattern} 
+   \item  for each file {\tt aFile} in {\tt Pattern}, a xml version of the xif information is created in
+          {\tt Tmp-MM-Dir/aFile-MDT-$Num$.xml}  wher $Num$ is some versioning number:
+    \item when the exif information will be required, if the  xml file exist, it will be used to load it;
+\end{itemize}
+
+If for example with {\tt ENAC} data set you run {\tt mm3d MMXmlXif test00.*jpg} 
+you will have a file {\tt Tmp-MM-Dir/test0050.jpg-MDT-3293.xml} to contain :
+
+\begin{verbatim}
+<XmlXifInfo>
+     <HGRev>3293</HGRev>
+     <FocMM>3.79999999999999982</FocMM>
+     <Foc35>16.4660314153628171</Foc35>
+     <Sz>1280 720</Sz>
+     <Cam>TheGOPRO</Cam>
+     <BayPat>RVWB</BayPat>
+</XmlXifInfo>
+\end{verbatim}
+
+
+In fact you probably do not need to explicitely call  {\tt MMXmlXif} as it called by {\tt Tapioca} and {\tt Tapas}
+"just in case". For now, there is no way to avod this mecanism, but if it happens to have unwanted side effect,
+some option will be added to supress it when necessary.
+
+
+
+
+
+
 
 %-------------------------------------------------------------------
 
