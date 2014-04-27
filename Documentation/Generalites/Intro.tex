@@ -119,74 +119,43 @@ prerequisites:
 %=======================================================================================================
 \section{Installation and Distribution}
 
+There is also a forum where you will find answers to the most frequent question 
+you may have :
+
+\begin{verbatim}
+http://forum-micmac.forumprod.com/
+\end{verbatim}
+
+
+
 \label{Install}
 These tools are written in \CPP. They are distributed mainly in source code
 format that you have to compile. As described below, they are relatively
 low level tools, and the installation, computation and running of these
 tools require some basic background in practical computer science.
 
-The website where you can download MicMac is:
+See now the section~\ref{MERCURIAL} for the new website since $2012$, install mercurial and follow the instruction. 
+Several links that may be usefull :
 
-\begin{verbatim}
-http://www.micmac.ign.fr/
-\end{verbatim}
-
-To download the sources,  you need to have {\tt subversion} installed, 
-then type:
-
-\begin{verbatim}
-svn co http://www.micmac.ign.fr/svn/micmac/trunk micmac 
-\end{verbatim}
-
-On the directory where you have installed it (here {\tt micmac})  you will find a 
-file {\tt micmac/Readme.txt} that describes the installation procedure.
-In this document, we will currently use name files that will
-be implicitly refered to from the installation directory. For
-example, on my computer, if I type the installation 
-command on my home directory {\tt /home/mpd/}, I will use  {\tt micmac/Readme.txt}
-(or  {\tt Readme.txt}  if there is no ambiguity)
-for a file whose absolute name is in fact {\tt /home/mpd/micmac/Readme.txt}.
-
-
-The tools requiring their own makefile should all be described in {\tt Readme.txt}.
-There are also a lot of accessory tools that are not automatically built. Their 
-building specifications are in {\tt Makefile}. The command for building these
-tools is always the same; for example to build {\tt bin/MyRename}
-if it does not exist, just type:
-
-\begin{verbatim}
-make bin/MyRename
-\end{verbatim}
+\begin{itemize}
+   \item http://logiciels.ign.fr/?Telechargement,20   for the sources
+   \item http://forum-micmac.forumprod.com/new-site-of-micmac-since-januray-2013-t340.html   
+   \item http://forum-micmac.forumprod.com/tuto-install-t518.html
+\end{itemize}
 
 
 In this documentation, you will find examples that require some
-data. You can download it by typing:
+data.The server is now a {\tt ftp} server :
 
 \begin{verbatim}
-svn co http://www.micmac.ign.fr/svn/micmac_data/trunk micmac_data
+
+ftp2.ign.fr
+user = micmac_user
+pwd = scAEf9MR
+
 \end{verbatim}
 
-There used to be distributions for Linux, MacOs and Windows, both in source and binary
-version. However, for the last two years I have had no more support for these distributions
-and I do not have the time to do it myself. If you are interested to do the job,
-just contact me. By the way, for now the only supported version is the source-distribution
-on Linux (it might work on MacOs, but you have to try it).
 
-
-Isabelle Clery's interface can be downloaded on the following link
-(in fact you get it when you get {\tt micmac\_data}):
-
-\begin{verbatim}
-http://www.micmac.ign.fr/svn/micmac_data/trunk/DocInterface/
-\end{verbatim}
-
-There is also a forum where you will find answers to the most frequent question 
-you may have :
-
-
-\begin{verbatim}
-http://forum-micmac.forumprod.com/
-\end{verbatim}
 
 
 %=======================================================================================================
