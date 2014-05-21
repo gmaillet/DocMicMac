@@ -3,7 +3,7 @@
 \label{Chap:GeoLoc}
 
 
-Chapter in telegraphic style. 
+Chapter in telegraphic style.
 
 The directory {\tt FilesSamples/}, at the same place that this documentation
 ({\tt micmac/Documentation/DocMicMac/}), contains sample files that will illustrate
@@ -13,7 +13,7 @@ the file description.
 
 \section{Overview of conic orientation specification}
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Generalities}
 
@@ -23,7 +23,7 @@ other format, especially fort satellite images, these format are external format
 and description are to be found in external documentations.
 
 
-To transform a ground point $P_g$   to a an image point $I^m_k$ of image k we use the following formula :
+To transform a ground point $P_g$   to an image point $I^m_k$ of image k we use the following formula :
 
 \begin{equation}
     I^m_k =  \Pi_k(P_g) =  \mathbb{J}(   \mathcal{I} (\pi (R_k (P_g -O_k))))
@@ -45,11 +45,11 @@ With :
          between the scanner and the paper, or when using several croped or scaled images acquired by the same
          camera ; most user will ignore it because they use digital camera with all images at the same resolution;
 
-  \item  $\mathcal{I}$ being the intrinsic  calibration,  it modelize the mapping between sphere of directions and
-        plane of the sensor,  it depends of  the lenses of the camera and, classicaly is parametrized by 
-         focal lentgh, principal point and distorsion;
+  \item  $\mathcal{I}$ being the intrinsic calibration, it modelize the mapping between sphere of directions and
+        plane of the sensor, it depends of the camera lenses and, classicaly is parametrized by
+         focal length, principal point and distorsion;
 
-  \item  $\pi$ being the canonic projection transforming a point,  in the camera coordinates, to ray direction in the
+  \item  $\pi$ being the canonic projection transforming a point, in the camera coordinates, to ray direction in the
          case of conic projection;
 
   \item  $R_k,O_k$ being the external orientation of the camera having taken image $k$, it contains a projection
@@ -57,7 +57,7 @@ With :
 \end{itemize}
 
 The file {\tt FilesSamples/Orientation-00.xml} contains an example of orientation
-files. The main sections of this file are :
+file. The main sections of this file are :
 
 {\scriptsize
 \begin{verbatim}
@@ -75,7 +75,7 @@ files. The main sections of this file are :
 \end{verbatim}
 }
 
-The meaning of the different sections are:
+The meaning of the different sections is:
 
 \begin{itemize}
     \item {\tt <OrIntImaM2C> } contains the data for the interior orientation $\mathbb{J}$;
@@ -84,18 +84,18 @@ The meaning of the different sections are:
           intrinsic calibration  $  \mathcal{I}$ ; it is also possible to directly embed
           this intrinsic calibration directly in the orientation file of each image;
     \item {\tt <Externe> } contains the data for the external orientation $R_k,O_k$ ;
- 
-     \item {\tt  <Verif> } does not contains any data usefull to compute the function $\Pi_k$,
-           it contains optional data allowing programms to check that they interpret 
-           correctly the  previous data;
-        
-     \item {\tt  <ConvOri> } contains data to specify some of the convention  for storing
-           the previous data (for example, the unity of angles when they are used for 
+
+     \item {\tt  <Verif> } does not contain any usefull data to compute the function $\Pi_k$,
+           it contains optional data allowing programs to check that they interpret
+           correctly previous data;
+
+     \item {\tt  <ConvOri> } contains data to specify some of the convention for storing
+           previous data (for example, the unity of angles when they are used for
            storing rotations);
-      
+
 \end{itemize}
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Internal orientation}
 \label{Image:Int:Ori}
@@ -104,7 +104,7 @@ The internal orientation  $\mathbb{J}$ is used to represent easily the scaling,
 croping, rotation of images; it can be used for example when dealing with
 analog images where the mapping between the "paper" and the scanner (extracted
 from fiducial mark) has to be represented. An affinity is sufficient for
-all this operation;  let's note  the fied of {\tt <OrIntImaM2C>} this way :
+all this operation;  let's note the fied of {\tt <OrIntImaM2C>} this way :
 
 \begin{verbatim}
          <OrIntImaM2C>
@@ -124,7 +124,7 @@ The definition of  $\mathbb{J}$ is then :
 \end{equation}
 
 Note, for example, that if $\mathbb{J}$ is used to modelize interior orientation
-of a scanned image, input of  $\mathbb{J}$  is in milimeters and output is in pixel.
+of a scanned image, input of  $\mathbb{J}$  is in millimeters and output is in pixel.
 In most case $\mathbb{J}$ will be unused with digital camera and it will stay at
 its default value representing identity :
 
@@ -143,7 +143,7 @@ as preprocessing to all the images measurement (i.e. $(U,V)$ is replaced by
 
 
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Kind of projection}
 
@@ -161,15 +161,15 @@ enumerated value :
 
 
 \begin{equation}
-    \pi(x,y,z) =  (x,y) \label{Proj:Ortho} 
+    \pi(x,y,z) =  (x,y) \label{Proj:Ortho}
     %\caption{orthographic projection}
 \end{equation}
 
 In current version, only {\tt eProjStenope} is understood by MicMac and Apero. The Orthographic
-camera are used to export , in a unified way, the result of matching when
+camera are used to export, in a unified way, the result of matching when
 MicMac is used in ground geometry.
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{External orientation}
 
@@ -191,13 +191,13 @@ The structure of external orientation is the following :
           </Externe>
 \end{verbatim}
 
-From physicall point of view,  $^t(C_x C_y C_z) $ can be interpreted 
+From physical point of view,  $^t(C_x C_y C_z) $ can be interpreted
 as the center of projection and, for example,  $^t(C F I)$ can be interpreted as the
 direction of optical axis.
 From a more formal point of view :
 
 \begin{equation}
- P_g =  M*P_c+ C = \begin{pmatrix}A&B&C \\  D&E&F\\ G&H&I \end{pmatrix}P_c +  \begin{pmatrix} C_x \\C_y\\C_z \end{pmatrix} 
+ P_g =  M*P_c+ C = \begin{pmatrix}A&B&C \\  D&E&F\\ G&H&I \end{pmatrix}P_c +  \begin{pmatrix} C_x \\C_y\\C_z \end{pmatrix}
 \end{equation}
 Or, equivalently, M being orthogonal ($^t M = M ^{-1}$) :
 \begin{equation}
@@ -210,27 +210,27 @@ the default central value of the computed depth map :
 
 
 \begin{itemize}
-   \item  if it exists, {\tt <AltiSol>} must contain  the average of $z$;
+   \item  if it exists, {\tt <AltiSol>} must contain the average of $z$;
          it will be used by MicMac in ground geometry;
-   \item if it exists,  {\tt <Profondeur>} must contain  the average of depth of field,
+   \item if it exists,  {\tt <Profondeur>} must contain the average of depth of field,
          it will be used by MicMac in image geometry;
 \end{itemize}
 
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Intrinsic Calibration}
 
 The intrinsic calibration  $ \mathcal{I} $ is given by the formula :
 
 \begin{equation}
-   \mathcal{I}\begin{pmatrix} U \\ V \end{pmatrix} 
+   \mathcal{I}\begin{pmatrix} U \\ V \end{pmatrix}
    = D\left(\begin{pmatrix} PP_x \\ PP_y \end{pmatrix}   + F* \begin{pmatrix} U \\ V \end{pmatrix}\right)
 \end{equation}
 
 
 Where $^t(PP_x,PP_y)$ is the principal point, $F$ is the focal and $D$ is the distorsion function.
-There  exists in Apero, many option for distorsion, that are decribed in next sections.
+There exists in Apero, many options for distorsion, that are decribed in next sections.
 
 The XML-structure for storing the intrinsic calibration is, in the simple case :
 
@@ -249,12 +249,12 @@ The XML-structure for storing the intrinsic calibration is, in the simple case :
 The file {\tt FilesSamples/Calib-00.xml} contains a very basic example of intrinsic
 calibration (for a radial model).
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{The Verif Section}
 
-The {\tt  <Verif>} section can be used to check that the coherence between the programms
-having generated the orientation and the programm using it. The structure is :
+The {\tt  <Verif>} section can be used to check that the coherence between the programs
+having generated the orientation and the program using it. The structure is :
 
 \begin{verbatim}
    <Verif>
@@ -282,15 +282,15 @@ The {\tt <Appuis>} should verify the equation :
 
 
 By default {\tt Apero} generates $10$ checking point {\tt Appuis}, note that the ground
-point {\tt <Ter>} are randomly generated points \emph{that are absolutely not related to
-the real 3d structure of the scene}. In all \ELISE's  programm importing orientation and containing
+point {\tt <Ter>} are randomly generated points \emph{that are absolutly not related to
+the real 3d structure of the scene}. In all \ELISE's  program importing orientation and containing
 {\tt <Verif>} structure, it is checked that equation~\ref{Eq:Verig:Appui} is satisfied with a
 tolerance given by {\tt <Tol>}. When it is not the case, an error occurs.
 
-For a developper importing orientation from {\tt Apero} in its programms, it would be a good idea to check
+For a developer importing orientation from {\tt Apero} in its programs, it would be a good idea to check
 the equation ~\ref{Eq:Verig:Appui} on existing  {\tt <Appuis>} to ensure that all the data
 have been correctly interpreted. Similarly, for a programmer, exporting orientation to {\tt MicMac}
-or other programms, it would be a good idea  to add {\tt <Appuis>} datas to ensure that his
+or other programs, it would be a good idea  to add {\tt <Appuis>} datas to ensure that his
 data are correctly interpreted by  {\tt MicMac}.
 
 
@@ -299,22 +299,22 @@ data are correctly interpreted by  {\tt MicMac}.
 
 %=======================================================================================================
 
-\section{Distorsion specification} 
+\section{Distorsion specification}
 
 
 \subsection{Generalities}
 
 \subsubsection{Composition of distorsions}
-The distorsion used in  Apero-MicMac, is the composition of several elementary 
-distorsion.  An elementary distorsion belongs to a predefined parametric model : radial,
-decentric, polyonmial, fish-eye, brown \dots We write :
+The distorsion used in Apero-MicMac, is the composition of several elementary
+distorsions. An elementary distorsion belongs to a predefined parametric model: radial,
+decentric, polyonmial, fish-eye, brown \dots We write:
 
 \begin{equation}
     D = d_1 \circ d_2  \dots  \circ d_N
 \end{equation}
 
-In majority of configuration, there will be only one elementary distorsions : $N=1$.
-A possible use of composition of basic distorsion is :
+In majority of configuration, there will be only one elementary distorsion : $N=1$.
+A possible use of composition of basic distorsion is:
 
 \begin{itemize}
    \item use a physical model, with few parameters, to modelize the principal
@@ -322,30 +322,30 @@ A possible use of composition of basic distorsion is :
 
    \item use a polynomial model,  with more parameters, to modelize the remaining
          systematism; having modelized the main part of distorsion allow to restrain
-         the degree of polynomial distorsion. 
+         the degree of polynomial distorsion.
 \end{itemize}
 
 The XML-Structure encoding the distorsion is
 
 \begin{verbatim}
      <CalibrationInternConique>
-          ... 
+          ...
           <SzIm> SzImx SzImy </SzIm>
           <CalibDistortion> <!--  d1 --> </CalibDistortion>
           <CalibDistortion> <!--  d2 --> </CalibDistortion>
-                    .... 
+                    ....
           <CalibDistortion> <!--  dN --> </CalibDistortion>
      </CalibrationInternConique>
 \end{verbatim}
 
 The file {\tt FilesSamples/Calib-1.xml} gives an example of distorsion coded
-by composition of two basic distorsion : a radial  and a polynomial. Note that
-\emph{the last distorsion stored in the file  is the first applied when computing
+by composition of two basic distorsions: a radial  and a polynomial. Note that
+\emph{the last distorsion stored in the file is the first applied when computing
 $\Pi_k$ in the direction ground $\rightarrow$  camera}.
 
-Like with internal orientation, the composition of several distorsion 
+Like with internal orientation, the composition of several distorsion
 would be   highly redundant if they were all optimized simultenaously.
-In {\tt Apero}, when there are several distorsion, the $N-1$ first one are
+In {\tt Apero}, when there are several distorsions, the $N-1$ first one are
 fixed ans they are used as preprocessing to all the images measurement :
 
 \begin{itemize}
@@ -355,31 +355,31 @@ fixed ans they are used as preprocessing to all the images measurement :
 
 \subsubsection{Structure of basic distorsion}
 
-The XML-structure for representing a basic distorsion is an "union" of the possible 
-different type :
+The XML-structure for representing a basic distorsion is an "union" of the possible
+different types:
 
 \begin{itemize}
    \item {\tt <ModRad>}, a XML-structure specialized for the radial distorsion;
 
-   \item {\tt <ModPhgrStd>}, a XML-structure implemeting the fraser model~\cite{Fraser};
+   \item {\tt <ModPhgrStd>}, a XML-structure implementing the fraser model~\cite{Fraser};
 
    \item {\tt <ModGrid>}, a XML-structure for describing distorsion as grids, these are dense
          grid, conceived for a quick computation once the distorsion is known; they cannot
          be used in {\tt Apero} (a finite-element like model of grid, usable in compensation,
-         used  to be implemented, and will probably be offered agaian);
+         used  to be implemented, and will probably be offered again);
 
-   \item {\tt <ModUnif>}, a XML-structure for describing many different analytic model, the 
+   \item {\tt <ModUnif>}, a XML-structure for describing many different analytic models, the
          difference with {\tt <ModRad>} and {\tt <ModPhgrStd>} is that the XML representation
-         is independant of the model, the semantic being implicit and entirley coded by a  type-tag; 
-         this make the work easier for the implementer (myself \dots) and allow to offer to users
-         much more models; the drawback is the obscurity for others developer aiming at decoding 
+         is independant of the model, the semantic being implicit and entirely coded by a type-tag;
+         this makes the work easier for the implementer (myself \dots) and allows to offer to users
+         much more models; the drawback is the obscurity for other developers aiming at decoding
          the XML-representation \dots
 
-   \item {\tt <ModNoDist>} for representing no distorsion; this is the simplest mode, but paradoxally,
-         not fully supported now; so contact me if you need it .
+   \item {\tt <ModNoDist>} for representing no distorsion; this is the simplest mode, but paradoxically,
+         not fully supported now; so contact me if you need it.
 \end{itemize}
 
-The {\tt XML} formal description of this structure can be found in 
+The {\tt XML} formal description of this structure can be found in
 {\tt ParamChantierPhotogram.xml} :
 
 
@@ -397,10 +397,10 @@ The {\tt XML} formal description of this structure can be found in
 \end{verbatim}
 
 
-This specifies that each  occurence of {\tt <CalibDistortion>}, must have exactly on "son", which can be
+This specifies that each occurence of {\tt <CalibDistortion>}, must have exactly one "son", which can be
 or {\tt <ModNoDist>}, or {\tt <ModRad>}, or \dots
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Radial Model}
 
@@ -438,14 +438,14 @@ It corresponds to :
 
 \begin{equation}
     d_u =  U-C_x \;\;\; d_v=V-C_y \;\;\;
-    \rho^2 = d_u ^2 + d_v ^2  
+    \rho^2 = d_u ^2 + d_v ^2
 \end{equation}
 
 If the boolean optional value {\tt PPaEqPPs} is set to  {\tt true}, then the center
-of distorsion will be contrained to be equal to principal point in all the bundle
+of distorsion will be constrained to be equal to principal point in all the bundle
 adjustment.
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Photogrammetric Standard Model}
 
@@ -464,32 +464,32 @@ The specification of a photogrammetric standard model distorsion is  :
    </CalibrationInternePghrStd>
 \end{verbatim}
 
-It contains a radial distorsion {\tt <RadialePart>}, a affine part $b_1, b_2$ and
+It contains a radial distorsion {\tt <RadialePart>}, an affine part $b_1, b_2$ and
 a decentric part $P_1,P_2$ (see~\ref{Just:Model:Decentr} for a justification of
 analytical form) :
 
 \begin{equation}
-   D^P\begin{pmatrix} U \\ V \end{pmatrix} 
-      =      D^R\begin{pmatrix} U \\ V \end{pmatrix} 
+   D^P\begin{pmatrix} U \\ V \end{pmatrix}
+      =      D^R\begin{pmatrix} U \\ V \end{pmatrix}
           +  P_1 * \begin{pmatrix} 2d_u^2 + \rho^2 \\  2 d_u d_v \end{pmatrix}
           +  P_2 * \begin{pmatrix}   2 d_u d_v \\ 2d_v^2 + \rho^2 \end{pmatrix}
           + b_1  * \begin{pmatrix}   d_u  \\ 0  \end{pmatrix}
           + b_2  * \begin{pmatrix}   d_v  \\ 0  \end{pmatrix}
 \end{equation}
 
-Note that there are only $2$ affine coefficients; that is because with 
+Note that there are only $2$ affine coefficients; that is because with
 the focal and the pure rotation (intrinsic calibration being determined up to
-a 3D rotation, see~\ref{Appl:Rot:Pres} ) these $2$ coefficient are sufficient to have a
+a 3D rotation, see~\ref{Appl:Rot:Pres} ) these $2$ coefficients are sufficient to have a
 base of affine function.
 
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Grids model}
 
 Later \dots
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 %=======================================================================================================
@@ -497,10 +497,10 @@ Later \dots
 \section{Unified distorsion models}
 
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Generalities}
 
-The specification of  unified calibration model, is given in 
+The specification of  unified calibration model, is given in
 {\tt ParamChantierPhotogram.xml} :
 
 \begin{verbatim}
@@ -521,18 +521,18 @@ are interpreted relatively to the type :
 
      \item the {\tt <Etats>} and {\tt <Params>} model are both real values;
 
-     \item there  are generally few {\tt <Etats>} values, between $1$ and $3$;  they are not
-           optimized during {\tt Apero} ; they are used as normisaltion values so that coordinates
+     \item there are generally few {\tt <Etats>} values, between $1$ and $3$;  they are not
+           optimized during {\tt Apero} ; they are used as normalisation values so that coordinates
            are roughly centered on $0,0$ and have an amplitude of unity;
 
      \item the {\tt <Params>} values can be numerous (up to $66$ now);
-           for a given model, a fixed number are required by the programm,  so 
-           the ommitted parameters are given the default value $0$; for most models,
-            when all {\tt <Params>}  values $0$, distortion is equal to identity;
+           for a given model, a fixed number are required by the programm, so
+           the omitted parameters are given the default value $0$; for most models,
+            when all {\tt <Params>} equal $0$, distortion is equal to identity;
 \end{itemize}
 
-Many model are subset of polynoms, while the fish-eye models are combinaisons
-of an priori model and polynoms.
+Many models are subset of polynoms, while the fish-eye models are combinations
+of a priori model and polynoms.
 
 \begin{tabular} { c | c | c | c | c}% \\  \hline
  {\bf Type }                                     &  {Max Degree} &  {NbEtat}   &  {NbParam} & Pure Polynom\\  \hline \hline
@@ -551,12 +551,12 @@ of an priori model and polynoms.
 \end{tabular}
 
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Unified Polynomial models}
 
 A general polynomial distorsion, can be specified by setting {\tt <TypeModele>} to a value
-{\tt <eModelePolyDeg2>}, {\tt <eModelePolyDeg3>} \dots  {\tt <eModelePolyDeg7>}. 
+{\tt <eModelePolyDeg2>}, {\tt <eModelePolyDeg3>} \dots  {\tt <eModelePolyDeg7>}.
 
 There are three states values that are used like normalisation coefficients,
 let's note :
@@ -567,16 +567,16 @@ let's note :
  \item  $C_y = Etats[2] $;
 \end{itemize}
 
-Generaly, $S$ is approximatively equal to the focal lentgh, and $C_x,C_y$ are
+Generaly, $S$ is approximately equal to the focal lentgh, and $C_x,C_y$ are
 set to the center of images. Let's note $N$ the normalisation function :
 
 \begin{equation}
-   N \begin{pmatrix} U \\ V \end{pmatrix} 
+   N \begin{pmatrix} U \\ V \end{pmatrix}
    = \begin{pmatrix} \frac{U-C_x}{S} \\  \frac{V-C_y}{S} \end{pmatrix}
 \end{equation}
 
 
-The {\tt <Params>} value, define a polynomial function $P$ on the normalized
+The {\tt <Params>} value defines a polynomial function $P$ on the normalized
 coordinate, this means that the final distorsion will be :
 
 
@@ -585,34 +585,34 @@ coordinate, this means that the final distorsion will be :
 \end{equation}
 
 For the degree over $3$, it's quite easy, the set of generating polynom contains
-all the possible monomes. For the degrer bellow $2$, it a bit more complicated
-because :
+all the possible monomials. For the degree below $2$, it's a bit more complicated
+because:
 
 \begin{itemize}
-    \item  we don't want degree $0$ monoms, who woul be redundant with principal point;
-    \item  for degree $1$ monoms we already have the focal length and the pure rotation
-           that define a 2 dimentionnal familly, so we want a $2$ dimentionnal complementary
+    \item  we don't want degree $0$ monomials, who would be redundant with principal point;
+    \item  for degree $1$ monomials we already have the focal length and the pure rotation
+           that define a 2 dimensional family, so we want a $2$ dimensional complementary
            basis;
-    \item  for degree $2$ monoms we have the "tilt rotation" that define  function which
+    \item  for degree $2$ monomials we have the "tilt rotation" that defines function which
            have limited devlopment of degree $2$ (see equation~\ref{Rot:Deg2}).
 \end{itemize}
 
 
 \begin{equation}
-   \begin{pmatrix}  \frac{x}{1-x} \\  \frac{y}{1-x}  \end{pmatrix} 
-  \approx \begin{pmatrix}   x  \\  y  \end{pmatrix}  
-          + \begin{pmatrix}   x^2  \\  xy  \end{pmatrix} 
+   \begin{pmatrix}  \frac{x}{1-x} \\  \frac{y}{1-x}  \end{pmatrix}
+  \approx \begin{pmatrix}   x  \\  y  \end{pmatrix}
+          + \begin{pmatrix}   x^2  \\  xy  \end{pmatrix}
    \label{Rot:Deg2}
 \end{equation}
 
-So inside   the $12$-dimensionnal space of polynoms of degree $2$ in $xy$ we
-use the  $6$ first parameters to define a  $6$ dimensionnal subset :
+So inside  the $12$-dimensional space of polynoms of degree $2$ in $xy$ we
+use the $6$ first parameters to define a  $6$ dimensional subset :
 
 
 \begin{equation}
-   P_2 \begin{pmatrix}  x \\  y  \end{pmatrix} 
+   P_2 \begin{pmatrix}  x \\  y  \end{pmatrix}
    = \begin{pmatrix}  x \\  y  \end{pmatrix}
-     + \begin{pmatrix}  p_1 x  + p_2 y -2 p_3 x^2  + p_4 xy + p_5 y^2 
+     + \begin{pmatrix}  p_1 x  + p_2 y -2 p_3 x^2  + p_4 xy + p_5 y^2
                      \\ -p_1y + p_2 x  + p_3 xy - 2 p_4 y^2 + p_6 x^2 \end{pmatrix}
 \end{equation}
 
@@ -620,28 +620,28 @@ use the  $6$ first parameters to define a  $6$ dimensionnal subset :
 The interpretation of coefficient after degree $2$ is more obvious, for example :
 
 \begin{equation}
-   P_3 \begin{pmatrix}  x \\  y  \end{pmatrix} 
-   = P_2 \begin{pmatrix}  x \\  y  \end{pmatrix} 
-     +    \begin{pmatrix}  p_7 x^3 + p_8 x^2y + p_9 xy^2 + p_{10} y^3  
-                        \\  p_{11} x^3 + p_{12} x^2y + p_{13} xy^2 + p_{14} y^3   \end{pmatrix} 
+   P_3 \begin{pmatrix}  x \\  y  \end{pmatrix}
+   = P_2 \begin{pmatrix}  x \\  y  \end{pmatrix}
+     +    \begin{pmatrix}  p_7 x^3 + p_8 x^2y + p_9 xy^2 + p_{10} y^3
+                        \\  p_{11} x^3 + p_{12} x^2y + p_{13} xy^2 + p_{14} y^3   \end{pmatrix}
 \end{equation}
 
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Brown's and Ebner's model}
 
 
 This was the first models I implemented with unified model. I am not so sure that they
-should be very usefull now, but they exist and are somewhat considered as reference in a part
+should be very useful now, but they exist and are somewhat considered as reference in a part
 of photogrammetric community \dots
 
 
-For ebners model, there is one $<Etat>$, that should be  approximatively equal to the base in image space,
+For ebners model, there is one $<Etat>$, that should be  approximately equal to the base in image space,
 note $B=Etat[0]$ :
 
 \begin{equation}
-     B_2 = \frac{2}{3} B^2 
+     B_2 = \frac{2}{3} B^2
     ,\;\;\;   U_2 = U^2 - B_2
     ,\;\;\;   V_2 = V^2 - B_2
 \end{equation}
@@ -650,14 +650,14 @@ note $B=Etat[0]$ :
 \begin{equation}
   D_E \begin{pmatrix}  U \\  V  \end{pmatrix} =
       \begin{pmatrix}  U \\  V  \end{pmatrix}
-   +  \begin{pmatrix}  
-              p_1 U + p_2 V -2p_3 U_2 + p_4 UV +p_5 V_2 +p_7 UV_2 +p_9 VU_2    + p_{11} U_2 V_2   \\ 
+   +  \begin{pmatrix}
+              p_1 U + p_2 V -2p_3 U_2 + p_4 UV +p_5 V_2 +p_7 UV_2 +p_9 VU_2    + p_{11} U_2 V_2   \\
               -p_1V + p_2 U + p_3 UV  -2p_4V_2 +p_6 U_2 +p_8 V U_2+p{10} UV_2  + p_{12} U_2 V_2
        \end{pmatrix}
 \end{equation}
 
- 
-For brown model, there is one $<Etat>$, that should be approximatively equal to focal lenght,
+
+For brown model, there is one $<Etat>$, that should be approximately equal to focal lenght,
 note $F=Etat[0]$ :
 
 \begin{equation}
@@ -666,7 +666,7 @@ note $F=Etat[0]$ :
 \begin{equation}
   D_B \begin{pmatrix}  U \\  V  \end{pmatrix} =
       \begin{pmatrix}  U \\  V  \end{pmatrix}
-   +  \begin{pmatrix}  
+   +  \begin{pmatrix}
               p_1 U + p_2 V  + p_3 UV + p_4 V^2 + p_5 U^2 V + p_6 UV^2 + p_7 U^2V^2 + p_{13}\frac{U}{F}U^2V^2 + p_{14} U \rho^2   \\
               p_8 UV + p_9 U^2 +p_{10}U^2V + p_{11}UV^2 + p_{12} U^2V^2 + p_{13}\frac{V}{F}U^2V^2 +  p_{14} V \rho^2
        \end{pmatrix}
@@ -674,7 +674,7 @@ note $F=Etat[0]$ :
 
 
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Fish eye models}
 
@@ -682,19 +682,19 @@ note $F=Etat[0]$ :
 
 By far the most complex \dots
 
-With a fish-eye, there is  an opening of  almost $180$ degree, so a polynomial
+With a fish-eye, there is an opening of almost $180$ degree, so a polynomial
 would not be suited because the distorsion has to map, in the finite sensor plane,
 points that are almost at infinity.
 
-A fish eye, of focal lentgh $F$ , is first defined first by an approximate physical  modele that described
-the radial maping function $\phi$ from directions to sensor plane 
+A fish eye, of focal lentgh $F$ , is first defined by an approximate physical model that described
+the radial maping function $\phi$ from directions to sensor plane
 
 \begin{equation}
     R  \begin{pmatrix}   sin \theta sin \omega \\  sin \theta cos \omega  \\  cos \theta  \end{pmatrix}
    \rightarrow  F * \phi(\theta) \begin{pmatrix} sin \omega \\ cos \omega  \end{pmatrix}
 \end{equation}
 
-Two models are  supported now :
+Two models are supported now :
 
 \begin{itemize}
    \item $\phi(\theta)=\theta$ for equilinear fisheye, by far the most frequent;
@@ -718,31 +718,31 @@ the approximate distorsion model is then :
      +    \frac{F_0}{R} * \phi(atan(\frac{R}{F_0}))  \begin{pmatrix}U-C_x\\ V-C_x\end{pmatrix}
 \end{equation}
 
-Of course this theoretical model is only an approximation,  and is has to be corrected
+Of course this theoretical model is only an approximation, and it has to be corrected
 by parametric model; we have to add polynomial terms, and for evident stability reasons,
-we prefers that this polynoms operates on finites quantities, so the additionnal 
-parameters are operating on $D_A$.  When I implemented these models, I  thought
+we prefer that this polynoms operate on finites quantities, so the additional
+parameters are operating on $D_A$.  When I implemented these models, I thought
 fish-eye were always poorly designed, so there are (much too) many additionnal
 parameters in my fish eye model :
 
 
 \begin{itemize}
-   \item $10$  radial parameters (($R^3, R^5 , \dots R^{21}$), pratically $5$ seems
+   \item $10$  radial parameters (($R^3, R^5 , \dots R^{21}$), praticaly $5$ seems
           always sufficient;
 
    \item $10$ radial decentric parameters for the $5$ first term of equations~\ref{Eq:DecGen:X}
          and~\ref{Eq:DecGen:Y} of chapter~\ref{Just:Model:Decentr}; praticaly $0$ or $1$
          seem sufficient;
 
-   \item general polynomial up to degree $5$, with many "whole" du to existing other parameters;
+   \item general polynomial up to degree $5$, with many "whole" due to existing other parameters;
          practically degree $1$ seems sufficient.
 
 \end{itemize}
 
-Finally, the XML-implemention is :
+Finally, the XML-implementation is :
 
 \begin{itemize}
-    \item   {\tt Etat[1]} = $F_0$,  
+    \item   {\tt Etat[1]} = $F_0$,
     \item  {\tt Params[1]} = $C_x$;
     \item  {\tt Params[2]} = $C_y$;
     \item  {\tt Params[3]} =  $R_3$ \dots {\tt Params[7]} =  $R_{11}$
@@ -770,7 +770,7 @@ Finally, the XML-implemention is :
     +\begin{pmatrix}  l_1 a + l_2 b \\  l_2 a  \end{pmatrix}
 \end{equation}
 
-An finally the distorsion :
+And finally the distorsion :
 
 
 \begin{equation}
@@ -792,14 +792,14 @@ To come ...
 
 \section{The tool {\tt TestCam}}
 
-The tool {\tt bin/TestCam} is a tool that allow peple who would like
+The tool {\tt bin/TestCam} is a tool that allows people who would like
 to import orientation from Apero, or to export orientation in MicMac,
 to check their understanding of the convention described in this chapter.
 
 Run {\tt bin/TestCam NameOrient X Y Z},  the program will load the
 orientation file and will show the different computation step from
 the ground point {\tt X Y Z} to the final image point :
- 
+
 
 \begin{itemize}
    \item  {\tt -0-CamCoord} : the point in camera corrdinate system;
@@ -841,11 +841,11 @@ TestCam TestOri-2.xml 0.1 0 1
 
 \label{Coordinat:System}
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Generalities}
 
-A coordinate system describes a mapping between its coordinates 
+A coordinate system describes a mapping between its coordinates
 and the geo-centric ( Greenwich origin ??) system, considered
 as "the" reference.
 
@@ -858,7 +858,7 @@ Interface:
     \item {\tt Pt3dr ToGeoC(const Pt3dr \&) const}
     \item {\tt Pt3dr FromGeoC(const Pt3dr \&) const}
     \item {\tt Pt3dr OdgEnMetre() const} (\emph{ordre de grandeur} in french),
-         used as a rouh estimation of the size, in meter, of each coordinates;
+         used as a rough estimation of the size, in meter, of each coordinates;
 \end{itemize}
 
 Existing implemented systems, are:
@@ -871,7 +871,7 @@ Existing implemented systems, are:
 \end{itemize}
 
 
-   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   % - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{XML codage}
 
@@ -884,9 +884,9 @@ Existing implemented systems, are:
    \item specification in file {\tt ParamChantierPhotogram.xml}
    \item the class {\tt SystemeCoord} contains the data necessary to create a \CPP object {\tt cSysCoord}
    \item  a {\tt SystemeCoord} is made of several {\tt BasicSystemeCoord} (one in the simplest case);
-   
+
    \item the first  {\tt BasicSystemeCoord} defines the coordinate system, the possible following
-          {\tt BasicSystemeCoord} are arguments used to defined this system;
+          {\tt BasicSystemeCoord} are arguments used to define this system;
 \end{itemize}
 
 A  {\tt BasicSystemeCoord}  is made from :
@@ -898,7 +898,7 @@ A  {\tt BasicSystemeCoord}  is made from :
          varying according  to  the  {\tt TypeCoord};
 
     \item the optionary boolean value {\tt ByFile}, meaning that the system is defined in an exterior file;
-    
+
 \end{itemize}
 
 The enumerated possible values of a {\tt eTypeCoord} are :
@@ -908,7 +908,7 @@ The enumerated possible values of a {\tt eTypeCoord} are :
    \item  {\tt eTC\_GeoCentr}
    \item  {\tt eTC\_RTL}
    \item  {\tt eTC\_Polyn}
-   \item  {\tt eTC\_Unknown} 
+   \item  {\tt eTC\_Unknown}
 \end{itemize}
 
 Obviously, the set of possible values may grow in the future.
@@ -954,15 +954,15 @@ A locally tangent repair, specified by {\tt eTC\_RTL} must contain :
 \end{itemize}
 
 If the first {\tt BasicSystemeCoord} of a {\tt SystemeCoord} is of type {\tt eTC\_RTL} ,
-it muste contain a second {\tt BasicSystemeCoord} indicating the coordinate system
-in which the origini is given.
+it must contain a second {\tt BasicSystemeCoord} indicating the coordinate system
+in which the origin is given.
 
               %   -   -   -   -   -   -   -   -   -
 
 \subsubsection{Polynomial coordinate system}
 
-Sometime it is convenient to use a coordinate system, that is known by a set
-of example, the analytic formula being unknown.  In this case, it can be stored
+Sometimes it is convenient to use a coordinate system, that is known by a set
+of example, the analytic formula being unknown. In this case, it can be stored
 as a polynomial tranformation between a known coordinate system and the unknown
 system.
 
@@ -975,11 +975,11 @@ A polynomial coordinate system, specified by {\tt eTC\_Polyn},
 
    \item  it contains three polynoms $P_x$, $P_y$,$P_z$ for direct mapping
           and three polynoms for inverts mapping; this polynoms works on "normalized"
-          coordinates,  the normalizaion parameters are stored in {\tt AuxR}
+          coordinates,  the normalization parameters are stored in {\tt AuxR}
           after the polynom coefficient;
 
    \item  the degree of the polynom are specified by {\tt AuxI} (there are $9$ {\tt AuxI})
-    
+
 \end{itemize}
 
 %===========================================================================
@@ -1011,18 +1011,18 @@ The file {\tt Tab-Appr\_UTM.txt} contains lines :
 
 Each line has the structure $Id X Y Z A B C$, where $X Y Z$ is a point
 in a known coordinate  $S$,  $A B C$ are the coordinates in the system we want to
-learn.  Let $X' Y' Z'$ be the coordinat of this point in another known system $S'$, this programm will
-calculate a polynome such that $Pol(A,B,C)=(X',Y',Z')$. In can be interesting to have
-sometime $S \neq S'$; for example suppose we know $X Y Z$ in geocentric,
-and we want to learn a UTM system, it maybe cleverer to have $X' Y' Z'$ in WGS84
+learn.  Let $X' Y' Z'$ be the coordinates of this point in another known system $S'$, this program will
+compute a polynom such that $Pol(A,B,C)=(X',Y',Z')$. It can be interesting to have
+sometimes $S \neq S'$; for example suppose we know $X Y Z$ in geocentric,
+and we want to learn a UTM system, it may be cleverer to have $X' Y' Z'$ in WGS84
 because the polynomial fitting will be much easier.
 
 By the way, for now we necessarly have $S=S'=WGS84$, but could be changed easily.
 
 
-Of course, the best way would be that Apero/MicMac knows all the possible coordinate system.
+Of course, the best way would be that Apero/MicMac knows all the possible coordinate systems.
 Well, for now I am not sure that I want to be linked to libs like Proj4: may
-creates dependancies and installation problems.  To be discussed \dots However
+creates dependancies and installation problems. To be discussed \dots However
 for now there is this possibility of transforming any system into a polynomial
 representing if you can generate a set of learning pair.
 
@@ -1043,7 +1043,7 @@ all in txt, in XML format for MicMac/Apero.
 Sections :
 
 \begin{itemize}
-   \item 
+   \item
 \end{itemize}
 
 
