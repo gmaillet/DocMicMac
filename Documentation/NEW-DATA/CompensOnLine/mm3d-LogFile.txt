@@ -1,5 +1,5 @@
 =================================================================
-/home/mpd/MMM/culture3d/bin/mm3d Tapioca All Abbey-IMG_020.*jpg 1200 
+mm3d Tapioca All Abbey-IMG_020.*jpg 1200 
  PID : 11273 ;   [Beginning at ] Fri May 30 11:40:35 2014
  PID : 11273 ;   [Ending correctly at] Fri May 30 11:40:57 2014
 =================================================================
