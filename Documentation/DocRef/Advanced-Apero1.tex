@@ -290,4 +290,238 @@ from the fiducial marks :
 \end{verbatim}
 
 
+%=======================================================================================================
+
+\section{Adjustment with lines}
+
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{introduction}
+
+This section describes the case where user want to adjust orientation using correspondance between $3d$ point
+and image line. It's rather specific, and was added in the context of  georeferencing aerial photograh with a $3d$ 
+data base of roads \footnote{I am not sure to see if there exist other example of application}. Formally we have :
+
+\begin{itemize}
+    \item a set of $2d$ line $L_k$ in images. Let $I_k$ be the corresponding image and $\pi_k$ be the projection
+         function that goes from ground coordinates to $I_k$;
+    \item for each $3d$ point a set of point $p_{k,i}$ and we "know" that $\forall k,i \, : \pi_k (p_{k,i}) \in L_k $
+    \item let $D(p,L)$ be the distance between point $p$ and line $L$.
+\end{itemize}
+
+Mathematically we want to add to the global minimization, the cost :
+
+\begin{equation}
+    \sum_{k,i} D^2 ( \pi_k(p_{k,i}),L_k) \label{EQU:LINE:POINT}
+\end{equation}
+
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{data set}
+
+The folder {\tt Documentation/NEW-DATA/CompensOnLine/} contains  data that illustrates how this can be done in 
+{\tt Apero}. These are completely articial (simulated data) which were generated for developping and testing this functionnality : in this example it will be possible to annulate completely eqution~\ref{EQU:LINE:POINT} which will obviously not
+be the case with real data.  
+
+To run the data set extraced from the mercurial server, one first need to compute the tie points with :
+
+\begin{itemize}
+   \item {\tt mm3d Tapioca All Abbey-IMG\_020.*jpg 1200}
+\end{itemize}
+
+To test all the functionnality, this data set has been processed as if it was the scan of analog images
+(see {\tt Ori-InterneScan/}), but it works also with digital images. As can be seen in {\tt mm3d-LogFile.txt},
+the orientation has been computed with the command :
+
+\begin{itemize}
+   \item {\tt mm3d Tapas AutoCal Abbey-IMG\_020.*jpg InCal=Ori-CalibInitAnalogik/ Out=Rel}
+
+\end{itemize}
+
+This toy example is made from $4$ small image on the same strip. Of course the data are completelly  articicial :
+
+\begin{itemize}
+   \item when using the "real" orientation (i.e Ori-Rel/) the projection of point on lines is perfect;
+   \item there exist data for each image;
+   \item for each images the data is sufficient to compute its orientation;
+\end{itemize}
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Organization of information}
+
+Basically, the information is structured  the same way that for GCP in~\ref{GCP:Org},\ref{Sec:GCPBascule} and 
+\ref{CAMPARI} : 
+
+\begin{itemize}
+   \item there are file for storing the $3d$ point, in this example {\tt MesurePointGround.xml}, it is the same
+         structure that for {\tt GCP}, and the adjusment of this point can mix measurement of $3d$ in ground,
+         $2d$ point in images and $2d$ lines in images;
+
+   \item there are file for storing $2d$  images line  coordinates and the points that are  supposed to project 
+         on these  lines, in this example {\tt MesureLineImage.xml};
+
+   \item in {\tt Apero} these files are loaded, linked  and then used for compensation.
+\end{itemize}
+
+The structure of {\tt MesureLineImage.xml} should be quite obvious :
+
+\begin{itemize}
+   \item it must contain a global structure {\tt <SetOfMesureSegDr>};
+   \item the {\tt <SetOfMesureSegDr>} is a list of {\tt <MesureAppuiSegDr1Im>}, each one
+         storing the observation related to one image;
+   \item a  {\tt MesureAppuiSegDr1Im} contains the name of the image {\tt <NameIm>},  and list a of {\tt <OneMesureSegDr>}, each one storing the information related the a line;
+
+   \item a   {\tt <OneMesureSegDr>} contains exactly two $2$ point {\tt <Pt1Im>} and {\tt <Pt2Im>} that store 
+            the geometry of the line and a list of {\tt <NamePt>} that contains the name of the $3d$ points; 
+            there can be any number $N \geq 1$ of  {\tt <NamePt>} , even if in this example we 
+             have $N=2$ everywhere 
+             \footnote{which will probably be the standard case when the $3d$ points comes from $3d$ lines}.
+
+\end{itemize}
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Example {\tt Apero-2-DroiteStatique.xml}}
+
+\label{Apero-2-DroiteStatique}
+
+It illustrates the loading of the file.
+In this example, we only load the observation and check that the projection is perfect (because data
+are simulated). It's pretty much the same than~\ref{GCP:Org} :
+
+\begin{itemize}
+   \item {\tt BDD\_ObsAppuisFlottant} load the line information, in a data base name {\tt Id-Appui};
+         the name of the file containing the line is stores in {\tt  <KeySetSegDroite>};
+   \item {\tt PointFlottantInc} load the $3d$ points information, in the same data base {\tt Id-Appui};
+   \item {\tt ObsAppuisFlottant} add the observation of the data base {\tt Id-Appui} to the adjustment.
+\end{itemize}
+
+As in this example the data are all frozen \footnote{see {\tt ePoseFigee} and {\tt eAllParamFiges}}, we just print the
+value of the observed distance, which turn to b $0$ up to the rounding error. Whe obtain the error for each point, and 
+the maxim of error :
+
+
+\begin{verbatim}
+...
+    ErrMax = 1.65784e-11 For I=Abbey-IMG_0205.jpg,  C=P_8_B pixels 
+  - - - - - - - - - - - 
+==== ADD Pts P_9_A Has Gr 1 Inc [1,1,1]
+--NamePt P_9_A Ec Estim-Ter [0,0,0]           Dist =0 ground units
+Inc = [1,1,1]PdsIm = [1,1]
+    Ecart Estim-Faisceaux 16.2788
+      ErrMoy 2.71776e-13 pixels  SP=2 
+     ErrMax = 2.71776e-13 For I=Abbey-IMG_0204.jpg,  C=P_9_A pixels 
+  - - - - - - - - - - - 
+==== ADD Pts P_9_B Has Gr 1 Inc [1,1,1]
+--NamePt P_9_B Ec Estim-Ter [0,0,0]           Dist =0 ground units
+Inc = [1,1,1]PdsIm = [1,1]
+    Ecart Estim-Faisceaux 16.1819
+      ErrMoy 6.65003e-12 pixels  SP=2 
+     ErrMax = 8.11932e-12 For I=Abbey-IMG_0205.jpg,  C=P_9_B pixels 
+  - - - - - - - - - - - 
+
+   ============================= ERRROR MAX PTS FL ======================
+   ||    Value=4.56508e-10 for Cam=Abbey-IMG_0204.jpg and Pt=P_2_A
+   ======================================================================
+\end{verbatim}
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Example {\tt Apero-3-DroiteEvolv.xml}}
+
+In this example, we  want to check that with "perfect" data, the adjusment on line
+is sufficient to compute the "perfect" orientation as long as we are reasonnably initialized.
+It's pretty much the same than~\ref{Apero-2-DroiteStatique},
+exect that we start from start from orientation that have been modified and
+do not freeze the orientation.
+
+
+\begin{verbatim}
+...
+  ============================= ERRROR MAX PTS FL ======================
+   ||    Value=16.9249 for Cam=Abbey-IMG_0207.jpg and Pt=P_13_A
+   ======================================================================
+--- End Iter 0 ETAPE 0
+...
+...
+   ============================= ERRROR MAX PTS FL ======================
+   ||    Value=0.00335622 for Cam=Abbey-IMG_0207.jpg and Pt=P_13_A
+   ======================================================================
+--- End Iter 1 ETAPE 0
+...
+...
+   ============================= ERRROR MAX PTS FL ======================
+   ||    Value=8.87999e-09 for Cam=Abbey-IMG_0204.jpg and Pt=P_14_B
+   ======================================================================
+--- End Iter 2 ETAPE 0
+...
+...
+   ============================= ERRROR MAX PTS FL ======================
+   ||    Value=3.17978e-10 for Cam=Abbey-IMG_0204.jpg and Pt=P_2_A
+   ======================================================================
+--- End Iter 3 ETAPE 0
+...
+...
+   ============================= ERRROR MAX PTS FL ======================
+   ||    Value=3.17775e-10 for Cam=Abbey-IMG_0204.jpg and Pt=P_2_A
+   ======================================================================
+--- End Iter 4 ETAPE 0
+
+\end{verbatim}
+
+At the end, the orientation are exported in {\tt Ori-Check3/}, and it can be seen that they are almost identic to {\tt Ori-Rel}
+
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Example {\tt Apero-4-CompensMixte.xml} and  {\tt  Apero-5-CompensAll.xml}}
+
+In these example, we check that, as we would do in real case, it is possible to adjust simultaneously GCP-line with
+other measurement. Also we use a reduced set of line-point (with {\tt MesureLineImageIncompl.xml}), in this set
+there is lines only for the two central images. 
+
+In {\tt Apero-4-CompensMixte.xml} we check that using simultaneaously tie point and "GCP-line", we can recover the orientation
+of the extremal images (where there is no GCP-line).
+
+{\tt  Apero-5-CompensAll.xml} had a minor modification, we see that in {\tt <BDD\_ObsAppuisFlottant >} we have
+
+\begin{itemize}
+   \item  {\tt <KeySetSegDroite> } as before , to make adjusment on line;
+   \item an additional {\tt  <KeySetOrPat>} to make adjusment of $2d$ points like in  ~\ref{GCP:Org};
+   
+\end{itemize}
+
+So in this example, the $3d$ point {\tt P\_1\_A} will be adujsted simultaneously on :
+
+\begin{itemize}
+    \item $2d$ point measuremnt contains in {\tt MesurePointImagePart.xml};
+    \item $2d$ line measuremnt contains in {\tt MesureLineImage.xml};
+    \item $3d$ point measuremnt contains in {\tt MesurePointGround.xml}.
+\end{itemize}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
