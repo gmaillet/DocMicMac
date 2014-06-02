@@ -322,10 +322,10 @@ Mathematically we want to add to the global minimization, the cost :
 \subsection{data set}
 
 The folder {\tt Documentation/NEW-DATA/CompensOnLine/} contains  data that illustrates how this can be done in 
-{\tt Apero}. These are completely articial (simulated data) which were generated for developping and testing this functionnality : in this example it will be possible to annulate completely eqution~\ref{EQU:LINE:POINT} which will obviously not
+{\tt Apero}. These are completely artificial (simulated data) which were generated for developping and testing this functionnality : in this example it will be possible to cancel completely equation~\ref{EQU:LINE:POINT} which will obviously not
 be the case with real data.  
 
-To run the data set extraced from the mercurial server, one first need to compute the tie points with :
+To run the data set extracted from the mercurial server, one first need to compute the tie points with:
 
 \begin{itemize}
    \item {\tt mm3d Tapioca All Abbey-IMG\_020.*jpg 1200}
@@ -340,7 +340,7 @@ the orientation has been computed with the command :
 
 \end{itemize}
 
-This toy example is made from $4$ small image on the same strip. Of course the data are completelly  articicial :
+This toy example is made from $4$ small images on the same strip. Of course the data are completely  artificial:
 
 \begin{itemize}
    \item when using the "real" orientation (i.e Ori-Rel/) the projection of point on lines is perfect;
@@ -352,33 +352,33 @@ This toy example is made from $4$ small image on the same strip. Of course the d
 
 \subsection{Organization of information}
 
-Basically, the information is structured  the same way that for GCP in~\ref{GCP:Org},\ref{Sec:GCPBascule} and 
+Basically, the information is structured the same way as for GCP in~\ref{GCP:Org},\ref{Sec:GCPBascule} and 
 \ref{CAMPARI} : 
 
 \begin{itemize}
-   \item there are file for storing the $3d$ point, in this example {\tt MesurePointGround.xml}, it is the same
-         structure that for {\tt GCP}, and the adjusment of this point can mix measurement of $3d$ in ground,
-         $2d$ point in images and $2d$ lines in images;
+   \item there is a file for storing the $3d$ point, in this example {\tt MesurePointGround.xml}, it is the same
+         structure that for {\tt GCP}, and the adjustment of this point can mix measurement of $3d$ in ground,
+         $2d$ points in images and $2d$ lines in images;
 
-   \item there are file for storing $2d$  images line  coordinates and the points that are  supposed to project 
-         on these  lines, in this example {\tt MesureLineImage.xml};
+   \item there is a file for storing $2d$ images line coordinates and the points that are supposed to project 
+         on these lines, in this example {\tt MesureLineImage.xml};
 
-   \item in {\tt Apero} these files are loaded, linked  and then used for compensation.
+   \item in {\tt Apero} these files are loaded, linked and then used for adjustment.
 \end{itemize}
 
-The structure of {\tt MesureLineImage.xml} should be quite obvious :
+The structure of {\tt MesureLineImage.xml} should be quite obvious:
 
 \begin{itemize}
    \item it must contain a global structure {\tt <SetOfMesureSegDr>};
    \item the {\tt <SetOfMesureSegDr>} is a list of {\tt <MesureAppuiSegDr1Im>}, each one
          storing the observation related to one image;
-   \item a  {\tt MesureAppuiSegDr1Im} contains the name of the image {\tt <NameIm>},  and list a of {\tt <OneMesureSegDr>}, each one storing the information related the a line;
+   \item a  {\tt MesureAppuiSegDr1Im} contains the name of the image {\tt <NameIm>}, and list a of {\tt <OneMesureSegDr>}, each one storing the information related to a line;
 
-   \item a   {\tt <OneMesureSegDr>} contains exactly two $2$ point {\tt <Pt1Im>} and {\tt <Pt2Im>} that store 
+   \item a   {\tt <OneMesureSegDr>} contains exactly two $2$ points {\tt <Pt1Im>} and {\tt <Pt2Im>} that store 
             the geometry of the line and a list of {\tt <NamePt>} that contains the name of the $3d$ points; 
             there can be any number $N \geq 1$ of  {\tt <NamePt>} , even if in this example we 
              have $N=2$ everywhere 
-             \footnote{which will probably be the standard case when the $3d$ points comes from $3d$ lines}.
+             \footnote{which will probably be the standard case when the $3d$ points come from $3d$ lines}.
 
 \end{itemize}
 
@@ -388,20 +388,20 @@ The structure of {\tt MesureLineImage.xml} should be quite obvious :
 
 \label{Apero-2-DroiteStatique}
 
-It illustrates the loading of the file.
+It illustrates file loading.
 In this example, we only load the observation and check that the projection is perfect (because data
 are simulated). It's pretty much the same than~\ref{GCP:Org} :
 
 \begin{itemize}
    \item {\tt BDD\_ObsAppuisFlottant} load the line information, in a data base name {\tt Id-Appui};
-         the name of the file containing the line is stores in {\tt  <KeySetSegDroite>};
+         the name of the file containing the line is stored in {\tt  <KeySetSegDroite>};
    \item {\tt PointFlottantInc} load the $3d$ points information, in the same data base {\tt Id-Appui};
    \item {\tt ObsAppuisFlottant} add the observation of the data base {\tt Id-Appui} to the adjustment.
 \end{itemize}
 
 As in this example the data are all frozen \footnote{see {\tt ePoseFigee} and {\tt eAllParamFiges}}, we just print the
-value of the observed distance, which turn to b $0$ up to the rounding error. Whe obtain the error for each point, and 
-the maxim of error :
+value of the observed distance, which turns to b $0$ up to the rounding error. We obtain the error for each point, and 
+the maximum of error :
 
 
 \begin{verbatim}
@@ -432,10 +432,10 @@ Inc = [1,1,1]PdsIm = [1,1]
 
 \subsection{Example {\tt Apero-3-DroiteEvolv.xml}}
 
-In this example, we  want to check that with "perfect" data, the adjusment on line
-is sufficient to compute the "perfect" orientation as long as we are reasonnably initialized.
-It's pretty much the same than~\ref{Apero-2-DroiteStatique},
-exect that we start from start from orientation that have been modified and
+In this example, we  want to check that with "perfect" data, the adjustment on line
+is sufficient to compute the "perfect" orientation as long as we are reasonably initialized.
+It's prettyty much the same than~\ref{Apero-2-DroiteStatique},
+except that we start from start from orientation that have been modified and
 do not freeze the orientation.
 
 
@@ -479,7 +479,7 @@ At the end, the orientation are exported in {\tt Ori-Check3/}, and it can be see
 
 \subsection{Example {\tt Apero-4-CompensMixte.xml} and  {\tt  Apero-5-CompensAll.xml}}
 
-In these example, we check that, as we would do in real case, it is possible to adjust simultaneously GCP-line with
+In this example, we check that, as we would do in real case, it is possible to adjust simultaneously GCP-line with
 other measurement. Also we use a reduced set of line-point (with {\tt MesureLineImageIncompl.xml}), in this set
 there is lines only for the two central images. 
 
@@ -494,12 +494,12 @@ of the extremal images (where there is no GCP-line).
    
 \end{itemize}
 
-So in this example, the $3d$ point {\tt P\_1\_A} will be adujsted simultaneously on :
+So in this example, the $3d$ point {\tt P\_1\_A} will be adjusted simultaneously on:
 
 \begin{itemize}
-    \item $2d$ point measuremnt contains in {\tt MesurePointImagePart.xml};
-    \item $2d$ line measuremnt contains in {\tt MesureLineImage.xml};
-    \item $3d$ point measuremnt contains in {\tt MesurePointGround.xml}.
+    \item $2d$ point measure stored in {\tt MesurePointImagePart.xml};
+    \item $2d$ line measure stored in {\tt MesureLineImage.xml};
+    \item $3d$ point measure stored in {\tt MesurePointGround.xml}.
 \end{itemize}
 
  
