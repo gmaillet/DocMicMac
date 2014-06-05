@@ -105,11 +105,11 @@ mm3d MMTestOrient -help
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {First Image}
   * string :: {Second Images}
   * string :: {Orientation}
-Named args : 
+Named args :
   * [Name=Dir] string :: {Directory, Def=./}
   * [Name=Zoom0] INT :: {Zoom init, pow of 2  in [128,8], Def depend of size}
   * [Name=ZoomF] INT :: {Zoom init,  pow of 2  in [4,1], Def=2}
@@ -121,16 +121,16 @@ Named args :
 \end{verbatim}
 
 The result of transverse paralaxes in stored in images {\tt Px2\dots}, the number of the last
-and most accurate image depends of the other parameters, so you have to check what is 
-present on the directory {\tt GeoI-Px}. 
+and most accurate image depends of the other parameters, so you have to check what is
+present on the directory {\tt GeoI-Px}.
 
-How can these image be used ? Basically, the idea is that with a "perfect" orientation the 
+How can these image be used ? Basically, the idea is that with a "perfect" orientation the
 transverse paralax should be zero on all the image. In real life, this is more complicated, because this
 paralax can be noisy ($2d$ general matching problem can be fairly ambiguous). So what is important is not
 only the amplitude of the transverse paralax but also it spatial analysis : is there systematism in
 this paralax ? Does it present low frequency movement ? Is this transverse paralax correlated to the
-depth map ? \dots 
-It is not so easy to make an automatic quantitative analyse 
+depth map ? \dots
+It is not so easy to make an automatic quantitative analyse
 of the results and the firt purpose of this tool is to help human expertise in a qualitative analysis of
 the result.  The {\tt MMTestOrient} is illustrated on three examples (in each case with {\tt ZoomF=1}) :
 
@@ -142,7 +142,7 @@ the result.  The {\tt MMTestOrient} is illustrated on three examples (in each ca
          very high, but here it is computed on reduced images, and conversely one can guess
          some systematism and a correlation between the depth and the transverse paralax;
 
-   \item on figure~\ref{FIG:CuxaFull:PxTr} ,  the full resolution image of Cuxa  have been 
+   \item on figure~\ref{FIG:CuxaFull:PxTr} ,  the full resolution image of Cuxa  have been
          used (they are not in the data-set); in this case, the tool show clearly a high systematism in
          the transverse paralax  , if we except the noisy part like the tree ~\footnote{for tree the
          transverse paralaxe can be created by wind} the amplitude in almost $\pm\,1$pixel
@@ -152,7 +152,7 @@ the result.  The {\tt MMTestOrient} is illustrated on three examples (in each ca
    \item figure~\ref{FIG:Mubich:PxTr} present an almost perfect orientation; with these $14144,15552$
          coming from a $DMC$ camera the amplitude of transverse paralax is $\pm\, 0.1$ pixel on most
          of the image; the only part of the image where the amplitude is significatively higher is
-         the river, but as can be seen on the depth image, the matching is very noisy here and the 
+         the river, but as can be seen on the depth image, the matching is very noisy here and the
          result has meaning in such part;
 
 \end{itemize}
@@ -173,7 +173,7 @@ This tool can be used also with satellite image :
 Here is an example (in this case, the orientaion file of {\tt ./crop1.tif} is {\tt ./crop1.GRIBin}) :
 
 \begin{verbatim}
-mm3d MMTestOrient  crop1.tif crop2.tif GRIBin PB=true MOri=GRID ZMoy=0 ZInc=1000 
+mm3d MMTestOrient  crop1.tif crop2.tif GRIBin PB=true MOri=GRID ZMoy=0 ZInc=1000
 \end{verbatim}
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
@@ -296,7 +296,7 @@ Although there exist other tools for doing this, the objective was:
 \end{itemize}
 
 Although the study is not finished, the tool  is now operational. The program has been
-tested on $3$ real data set and several synthetic data set, and compared to several existing solutions 
+tested on $3$ real data set and several synthetic data set, and compared to several existing solutions
 working in frequency domain. From a purely subjective evaluation, these tests show that the
 results with MicMac are generally equivalent in quality to frequency approach and, on one of the
 real data-set, the results of MicMac where "better"\footnote{i.e. subjectively easier to intepret
@@ -309,7 +309,7 @@ images of the Gulya data-set.
 
 \subsection{Description of the data set}
 
-The data can be found in the directory {\tt {SeismGuyla/}} 
+The data can be found in the directory {\tt {SeismGuyla/}}
  of directory {\tt ExempleDoc/}. % micmac_data/ExempleDoc/
 It consists of  two \emph{Spot 5} ortho photos of the same scene taken in $2002$ and
 $2008$. Between these two dates, an earthquake occured and image matching can be used to
@@ -336,7 +336,7 @@ coefficient computed}
 %-------------------------------------------------------------------
 \subsection{Simplified interface}
 
-A simplified interface has been written. At the time being, it gives acces to few parameters, but 
+A simplified interface has been written. At the time being, it gives acces to few parameters, but
 it will evolve.
 
 \begin{verbatim}
@@ -344,10 +344,10 @@ $ mm3d MM2DPosSism
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {Image 1}
   * string :: {Image 2}
-Named args : 
+Named args :
   * [Name=Masq] string :: {Masq of focus zone (def=none)}
   * [Name=Teta] REAL :: {Direction of seism if any (in radian)}
   * [Name=Exe] bool :: {Execute command , def=true (tuning purpose)}
@@ -448,7 +448,7 @@ The data set {\tt Concrete/} is an example of using MicMac for measuring very fi
 
 \begin{itemize}
     \item  (up left) a full view of on of the two images used for this correlation;
-    \item  (up right) a zoom on a detail of this image, as it can be seen, the concrete a been 
+    \item  (up right) a zoom on a detail of this image, as it can be seen, the concrete a been
            painted to create an "optimal" texture for matching
     \item  (bottom left) the x displacement (total amplitude is arround $\frac{1}{4}$ of pixel);
     \item  (bottom right) the y displacement (total amplitude is arround $\frac{1}{4}$ of pixel).
@@ -486,6 +486,77 @@ do the following comments :
            aliased at resolution $4$;
 \end{itemize}
 
+
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+\newpage
+
+\section{FDSC - a post-processing tool for 2D correlation results}
+
+\verb+FDSC+ (Fault Displacement Slip-Curve) is a post-processing tool. As \verb+MM2DPosSism+, it is also part of the collaboration between CNES, IPGP and IGN/ENSG, funded by CNES through the TOSCA program.
+
+Mainly dedicated to the geoscience community, \verb+FDSC+ computes offsets by stacking profiles across the fault on the correlation results file and at the end, draws the slip-curve which gives an overview of the displacement field.
+
+\verb+FDSC+ can be found in the MicMac deposit (folder \verb+fdsc/+). It is recommended to read the \verb+readme.txt+ before starting.
+
+In order to launch \verb+FDSC+:
+\begin{verbatim}
+  ~/culture3d/fdsc$ ./fdsc.py
+\end{verbatim}
+
+
+The \verb+FDSC+'s \verb+Qt+ interface is divised into three main blocks corresponding to the three steps of FDSC:
+\begin{enumerate}
+  \item draw the fault trace - origin of the fault is the first point clicked by the user; the direction/orientation of the fault - the same as the drawing direction %the orientation of the fault defines the fault orientation for measurements of parallel and normal to the fault displacements
+  \item stack profiles across the fault
+  \item draw the slip-curve
+\end{enumerate}
+
+%-------------------------------------------------------------------
+
+\subsection{Drawing the fault trace}
+
+A polyline is drawn on a parallax image file (Px1 - epipolar parallax; Px2 - transverse parallax) to describe the fault trace. The parallax image used for this step has to have the same resolution as the parallax images used when stacking, otherwise the fault trace is useless.
+
+A file containing the points of the polyline describing the fault is saved (e.g. \verb+trace.txt+) and later used to retrieve the fault when stacking profiles.
+The first drawn point of the fault trace (Fig. \ref{FIG:fdsc_traceFaultK_withFrames}) is considered to be the fault origin. The drawing direction is the fault direction.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth]{FIGS/Fdsc/fdsc_traceFaultK_withFrames.png}
+  \end{center}
+  \caption{FDSC - drawing the fault trace; xy - image reference frame (x - in epipolar direction, y - in transverse direction); $x_fy_f$ - fault reference frame ($x_f$ - parallel to the fault line, $y_f$ - perpendicular to the fault line)}
+  \label{FIG:fdsc_traceFaultK_withFrames}
+\end{figure}
+
+%-------------------------------------------------------------------
+
+\subsection{Stacking profiles}
+
+Perpendicular profiles \UNCLEAR{(direction from left to right from the fault direction)} are stacked to obtain the fault offsets.
+\UNCLEAR{A stack of profiles is composed of numerous single profiles. The result is a ``mean profile'' where the noise is diminished and the offset trend comes out very well, making it easier to measure (see Fig. \ref{FIG:demo_interetStack}).}
+
+\begin{figure}%[h!]
+  \begin{center}
+  \includegraphics[width=0.5\textwidth]{FIGS/Fdsc/demo_interetStack.png}
+  \caption{Single profiles perpendicular to the fault and a resulted stack}
+  \label{FIG:demo_interetStack}
+  \end{center}
+\end{figure}
+
+Parameters defining a stack:
+\begin{itemize}
+  \item computing method: mean or weighted mean, median or weighted median of profiles;
+  \item when a weighted method is chosen, the values of the correlation coefficients' image are considered as weights (these values express well the confidence in the corresponding parallax values), therefore  the user must indicate the correlation coefficients' image,a s well as the value of the exponent of weights.
+  \item width : number of profiles taken into account, 1 pixel apart; must be a odd number
+  \item length : length of profiles, in pixels; must be a odd number
+  \item profile projection or offsets output direction: \verb++Column++, \verb++Line++ (corresponding to $x$ projection - only \verb++Px1++ image is used and $y$ projection respectively - only \verb++Px2++ is used in stacks computation); \verb++Parallel++, \verb++Perpendicular++ (profiles are projected in the fault parallel, $x_f$, and fault normal direction, $y_f$; both Px1 and Px2 images are needed for stacks computation).
+\end{itemize}
+
+The offsets values are saved into a file (e.g \verb++offsets.txt++ to which a suffix is added by default depending on the chosen projection: $offsets\_dirCol.txt$,  $offsets\_dirLine.txt$, $offsets\_dirParal.txt$, $offsets\_dirPerp.txt$).
+
+\subsection{Drawing the slip-curve}
+The input file needed is the offsets output file and the slip curve will be drawn accordingly to these values.
 
 
 
