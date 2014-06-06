@@ -489,7 +489,7 @@ do the following comments :
 
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
-\newpage
+%~ \newpage
 
 \section{FDSC - a post-processing tool for 2D correlation results}
 
@@ -507,7 +507,7 @@ In order to launch \verb+FDSC+:
 
 The \verb+FDSC+'s \verb+Qt+ interface is divised into three main blocks corresponding to the three steps of FDSC:
 \begin{enumerate}
-  \item draw the fault trace - origin of the fault is the first point clicked by the user; the direction/orientation of the fault - the same as the drawing direction %the orientation of the fault defines the fault orientation for measurements of parallel and normal to the fault displacements
+  \item draw the fault trace
   \item stack profiles across the fault
   \item draw the slip-curve
 \end{enumerate}
@@ -519,13 +519,13 @@ The \verb+FDSC+'s \verb+Qt+ interface is divised into three main blocks correspo
 A polyline is drawn on a parallax image file (Px1 - epipolar parallax; Px2 - transverse parallax) to describe the fault trace. The parallax image used for this step has to have the same resolution as the parallax images used when stacking, otherwise the fault trace is useless.
 
 A file containing the points of the polyline describing the fault is saved (e.g. \verb+trace.txt+) and later used to retrieve the fault when stacking profiles.
-The first drawn point of the fault trace (Fig. \ref{FIG:fdsc_traceFaultK_withFrames}) is considered to be the fault origin. The drawing direction is the fault direction.
+The first drawn point of the fault trace (Fig. \ref{FIG:fdsc_traceFaultK_withFrames}) is considered to be the fault origin. The drawing direction is the fault direction. %the orientation of the fault defines the fault orientation for measurements of parallel and normal to the fault displacements
 
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.6\textwidth]{FIGS/Fdsc/fdsc_traceFaultK_withFrames.png}
   \end{center}
-  \caption{FDSC - drawing the fault trace; xy - image reference frame (x - in epipolar direction, y - in transverse direction); $x_fy_f$ - fault reference frame ($x_f$ - parallel to the fault line, $y_f$ - perpendicular to the fault line)}
+  \caption{FDSC - drawing the fault trace; $uv$ - image reference frame ($\vec{u}$ - in epipolar direction, $\vec{v}$ - in transverse direction); $u_fv_f$ - fault reference frame ($\vec{u_f}$ - parallel to the fault line, $\vec{v_f}$ - perpendicular to the fault line)}
   \label{FIG:fdsc_traceFaultK_withFrames}
 \end{figure}
 
@@ -539,7 +539,7 @@ Perpendicular profiles \UNCLEAR{(direction from left to right from the fault dir
 \begin{figure}%[h!]
   \begin{center}
   \includegraphics[width=0.5\textwidth]{FIGS/Fdsc/demo_interetStack.png}
-  \caption{Single profiles perpendicular to the fault and a resulted stack}
+  \caption{Single (raw) profiles perpendicular to the fault and a resulted stack}
   \label{FIG:demo_interetStack}
   \end{center}
 \end{figure}
@@ -548,9 +548,9 @@ Parameters defining a stack:
 \begin{itemize}
   \item computing method: mean or weighted mean, median or weighted median of profiles;
   \item when a weighted method is chosen, the values of the correlation coefficients' image are considered as weights (these values express well the confidence in the corresponding parallax values), therefore  the user must indicate the correlation coefficients' image,a s well as the value of the exponent of weights.
-  \item width : number of profiles taken into account, 1 pixel apart; must be a odd number
-  \item length : length of profiles, in pixels; must be a odd number
-  \item profile projection or offsets output direction: \verb++Column++, \verb++Line++ (corresponding to $x$ projection - only \verb++Px1++ image is used and $y$ projection respectively - only \verb++Px2++ is used in stacks computation); \verb++Parallel++, \verb++Perpendicular++ (profiles are projected in the fault parallel, $x_f$, and fault normal direction, $y_f$; both Px1 and Px2 images are needed for stacks computation).
+  \item width : number of profiles taken into account, 1 pixel apart (it must be a odd number)
+  \item length : length of profiles, in pixels (it must be a odd number)
+  \item profile projection or offsets output direction: ``Column'', ``Line'' (corresponding to $u$ projection - only Px1 image is used and $v$ projection respectively - only Px2 is used in stacks computation); ``Parallel'', ``Perpendicular'' (profiles are projected in the fault parallel, $u_f$, and fault normal direction, $v_f$, respectively; both Px1 and Px2 images are needed for stacks computation).
 \end{itemize}
 
 The offsets values are saved into a file (e.g \verb++offsets.txt++ to which a suffix is added by default depending on the chosen projection: $offsets\_dirCol.txt$,  $offsets\_dirLine.txt$, $offsets\_dirParal.txt$, $offsets\_dirPerp.txt$).
