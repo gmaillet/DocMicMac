@@ -17,7 +17,7 @@ of this documentation and there may be some cross references between English and
 %=======================================================================================================
 \section{History, Status and Contributors}
 
-This is the documentation of a set of software 
+This is the documentation of a set of software
 photogrammetric tools that, under certain
 conditions, allow to compute a 3D modelization from a
 set of images.
@@ -27,7 +27,7 @@ French National Geographic Institute (IGN), as
 a tool integrating several recent results of the scientific community.
 It is a general purpose tool, probably in many (if not all) specific
 contexts, one will be able to find a more acurate tool. However, one
-of its expected advantages is its generality. It has been used 
+of its expected advantages is its generality. It has been used
 in a lot of different contexts, for example:
 
 \begin{itemize}
@@ -42,13 +42,13 @@ in a lot of different contexts, for example:
    \item 3D modelization of objects (sculptures) or interior and exterior scenes;
 
    \item multi-spectral matching of images registration.
-         
+
 \end{itemize}
 
 Of course this generality comes with a price \dots : it requires a lot of parameterization
-which sometimes turns to be quite complex.  For 3D computation, MicMac works only 
+which sometimes turns to be quite complex.  For 3D computation, MicMac works only
 with oriented images like the ones resulted from classical aero-triangulation process. Early
-in $2007$, there were several opportunities that encouraged me to create a 
+in $2007$, there were several opportunities that encouraged me to create a
 tool that could orientate a set of overlapping images, so that they can be matched in
 MicMac:
 
@@ -81,7 +81,7 @@ Different people have helped me in writting these tools:
    \item Christian Thom for the first idea of multi-correlation,
    \item Jean-Micha\"el Muller for improvements about installation,
    \item Ana-Maria Rosu for many typo corrections (alas, I can create them faster than she can correct them).
-   \item since september $2012$, the \emph{culture 3D} team : J\'er\'emy Belveaux, G\'erald Choqueux, 
+   \item since september $2012$, the \emph{culture 3D} team : J\'er\'emie Belvaux, G\'erald Choqueux,
          Matthieu Deveau.
 \end{itemize}
 
@@ -107,7 +107,7 @@ prerequisites:
 \begin{itemize}
    \item the reader must be comfortable with the Linux PC on which the software
          will be installed; at least, if you are not familiar with installation
-         of software from source code, you should have the support of 
+         of software from source code, you should have the support of
          an administrator;
 
    \item some very basic notions of photogrammetry are necessary, not a lot
@@ -119,7 +119,7 @@ prerequisites:
 %=======================================================================================================
 \section{Installation and Distribution}
 
-There is also a forum where you will find answers to the most frequent question 
+There is also a forum where you will find answers to the most frequent question
 you may have :
 
 \begin{verbatim}
@@ -134,12 +134,12 @@ format that you have to compile. As described below, they are relatively
 low level tools, and the installation, computation and running of these
 tools require some basic background in practical computer science.
 
-See now the section~\ref{MERCURIAL} for the new website since $2012$, install mercurial and follow the instruction. 
+See now the section~\ref{MERCURIAL} for the new website since $2012$, install mercurial and follow the instruction.
 Several links that may be usefull :
 
 \begin{itemize}
    \item http://logiciels.ign.fr/?Telechargement,20   for the sources
-   \item http://forum-micmac.forumprod.com/new-site-of-micmac-since-januray-2013-t340.html   
+   \item http://forum-micmac.forumprod.com/new-site-of-micmac-since-januray-2013-t340.html
    \item http://forum-micmac.forumprod.com/tuto-install-t518.html
 \end{itemize}
 
@@ -165,7 +165,7 @@ pwd = scAEf9MR
 These softwares have few dependencies to others librairies or programs. Basically,
 if you use tiff or raw files as input, and if you do not use any of the graphical
 tools provided \footnote{for handling mask, visualize tie points ...} ,
-there might not be any dependency. 
+there might not be any dependency.
 
 By the way, on Linux, as the graphical interface are by default required, the compiler
 will require the header file {\tt X.h, Xlib.h, Xutil.h, cursorfont.h, keysym.h}.
@@ -182,7 +182,7 @@ to have installed the command {\tt convert}, this command is a part of the excel
 
 
 The {\tt dcraw} source code I use to handle xif files info is sufficient in most cases.
-However, when it fails, I try to use the {\tt exiv2} tool. I also recommand that 
+However, when it fails, I try to use the {\tt exiv2} tool. I also recommand that
 you install this excellent and free package.
 
 I also recommand that you install the excellent package {\tt exiftool}, it is a free
@@ -200,7 +200,7 @@ There are roughly three kinds of interfaces for softwares:
 
 \begin{itemize}
    \item user friendly graphical interface, with intuitive menu and window etc.
-         Its advantage is that it may be usable by all final users, 
+         Its advantage is that it may be usable by all final users,
          the drawback of this solution being the cost for the developper;
 
    \item API or application programming interface. Using this level of interface requires you
@@ -209,7 +209,7 @@ There are roughly three kinds of interfaces for softwares:
 
    \item a set of programs that you can call on a command line, with parameters being
          added on a command line or included in a file.
-         
+
 \end{itemize}
 
 The tools described here use the third kind of interface. This seemed to be the
@@ -224,7 +224,7 @@ The tools described here are all command line tools. Their parameters can be add
 directly on the command line or, for more complex tools (like Apero and MicMac) the
 parameters are provided in an XML file.
 
-Here is an example of calling the command {\tt GrShade} for computing the shading 
+Here is an example of calling the command {\tt GrShade} for computing the shading
 of a depth image:
 
 \begin{verbatim}
@@ -248,9 +248,9 @@ description of the command. For example{ \tt bin/Nuage2Ply -help} will print on 
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args : 
+Unamed args :
   * string
-Named args : 
+Named args :
   * [Name=Sz] Pt2dr
   * [Name=P0] Pt2dr
   * [Name=Out] string
@@ -264,7 +264,7 @@ Named args :
 
 
 This indicates that {\tt bin/Nuage2Ply} has one mandatory argument, of type string;
-mandatory arguments come first and the order matters. { \tt bin/Nuage2Ply}  also admits 
+mandatory arguments come first and the order matters. { \tt bin/Nuage2Ply}  also admits
 several optional arguments. For example, there is one optional argument named  { \tt Scale},
 of type  { \tt REAL}. If this argument is to be specified with the value $2.5$,  the command
 line will contain {\tt Scale=2.5}.  Of course the command  {\tt bin/Tool -help} gives information
@@ -285,7 +285,7 @@ for specifying the parametrization. {\tt XML} has the following advantages:
           exactly what is required for complex parametrization.
 \end{itemize}
 
-Here is an example for calling {\tt Apero}: 
+Here is an example for calling {\tt Apero}:
 
 \begin{verbatim}
 bin/Apero ../micmac_data/Ref-Apero/Test-Lion/AperoQuick.xml
@@ -293,11 +293,11 @@ bin/Apero ../micmac_data/Ref-Apero/Test-Lion/AperoQuick.xml
 
 If you downloaded the data example as decribed in~\ref{Install}, you could have
 a look at the {\tt AperoQuick.xml} file to see what it looks like. For all these
-complex tools, that exit in an  XML file, there is a formal description of the 
+complex tools, that exit in an  XML file, there is a formal description of the
 XML file that is correct from the syntactic point of view. These XML formal description
 files are all  located in the {\tt include/XML\_GEN/} directory.
 For example, the file {\tt include/XML\_GEN/ParamApero.xml} contains a formal
-description of the XML files which are syntactically valid XML files for the 
+description of the XML files which are syntactically valid XML files for the
 {\tt Apero} program.
 
 How the formal files are used to specify the valid files is too complex
@@ -312,7 +312,7 @@ arguments. For example, you can run one of the example data set with no
 argument:
 
 \begin{verbatim}
-bin/MICMAC /home/mpd/micmac_data/Jeux1-Spot-Epi/Param-0-Epi.xml 
+bin/MICMAC /home/mpd/micmac_data/Jeux1-Spot-Epi/Param-0-Epi.xml
 \end{verbatim}
 
 But if, for some reason, you want to start the computation directly
@@ -358,14 +358,14 @@ For example:
           certain conditions; so  you need to have the possibility to specify relations
           (in the mathematical way).
 \end{itemize}
-  
+
 All these tasks may be performed by a database management system. Although there
 are some very efficient systems such as open source systems, this is not what I chose
 for supporting this functionality (because I wanted my tools to stay relatively autonomous).
 Maybe it was not a good choice, however it has to be assumed now.
 
 
-The precise mechanism is quite complex and it is described in the chapter~\ref{Chap:NFS}. 
+The precise mechanism is quite complex and it is described in the chapter~\ref{Chap:NFS}.
 The main ideas are:
 
 \begin{itemize}
@@ -374,7 +374,7 @@ The main ideas are:
          describe the name set beginning with {\tt Img}, followed by four digits and ending
          with {\tt .tif}. If one wants to specify that the file associated  to {\tt Img1234.tif}
          is {\tt Ori/1234-HH.xml}, there will be something like {\tt  Ori/\$1-HH.xml} associated
-        to {\tt Img([0-9]\{4\}).tif}  (the meaning is that {\tt \$1}  is to be replaced by 
+        to {\tt Img([0-9]\{4\}).tif}  (the meaning is that {\tt \$1}  is to be replaced by
           the first sub-expression between parenthesis);
 
 
@@ -388,8 +388,8 @@ The main ideas are:
          the file {\tt MicMac-LocalChantierDescripteur.xml} under the key {\tt Key-Im2Ori},
          this key will then be used in {\tt Apero} for the creation of orientation file and in
          {\tt MicMac} for using the result of {\tt Apero};
-         
-          
+
+
      \item a lot of pre-existing conventions are automatically loaded by the tools, and
            for most of the cases these standard conventions should be sufficient.
 \end{itemize}
@@ -470,7 +470,7 @@ exporting data at different steps of this pipeline:
 
    \item {\tt \bf to8Bits}, tool for converting $16$ or $32$ bit image in a $8$ bit image.
 
-   \item {\tt \bf SupMntIm}, tool for generating a superposition of image and MNT in hypsometry 
+   \item {\tt \bf SupMntIm}, tool for generating a superposition of image and MNT in hypsometry
          and level curves.
 
    \item {\tt \bf PanelIm}. Gather images in a panel.
