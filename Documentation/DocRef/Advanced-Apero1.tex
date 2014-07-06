@@ -501,13 +501,140 @@ So in this example, the $3d$ point {\tt P\_1\_A} will be adjusted simultaneously
     \item $2d$ line measure stored in {\tt MesureLineImage.xml};
     \item $3d$ point measure stored in {\tt MesurePointGround.xml}.
 \end{itemize}
-
  
+%=======================================================================================================
+\section{Recent evolution in Tapas}
+
+This section describes option which, at the time being are implemented in a temporary tool name {\tt NewTapas}. However,
+in a near future , when  {\tt NewTapas} will have been validated by beta-tester, it will replace Tapas (with 
+a full compatibility of command but with result slightly different).
 
 
+\subsection{Viscosity \& Levenberg Marquardt stuff}
+
+Adding viscosity, also named more pedentically using   Levenberg Marquardt algorithm,
+is a classical way to avoid problem due to ill conditionning system in energy minimization algorithm.
+In theory the only drawback is that it slow down the speed of convergence.
+
+However, in Tapas, the default value of viscosity was badly dosed, and it  some configuration ,
+particulary UAV acquisition \footnote{because it's big data set and the "loop is not closed}
+lead to stop the bundle adjustment before the convergence . This is illstrated in figure~\ref{ImOldNewTapas}.
+ To change this fact, the comporment of Tapas/NewTapas has evolved this way :
+
+\begin{itemize}
+    \item  the initial default value of viscosity  on centre and rotation has been divided by $10$;
+    \item  conversely the constraint to solve the arbitray ambiguity has bee reactivated (i.e the firt image is
+           frozen, and the length of the base between two first images is frozen)
+    \item  a small initial viscosity has been added on internal parameters;
+    \item  in the third {\tt <EtapeCompensation>} the viscosity is continuously decreasing;
+    \item  in the fouth step of  {\tt <EtapeCompensation>} the viscosity is highly stronly decreasing and
+           the bundle doesn not stop before a test of convergence is satisfied (the test verifiy that with an
+           accuracy of $1E-10$ the $3d$ point are identic after two consecutive steps).
+\end{itemize}
+
+As this new version can increase significatively the computation, the option {\tt RefineAll=false}
+allox to limit the number of iteration (by a factor arround $2$), of course it has a risk of non convergence \dots
 
 
+\begin{figure}
+\begin{center}
+   \includegraphics[width=120mm]{FIGS/NewTapas/Old00.jpg}
+   \includegraphics[width=120mm]{FIGS/NewTapas/New00.jpg}
+\end{center}
+\caption{Result with old and new version of Tapas, with first convergence is visibly not achieved}
+\label{ImOldNewTapas}
+\end{figure}
 
+
+\subsection{Additional distortion}
+
+The kernel of Apero has two option that can be usefull when attempting to modelize finely the distorsion of a camera:
+
+\begin{itemize}
+   \item model with high degree of freedom
+   \item possibility to define a distorsion as composition of several distorstion (as described in~\ref{ComposDist}).
+\end{itemize}
+
+These option are now partly accessible in Tapas.
+
+There is two familly of distorsion with high degree of freedom :
+
+
+\begin{itemize}
+   \item high radial distorstion made from a polynomial radial distorstion and $6$ parameters for degree $2$
+         general poynoms; these polynoms are avalaible in Tapas via the {\tt Four7x2, Four11x2, Four15x2, Four19x2}
+         and in Apero with {\tt eModeleRadFour7x2, ..., eModeleRadFour19x2}, the {\tt Four19x2} modelize the radial
+         distorsion with a polynom $r_3 \rho^3 +\dots + r_{19} \rho^{19}$; also I am not sure it maybe necessary to
+         use until $ \rho^{19}$, I observe that with modern camera using sophisticated aspherical lenses, it may be
+         unsufficient to use the so called $r_3 r_5 r_7$ model;
+         
+
+   \item general polynial model, i.e $D_N(X,Y) \sum (A_{i,j} x^iy^j,B_{i,j} x^iy^j)$  where $i+j\leq N$,
+         there accessible in {\tt Apero} a a unified model {\tt eModelePolyDeg2, \dots eModelePolyDeg7},
+         for example,{\tt eModelePolyDeg7} has $66$ parameters, because $66=8*9-6$, the $-6$ comes because
+         there $6$ polynoms already modelized by focal, principal point and rotations; 
+\end{itemize}
+
+The firts one is accessible directly in {\tt NewTapas}, not the second. Buth both are accessible as additional distortion.
+In fact, it would be generaly a bad idea to try to estimate directly the $66$ parameters of a {\tt eModelePolyDeg7}, it's
+preferable to estimate first a model with physical meaning and few parameters, and then to estimate the high degree polynom
+as a modification to this physical model. This can be done with :
+
+\begin{itemize}
+    \item  {\tt AddFour7x2,  \dots AddFour15x2} for high degree radial models;
+    \item  {\tt AddPolyDeg2, \dots AddPolyDeg7} for high degree general models;
+\end{itemize}
+
+A possible example of use :
+
+\begin{verbatim}
+"mm3d" "NewTapas" "Four15x2" "R.*JPG" "DegGen=2"
+"mm3d" "NewTapas" "AddPolyDeg7" "R.*JPG" "InOri=Ori-Four15x2/"
+\end{verbatim}
+
+The first call is classical, just remark the {\tt DegGen=2} because by default only $1$ degree
+general parameter od {\tt Four15x2} is free.  In the second call we start from the first orienation/calibration
+and add a $7$ degree general polynom. Note that, as with {\tt AutoCal} et {\tt Figee} all the calibration must have
+an initial value when using the additionnal mode. 
+
+Also note that only the additionnal distorsion will be optimized (else the problem would be far over parametrized).
+The result in {\tt Ori-AddPolyDeg7/AutoCal60.xml} looks like :
+
+{\tiny
+\begin{verbatim}
+<ExportAPERO>
+     <CalibrationInternConique>
+          <KnownConv>eConvApero_DistM2C</KnownConv>
+          <PP>389.315403456829813 291.190537211471565</PP>
+          <F>653.34645310282724</F>
+          <SzIm>800 600</SzIm>
+          <CalibDistortion>
+               <ModUnif>
+                    <TypeModele>eModeleRadFour15x2</TypeModele>
+                    <Params>0.000731887299586956555</Params>
+      .....
+                    <Etats>499.999999999999943</Etats>
+                    <Etats>399.999999999999943</Etats>
+                    <Etats>300</Etats>
+               </ModUnif>
+          </CalibDistortion>
+          <CalibDistortion>
+               <ModUnif>
+                    <TypeModele>eModelePolyDeg7</TypeModele>
+                    <Params>-0.00116060037632004101</Params>
+                    <Params>0.000376819315728853894</Params>
+      .....
+                    <Params>0.155804133319492222</Params>
+                    <Etats>652.861598677042821</Etats>
+                    <Etats>391.129060939043825</Etats>
+                    <Etats>287.689359319814059</Etats>
+               </ModUnif>
+          </CalibDistortion>
+     </CalibrationInternConique>
+</ExportAPERO>
+
+\end{verbatim}
+}
 
 
 
