@@ -35,7 +35,7 @@ The $106$ images of Vincenne's data set are organized in $4$ subset :
            calibration.
 \end{itemize}
 
-Note that, \emph{before any processing}, the images have been renamed taking 
+Note that, \emph{before any processing}, the images have been renamed taking
 into account the acquisition structure. It is highly recommanded to do the
 same thing before processing data sets having some complexity. It avoids
 the creation of tricky regular expression. These images are jpeg low resolution
@@ -75,7 +75,7 @@ The file {\tt  ExeCmd.txt} contains all the commands that we will need to proces
 \subsubsection{Tie points}
 
 The computation of tie points and relative orientation is quite
-classic now. 
+classic now.
 
 For tie points we want to compute:
 
@@ -112,7 +112,7 @@ Tapas RadialStd "(Face1|Face2|Lnk12)-IMGP[0-9]{4}.JPG" Out=All InCal=Calib
 
 \subsubsection{Optional, absolute orientation}
 
-Finally, we want to transform the orientation from an arbitrary relative 
+Finally, we want to transform the orientation from an arbitrary relative
 orientation to some physically based orientation. If we have some ground
 control points, this can be done using the {\tt GCPBascule} command (see~\ref{Sec:GCPBascule}) . To
 generate orientation in {\tt Ori-Ground} :
@@ -140,7 +140,7 @@ There is a new option {\tt Rep=ij}, the meaning of this option is :
 \begin{itemize}
    \item it is a string that describe a repair;
    \item it must contain $2$ symbols, each symbols can be in \emph{\{i,-i,j,-j,k,-k\}} and desribe a vector;
-   \item the globlal orientation with be such that in the final orientation the line 
+   \item the globlal orientation with be such that in the final orientation the line
          defined by {\tt Line1-Line2} is aligned on first vector, and the normal to the plane is aligned on second vector;
    \item here in final orientation $i$ will be the horizontal of the wall and $j$ will be the
          normal to the wall, consequently $k=i\wedge j$ will be the vertical;
@@ -154,15 +154,15 @@ There is a new option {\tt Rep=ij}, the meaning of this option is :
     %  -  -  -  -  -  -  -  -  -  -  -  -
 \subsubsection{"Standard" option}
 
-The "standard pipeline" for generating an ortho photo of facade, 
+The "standard pipeline" for generating an ortho photo of facade,
 as seen in~\ref{Simp:Tool:One}, is for each facade :
 
-\begin{itemize} 
+\begin{itemize}
    \item compute a local repair to define the facade with {\tt RepLocBascule};
-   \item compute a rectified image with {\tt Tarama}; 
+   \item compute a rectified image with {\tt Tarama};
    \item make the matching with {\tt Malt};
    \item generate the ortho image with {\tt  Tawny};
-\end{itemize} 
+\end{itemize}
 
 This can be done by the succession of commands:
 
@@ -183,11 +183,11 @@ encountered problem :
          are located on the roof (due to bad incidence angles) and on horizontal lines;
 
     \item on second line, a snapshot from Meshlab, showing the camera position;
-          it illustrates the fact that in this acquisition all the camera centers are 
+          it illustrates the fact that in this acquisition all the camera centers are
          located on the same line;
 
     \item the third line, focus on the matching problem  that occurs on linear detail that
-          are parallel to the line of acquisition; 
+          are parallel to the line of acquisition;
 \end{itemize}
 
 
@@ -213,10 +213,10 @@ aligment of cameras, poor dept map especially for linear structure parallel to c
 
 Intutively it  is obvious that when the camera center are all aligned on the same line,
 the matching problem is  ambiguous for line parallel to the acquisition, consequently
-the quality of result is poor. 
+the quality of result is poor.
 Obviously, the default would decrease (in fact disappear) if the camera were not
 aligned, using an UAV or a scaffolding , we could have an optimal geometry similar
-to aerial acquisition. But it is not always possible to have such material and, for economical reason, 
+to aerial acquisition. But it is not always possible to have such material and, for economical reason,
 it would be interesting to be abble to obtain a relatively good quality ortho photo even when
 all the camera are aligned.
 
@@ -225,7 +225,7 @@ this problem are  much more important in ground geometry than in image geometry.
 With the option we have seen until now, we have basically this alternative:
 
 \begin{itemize}
-   \item  use the ground geometry with a simple process but obtain bad qualitiy results such those of 
+   \item  use the ground geometry with a simple process but obtain bad qualitiy results such those of
           figure~\ref{FIG:Pb:Vincenne};
 
    \item  use the image geometry with  good results but have a complicated workflow with many depth map
@@ -235,7 +235,7 @@ With the option we have seen until now, we have basically this alternative:
 
 With such acquisition, the ortho-cylindrical geometry combine the benefit of these
 two geometries. Intuitively this geometry is equivalent to the geometry of a virtual push-broom
-camera, the line of this virtual push-broom being the line on which are located the 
+camera, the line of this virtual push-broom being the line on which are located the
 camera center. More formally :
 
 
@@ -259,7 +259,7 @@ RepLocBascule  "(Face1)-IMGP[0-9]{4}.JPG" Ground  MesureBascFace1.xml Ortho-Cyl1
 \end{verbatim}
 
 With this option, {\tt RepLocBascule} will also compute, using least mean square,
-the line that fit the best the alignment of camera perspective centers. If we take 
+the line that fit the best the alignment of camera perspective centers. If we take
 a look at file {\tt Ortho-Cyl1.xml} we can see  this line coded by {\tt <P0>}
 and {\tt <P1>}  (plus the previous local repair  {\tt <Repere>}) :
 
@@ -288,8 +288,8 @@ and {\tt <P1>}  (plus the previous local repair  {\tt <Repere>}) :
     %  -  -  -  -  -  -  -  -  -  -  -  -
 \subsubsection{Concrete use of "Ortho-cylindric" option}
 
-It is then sufficient to give the file created by  {\tt RepLocBascule} 
-as an optional parameter to {\tt Tarama} and {\tt Malt} to compute 
+It is then sufficient to give the file created by  {\tt RepLocBascule}
+as an optional parameter to {\tt Tarama} and {\tt Malt} to compute
 in the adequate geometry; for facade one, we can enter:
 
 
@@ -320,24 +320,24 @@ Note some options of these commands:
    \item in {\tt Tarama}, the {\tt Out=TA-OC-F1} (and {\tt Out=TA-OC-F2}) to specify the
          directory of output; this is naturally to avoid that each call to {\tt Tarama} overwrite
          the result of previous calls;
-   \item in {\tt Malt}, the {\tt DirTA=TA-OC-F1} to get the adequete entry from  {\tt Tarama} 
+   \item in {\tt Malt}, the {\tt DirTA=TA-OC-F1} to get the adequete entry from  {\tt Tarama}
          and {\tt Out=DirMEC=Malt-OC-F1} to specify the results; this change the place are written
-         the results of matching, and also the result of individual ortho photo (here it will be 
+         the results of matching, and also the result of individual ortho photo (here it will be
          {\tt Ortho-UnAnam-Malt-OC-F1/});
 \end{itemize}
 
 
-If the ortho-cylindric geometry is "optimal" for computation, this is 
+If the ortho-cylindric geometry is "optimal" for computation, this is
 generally not a proper geometry for the final user , so at the end of the process,
 {\tt MicMac} generate an "un-anamorphosed" version of this depth map in
 euclidean geometry.  For example on directory {\tt Malt-OC-F1/}, there
 exists $9$ files {\tt Z\_NumX\_DeZoomY\_STD-MALT.tif} corresponding to
-the different level of matching in ortho-cylindrical geometry, 
+the different level of matching in ortho-cylindrical geometry,
 and a single file {\tt Z\_Num1\_DeZoom1\_Malt-Ortho-UnAnam.tif}
 corresponding to the eulidean version of the last file
 ( this is the version presented on second line of
 figure~\ref{FIG:OK:Vincenne}).
-Note that in general there will be very few hidden part on 
+Note that in general there will be very few hidden part on
 ortho-cylindrical depth map; conversely, they are quite current on
 euclidean version, but it is intrinsic to what we want to restituate
 with such acquisition.
@@ -373,7 +373,7 @@ geometry, 3-Ortho photo in euclidean geometry}
 \end{figure}
 
 
-Although all the tool described in this section are rather optimized 
+Although all the tool described in this section are rather optimized
 for ortho-photo generation, it is still possible to generate 3D cloud points.
 As usual in ground geometry, we use the result of matching for the 3D and
 the ortho-photo for textures.
@@ -485,8 +485,8 @@ As usual, we want to compute matches between all pairs of calibration data set. 
 Tapioca MulScale "Abbey-IMG_.*.jpg" 200 800
 \end{verbatim}
 
-    %  -  -  -  -  -  -  -  -  -  -  -  -  
-	
+    %  -  -  -  -  -  -  -  -  -  -  -  -
+
 \subsubsection{Relative orientation}
 
 Then we want to make a first calibration with a subset of the whole data, and
@@ -498,7 +498,7 @@ Tapas RadialBasic "Abbey-.*.jpg" InCal=Calib Out=All-Rel
 \end{verbatim}
 
 We can verify that relative orientation was successful by checking the ``Residu Liaison Moyens'' (root mean square error) value that should be around 0.5 pixel.
-We can also check visually the result of orientation running {\tt AperiCloud}, described in \ref{APERICLOUD}: 
+We can also check visually the result of orientation running {\tt AperiCloud}, described in \ref{APERICLOUD}:
 
 \begin{verbatim}
 AperiCloud  "Abbey-IMG_[0-9]*.jpg" All-Rel RGB=0
@@ -518,7 +518,7 @@ plan:
 %-------------------------------------------------------------------
 
 \subsection{GCP transforms}
-		
+
     %  -  -  -  -  -  -  -  -  -  -  -  -
 
 \subsubsection{Ground control point coordinates conversion}
@@ -544,10 +544,10 @@ This will create two {\tt Xml} files {\tt MesureInit-S2D.xml} and {\tt MesureIni
 \subsubsection{Bascule}
 
 Now we can transform images relative orientations, as computed with Tapas, expressed in an arbitrary coordinate system,
-into the local euclidean coordinate system, using 2D images coordinates measures and 3D corresponding ground control points. 
+into the local euclidean coordinate system, using 2D images coordinates measures and 3D corresponding ground control points.
 
 \begin{verbatim}
-GCPBascule "Abbey-.*jpg" All-Rel  RTL-Init  AppRTL.xml  MesureInit-S2D.xml 
+GCPBascule "Abbey-.*jpg" All-Rel  RTL-Init  AppRTL.xml  MesureInit-S2D.xml
 \end{verbatim}
 
 Once the images relative orientations have been transformed back in local euclidean coordinate system, one can verify that Z coordinates for the whole data set is nearly constant, which corresponds to the data acquisition setup.
@@ -588,7 +588,7 @@ Campari "Abbey.*.jpg"  RTL-Bascule RTL-Compense GCP=[AppRTL.xml,0.1,MesureFinale
 
 \subsubsection{Coordinate system backward transform}
 
-Then one can transform coordinates from the local euclidean coordinate system to a geographic coordinate system, and compute ortho-images which can be superimposed on vectorial maps (and \textit{vice versa}). 
+Then one can transform coordinates from the local euclidean coordinate system to a geographic coordinate system, and compute ortho-images which can be superimposed on vectorial maps (and \textit{vice versa}).
 For example, if we want to transform our data into the sinusoidal projection, for which we have got a file {\tt SysCoSinus90W.xml} storing the transformation parameters, the command is:
 
 \begin{verbatim}
@@ -673,7 +673,7 @@ mm3d PanelIm ./ "R00405[0-5][0:2:4:6:8].JPG" Scale=3
 
 
 
-In this example, we deal with direct georeferencing, that is the act of using camera positions for georeferencing the model. The tools {\tt OriConvert} (section \ref{OriConvert}) will be extensively used for converting telemetry data into MicMac format and even further, for correcting the delay (bias) that may be present in these GPS positions (section \ref{OriConvert:GPSdelay}). This offset between the GPS/IMU data from the drone at the moment of the image shoot is due to the lag of the electronic shutter and to the position and orientation offset between the camera and the GPS/IMU units (refered to as the lever-arm and the boresight) . We implement here a correction  in order to adjust GPS positions. Telemetry data aren't exclusively utilized for georeferencing, but also for generating a file image pairs, as input to {\tt Tapioca File \dots }. 
+In this example, we deal with direct georeferencing, that is the act of using camera positions for georeferencing the model. The tools {\tt OriConvert} (section \ref{OriConvert}) will be extensively used for converting telemetry data into MicMac format and even further, for correcting the delay (bias) that may be present in these GPS positions (section \ref{OriConvert:GPSdelay}). This offset between the GPS/IMU data from the drone at the moment of the image shoot is due to the lag of the electronic shutter and to the position and orientation offset between the camera and the GPS/IMU units (refered to as the lever-arm and the boresight) . We implement here a correction  in order to adjust GPS positions. Telemetry data aren't exclusively utilized for georeferencing, but also for generating a file image pairs, as input to {\tt Tapioca File \dots }.
 
 
 \vspace{\baselineskip}
@@ -700,7 +700,7 @@ The pipeline presented here to process UAS imagery with embedded GPS data with {
 \end{figure}
 
 \vspace{\baselineskip}
-The tool { \tt OriConvert} will produce diverse information: 
+The tool { \tt OriConvert} will produce diverse information:
 \begin{itemize}
 \item Conversion of the embedded GPS data into the MicMac format and compute the relative speed of each camera;
 \item Generate the image pairs file {\tt FileImagesNeighbour.xml};
@@ -711,11 +711,11 @@ Notice that distance between camera and have to be computed in an euclidean coor
 
 \begin{verbatim}
 mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-Brut-RTL ChSys=DegreeWGS84@SysCoRTL.xml \
-	MTD1=1 NameCple=FileImagesNeighbour.xml CalcV=1 ImC=R0040536.JPG NbImC=25
+        MTD1=1 NameCple=FileImagesNeighbour.xml CalcV=1 ImC=R0040536.JPG NbImC=25
 \end{verbatim}
 
 In the terminal, the pattern of 25 images centered on R0040536.JPG is displayed after {\tt PATC=}. Copy this pattern and use it instead of the symbol {\tt PATC} appearing in the following command line.
-The file {\tt FileImagesNeighbour.xml} is used for computing tie points with {\tt Tapioca}. 
+The file {\tt FileImagesNeighbour.xml} is used for computing tie points with {\tt Tapioca}.
 
 \begin{verbatim}
 Tapioca File ``FileImagesNeighbour.xml'' -1
@@ -730,7 +730,7 @@ Tapas RadialBasic PATC Out=Sample4Calib-Rel
 This calibration is more suited than a calibration obtained with a self-calibrating bundle block adjustment on the complete image block. Figure \ref{fig:GLori} illustrates non-linear distortion that would occur if no pre-calibration were performed. The complete data set is then aligned in a relative orientation {\tt All-Rel}:
 
 \begin{verbatim}
-Tapas RadialBasic "R.*.JPG" Out=All-Rel InCal=Sample4Calib-Rel 
+Tapas RadialBasic "R.*.JPG" Out=All-Rel InCal=Sample4Calib-Rel
 \end{verbatim}
 
 Then, a modified bascule algorithm (see section \ref{OriConvert:GPSdelay}) using center data compute the GPS offset (lever-arm) in terms of delay:
@@ -749,7 +749,7 @@ This delay value is used for adjusting GPS data as follow:
 
 \begin{verbatim}
 mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-adjusted-RTL \
-	ChSys=DegreeWGS84@SysCoRTL.xml 	MTD1=1 Delay=-0.0807731
+        ChSys=DegreeWGS84@SysCoRTL.xml 	MTD1=1 Delay=-0.0807731
 \end{verbatim}
 
 The resulting center database {\tt Nav-adjusted-RTL} is the one employed for georeferencing the aero model with { \tt CenterBascule}:
@@ -767,7 +767,7 @@ mm3d ChgSysCo  "R.*JPG" All-RTL  SysCoRTL.xml@SysCoBL72_EPSG31370.xml   All-BL72
 Eventually, dense matching is performed with {\tt Malt} in the mode {\tt Ortho}. As normalized cross-correlation score is low in forested scene, {\tt DefCor} is set to $0$ in order to force the matching on the complete area. Regularization parameter ({\tt Regul}) is set to a low value because canopy structure is highly irregular and complex (presence of abrupt vertical changes). Rectified Images aren't required here so parameters {\tt HrOr} and {\tt LrOr} are set to {\tt false}. Results of dense-matching process are stored in {\tt MEC} (Mise En Correspondance):
 \begin{verbatim}
 Malt Ortho "R.*JPG" All-BL72 DirMEC=MEC DefCor=0 AffineLast=1 \
-	Regul=0.005 HrOr=0 LrOr=0 ZoomF=1
+        Regul=0.005 HrOr=0 LrOr=0 ZoomF=1
 \end{verbatim}
 
 Results may be visualized with {\tt Nuage2Ply },  {\tt to8Bits} and {\tt GrShade}:
@@ -781,9 +781,9 @@ GrShade MEC/Z_Num8_DeZoom1_STD-MALT.tif
 
 # export the dense point cloud and colourise it with Nuage2Ply:
 Nuage2Ply "MEC/NuageImProf_STD-MALT_Etape_8.xml" Scale=8 \
-	Attr="MEC/Z_Num8_DeZoom1_STD-MALT_8Bits.tif" Out=CanopySurfaceModel.ply
+        Attr="MEC/Z_Num8_DeZoom1_STD-MALT_8Bits.tif" Out=CanopySurfaceModel.ply
 
-# Optionnaly, if meshlab is installed:
+# Optionally, if meshlab is installed:
 meshlab CanopySurfaceModel.ply
 \end{verbatim}
 
@@ -796,7 +796,7 @@ Figure \ref{fig:GL_MEC} illustrates how the DSM looks like.
 \includegraphics[width=0.45\linewidth]{FIGS/UASGrandLeez/GLori.png}
 \includegraphics[width=0.8\linewidth]{FIGS/UASGrandLeez/OriGL-precal.png}
 \includegraphics[width=0.8\linewidth]{FIGS/UASGrandLeez/OriGL-autocal.png}
-\caption{Snapshots of the sparse point cloud. Top Left: Orientation of the sub-block used for camera calibration. Top Right: Orientation of the complete Grand-Leez data set. Middle: Another vantage of the block orientation. Bottom: result of bundle block adjustment is no initial camera calibration (arg {\tt InCal}) data is used (non-linear distortion).}
+\caption{Snapshots of the sparse point cloud. Top Left: Orientation of the sub-block used for camera calibration. Top Right: Orientation of the complete Grand-Leez data set. Middle: Another vantage of the block orientation. Bottom: result of bundle block adjustment if no initial camera calibration (arg {\tt InCal}) data is used (non-linear distortion).}
 \label{fig:GLori}
 \end{figure}
 
