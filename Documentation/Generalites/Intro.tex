@@ -26,7 +26,7 @@ MicMac is a tool for image matching. I began to write it in $2005$, while workin
 French National Geographic Institute (IGN), as
 a tool integrating several recent results of the scientific community.
 It is a general purpose tool, probably in many (if not all) specific
-contexts, one will be able to find a more acurate tool. However, one
+contexts, one will be able to find a more accurate tool. However, one
 of its expected advantages is its generality. It has been used
 in a lot of different contexts, for example:
 
@@ -65,7 +65,7 @@ MicMac:
 
 Since $2008$, several tools were added to solve specific requirements: tools for ortho-photo, tools
 for demosaicing\dots \  Since $2007$,  MicMac is an open source software, under the CeCILL-B license
-(an adaptation to the French law of the L-GPL license); as far as I unterstand law (not very much) all
+(an adaptation to the French law of the L-GPL license); as far as I understand law (not very much) all
 the other tools described in this document are extensions and evolutions of MicMac and obey to
 the same license.
 
@@ -75,8 +75,7 @@ Different people have helped me in writting these tools:
    \item Gregoire Maillet for supporting satellite orientation models (grid of rpc),
    \item Arnaud Le Bris for adaptation of \SiftPP supporting large images,
    \item Didier Boldo for the first Windows adaptation,
-   \item Isabelle Clery, Aymeric Godet and Livio de Luca for  developping two different user friendly interfaces and
-         also making many tests,
+   \item Isabelle Clery, Aymeric Godet and Livio de Luca for  developing two different user friendly interfaces and also making many tests,
    \item Christophe Meynard for solving some tricky Linux problems,
    \item Christian Thom for the first idea of multi-correlation,
    \item Jean-Micha\"el Muller for improvements about installation,
@@ -135,7 +134,7 @@ low level tools, and the installation, computation and running of these
 tools require some basic background in practical computer science.
 
 See now the section~\ref{MERCURIAL} for the new website since $2012$, install mercurial and follow the instruction.
-Several links that may be usefull :
+Several links that may be useful :
 
 \begin{itemize}
    \item http://logiciels.ign.fr/?Telechargement,20   for the sources
@@ -162,7 +161,7 @@ pwd = scAEf9MR
 
 \section{Librairies, Programs and Dependencies}
 
-These softwares have few dependencies to others librairies or programs. Basically,
+These softwares have few dependencies to others libraries or programs. Basically,
 if you use tiff or raw files as input, and if you do not use any of the graphical
 tools provided \footnote{for handling mask, visualize tie points ...} ,
 there might not be any dependency.
@@ -182,10 +181,10 @@ to have installed the command {\tt convert}, this command is a part of the excel
 
 
 The {\tt dcraw} source code I use to handle xif files info is sufficient in most cases.
-However, when it fails, I try to use the {\tt exiv2} tool. I also recommand that
+However, when it fails, I try to use the {\tt exiv2} tool. I also recommend that
 you install this excellent and free package.
 
-I also recommand that you install the excellent package {\tt exiftool}, it is a free
+I also recommend that you install the excellent package {\tt exiftool}, it is a free
 open source package and has the ability to read many {\tt xif} information (including
 GPS tags that will be soon usable in {\tt Apero}).
 
@@ -201,10 +200,10 @@ There are roughly three kinds of interfaces for softwares:
 \begin{itemize}
    \item user friendly graphical interface, with intuitive menu and window etc.
          Its advantage is that it may be usable by all final users,
-         the drawback of this solution being the cost for the developper;
+         the drawback of this solution being the cost for the developer;
 
    \item API or application programming interface. Using this level of interface requires you
-         to use one of the programming language the API is functionning with. One of
+         to use one of the programming language the API is functioning with. One of
          the drawbacks of these API is that they require a lot of documentation;
 
    \item a set of programs that you can call on a command line, with parameters being
@@ -212,11 +211,9 @@ There are roughly three kinds of interfaces for softwares:
 
 \end{itemize}
 
-The tools described here use the third kind of interface. This seemed to be the
+The tools described here use mainly the third kind of interface. This seemed to be the
 optimal solution as these tools have been primarily developed for my own usage and
-usage of colleagues from the same building.  Of course this choice is certainly
-not optimal for end users and one objective of this documentation is to  allow
-the development of an user friendly interface by people who would volunteer.
+usage of colleagues from the same building. Since this is not optimal for end users, some user friendly graphical interfaces have been added, to help to set parameters. 
 
 \subsection{Simple Tools}
 
@@ -271,6 +268,22 @@ line will contain {\tt Scale=2.5}.  Of course the command  {\tt bin/Tool -help} 
 essentially on the syntactic aspect, the semantic has to be found in this documentation
 (when the chapter exists \dots).
 
+\subsubsection{GUI for command line tools}
+
+For each command line tool, a graphical interface can be launched to help setting parameters. To run this interface, one should replace command name in command line by {\tt mm3d + "v" + command}. For example, to set parameters for command  {\tt GrShade}, one should call:
+
+\begin{verbatim}
+bin/mm3d vGrShade
+\end{verbatim}
+
+This will raise an interface where parameters can be set, and where all available options are shown:
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=87.31mm]{FIGS/Saisie/Visual.jpg}
+\caption{Visual interface for command line tools}
+\end{figure}
+
 \subsection{Complex Tools}
 
 For a more complex command, that requires arbitrary numbers of arguments, the command line
@@ -291,7 +304,7 @@ Here is an example for calling {\tt Apero}:
 bin/Apero ../micmac_data/Ref-Apero/Test-Lion/AperoQuick.xml
 \end{verbatim}
 
-If you downloaded the data example as decribed in~\ref{Install}, you could have
+If you downloaded the data example as described in~\ref{Install}, you could have
 a look at the {\tt AperoQuick.xml} file to see what it looks like. For all these
 complex tools, that exit in an  XML file, there is a formal description of the
 XML file that is correct from the syntactic point of view. These XML formal description
@@ -346,7 +359,7 @@ For example:
 \begin{itemize}
    \item  at  a given step, you want to orientate a certain subset of images of a
           project; so you need  to have the possibility to specify sets
-          and substets of files;
+          and subsets of files;
 
    \item  sometimes you will want to specify that if an image name is
           {\tt toto\_123.tif} or  {\tt toto\_0123.tif}  then the associated orientation is
@@ -440,7 +453,7 @@ exporting data at different steps of this pipeline:
 
    \item {\tt \bf ClipIm} for clipping image;
 
-   \item {\tt \bf ConvertIm} for some image convertion;
+   \item {\tt \bf ConvertIm} for some image conversion;
 
    \item {\tt \bf Dequant} for quantifying an image;
 
