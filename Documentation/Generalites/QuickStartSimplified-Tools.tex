@@ -15,8 +15,8 @@ will be sufficient for $95\%$ of usages.
 \section{All in one command}
 
 
-These tools are still in devlopment but, I hope, the first complete version
-will be avalaible soon. However many tools already exist, what is ready now :
+These tools are still in development but, I hope, the first complete version
+will be available soon. However many tools already exist, what is ready now :
 
 
 
@@ -24,7 +24,7 @@ will be avalaible soon. However many tools already exist, what is ready now :
     \item full automatic tie points computation works (see {\tt Tapioca} tool in~\ref{Tapioca});
     \item full automatic orientation computation works (see {\tt Tapas} tool in~\ref{Tapas});
     \item full automatic matching is not achieved,  there exist some piece  of 
-          code that may be already usefull for some users, see~\ref{FullAutoMatch};
+          code that may be already useful for some users, see~\ref{FullAutoMatch};
     \item semi-automatic matching works with tool {\tt Malt}, see~\ref{SemiAutoMatch};
 \end{itemize}
 
@@ -37,12 +37,13 @@ will be avalaible soon. However many tools already exist, what is ready now :
 
 \label{MERCURIAL}
 
-Since end of $2012$, several modification on the general organization of the project occured.
-This section describes the main modification. Althoug much care were taken to warrantee a strict 
-compatibility with previous version, it is recommanded to use the new mechanisms.
+Since end of $2012$, several modification on the general organization of the project occurred.
+This section describes the main modification. Although much care were taken to guarantee a strict 
+compatibility with previous version, it is recommended to use the new mechanisms.
 
 
 \subsection{Installing the tools}
+\ref{Install}
 
 The main modification on the distribution are :
 
@@ -62,11 +63,18 @@ To get the binary version, go on the following link :
 To get the source (you will need to install the mercurial versionning system) type :
 
 \begin{verbatim}
- hg clone https://geoportail.forge.ign.fr/hg/culture3d 
+ hg clone https://culture3d:culture3d@geoportail.forge.ign.fr/hg/culture3d
 \end{verbatim}
 
-Id is {\tt culture3d} and password is also  {\tt culture3d}.
+To update source code, type:
+ 
+\begin{verbatim}
+ hg pull https://culture3d:culture3d@geoportail.forge.ign.fr/hg/culture3d 
+\end{verbatim}
 
+\begin{verbatim}
+hg up https://culture3d:culture3d@geoportail.forge.ign.fr/hg/culture3d 
+\end{verbatim}
 
 \subsection{The \emph{new universal} command {\tt mm3d}}
 
