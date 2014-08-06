@@ -16,7 +16,7 @@ to orientate a set of images.
 
 Apero is a software for computing orientation, position and calibration 
 of a set of images compatible with a set of observations, these
-obvservations being noisy and (hopefully) highly redondant.
+observations being noisy and (hopefully) highly redundant.
 The objective is that you provide the observations,
 the confidence you have in these observations, and that
 Apero computes the most compatible  solution with your
@@ -40,7 +40,7 @@ Basically, the observations can be:
 
 The confidence you have in the observations is communicated to Apero via weighting functions.
 
-The output of Apero is represented by the computed values of the unkowns,
+The output of Apero is represented by the computed values of the unknowns,
 which can be:
 
 \begin{itemize}
@@ -134,7 +134,7 @@ interface developed by Isabelle Clery:
 \end{enumerate}
 
        \item      Release one by one the internal parameters in this order : distortion coefficient, focal length, 
-            distortion centre, principal point; each time a parameter is released, make a bundle adjustment round;
+            distortion center, principal point; each time a parameter is released, make a bundle adjustment round;
 
 
         \item      Make several rounds of bundle adjustment with more and more strict weighting on the residual of projection.
@@ -149,7 +149,7 @@ interface developed by Isabelle Clery:
 \section{A First Example}
 
 At first, we will see examples where the ordering is
-fixed by the user; although this will be quite uncommon in practicle
+fixed by the user; although this will be quite uncommon in practice
 case, it is an occasion to understand what it is done by Apero in
 the ordering process.
 
@@ -214,7 +214,7 @@ A few comments on the different sections:
              Apero has to load;
 
       \item  {\tt <SectionInconnues>} contains the declaration of the
-             unknwons and the information necessary to their initialization;
+             unknowns and the information necessary to their initialization;
 
       \item  {\tt <SectionChantier>} and {\tt <SectionSolveur>} contain some possible
              global fine controls of the process, essentially used for internal development;
@@ -249,16 +249,16 @@ you will see something like:
 \end{verbatim}
 }
 
-The structuration of the tie points is probably clear now:
+The structuring of the tie points is probably clear now:
 the file {\tt Homol/PastisIMG\_5588/IMG\_5589.txt} contains
 the tie points between images {\tt IMG\_5588.txt} and {\tt IMG\_5589.txt}.
 This is an ASCII-file, each line contains a tie point in format $x_1 y_1 x_2 y_2$
 where $x_1 y_1$ is in {\tt  IMG\_5588.txt} and $x_2 y_2$ is in {\tt  IMG\_5589.txt} .
-This structuration should make it easy, if you have a tie point 
-generator \UNCLEAR{prefered} to {\tt Tapioca}, to replace it by your own tie points.
+This structuring should make it easy, if you have a tie point 
+generator \UNCLEAR{preferred} to {\tt Tapioca}, to replace it by your own tie points.
 
 
-Although this structuration is quite evident for human, it has
+Although this structuring is quite evident for human, it has
 to be \UNCLEAR{precised} when \UNCLEAR{speaking} to a computer.
 
 \subsection{Declaring the Observations}
@@ -355,7 +355,7 @@ The definition in {\tt DefautChantierDescripteur.xml} is:
 }
 
 Although we have already seen some examples of key association, there are
-some interesting inovations:
+some interesting innovations:
 
 \begin{itemize}
    \item  the tag {\tt Arrite} which has the value $2 , 1$. This tag is ignored by the program
@@ -367,8 +367,8 @@ some interesting inovations:
    \item  in {\tt <Cals>}  there is a {\tt <Direct>} and a {\tt <Inverse>}
           part. This is because what we want here is a reversible mapping, {\tt <Direct>} 
           is a $S\times S\rightarrow S$ mapping and {\tt <Inverse>} has to be the $S\rightarrow S\times S$ 
-          invers mapping of  {\tt <Direct>}. Apero will need to get back
-          the pair of images from the name of the tie points; of course, it is your responsability
+          inverse mapping of  {\tt <Direct>}. Apero will need to get back
+          the pair of images from the name of the tie points; of course, it is your responsibility
           to have the \UNCLEAR{property} that {\tt <Inverse>}  and  {\tt <Direct>} are inverse
           of each other;
 
@@ -413,7 +413,7 @@ The signification of the tags is:
 
    \item {\tt <NameFile>} is the name of the file where Apero will look for
          the initial value of calibration. Take a look at the file {\tt Calib-F050.xml},
-         you will understand that it is a typical file for radial distorsion model;
+         you will understand that it is a typical file for radial distortion model;
 
    \item {\tt <NameTag>} is the name of the tag containing the calibration (may be useful,
          for example, if a file contains several calibrations).
@@ -453,8 +453,8 @@ The signification of the tags is:
           different sub-tags, according to the selected initialization method;
          
     \item {\tt <PosId>} means that we want an identity pose 
-          \footnote{rotation matrix=identity, centre =$(0,0,0)$};
-           in fact, as it is the first image, the value being $100\%$ arbirtrary,
+          \footnote{rotation matrix=identity, center =$(0,0,0)$};
+           in fact, as it is the first image, the value being $100\%$ arbitrary,
            identity is not a bad choice.
             
 \end{itemize}
@@ -496,7 +496,7 @@ The signification of the new tags is:
 
 \subsubsection{What Is Done During the Compensation}
 
-There is no place here to explain in detail what is a bundle adjusment.
+There is no place here to explain in detail what is a bundle adjustment.
 We encourage  the interested  reader to consult a book
 on the topic.  We just recall, quickly and approximately,
 the very basic necessary to understand the control mode
@@ -505,7 +505,7 @@ detailed after.
 The basic idea is:
 
 \begin{itemize}
-   \item let $R_i,C_i$  be the uknown  rotations and position centres;
+   \item let $R_i,C_i$  be the unknown  rotations and position centers;
    \item let  $I_k$ be the unknown intrinsic parameters, with $k=k(i)$;
    \item let  $P_l$ be the unknown ground points corresponding to tie points,
          and $p_{l,m}$ the pixel position of $P$ in the different image where
@@ -545,7 +545,7 @@ Apero classically linearizes the equation for you~\footnote{so this is a Gauss-N
 \end{itemize}
 
 The classical problem with this quadratic expression is that it gives far too much
-importance to outlayers. It is then much more robust to do what is called
+importance to outliers. It is then much more robust to do what is called
 $L_1$ minimization:
 
 \begin{equation}
@@ -562,8 +562,8 @@ is not the best solution}, we solve a weighted least mean squares:
 The weighting function $\rho$ plays  a very important role, in the solution, and the
 convergence itself.  Theoretically $\rho(x)=\frac1x$  leads to $L_1$, a solution already very,
 very close to the \UNCLEAR{solution}. %final solution? wanted solution?
-Pratically it can lead very easily to divergence \dots
-So it is generally prefered to have parametrized weighting functions:
+Practically it can lead very easily to divergence \dots
+So it is generally preferred to have parametrized weighting functions:
 
 
 \begin{equation}
@@ -582,9 +582,9 @@ To conclude, the problem of choosing which parameters are to be frozen or
 defrozen, and which weighting function is to be used, is a delicate problem
 and it will be your problem. Apero will not make the choice for you, but
 it will offer, I hope, a fine control on all these options.
-This said, what is done during compensation is no more that a weigthed
+This said, what is done during compensation is no more that a weighted
 constraint Gauss-Jordan minimization using \emph{your} parameters for
-weitghting and constraining.
+weighting and constraining.
 
 
 %\sqrt{1+\frac{x}\sigma}
@@ -1090,7 +1090,7 @@ Some comments:
 
    \item {\tt SzIm} is the size of image; you can easily get it by using any image viewer;
 
-   \item {\tt PP} and {\tt CDist} are principal points and distorsion, by default initialize
+   \item {\tt PP} and {\tt CDist} are principal points and distortion, by default initialize
          at the center of the image;
 
    \item \UNCLEAR{{\tt F}, the more complicated,  you have to know (using xif meta data for example)
@@ -1148,9 +1148,9 @@ In  {\tt Apero-2-Bis.xml}, you can see the differences in the second  {\tt Etape
 
 
 \begin{itemize}
-   \item the value {\tt eLiberte\_DR1} releases the first  parameter of central distorsion;
+   \item the value {\tt eLiberte\_DR1} releases the first  parameter of central distortion;
 
-   \item the value {\tt eLiberte\_DR2} releases the first and second parameters of central distorsion;
+   \item the value {\tt eLiberte\_DR2} releases the first and second parameters of central distortion;
          \UNCLEAR{there exists until} {\tt eLiberte\_DR5};
 
    \item the value {\tt eLiberteFocale\_1} releases the focal length;
@@ -1355,7 +1355,7 @@ to be declared for \UNCLEAR{loading in the} {\tt  <SectionBDD\_Observation>}.
 
 \begin{itemize}
    \item  in {\tt <Id>}, it is declared the identifier that will be used when
-         refering to this data;
+         referring to this data;
     \item {\tt <KeySet>} contains the key describing a set of files;
     \item {\tt <KeyAssoc>} contains the key describing  the association
          between a name of an image and a name of an orientation file;
@@ -1368,7 +1368,7 @@ For initializing the cameras, we use {\tt <PosFromBDOrient>} with
 the corresponding Id. This example is quite  artificial, because
 we use this initialization with the image having an even number, the
 odd number being initialized, as before, by  algorithms. However,
-it shows what is the mecanism that could be used in a two step orientation
+it shows what is the mechanism that could be used in a two step orientation
 with different resolutions of images.
 
 
@@ -1449,7 +1449,7 @@ The meaning of the tags above is the following:
 
    \item   each tie points $Q$  of  {\tt IdBdl} is selected if,  for at least one
            image, $p$ \UNCLEAR{pf} $Q$, $p$ correponds to one of the $I_k$, and $p$ is
-           in the corresponding mask $M_k$; \UNCLEAR{$Q$ is given a weigthing by the
+           in the corresponding mask $M_k$; \UNCLEAR{$Q$ is given a weighting by the
            reprojection ponderation given by} {\tt <Pond>} (of course if the
            weight equals $0$, $Q$ is not selected);   for each selected $Q$,
            the $3D$ point computed by ray-intersection (using current values of pose)
@@ -1458,7 +1458,7 @@ The meaning of the tags above is the following:
 
 For "small" canvas, it will be generally sufficient to have only one mask for
 setting the vertical. However, with linear acquisition, if you want higher precision,
-it may be a good idea to have at least two masks, one at the begining and one at
+it may be a good idea to have at least two masks, one at the beginning and one at
 the end.
 
 
@@ -1492,7 +1492,7 @@ For the most general case, the line  would have to be specified in $3D$ by
 giving two stereoscopic points. This general case will be implemented
 later. In the present case, the line is supposed to be horizontal
 \footnote{i.e. the points have the same $Z$ after the {\tt <BasculeOrientation>}
-has been opered} and two monoscopic points are sufficient, they are transformed into $3D$ points
+has been run} and two monoscopic points are sufficient, they are transformed into $3D$ points
 by giving them the altitude $0$. With this specification,
 {\tt Apero} will apply a rotation around the $OZ$ axis so that 
 $\overrightarrow{p_1p_2} $ is aligned with $\vec{V}$ \footnote{with $p_1$
@@ -1560,7 +1560,7 @@ You will generally use this GPS information in two steps:
    \item use this GPS information in the compensation phase by adding a observation
          equation to the global system; of course, as compensation \UNCLEAR{makes} linearization,
          and that linearization requires that you are already close to the solution,
-         you cannnot use GPS for compensation before \UNCLEAR{you have made} the global transformation
+         you cannot use GPS for compensation before \UNCLEAR{you have made} the global transformation
          described above (that is why it is done in two steps).
 
 \end{itemize}
@@ -1841,11 +1841,11 @@ First, the GPC and their observations must be loaded:
 
    \item this is the value {\tt Id-Appui} of  identifier {\tt <Id>}
          that makes the link between unknowns and their observations; it will be used
-         further when refering to these GCP.
+         further when referring to these GCP.
 \end{itemize}
 
 Once the GCP are loaded, they can be used, \UNCLEAR{as GPS}, for a global transformation
-or  for compensation once the images are approximatively geo-referenced:
+or  for compensation once the images are approximately geo-referenced:
 
 \begin{itemize}
    \item {\tt  <BascOnCentre>} is replaced with {\tt <BascOnAppuis>}, the identifier of

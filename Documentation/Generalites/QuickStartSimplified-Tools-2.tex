@@ -13,12 +13,12 @@
 \label{Vincennes:DataSet}
 
 On {\tt micmac\_data/ExempleDoc/} the directory {\tt Vincennes} contains
-$106$ images of the Vincennes's castel \footnote{they are low resolution images
+$106$ images of the Vincennes's castle \footnote{they are low resolution images
 to limit the  downloading time}. This data set illustrate how
 the tools described here can be used to achieve a typical architectural task:
 compute for each of the main facade an ortho photo, these ortho photo
-must be referenced in the same coordinate system.  Although the ortho-cylindric
-option for geometry described to process thi acquisition seems a very specific
+must be referenced in the same coordinate system.  Although the ortho-cylindrical
+option for geometry described to process this acquisition seems a very specific
 and narrow technical case, practically it corresponds to very current case
 for facade processing.
 
@@ -36,11 +36,11 @@ The $106$ images of Vincenne's data set are organized in $4$ subset :
 \end{itemize}
 
 Note that, \emph{before any processing}, the images have been renamed taking
-into account the acquisition structure. It is highly recommanded to do the
+into account the acquisition structure. It is highly recommended to do the
 same thing before processing data sets having some complexity. It avoids
 the creation of tricky regular expression. These images are jpeg low resolution
-images to limit the bandwith when one upload the data, but of course in
-real case the full resolution raw image will be prefered.
+images to limit the bandwidth when one upload the data, but of course in
+real case the full resolution raw image will be preferred.
 
 
 \begin{figure}
@@ -82,7 +82,7 @@ For tie points we want to compute:
 \begin{itemize}
    \item  points  between all pairs of calibration data set;
    \item  points  of \emph{Face1} and \emph{Face2} using the linear structure of
-          the aqcuisition;
+          the acquisition;
    \item  points  between \emph{Lnk12} and connected subset of  \emph{Face1} and \emph{Face2};
 \end{itemize}
 
@@ -139,8 +139,8 @@ There is a new option {\tt Rep=ij}, the meaning of this option is :
 
 \begin{itemize}
    \item it is a string that describe a repair;
-   \item it must contain $2$ symbols, each symbols can be in \emph{\{i,-i,j,-j,k,-k\}} and desribe a vector;
-   \item the globlal orientation with be such that in the final orientation the line
+   \item it must contain $2$ symbols, each symbols can be in \emph{\{i,-i,j,-j,k,-k\}} and describe a vector;
+   \item the global orientation with be such that in the final orientation the line
          defined by {\tt Line1-Line2} is aligned on first vector, and the normal to the plane is aligned on second vector;
    \item here in final orientation $i$ will be the horizontal of the wall and $j$ will be the
          normal to the wall, consequently $k=i\wedge j$ will be the vertical;
@@ -179,7 +179,7 @@ The results are quite deceiving !!! Figure~\ref{FIG:Pb:Vincenne} illustrate the
 encountered problem :
 
 \begin{itemize}
-    \item on firt line, the ortho photo; it suffer several problem; the main problem
+    \item on first line, the ortho photo; it suffer several problem; the main problem
          are located on the roof (due to bad incidence angles) and on horizontal lines;
 
     \item on second line, a snapshot from Meshlab, showing the camera position;
@@ -209,15 +209,15 @@ aligment of cameras, poor dept map especially for linear structure parallel to c
 
 
     %  -  -  -  -  -  -  -  -  -  -  -  -
-\subsubsection{"Ortho-cylindric" option}
+\subsubsection{"Ortho-cylindrical" option}
 
-Intutively it  is obvious that when the camera center are all aligned on the same line,
+Intuitively it  is obvious that when the camera center are all aligned on the same line,
 the matching problem is  ambiguous for line parallel to the acquisition, consequently
 the quality of result is poor.
 Obviously, the default would decrease (in fact disappear) if the camera were not
 aligned, using an UAV or a scaffolding , we could have an optimal geometry similar
 to aerial acquisition. But it is not always possible to have such material and, for economical reason,
-it would be interesting to be abble to obtain a relatively good quality ortho photo even when
+it would be interesting to be able to obtain a relatively good quality ortho photo even when
 all the camera are aligned.
 
 In fact for theoretical reasons described in~\cite{Penard},
@@ -225,7 +225,7 @@ this problem are  much more important in ground geometry than in image geometry.
 With the option we have seen until now, we have basically this alternative:
 
 \begin{itemize}
-   \item  use the ground geometry with a simple process but obtain bad qualitiy results such those of
+   \item  use the ground geometry with a simple process but obtain bad quality results such those of
           figure~\ref{FIG:Pb:Vincenne};
 
    \item  use the image geometry with  good results but have a complicated workflow with many depth map
@@ -240,8 +240,8 @@ camera center. More formally :
 
 
 \begin{itemize}
-   \item  let  $X,Y,Z$ be a coordinate system such that $Y=0$ be approximatively the line on which the camera
-          are located, and $Z=D$ be approximatively the plane of the wall;
+   \item  let  $X,Y,Z$ be a coordinate system such that $Y=0$ be approximately the line on which the camera
+          are located, and $Z=D$ be approximately the plane of the wall;
 
    \item  let  $U,V,L$ be the coordinate system defined by
 \begin{itemize}
@@ -327,7 +327,7 @@ Note some options of these commands:
 \end{itemize}
 
 
-If the ortho-cylindric geometry is "optimal" for computation, this is
+If the ortho-cylindrical geometry is "optimal" for computation, this is
 generally not a proper geometry for the final user , so at the end of the process,
 {\tt MicMac} generate an "un-anamorphosed" version of this depth map in
 euclidean geometry.  For example on directory {\tt Malt-OC-F1/}, there
@@ -615,7 +615,7 @@ Tawny Ortho-MEC-Malt/
 %\end{center}
 %\end{figure}
 
-The result is ugly, but if we have a look to the global earth mapping with sinusoidal projection, it is obvious that we cannot have a good representation at the european longitude with the sinusoidal projection.
+The result is ugly, but if we have a look to the global earth mapping with sinusoidal projection, it is obvious that we cannot have a good representation at the European longitude with the sinusoidal projection.
 
 \begin{figure}[H]
 \begin{center}
