@@ -5,14 +5,14 @@ a $2$ dimensionnal one. This can occur in the following situation:
 
 
 \begin{itemize}
-   \item the problem is intrinsically $2$ dimensionnal, for example in
+   \item the problem is intrinsically $2$ dimensional, for example in
          movement detection (see~\ref{Gulya}); this can be done with a simplified tool;
 
-   \item the problem should be $1$ dimensionnal, but the orientation parameters
-         are unknown (see~\ref{Mars}) or, at least, "very" unaccurate; at the time being,
+   \item the problem should be $1$ dimensional, but the orientation parameters
+         are unknown (see~\ref{Mars}) or, at least, "very" inaccurate; at the time being,
          this requires a parametrization of {\tt MICMAC} with {\tt XML} file;
 
-   \item the problem should be $1$ dimensionnal, the orientation parameters have been computed,
+   \item the problem should be $1$ dimensional, the orientation parameters have been computed,
          but for some reason, there are doubts on their accuracy and the user want to check
          this accuracy (see~\ref{CheckOri});  this can be done with a simplified tool;
 \end{itemize}
@@ -33,7 +33,7 @@ a $2$ dimensionnal one. This can occur in the following situation:
 \includegraphics[width=45mm]{FIGS/TestOri/DraixPx1.jpg}
 \includegraphics[width=45mm]{FIGS/TestOri/DraixPx2.jpg}
 \end{center}
-\caption{Image, deptht map and transverse paralaxe with draix data set
+\caption{Image, depth map and transverse parallax with Draix data set
 (images P4090163.JPG and P4090134.JPG)
 }
 \label{FIG:Draix:PxTr}
@@ -59,7 +59,7 @@ is lightly visible
 \includegraphics[width=60mm]{FIGS/TestOri/FullCuxPx1.jpg}
 \includegraphics[width=60mm]{FIGS/TestOri/FullCuxPx2.jpg}
 \end{center}
-\caption{deptht map and transverse paralaxe with full resolution Cuxa images,
+\caption{depth map and transverse parallax with full resolution Cuxa images,
 correlation between both is clearly visible, amplitude is $\pm 1$ pixel.
 }
 \label{FIG:CuxaFull:PxTr}
@@ -71,8 +71,8 @@ correlation between both is clearly visible, amplitude is $\pm 1$ pixel.
 \includegraphics[width=60mm]{FIGS/TestOri/Mun1.jpg}
 \includegraphics[width=60mm]{FIGS/TestOri/Mun2.jpg}
 \end{center}
-\caption{deptht map and transverse paralaxe with $10$ cm image of Munich, acquired with a DMC,
-except in "noisy part" like the river, amplitued of transverse parals is $\pm\, 0.1$ pixel
+\caption{depth map and transverse parallax with $10$ cm image of Munich, acquired with a DMC,
+except in "noisy part" like the river, amplitude of transverse parallax is $\pm\, 0.1$ pixel
 }
 \label{FIG:Mubich:PxTr}
 \end{figure}
@@ -81,7 +81,7 @@ except in "noisy part" like the river, amplitued of transverse parals is $\pm\, 
 
 
 In image geometry {\tt MicMac} has "special" modes where the matching can be done
-taking into account a possible unaccuracy of the orientation. Although, it can be used
+taking into account a possible inaccuracy of the orientation. Although, it can be used
 to match badly oriented images, this is generally not a good idea (it's a better idea to
 understand what was wrong in orientation or acquisition and to correct it !!). However,
 when the user has doubts on orientation parameters, these tool can  be convenient to check
@@ -92,11 +92,11 @@ these orientations. In these mode :
          are the pixel of this master image;
    \item there is \emph{only} one secondary image;
    \item for each pixel of the master image, two value are computed, one represents the depths
-         and the other represents the "transverse paralax" : it is the displacement in the direction
+         and the other represents the "transverse parallax" : it is the displacement in the direction
          orthogonal to the epipolar;
 \end{itemize}
 
-These mode can be fairly complex to use directly in {\tt XML} mode, so it's generaly sufficient
+These mode can be fairly complex to use directly in {\tt XML} mode, so it's generally sufficient
 to use the simplied tool {\tt MMTestOrient}. The  first arguments should be quite obvious from
 inline help (argument after {\tt PB} are relative to satellite case, see~\ref{TestOri:PB}) :
 
@@ -120,38 +120,38 @@ Named args :
   * [Name=ShowCom] bool :: {Show MicMac command (tuning purpose)}
 \end{verbatim}
 
-The result of transverse paralaxes in stored in images {\tt Px2\dots}, the number of the last
+The result of transverse parallaxes in stored in images {\tt Px2\dots}, the number of the last
 and most accurate image depends of the other parameters, so you have to check what is
 present on the directory {\tt GeoI-Px}.
 
 How can these image be used ? Basically, the idea is that with a "perfect" orientation the
-transverse paralax should be zero on all the image. In real life, this is more complicated, because this
-paralax can be noisy ($2d$ general matching problem can be fairly ambiguous). So what is important is not
-only the amplitude of the transverse paralax but also it spatial analysis : is there systematism in
-this paralax ? Does it present low frequency movement ? Is this transverse paralax correlated to the
+transverse parallax should be zero on all the image. In real life, this is more complicated, because this
+parallax can be noisy ($2d$ general matching problem can be fairly ambiguous). So what is important is not
+only the amplitude of the transverse parallax but also it spatial analysis : is there systematism in
+this parallax ? Does it present low frequency movement ? Is this transverse parallax correlated to the
 depth map ? \dots
-It is not so easy to make an automatic quantitative analyse
+It is not so easy to make an automatic quantitative analyze
 of the results and the firt purpose of this tool is to help human expertise in a qualitative analysis of
 the result.  The {\tt MMTestOrient} is illustrated on three examples (in each case with {\tt ZoomF=1}) :
 
 \begin{itemize}
    \item on figure~\ref{FIG:Draix:PxTr} , with image from the Draix data set; in this case
-          the transverse paralax is a bit noisy but does not show  obvious systematism;
+          the transverse parallax is a bit noisy but does not show  obvious systematism;
 
-   \item on figure~\ref{FIG:Cuxa:PxTr} , the amplitude of transverse paralax do not seem
+   \item on figure~\ref{FIG:Cuxa:PxTr} , the amplitude of transverse parallax do not seem
          very high, but here it is computed on reduced images, and conversely one can guess
-         some systematism and a correlation between the depth and the transverse paralax;
+         some systematism and a correlation between the depth and the transverse parallax;
 
    \item on figure~\ref{FIG:CuxaFull:PxTr} ,  the full resolution image of Cuxa  have been
          used (they are not in the data-set); in this case, the tool show clearly a high systematism in
-         the transverse paralax  , if we except the noisy part like the tree ~\footnote{for tree the
-         transverse paralaxe can be created by wind} the amplitude in almost $\pm\,1$pixel
-         between highest and lowest value; furthermore the high correlation bewteen two paralax
+         the transverse parallax  , if we except the noisy part like the tree ~\footnote{for tree the
+         transverse parallax can be created by wind} the amplitude in almost $\pm\,1$pixel
+         between highest and lowest value; furthermore the high correlation between two parallax
          maybe originated by a calibration problem , probably due to focal length;
 
    \item figure~\ref{FIG:Mubich:PxTr} present an almost perfect orientation; with these $14144,15552$
-         coming from a $DMC$ camera the amplitude of transverse paralax is $\pm\, 0.1$ pixel on most
-         of the image; the only part of the image where the amplitude is significatively higher is
+         coming from a $DMC$ camera the amplitude of transverse parallax is $\pm\, 0.1$ pixel on most
+         of the image; the only part of the image where the amplitude is significantly higher is
          the river, but as can be seen on the depth image, the matching is very noisy here and the
          result has meaning in such part;
 
@@ -162,7 +162,7 @@ the result.  The {\tt MMTestOrient} is illustrated on three examples (in each ca
 
 This tool can be used also with satellite image :
 \begin{itemize}
-  \item in this case the third argument is interpreted as the postifx of the orientation file;
+  \item in this case the third argument is interpreted as the postfix of the orientation file;
   \item the {\tt PB} argument must be set to true, indicating a push-broom sensor;
   \item the {\tt MOri} must indicate the way the orientation file is stored ({\tt GRID} for grid format,
        {\tt RTO} for  {\tt XML} encoded {\tt RPC} file;
@@ -170,7 +170,7 @@ This tool can be used also with satellite image :
   \item the {\tt ZInc} must indicate the incertitude on  $Z$;
 \end{itemize}
 
-Here is an example (in this case, the orientaion file of {\tt ./crop1.tif} is {\tt ./crop1.GRIBin}) :
+Here is an example (in this case, the orientation file of {\tt ./crop1.tif} is {\tt ./crop1.GRIBin}) :
 
 \begin{verbatim}
 mm3d MMTestOrient  crop1.tif crop2.tif GRIBin PB=true MOri=GRID ZMoy=0 ZInc=1000
@@ -195,7 +195,7 @@ mm3d MMTestOrient  crop1.tif crop2.tif GRIBin PB=true MOri=GRID ZMoy=0 ZInc=1000
 
 \end{center}
 \caption{Mars data-set : the two  images, the $X$ parallax, in gray-level, and the $Y$-parallax in
-hue colour}
+hue color}
 \label{FIG:OK:Mars}
 \end{figure}
 
@@ -205,14 +205,14 @@ hue colour}
 
 The data can be found in the directory {\tt Mars/} of directory {\tt ExempleDoc/}.
 It consists of two stereo images acquired by sensor CTX during MRO mission on the planet Mars. In this case
-we do not have the physicall model of the sensor, but we know that:
+we do not have the physical model of the sensor, but we know that:
 
 \begin{itemize}
    \item the satellite is a  pushbroom-satellite;
    \item it flights in the $x$ direction.
 \end{itemize}
 
-\subsection{Comment on the paramaters}
+\subsection{Comment on the parameters}
 
 \subsubsection{Geometry}
 
@@ -257,7 +257,7 @@ This asymmetry in the \emph{a priori} knowledge of parallax is specified at diff
    \item {\tt <Px1IncCalc>}   and {\tt <Px2IncCalc>},  representing the global uncertainty on each parallax;
    \item {\tt <Px1Regul>}   and {\tt <Px2Regul>},  representing the \emph{a priori} knowledge of the regularity of each
          parallax;
-   \item {\tt <Px1PenteMax>}   and {\tt <Px2PenteMax>},  representinng the \emph{a priori} knowledge of the
+   \item {\tt <Px1PenteMax>}   and {\tt <Px2PenteMax>},  representing the \emph{a priori} knowledge of the
          \UNCLEAR{steep} of each parallax;
    \item {\tt <Px1Pas>}   and {\tt <Px2Pas>},  representing the discretization step (as Px2 is low frequency and
          low amplitude, we can compute it with higher precision);
@@ -283,7 +283,7 @@ As expected:
 
 \subsection{Introduction}
 
-Since september $2011$ CNES\footnote{Centre National d'Etudes Spatiales, the French spatial agency}
+Since September $2011$ CNES\footnote{Centre National d'Etudes Spatiales, the French spatial agency}
 has been funding a development for using MicMac for  earthquake quantification. This development
 was made as a collaboration between CNES, CEA, IPGP and IGN/ENSG. The main developer of this part
 is Ana-Maria Rosu.
@@ -299,7 +299,7 @@ Although the study is not finished, the tool  is now operational. The program ha
 tested on $3$ real data set and several synthetic data set, and compared to several existing solutions
 working in frequency domain. From a purely subjective evaluation, these tests show that the
 results with MicMac are generally equivalent in quality to frequency approach and, on one of the
-real data-set, the results of MicMac where "better"\footnote{i.e. subjectively easier to intepret
+real data-set, the results of MicMac where "better"\footnote{i.e. subjectively easier to interpret
 for scientist} . One of the drawback of the dense approach of
 MicMac is the computation time : $15$ minutes, with a $8$ core computer, with the $1600*3600$
 images of the Gulya data-set.
@@ -312,10 +312,10 @@ images of the Gulya data-set.
 The data can be found in the directory {\tt {SeismGuyla/}}
  of directory {\tt ExempleDoc/}. % micmac_data/ExempleDoc/
 It consists of  two \emph{Spot 5} ortho photos of the same scene taken in $2002$ and
-$2008$. Between these two dates, an earthquake occured and image matching can be used to
+$2008$. Between these two dates, an earthquake occurred and image matching can be used to
 localize the rupture and quantify the movement.
 
-We want to use MicMac to measure very small displacements (arround $\frac{1}{10}$ pixel) in
+We want to use MicMac to measure very small displacements (around $\frac{1}{10}$ pixel) in
 a context where the images are quite different. Figure~\ref{FIG:OK:Guylia} presents the two
 ortho images.
 
@@ -420,15 +420,15 @@ On figure~\ref{FIG:OK:Guylia}, the image on the left presents the correlation co
 
 \subsubsection{Non isotropic regularization}
 
-It can happen that we have an \emph{a priori} knowledge for favouring some direction of regularization.
+It can happen that we have an \emph{a priori} knowledge for favoring some direction of regularization.
 This can be done using in conjunction the following parameters of {\tt EtapeProgDyn}:
 
 \begin{itemize}
    \item  {\tt  <NbDir>}=$N$  fixes the number of direction that will be explored;
-   \item  {\tt  <Teta0>}=$\theta_0$  fixes the angle of the favoured direction;
+   \item  {\tt  <Teta0>}=$\theta_0$  fixes the angle of the favored direction;
    \item  the directions that will be explored are $\alpha_k=\theta_0 + k\frac{\pi}{N} , k\in[0,N-1]$
    \item if the parameters  {\tt <Px1MultRegul>}=$V_1$ or {\tt <Px2MultRegul> } are used, then the value
-         of regularization in the direction  $\alpha_k$ is  mutiplied by $V_1[k]$ ($V_1$ is a vector);
+         of regularization in the direction  $\alpha_k$ is  multiplied by $V_1[k]$ ($V_1$ is a vector);
 \end{itemize}
 
 In this example, we regularise more the direction close to $\frac{\pi}{2}$, with a weight
@@ -444,14 +444,14 @@ $\frac{1}{1+\frac{10}{N}*K}$.
 
 \subsection{Introduction}
 
-The data set {\tt Concrete/} is an example of using MicMac for measuring very fine displacement in civil engineering. In this experiment, constraint were applyed to a concrete beam, and a fix camera was used to measure the displacement during breakin phase. Figure~\ref{FIG:OK:Concrete} illustrate this data set :
+The data set {\tt Concrete/} is an example of using MicMac for measuring very fine displacement in civil engineering. In this experiment, constraint were applied to a concrete beam, and a fix camera was used to measure the displacement during breaking phase. Figure~\ref{FIG:OK:Concrete} illustrate this data set :
 
 \begin{itemize}
     \item  (up left) a full view of on of the two images used for this correlation;
     \item  (up right) a zoom on a detail of this image, as it can be seen, the concrete a been
            painted to create an "optimal" texture for matching
-    \item  (bottom left) the x displacement (total amplitude is arround $\frac{1}{4}$ of pixel);
-    \item  (bottom right) the y displacement (total amplitude is arround $\frac{1}{4}$ of pixel).
+    \item  (bottom left) the x displacement (total amplitude is around $\frac{1}{4}$ of pixel);
+    \item  (bottom right) the y displacement (total amplitude is around $\frac{1}{4}$ of pixel).
 \end{itemize}
 
 \begin{figure}
@@ -477,11 +477,11 @@ Although the parametring should be quite easy to understand after March's exempl
 do the following comments :
 
 \begin{itemize}
-    \item  the use of homographic model is well suited, it allow to modelize a possible translation
+    \item  the use of homographic model is well suited, it allow to model a possible translation
           of the camera; the $9$ point used for the homography have been seized on the concrete, this
-          way the computed displacement is exaclty the deformation;
+          way the computed displacement is exactly the deformation;
 
-    \item  we have not use the multi-scale approach beacause the quasi periodic texture uses was
+    \item  we have not use the multi-scale approach because the quasi periodic texture uses was
            such that the reduced images where almost textureless at sub-resolution $8$ and very
            aliased at resolution $4$;
 \end{itemize}
@@ -505,7 +505,7 @@ In order to launch \verb+FDSC+:
 \end{verbatim}
 
 
-The \verb+FDSC+'s \verb+Qt+ interface is divised into three main blocks corresponding to the three steps of FDSC:
+The \verb+FDSC+'s \verb+Qt+ interface is divided into three main blocks corresponding to the three steps of FDSC:
 \begin{enumerate}
   \item draw the fault trace
   \item stack profiles across the fault
