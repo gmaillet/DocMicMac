@@ -19,8 +19,8 @@ and comments.
 
 \subsection{svn Extraction - obsolete (see ~\ref{Install})}
 
-All that you need to install the tools and run the example can be found on the site 
-{\tt http://www.micmac.ign.fr/}. Clik on {\tt T\'el\'echargement} to go to the 
+All that you need to install the tools and run the example can be found on the site
+{\tt http://www.micmac.ign.fr/}. Clik on {\tt T\'el\'echargement} to go to the
 download page. To have an up to date version, you will need to install
 the {\tt subversion} tools.  To get the {\tt micmac}  softwares, type:
 
@@ -70,7 +70,7 @@ to know:
 \end{itemize}
 
 
-If you are in software development and interested to take a look at the code, 
+If you are in software development and interested to take a look at the code,
 here are others directories:
 
 
@@ -78,7 +78,7 @@ here are others directories:
    \item {\tt src}, all the \CPP code needed to generate the \ELISE lib, this is a general image library
          I developed before MicMac, all the tools are using this lib for basic manipulation;
 
-   \item {\tt include/}, all the header files needed by src files for \ELISE 
+   \item {\tt include/}, all the header files needed by src files for \ELISE
 \end{itemize}
 
 
@@ -137,9 +137,9 @@ This is a typical simple execution of the pipeline to build $3D$ models from ima
 Practically, the ordering of different phases will always be: %1- Tie Points 2- Orientation 3- Dense Matching
 
 \begin{enumerate}
-	\item Tie Points
-	\item Orientation
-	\item Dense Matching.
+  \item Tie Points
+  \item Orientation
+  \item Dense Matching.
 \end{enumerate}
 
 However, in this quick overview, we present it in the reverse
@@ -150,11 +150,11 @@ Being still in the micmac directory, type:
 
 \begin{center}
 \begin{verbatim}
-            source boudha_test.sh 
+            source boudha_test.sh
 \end{verbatim}
 \end{center}
 
-You will see a lot of text on the terminal. %console.  
+You will see a lot of text on the terminal. %console.
 Do not stop the process, it will
 produce data, that will be used in the rest of the examples.
 If everything is correctly installed, it will be over after $15$ minutes
@@ -181,7 +181,7 @@ using a free software such as {\tt MeshLab}.
 
 \section{A MicMac Example Using Simplest Parametrization}
 
-All the data needed in the following part are in the directory 
+All the data needed in the following part are in the directory
 {\tt micmac\_data/ExempleDoc/Boudha/}.
 
 
@@ -209,7 +209,7 @@ position $x',y$.  The aim of epipolar matching is, given $x,y$,  compute the
 disparity $d(x,y)=x'-x$ so that $x+d(x,y),y$ is homologous of  $x,y$.
 
 Obviously, epipolar geometry is not very interesting in modern
-photogrammetry, however it will allow to separate in this introduction the 
+photogrammetry, however it will allow to separate in this introduction the
 parameters related to  matching  from parameters related to geometry.
 
 
@@ -250,14 +250,14 @@ the folowing:
      </Images>
   </Section\_PriseDeVue>
 
-  <Section\_Terrain>  
+  <Section\_Terrain>
       <IntervParalaxe>
              <Px1IncCalc>   50.0  </Px1IncCalc>
        </IntervParalaxe>
   </Section\_Terrain>
   <Section\_MEC >
 
-	 <EtapeMEC>
+   <EtapeMEC>
              <DeZoom >  -1                      </DeZoom>
              <SzW >      1             </SzW>
              <AlgoRegul>    eAlgoMaxOfScore    </AlgoRegul>
@@ -265,22 +265,22 @@ the folowing:
              <Px1Pas>        1  </Px1Pas>
 
              <!-- Unused but mandatory -->
-	     <Px1DilatAlti>  0    </Px1DilatAlti>
+       <Px1DilatAlti>  0    </Px1DilatAlti>
              <Px1DilatPlani> 0    </Px1DilatPlani>
-	     <Px1Regul>  0    </Px1Regul>
+       <Px1Regul>  0    </Px1Regul>
         </EtapeMEC>
-	     
+
 
         <EtapeMEC> <DeZoom >  1  </DeZoom> </EtapeMEC>
 
   </Section\_MEC>
 
   <Section\_Results >
-        <GeomMNT> eGeomPxBiDim  </GeomMNT> 
+        <GeomMNT> eGeomPxBiDim  </GeomMNT>
   </Section\_Results>
 
   <Section\_WorkSpace >
-        <WorkDir >  ThisDir </WorkDir> 
+        <WorkDir >  ThisDir </WorkDir>
         <TmpMEC>  MEC-0-EPI/  </TmpMEC>
         <TmpResult>  MEC-0-EPI/  </TmpResult>
         <TmpPyr>    Pyram-Epi/  </TmpPyr>
@@ -299,12 +299,12 @@ the previous simple algorithm. Some comments:
 
 \begin{itemize}
    \item  the most encompassing tag is {\tt ParamMICMAC}\footnote{= shooting section },
-   		 there must be only one;
+       there must be only one;
           {\tt MicMac} loads and interprets all the information contained in this tag;
 
    \item the first level tag {\tt Section\_PriseDeVue}\footnote{= shooting section }
          contains parameters about
-         image acquisition,  the name of images are in tags 
+         image acquisition,  the name of images are in tags
          {\tt Im1} and {\tt Im2} and the tag {\tt GeomImages} whose value
          {\tt eGeomImage\_EpipolairePure} means that the image have been sampled
          in epipolar geometry;
@@ -312,10 +312,10 @@ the previous simple algorithm. Some comments:
     \item the tag {\tt Section\_Terrain} \footnote{= Ground section} contains information
           about the terrain, in other geometry it may be the interval of $Z$ and the desired
           footprint; here, we are in epipolar geometry, so the "terrain" is just the image space,
-          $x$ and $y$ are pixel of master image and the only required information  is the disparity 
+          $x$ and $y$ are pixel of master image and the only required information  is the disparity
            interval specified in the tag {\tt IntervParalaxe};
 
- 
+
     \item the tag {\tt Section\_MEC} \footnote{= Mise En Correspondance = Matching} contains the
           information relative to the algorithmic aspect; it is detailed below;
 
@@ -330,14 +330,14 @@ the previous simple algorithm. Some comments:
 
 
 The  {\tt Section\_MEC} can be very complex; MicMac has a multi-resolution approach in which
-several phases of matching are piped, for each step all the algorithmic parameters can be changed if necessary. 
+several phases of matching are piped, for each step all the algorithmic parameters can be changed if necessary.
 However, generally this is not desired, so to limit the complexity,
 when the parameters are mainly constant for all phases, MicMac has the following mechanism:
 
 
 \begin{itemize}
     \item the first {\tt Section\_MEC}  is not executed, it conventionally sets the default
-          parameters of all the following  {\tt Section\_MEC}, it is mandatory that the 
+          parameters of all the following  {\tt Section\_MEC}, it is mandatory that the
           tag {\tt DeZoom}, fixing the resolution, has the value $-1$ for this first step;
 
 
@@ -371,7 +371,7 @@ when the parameters are mainly constant for all phases, MicMac has the following
 Now, type the following command:
 
 {\tt
-bin/MICMAC ~/micmac\_data/ExempleDoc/Boudha/Param-0-Epi.xml 
+bin/MICMAC ~/micmac\_data/ExempleDoc/Boudha/Param-0-Epi.xml
 }
 
 The terminal should print a lot of idiot messages like:
@@ -411,14 +411,14 @@ that appears, then there is a problem:
 {\scriptsize
 \begin{verbatim}
 --------------------------------------------------
-|   the following FATAL ERROR happened (sorry)    
-|                                                 
+|   the following FATAL ERROR happened (sorry)
+|
 |    XXXXX HERE WILL BE SOME INCOMPREHENSIBLE EXPLANATION XXXX
-|                                                 
+|
 --------------------------------------------------------
-|       (Elise's)  LOCATION :                           
-|                                                       
-| Error  was detected 
+|       (Elise's)  LOCATION :
+|
+| Error  was detected
 |          at line : 1640
 |          of file : applis/MICMAC/cAppliMICMAC.cpp
 --------------------------------------------------------
@@ -450,7 +450,7 @@ In the {\tt MEC-0-EPI/}, the following files exist:
 
    \item {\tt Px1\_Num1\_DeZoom1\_LeChantier.tif}, this is the disparity map;
          it is a $16$ bits, signed image, so you may have some difficulty to
-         visualize it with many basic viewers which only handle $8$ bits unsigned images;  
+         visualize it with many basic viewers which only handle $8$ bits unsigned images;
          in the context, the interpretation is
          easy, the value of pixel $x,y$ is the disparity at $x,y$;
          left image of figure~\ref{FIG:DISP:COR:BASIC} shows what it looks like;
@@ -484,7 +484,7 @@ In the {\tt MEC-0-EPI/}, the following files exist:
 
 \label{BASIC:MULRES}
 
-The file {\tt Param-1-Epi.xml} adds the multi-resolution aspect 
+The file {\tt Param-1-Epi.xml} adds the multi-resolution aspect
 to the previous one. The modified or added parts from
 {\tt Param-0-Epi.xml} are:
 
@@ -493,7 +493,7 @@ to the previous one. The modified or added parts from
 \begin{verbatim}
         ....
         <EtapeMEC>
-               
+
               ...
              <Px1DilatAlti>  3    </Px1DilatAlti>
              <Px1DilatPlani> 4    </Px1DilatPlani>
@@ -556,7 +556,7 @@ directory {\tt MEC-1-EPI}:
    \item the first computed disparity is {\tt Px1\_Num1\_DeZoom8\_LeChantier.tif} where
           the {\tt Num1} means first computed and {\tt DeZoom8}; the DeZoom is
           not sufficient as identifier as there are currently different phases at the
-           same resolution; here, for example, Num4 and Num5; 
+           same resolution; here, for example, Num4 and Num5;
 
    \item this naming is a bit tricky, like almost all automatically generated names.
 
@@ -576,7 +576,7 @@ Figure~\ref{FIG:DISP:MUL:RES} shows levels of the pyramid of computed disparity 
 
 
 If you compare the left image of figure~\ref{FIG:DISP:COR:BASIC} with the
-right image of figure~\ref{FIG:DISP:MUL:RES}, you can observe that with the 
+right image of figure~\ref{FIG:DISP:MUL:RES}, you can observe that with the
 multi-scale approach the level of noise decreases.  Moreover, as this
 multi-scaling is implemented via multi-resolution, the computation time
 generally decreases very significantly.
@@ -595,7 +595,7 @@ Instead of :
      $d(x,y) = ArgMax_{d\in[-D,D]} Corr(x,y,x+d,y,Sz)$;
 
 Of course we need to get values of images at non integer point, so
-it requires an interpolation schema. In the previous example, the last phase 
+it requires an interpolation schema. In the previous example, the last phase
 was specified with a precision of half a pixel:
 
 
@@ -658,7 +658,7 @@ algorithm is to be chosen.  Here, the line
 {\tt<AlgoRegul>    eAlgoCoxRoy    </AlgoRegul>}  corresponds to
 the Cox-Roy implementation of the Min-Cut/Max-Flow algorithm.
 
-All theses algorithms have a parameter which allows to adjust 
+All theses algorithms have a parameter which allows to adjust
 the importance of regularity term relatively to the image term.
 The tag {\tt Px1Regul} controls the value of this
 parameter. Figure~\ref{FIG:DISP:REGUL} illustrates the results
@@ -670,7 +670,7 @@ of regularization.
 \includegraphics[height=55mm]{FIGS/Boudhas/Px1_MR_Num5.jpg}
 \includegraphics[height=55mm]{FIGS/Boudhas/Px1_REGUL_Num5.jpg}
 \includegraphics[height=55mm]{FIGS/Boudhas/PX1-Regul-ProgDyn.jpg}
-\caption{Without regularization, with Graph Cut regularization, 
+\caption{Without regularization, with Graph Cut regularization,
 with 2D dynamic regularization}
 \label{FIG:DISP:REGUL}
 \end{center}
@@ -680,10 +680,10 @@ with 2D dynamic regularization}
 In file {\tt Param-2-Epi.xml} the last and $6^{th}$ phase contains
 the line {\tt <AlgoRegul>    eAlgoDequant    </AlgoRegul>}.
 The matching algorithm used by MicMac makes a quantification
-of the disparity (or depth, or height \dots, according to the geometry). 
+of the disparity (or depth, or height \dots, according to the geometry).
 This quantification creates jumps in the results that may be undesirable.
 The dequantification algorithm, specified by {\tt  eAlgoDequant}, is
-a post-processing phase that fixes 
+a post-processing phase that fixes
 the quantification artifacts.
 This algorithm is described in~\ref{DUMG:DEQUANTIF}. The result is
 a floating point map. MicMac imposes the step $1.0$ when using this algorithm
@@ -704,7 +704,7 @@ result). Figure~\ref{FIG:DISP:REGUL} illustrates the effect of dequantification.
 
 
 The file {\tt Param-3-Epi.xml} is similar to {\tt Param-2-Epi.xml}, the
-main difference being the used regularization algorithm. It is specified 
+main difference being the used regularization algorithm. It is specified
 {\tt eAlgo2PrgDyn} which is a $2D$ generalization of dynamic programming.
 This algorithm does not produce the exact minimum of the energy function,
 but a solution generally very close to the optimum. On the other hand,
@@ -751,7 +751,7 @@ and other tasks that may be running at the same time.
 
 \section{Examples using MicMac, Geometric Aspect}
 
-To run the example coming in this section, you need to have executed the shell 
+To run the example coming in this section, you need to have executed the shell
 described in~\ref{SHEL:TEST:BOUDHA}
 because it generates the required orientation files.
 
@@ -789,10 +789,10 @@ $k$.  The model understood by MicMac can be:
          the model is $\pi_k(x,y,z) = I (p_0 (R_k((x,y,z)-C_k)))$,
          where $I$ is the intrinsic parameters (focal, principal point and
          distortion) and $p_0(x,y,z)=\frac{(x,y)}z$;
-         the imported stenope model can be in different formats such as 
+         the imported stenope model can be in different formats such as
          XML coming from the Apero software and several formats used at IGN;
 
-   \item  different generic model (Grid model of RPC, ratio of polynomial) 
+   \item  different generic model (Grid model of RPC, ratio of polynomial)
           adapted to non physical modelization of push-broom images (satellites ...);
 
    \item the user can add its own model using a dynamic library (a bit tricky \dots).
@@ -810,7 +810,7 @@ height map $Z=Z(x,y)$ so that:
    \item   $Z(x,y)$ satisfies some regularity function.
 \end{itemize}
 
-All the algorithmic points studied for epipolar disparity maps, are usable for 
+All the algorithmic points studied for epipolar disparity maps, are usable for
 ground geometry height map.
 
        %  - - - - - - - - - - - - - - - - - - -
@@ -827,7 +827,7 @@ It contains several innovations:
 \begin{verbatim}
    ....
 <!--  M1 : Declare an association between an image and its orientation file-->
-<DicoLoc>   
+<DicoLoc>
     <KeyedNamesAssociations>
         <Calcs>
             <Direct>
@@ -840,7 +840,7 @@ It contains several innovations:
 </DicoLoc>
 
 <!--  M2 : Describe the ground zone where the matching is to be done -->
-<Section_Terrain>    
+<Section_Terrain>
       <IntervAltimetrie>
              <ZIncCalc>   3.0  </ZIncCalc>
       </IntervAltimetrie>
@@ -851,7 +851,7 @@ It contains several innovations:
 </Section_Terrain>
 
 <!--  M3 : describe the set of images to match -->
-<Section_PriseDeVue >   
+<Section_PriseDeVue >
      <GeomImages> eGeomImageOri </GeomImages>
      <Images >
           <ImPat> IMG_[0-9]{4}.tif </ImPat>
@@ -906,8 +906,8 @@ of its orientation file:
          a stenope projection is, you should understand the main principle of the used format;
          the section~\ref{FORM:CALIB} gives a formal description of the format;
 
-    \item  to this rule it is given an identifier, here {\tt Loc-Key-Orient}; when it is necessary 
-    		to refer to this association rule, this key will be used;
+    \item  to this rule it is given an identifier, here {\tt Loc-Key-Orient}; when it is necessary
+        to refer to this association rule, this key will be used;
 
     \item  generally, the mechanism allowing the declaration directly in the MicMac
            parameter is to be avoided; it is preferable to use predefined rules or to declare
@@ -975,7 +975,7 @@ the way the scene was shot:
 
 \label{Ex:GrTer:RA}
 
-Finally, the value {\tt eGeomMNTEuclid} of {\tt GeomMNT} specifies that the output 
+Finally, the value {\tt eGeomMNTEuclid} of {\tt GeomMNT} specifies that the output
 geometry  is  \UNCLEAR{equal} to the input geometry.  This means that the resulting image
 is, up to translation and scaling, directly understood as a grid $Z=f(x,y)$.
 In fact, the value of the orientation file specifies the input geometry, but
@@ -1018,7 +1018,7 @@ image file {\tt Z\_NumXXX\_DeZoomYYY\_LeChantier.tif} is associated a file
 The important tags are {\tt <Origine..>} and {\tt <Resolution..>}. Let:
 
 \begin{itemize}
-   \item  $OriginePlani=X_0,Y_0$  ; 
+   \item  $OriginePlani=X_0,Y_0$  ;
    \item  $OrigineAlti=Z_0$       ;
 
    \item  $ResolutionPlani=\Delta_x,\Delta_y$       ;
@@ -1033,8 +1033,8 @@ Then each point $I,J,K=K(I,J)$ of the grid defines an $x,y,z$ point by the basic
    = \begin{pmatrix}  X_0 + I * \Delta_x \\ Y_0 + J * \Delta_y \\ Z_0 + K * \Delta_z \end{pmatrix}
 \end{equation}
 
-Notice that in the parameter file there is no specification of planimetric resolution. 
-In this case, we have to let MicMac make the choice; it has selected a ground resolution 
+Notice that in the parameter file there is no specification of planimetric resolution.
+In this case, we have to let MicMac make the choice; it has selected a ground resolution
 equal to the average resolution of the image, this is possible because the orientation
 file generated by Apero contains the necessary information (like average height).
 For the altimetric resolution, it is implicitly specified by the parameters
@@ -1053,7 +1053,7 @@ modelization of quasi-planar objects: modelization of the earth surface seen for
 point of view, modelization of bas-reliefs\dots However it is not suited for the
 modelization of fully 3-dimensional objects.  For this kind of modelization, MicMac
 proposes the "image-ground" geometry in which the user can easily select a geometry
-adapted to each point of view. There are several \UNCLEAR{variants} of this geometry; 
+adapted to each point of view. There are several \UNCLEAR{variants} of this geometry;
 in all image-ground geometry, there is a master image $I_m$ and the $x,y$
 of this geometry represents simply the pixel $I,J$ of $I_m$.
 We describe here the $1D$-depth-of-field ($1D$dof)  which is optimized for well calibrated stenope camera.
@@ -1070,7 +1070,7 @@ the \UNCLEAR{result} space and its homologous in Euclidean space $x,y,z$, in $1D
          located at depth\footnote{depth(P)=distance between the optical center and the projection of P on the optical axis} $\frac1C$;
    \item the advantages of this geometry are:
 \begin{itemize}
-   \item like all the other ground-image geometries, the disparity map is directly superposable to 
+   \item like all the other ground-image geometries, the disparity map is directly superposable to
           the first image;
    \item for a given ray, a regular sampling of  $\frac1C$ corresponds, as much as possible, to a regular sampling
          of the projection in all images; if $C$ was regularly sampled, with scenes having a very high depth
@@ -1159,9 +1159,9 @@ The {\tt Section\_PriseDeVue} has two differences:
           in this geometry, as there is a master image that plays a special role, we need
           a way to indicate which is the master, this is the role of tag {\tt Im1};
 
-   \item  we have no section {\tt DicoLoc} defining a rule for computing association, 
+   \item  we have no section {\tt DicoLoc} defining a rule for computing association,
           instead, we have used {\tt NKS-Assoc-Im2Orient@-Test-5}, this is what is
-          called a predefined parametrized key : 
+          called a predefined parametrized key :
 
 \begin{itemize}
     \item  it is predefined, because the definition of the key is made in the file
@@ -1215,8 +1215,8 @@ The {\tt Section\_Terrain} has several differences:
           explore is $[0.3*D_0, 5*D_0]$ where $D_0$ is the average depth (MicMac knows it
           from the information contained in the orientation files);
 
-     \item the tag {\tt MT\_Image} contains information for a mask of the terrain points 
-     		that are to be matched, the terrain points \UNCLEAR{refer} to the output geometry,
+     \item the tag {\tt MT\_Image} contains information for a mask of the terrain points
+        that are to be matched, the terrain points \UNCLEAR{refer} to the output geometry,
            here the pixels of the image {\tt IMG\_5564.tif}; figure~\ref{BOUDHA:GRIM:INPUT}
            contains an image of the mask used here; it has been created with the
            tool {\tt bin/SaisieMasq};
@@ -1234,13 +1234,13 @@ The {\tt Section\_Terrain} has several differences:
 
 The left image of the figure~\ref{BOUDHA:CLOUD:INPUT} presents, in shading,
 the result of the depth-map you will obtain. Often,  for $3D$ modelization,
-what is needed is not a depth-map but a $3D$ point cloud. Due to the chosen geometry, 
+what is needed is not a depth-map but a $3D$ point cloud. Due to the chosen geometry,
 several pieces of information are necessary to generate $3D$ points from
 depth map:
 
 
 \begin{itemize}
-  \item  calibration of the camera (internal and external) to compute, for 
+  \item  calibration of the camera (internal and external) to compute, for
          each pixel, its ray in Euclidean space;
   \item  origin and steps of depth quantification;
   \item  mask of image;
@@ -1259,28 +1259,28 @@ depth map:
 \end{figure}
 
 
-All these pieces of information exist in separated files and, once merged, they are sufficient 
-to generate 3D points. For a greater convenience, files merging 
+All these pieces of information exist in separated files and, once merged, they are sufficient
+to generate 3D points. For a greater convenience, files merging
 this information are generated. In directory {\tt MEC-5-Im/}
 you will find the files {\tt NuageImProf\_LeChantier\_Etape\_X.xml}.
-Take a look at these files, they contain all the information 
-necessary to generate  the point clouds. There is only the conversion to do. 
+Take a look at these files, they contain all the information
+necessary to generate  the point clouds. There is only the conversion to do.
 The tool {\tt bin/Nuage2Ply} makes the conversion from
 a file {\tt NuageImProf \dots} to a point cloud in {\tt ply} format.
 For example, you can type:
 
 \begin{verbatim}
 bin/Nuage2Ply ../micmac_data/ExempleDoc/Boudha/MEC-5-Im/NuageImProf_LeChantier_Etape_5.xml \
-   Attr=../micmac_data/ExempleDoc/Boudha/IMG_5564-RGB.tif 
+   Attr=../micmac_data/ExempleDoc/Boudha/IMG_5564-RGB.tif
 
 \end{verbatim}
 
 Here, the image {\tt IMG\_5564-RGB.tif} is a RGB image superposable to the master image
-{\tt IMG\_5564.tif}. Figure~\ref{BOUDHA:CLOUD:INPUT} presents a view of this image. This 
+{\tt IMG\_5564.tif}. Figure~\ref{BOUDHA:CLOUD:INPUT} presents a view of this image. This
 command generates a file  {\tt NuageImProf\_LeChantier\_Etape\_5.ply} in the directory {\tt MEC-5-Im/}.
 If you have the MeshLab tool, you will be able to visualize the cloud. Figure~\ref{BOUDHA:CLOUD:OUTPUT}
 presents  some  viewpoints generated with MeshLab.
- 
+
 
 
 \begin{figure}
@@ -1310,7 +1310,7 @@ parameters :
 \end{itemize}
 
 
-The obvious way to do it would be to run with one set of parameters, wait for the computation to be over, 
+The obvious way to do it would be to run with one set of parameters, wait for the computation to be over,
 modify the file of parameters, wait the \UNCLEAR{\dots} %il n'y a pas de suite pour wait
 But imagine you have $30$ viewpoints to generate,
 you do not want to spend hours in front of your computer, you want to specify once all your
@@ -1350,7 +1350,7 @@ very carefully:
    \item  {\tt  NumC="@5564"}  declares that {\tt NumC} is a symbol, here  it is given the
           value {\tt 5564};  {\tt NumMin="@5564"} declares a symbol {\tt NumMin} \dots
 
-   \item  be careful, the {\tt @} is very important, it allows the mapping substitution 
+   \item  be careful, the {\tt @} is very important, it allows the mapping substitution
           that will be described below.
 \end{itemize}
 
@@ -1365,7 +1365,7 @@ $3$ times as the master image; so if you change the master image, you would have
 the three occurrences; it is easy to imagine that it can be error prone. With the symbol
 declaration, you only need to change the line {\tt  NumC="@5564"}.
 
-However, this does not solve the batching problem.  
+However, this does not solve the batching problem.
 For this, we have to look at {\tt Section\_WorkSpace}:
 
 {\scriptsize
@@ -1427,7 +1427,7 @@ TO DO \$\{MMNbProc\}
 When it is present, the \UNCLEAR{functionment} of {\tt <PostProcess>} is quite easy, each {\tt <OneCmdSer>} is
 executed, sequentially, as a command line. Of course the symbol substitution has been \UNCLEAR{opered}
 before. It is often necessary to give the absolute name of file (and not the name relative to
-the directory of the data set), so for this, there is a special symbol {\tt \$\{ThisDir\}} whose 
+the directory of the data set), so for this, there is a special symbol {\tt \$\{ThisDir\}} whose
 value is the path of the current directory.
 
 Once you have executed MicMac with {\tt Param-6-Ter.xml}, you should obtain
@@ -1472,12 +1472,12 @@ by default  the average of cross correlation on all pair of images (see~\ref{Mul
 for variants).  When there are  part of the ground that are not seen on some images,
 it would be more appropriate to compute the average on the only image that see some
 part of the ground. We can compute hidden part if we know a $3D$ model of the scene.
-Obviously, we don't have a "perfect" $3d$ models~\footnote{else, we would not loose our
+Obviously, we don't have a "perfect" $3D$ model~\footnote{otherwise, we would not loose our
 time to make work irritating correlation tools \dots } but with multi-resolution
-approach, there are case where the solution of previous steps may be an acceptable
+approach, there are cases where the solution of previous steps may be an acceptable
 approximation of the 3D for hidden part computation.
 The file {\tt Param-7-Ter.xml} gives an example of how this functionality
-can be used in {\tt MicMac}  :
+can be used in {\tt MicMac}:
 
 
 {\scriptsize
@@ -1500,40 +1500,40 @@ can be used in {\tt MicMac}  :
                        <SeuilUsePC> 3 </SeuilUsePC>
                 </GenerePartiesCachees>
         </EtapeMEC>
-...     
+...
 \end{verbatim}
 }
 
 
 At resolution $4$ and $2$, there is a {\tt <GenerePartiesCachees>}, when this tag
-is encountered, {\tt MicMac} will compute \footnote{using a classical Z-buffer algorithm}
+is encountered {\tt MicMac} will compute \footnote{using a classical Z-buffer algorithm}
 at the end of the processing
-step , for each of the input image, an image
+step, for each of the input image, an image
 superposable to the DTM; this image indicates for each pixel if this pixel is visible
-or hidden. For example, you can see in directory {\tt MEC-7-Ter}, that 
+or hidden. For example, you can see in directory {\tt MEC-7-Ter}, that
 a file {\tt  MasqPC\_LeChantier\_Num2\_IMG\_5588.tif} has been created.
 
-As the DTM is not perfect,  if the result is used without further precaution, 
-every small noise inside it, can cause a small hidden part in the computation.
-The two right image of figure~\ref{Hidden:part} show the mask that would
-result from a direct use of hidden part : there would be everywhere in
-the image a lot of isolated pixels supposed to be hidden; 
+As the DTM is not perfect,  if the result is used without further precaution,
+every small noise inside it can cause a small hidden part in the computation.
+The two right images of figure~\ref{Hidden:part} show the mask that would
+result from a direct use of hidden part: there would be everywhere in
+the image a lot of isolated pixels supposed to be hidden;
 
-In fact the notion of hidden part, is not a binary notion, intuitively it's
-easy to understand that some points are weakly hidden do a relief of a few pixels,
-and that others are strongly hidden by high reliefs. MicMac compute a value
-that implement this intuitive notion, third image of figure~\ref{Hidden:part}
-presents in gray level such a quantitative notion of hidden part.
-We can now describe the subtags of {\tt <GenerePartiesCachees>} :
+In fact the notion of hidden part is not a binary notion, intuitively it's
+easy to understand that some points are weakly hidden by a relief of a few pixels,
+and that others are strongly hidden by high reliefs. {\tt MicMac} computes a value
+that implements this intuitive notion, the third image of figure~\ref{Hidden:part}
+shows in grayscale such a quantitative notion of hidden part.
+We can now describe the subtags of {\tt <GenerePartiesCachees>}:
 
 
 \begin{itemize}
-   \item  {\tt  <SeuilUsePC>} is used to  threshold the quantitative hidden
+   \item  {\tt  <SeuilUsePC>} is used as threshold for the quantitative hidden
           image that has been computed by MicMac; points over this threshold
-          will not be used in the correlation computation; fourth image of
-          figure~\ref{Hidden:part} present the thresholded image;
-   \item  {\tt  <ByMkF>} just mean that you allow MicMac to parallelize the 
-          computation (in fact should alway be true except for debuging);
+          will not be used in the correlation computation; the fourth image of
+          figure~\ref{Hidden:part} shows the thresholded image;
+   \item  {\tt  <ByMkF>} just means that you allow MicMac to do parallel
+          computing (in fact it should always be true, except when debugging);
 \end{itemize}
 
 
@@ -1545,15 +1545,15 @@ We can now describe the subtags of {\tt <GenerePartiesCachees>} :
    \includegraphics[width=40mm]{FIGS/Boudhas/MASQ_GRAY_5592.jpg}  &
    \includegraphics[width=40mm]{FIGS/Boudhas/MASQ_SEUIl_5592.jpg}  \\ \hline  \hline
 \end{tabular}
+\caption{Images 1 and 2: examples of binary hidden part; Image 3: gray function of hidden part; Image 4: thresholded
+hidden part function}
 \label{Hidden:part}
-\caption{Images 1 et 2 : exemple of binary hidden part; Image 3 , gray function of hidden part; Image 4 : thresholded
-hidden part function }
 \end{figure}
 
 
-While {\tt MicMac} is computing the hidden part, he has in fact almost all the information
-necessary  to compute the geometric deformation necessary to make ortho-images. This why
-the tag {\tt <MakeOrthoParImage>} allowing this ortho computation is a sub-tag of
+While {\tt MicMac} is computing the hidden part, it has in fact almost all the necessary information
+to compute the geometric deformation required to make ortho-images. This is the reason why
+the tag {\tt <MakeOrthoParImage>}, allowing this ortho computation, is a sub-tag of
  {\tt GenerePartiesCachees>}:
 
 {\scriptsize
@@ -1578,33 +1578,33 @@ the tag {\tt <MakeOrthoParImage>} allowing this ortho computation is a sub-tag o
 \end{verbatim}
 }
 
-Some comments on this  part of the file :
+Some comments on this  part of the file:
 
 \begin{itemize}
     \item  this is made at a final step of the computation, so the hidden part will not be reused in correlation,
-           however they are computed because they are usefull for mosaicing (see~\ref{Porto}).
+           however they are computed because they are useful when creating the mosaic (see~\ref{Porto}).
 
     \item the input image to ortho-rectify is specified by {\tt <KeyCalcInput>}; here it is the same
-          image that the correlation image, so we use the special key {\tt Key-Assoc-Id};
+          image that the correlation image, so we used the special key {\tt Key-Assoc-Id};
 
-    \item {\tt NKS-Assoc-AddDirAndPref} is a parametrized key that generate name under a different directory
-          and add pref (see the definition in {\tt DefautChantierDescripteur.xml}); it used several time
-          because we need to general several file for each image;
- 
+    \item {\tt NKS-Assoc-AddDirAndPref} is a parametrized key that generates name under a different directory
+          and add pref (see the definition in {\tt DefautChantierDescripteur.xml}); it is used several times
+          because we need to generate several files for each image;
 
-    \item the generated files  are :
+
+    \item the generated files are:
 
     \begin{itemize}
-            \item the individual ortho image, its name is specified by {\tt <KeyCalcOutput>};
+            \item the individual ortho-image, its name is specified by {\tt <KeyCalcOutput>};
             \item the hidden part image specified by {\tt <KeyCalcPC>};
-            \item the incidence image  specified by {\tt <KeyCalcIncidHor>}; this image we be used
-                  in mosaicing to select, between the different individual ortho-image, which is
-                  the best (i.e. incident ray is closest to vertical);
+            \item the incidence image  specified by {\tt <KeyCalcIncidHor>}; this image will be used
+                  when creating the mosaic, between the different individual ortho-images, select the best one
+                  (i.e. incident ray is closest to vertical);
     \end{itemize}
 
 \end{itemize}
 
-The figure ~\ref{Resul:Ortho:MM} present the input and output of this ortho-image generation.
+The figure ~\ref{Resul:Ortho:MM} shows the input and output of this ortho-image generation.
 
 \begin{figure}
 \begin{tabular}{||c|c|c|c||}
@@ -1614,9 +1614,9 @@ The figure ~\ref{Resul:Ortho:MM} present the input and output of this ortho-imag
    \includegraphics[width=40mm]{FIGS/Boudhas/Hidden_5592.jpg}  &
    \includegraphics[width=40mm]{FIGS/Boudhas/Ort_IMG_5592.jpg} \\ \hline  \hline
 \end{tabular}
-\label{Resul:Ortho:MM}
-\caption{An image (5592) and the results of individual ortho generation: 
+\caption{An image (5592) and the results of individual ortho generation:
 its incidence image, its hidden part image, its single ortho-image}
+\label{Resul:Ortho:MM}
 \end{figure}
 
 
@@ -1649,7 +1649,7 @@ Epipolare bi-dim avec Boudah
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
- 
+
 
 
 
