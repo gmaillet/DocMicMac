@@ -1318,11 +1318,11 @@ matchings, start the computation and concentrate on other tasks while the comput
 in other words, you need to batch the process.
 
 If you are a computer programmer, you will be able to
-easily build a program that generates and run MicMac with the good parameters; if
-not, MicMac proposes a simple mechanism to do it. It is used
+easily build a program that generates and runs MicMac with the good parameters; if
+not, MicMac offers a simple mechanism to do it. It is used
 in the file {\tt Param-6-Ter.xml}.
 
-First, the header is quite new :
+First, the header is quite new:
 
 {\scriptsize
 \begin{verbatim}
@@ -1403,7 +1403,7 @@ means that will effectively use the mechanism. Then:
           be called with the value of {\tt NumC} equal to {\tt 5581} (instead of 5564).
 \end{itemize}
 
-With this mechanism, we can now compute the three depth map in one command.
+With this mechanism, we can now compute the three depth maps in one command.
 However, for now, if we want to generate point clouds, we still have to run three
 times {\tt Nuage2Ply}. If you have many commands, this can be cumbersome. The
 {\tt <PostProcess>} section offers an alternative:
@@ -1424,8 +1424,8 @@ times {\tt Nuage2Ply}. If you have many commands, this can be cumbersome. The
 TO DO \$\{MMDIR\}
 TO DO \$\{MMNbProc\}
 
-When it is present, the \UNCLEAR{functionment} of {\tt <PostProcess>} is quite easy, each {\tt <OneCmdSer>} is
-executed, sequentially, as a command line. Of course the symbol substitution has been \UNCLEAR{opered}
+When it is present, the {\tt <PostProcess>} is quite easy, each {\tt <OneCmdSer>} is
+executed sequentially as a command line. Of course the symbol substitution has been carried out
 before. It is often necessary to give the absolute name of file (and not the name relative to
 the directory of the data set), so for this, there is a special symbol {\tt \$\{ThisDir\}} whose
 value is the path of the current directory.
@@ -1437,7 +1437,7 @@ each of these point clouds.
 As all the orientation have been computed with Apero in the same system
 coordinates, if the three point clouds are opened simultaneously, you will obtain
 a global modelization of the Buddha.  Figure~\ref{BOUDHA:CLOUD:OUTPUT:MERGE}
-presents some snapshots generated with MeshLab once they have been globally loaded.
+shows some snapshots generated with MeshLab once they have been globally loaded.
 
 \begin{figure}
 \begin{center}
@@ -1468,9 +1468,9 @@ presents some snapshots generated with MeshLab once they have been globally load
 
 
 In the curent version of {\tt MicMac},  the formula used for multi-correlation is
-by default  the average of cross correlation on all pair of images (see~\ref{Multi:Correl:Coef}
-for variants).  When there are  part of the ground that are not seen on some images,
-it would be more appropriate to compute the average on the only image that see some
+by default  the average of cross correlation on all pairs of images (see~\ref{Multi:Correl:Coef}
+for variants).  When there are  parts of the ground that are not seen on some images,
+it would be more appropriate to compute the average only on images that see some
 part of the ground. We can compute hidden part if we know a $3D$ model of the scene.
 Obviously, we don't have a "perfect" $3D$ model~\footnote{otherwise, we would not loose our
 time to make work irritating correlation tools \dots } but with multi-resolution
@@ -1585,7 +1585,7 @@ Some comments on this  part of the file:
            however they are computed because they are useful when creating the mosaic (see~\ref{Porto}).
 
     \item the input image to ortho-rectify is specified by {\tt <KeyCalcInput>}; here it is the same
-          image that the correlation image, so we used the special key {\tt Key-Assoc-Id};
+          image as the correlation image, so we used the special key {\tt Key-Assoc-Id};
 
     \item {\tt NKS-Assoc-AddDirAndPref} is a parametrized key that generates name under a different directory
           and add pref (see the definition in {\tt DefautChantierDescripteur.xml}); it is used several times
