@@ -1829,7 +1829,7 @@ The result of orientation can be seen in figure ~\ref{FIG:Tortue:Input}.
 
 To compute \emph{a posteriori} the structure of an acquisition, the first thing is to know,
 for each potential master image, what would be the best set of secondary  images.
-This what does the tool {\tt AperoChImSecMM}. The meaning of its argument should be
+This is what does the tool {\tt AperoChImSecMM}. The meaning of its argument should be
 quite obvious from inline help :
 
 \begin{verbatim}
@@ -1852,7 +1852,7 @@ Using it with the tortoise data-set we enter :
 \end{verbatim}
 
 For further use, it is not strictly necessary to understand what is done
- by {\tt AperoChImSecMM}; however, it  can never be bad  to understand the tool you use
+ by {\tt AperoChImSecMM}; however, it  can never be bad to understand the tool you use
 \footnote{at least, this is the "philosophy" with free open source products} \dots 
 When it is finished, we can take a look at  {\tt Ori-All} directory, it
 contains $53$ files  {\tt ImSec-XXXX.xml}. Each file contains possible sets of secondary images.
@@ -1905,7 +1905,7 @@ For example, if we open {\tt ImSec-IMGP6857.JPG.xml}  :
 \end{verbatim}
 }
 
-Each {\tt Sol} contain a possible set of secondary images. There is several sets because there is no universal
+Each {\tt Sol} contains a possible set of secondary images. There are several sets because there is no universal
 criteria to define the best set : it must covers  all the direction around the master image
 (to avoid hidden part), it must contains images with the "good" angles for stereoscopy, it
 must avoid redundancy and have a minimal number of images (for efficiency). A these criteria
@@ -2022,7 +2022,7 @@ results.
 \includegraphics[width=60mm]{FIGS/Tortue/Dep3.jpg}
 \includegraphics[width=60mm]{FIGS/Tortue/RIMGP6900.JPG}
 \end{center}
-\caption{Illustration of the {\tt MMTestAllAuto} tool; up two view where it works correctly;
+\caption{Illustration of the {\tt MMTestAllAuto} tool; up two views where it works correctly;
 down one view (and it corresponding original image) where, due to lack of good secondary image, 
 the result is almost empty}
 \label{FIG:Tortue:AllAuto}
@@ -2034,8 +2034,8 @@ the result is almost empty}
 
 \label{SemiAutoMatch}
 
-Even when the full automatic matching will be available, many use will need to have
-is some circumstances a finer control of the process. This is the aim of these tool.
+Even when the full automatic matching will be available, many users will need to have
+in some circumstances a finer control of the process. This is the aim of these tools.
 
 \subsection{Basic rectification with {\tt Tarama}}
 
@@ -2043,23 +2043,23 @@ is some circumstances a finer control of the process. This is the aim of these t
 
 To run the matching process (with {\tt MicMac} or {\tt Malt}) the
 program must decide which space has to be explored. If no
-information is given, the programs will adopt a default strategy it
+information is given, the program will adopt a default strategy: it
 will select points of the scene that are visible on at least $N$ images
 \footnote{generally $N=2$ or $N=3$}, 
 making the assumption that the scene is globally flat. Although this
 strategy may be perfectly ok on aerial acquisition, in the the general
 case it may create a uselessly too large area. In general case, the
 area selection requires some semantic interpretation of the scene
-and can only me made by, you, the user who only knows what he wants.
+and can only be made by, you, the user who only knows what he wants.
 For example, in the Saint Martin data set, an automatic program has no
-information to determine that you want  to do the matching on the wall
+information to determine that you want to do the matching on the wall
 and not on the street.
 
 An easy way to indicate which part of the scene you want to use,
-is to create a mask on a rectified mosaic.  The tool Tarama allows
+is to create a mask on a rectified mosaic. The tool Tarama allows
 to create such mosaic. At this step the relief is unknown and the 
 rectification is made with the assumption that $Z=ZMoy$, so of
-course these mosaic are not very precise.
+course these mosaic are not very accurate.
 
 The syntax is:
 
