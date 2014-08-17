@@ -503,12 +503,15 @@ So in this example, the $3d$ point {\tt P\_1\_A} will be adjusted simultaneously
 \end{itemize}
  
 %=======================================================================================================
-\section{Recent evolution in Tapas}
+\section{Recent evolution in Tapas and other orientation tools}
 
-This section describes option which, at the time being are implemented in a temporary tool name {\tt NewTapas}. However,
-in a near future , when  {\tt NewTapas} will have been validated by beta-tester, it will replace Tapas (with 
-a full compatibility of command but with result slightly different).
+The evolution described here, are now integrated in the "standard" {\tt Tapas} command.
+When necessary \footnote{for example because "new"  {\tt Tapas} has slower conbergence}, it is poissible
+to get back to the previous behaviour by using the {\tt OldTapas} command.
 
+
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Viscosity \& Levenberg Marquardt stuff}
 
@@ -546,6 +549,8 @@ allox to limit the number of iteration (by a factor arround $2$), of course it h
 \end{figure}
 
 
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 \subsection{Additional distortion}
 
 The kernel of Apero has two option that can be usefull when attempting to modelize finely the distorsion of a camera:
@@ -575,7 +580,7 @@ There is two familly of distorsion with high degree of freedom :
          there $6$ polynoms already modelized by focal, principal point and rotations; 
 \end{itemize}
 
-The firts one is accessible directly in {\tt NewTapas}, not the second. Buth both are accessible as additional distortion.
+The firts one is accessible directly in {\tt Tapas}, not the second. Buth both are accessible as additional distortion.
 In fact, it would be generaly a bad idea to try to estimate directly the $66$ parameters of a {\tt eModelePolyDeg7}, it's
 preferable to estimate first a model with physical meaning and few parameters, and then to estimate the high degree polynom
 as a modification to this physical model. This can be done with :
@@ -635,6 +640,224 @@ The result in {\tt Ori-AddPolyDeg7/AutoCal60.xml} looks like :
 
 \end{verbatim}
 }
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Non Linear Bascule (swing)}
+
+\subsubsection{Motivation}
+
+\label{NonLin:GCPBascule}
+
+The {\tt GCPBascule} tool, described in~\ref{Sec:GCPBascule}, transforms a relative orientation
+into an absolute one, using at leats $3$ ground control point (GCP). The default use make
+the assumption that the relative orientation is "perfect" and it computes the minimum number
+of parameters, i.e. the seven parameter corresponding to the arbirtrary $3d$ similitude
+ that can be computed from tie points : 
+
+\begin{itemize}
+   \item $3$ paramater for rotation; 
+   \item $3$ paramater for translation; 
+   \item $1$ paramater for scale.
+\end{itemize}
+
+
+When {\tt MicMac} tools is used for metrology, this geo-referencing by {\tt GCPBascule}
+can be insuficient because there appears non linear distorsion in the relative orientation. The discussion about the
+origin and the quantification of these effect,  is quite complex and cannot be discussed here;
+however,  to solve it we have to input more GCP that the minimum required and to use these
+excedent GCP for correcting this distortion. In {\tt MicMac} tools, there is two way to do it :
+
+
+\begin{itemize}
+   \item the "classical" way is to do a compensation with high weigthing on the CGP, this can be done
+        with the simplified tool   {\tt Campari}  (\ref{CAMPARI} and \ref{Bundle:CAMPARI});
+
+   \item a non standard way is to use the redundacy of the GCP to directly estimate the non linear distorsion  
+        existing between the result of "Bascule" (swing) ans the ground truth; this is what is described here;
+
+\end{itemize}
+
+At the time of writing these documentation, it's not clear which method is "better". The first one is more
+standard and seems more correct from theoreticall point of view, however from experimental point of view, the 
+second one seems more accurate.
+
+
+\subsubsection{Mathematicall model}
+
+Let :
+
+\begin{itemize}
+   \item let $G_k$ be the ground coodinate of the GCP;
+   \item let $I_k$ be the coordinate of the GCP in relative initial model (estimate by bundle intersection);
+   \item let $T$ be the transformation from relative to absolute we want to estimate similitude, such that  $G_k \approx T(I_k)$ ;
+   \item let $S$ be the inital similitude estimation of $T$;
+   \item let $C$ be the "small" correction we want to do compute $T= (Id+C) \circ S$
+\end{itemize}
+
+
+Also, it is current that the acquisition is "linear" and that the coordinate must not be treated
+symetrically. For example if the acquisitiion is made from a single strip, let $O'X'Y'Z$ be a
+coordinate system ,  centered on the acquisition, such that the image center are aligned on the $O'X'$ axes.
+Concretely $O'X'Y'Z$ can be estimated automatically from initial $OXYZ$ by elementary computation of inertials axes of the
+image center (i.e. computation of order $2$ moments) \footnote{this is exactly what is done in MicMac}.
+
+
+
+Basically, the model for estimate $C$ is restricted  quadratic function on of  each coordinates $X'Y'Z$:
+
+\begin{itemize}
+   \item $C(X',Y',Z') = (X'^c,Y'^c,Z'^c)$;
+   \item $X'^c = \sum c^x_{ij} X'^i Y'^j$
+   \item $Y'^c = \sum c^y_{ij} X'^i Y'^j$
+   \item $Z'^c = \sum c^z_{ij} X'^i Y'^j$
+\end{itemize}
+
+
+For example, suppose that the acquisition is made from a single strip, and
+that the errors is only on $Z^c$,  and that this error depends only on  the
+"main" variable $X'$, a possible mode could be :
+
+\begin{itemize}
+   \item $X'^c = 0$
+   \item $Y'^c = 0$
+   \item $Z'^c =  c^z_{00} + c^z_{10} X' + c^z_{20} X'^2$
+\end{itemize}
+
+Also if we have a sufficient number of tie points \footnote{$6$ is the minimum, but $12$ would be more 
+reasonnable} and have high distorsion we can select the full model.
+
+
+\subsubsection{Using it in MicMac}
+
+The command {\tt GCPBascule} hase several parameters to compute a non linear 
+correction. Of course by defaut, the swing-bascule if made with the standard $7$ paramaters
+with no correction. The non linear correction is activated if the optional {\tt PatNLD} is
+used. The meaning of the different parameters is then :
+
+
+\begin{itemize}
+  \item  {\tt PatNLD} :  define the pattern of the GGP name that will be used to estimate  $C(X',Y',Z')$;
+         in the final application probably one will use {\tt "PatNLD=.*"} to specify that all GCP; however,
+         if one want to esitmate the accuracy with GCP that are not used for the estimation, it can be
+         convenient to specify a subset:
+   \item  {\tt NLDegX}, {\tt NLDegY} and  {\tt NLDegZ} specify the degree of the polynoms $X'^c,Y'^c,Z'^c$,
+          see details bellow;
+   \item  {\tt NLFR}  : as the function $T$ is no longer a pure similitude, the orientation of each image
+          can no longer be exactly a rotation matrix; the parameter {\tt NLFR} mean "Non Linear For Rotation" and
+          control the export is done ; if :
+
+\begin{itemize}
+     \item   {\tt NLFR} is false, {\tt MicMac} will export for each image the closest matrix that fit
+             with new system, if $X'^c,Y'^c,Z'^c$ contains non linear term there will be some error but
+             probably very small; the matrix will be non rotation matrix which mean that there will be
+             no longer usable compensation (but usable in matching);
+
+     \item   {\tt NLFR} is true, {\tt MicMac} will export for each image the closest rotation that fit
+             the new system; of course the price to pay for having true rotatuon is that the error will be bigger;
+            
+\end{itemize}
+
+   \item  {\tt NLShow}  : give detailled information;
+\end{itemize}
+
+
+The way the parameters  {\tt NLDegX}, {\tt NLDegY} and  {\tt NLDegZ} is used is the following \footnote{same for the three} :
+
+\begin{itemize}
+   \item  {\tt NLDegX} =[$d_i,d_j,d_k]$ specifies the maximum degree of   monom of $c^x_{ij} X^i Y^j$
+   \item  if  $ i > d_i$ then  $c^x_{ij}=0$;
+   \item  if  $ j > d_j$ then  $c^x_{ij}=0$;
+   \item  if  $ i+j > d_k$ then  $c^x_{ij}=0$;
+\end{itemize}
+
+For example :
+
+
+\begin{itemize}
+   \item  {\tt NLDegX} =[2,0,2] means $C^x = c^x_{00} + c^x_{10} X + c^x_{20} X^2$
+   \item  {\tt NLDegX} =[1,1,1] means $C^x = c^x_{00} + c^x_{10} X + c^x_{01} Y$
+   \item  {\tt NLDegX} =[1,1,2] means $C^x = c^x_{00} + c^x_{10} X + c^x_{01} Y +  c^x_{11} XY$
+\end{itemize}
+
+
+
+\subsubsection{Example of use, and message interpretation}
+
+Here is a possible use :
+
+{\small
+\begin{verbatim}
+ "mm3d" "GCPBascule" ".*ARW" "Ori-AllRell-F15AddP7/" "Basc-Def-NonO" "GCP.xml" "MesFinal-S2D.xml" \
+   "PatNLD=(3|7|14).*" "NLDegZ=[2,0,2]" "NLDegX=[1,1,1]" "NLDegY=[1,1,1]" "NLFR=false" "NLShow=true"
+\end{verbatim}
+}
+
+The message should look like that , first classical message of {\tt GCPBascule} :
+
+\begin{verbatim}
+BEGIN Pre-compile
+NEW CALIB TheKeyCalib_350
+NB[10a]= 11
+  .....
+NB[9c]= 11
+BEGIN Load Observation
+Pack Obs NKS-Set-Orient@-AllRell-F15AddP7 NB 180
+BEGIN Init Inconnues
+NUM 0 FOR 001aDSC01061.ARW
+  .....
+NUM 179 FOR 242bDSC01005.ARW
+BEGIN Compensation
+BEGIN AMD 
+END AMD 
+\end{verbatim}
+
+Then  a message indicating the monom used for $X'^c,Y'^c,Z'^c$ :
+
+\begin{verbatim}
+ MQ:X [1 X Y ]
+ MQ:Y [1 X Y ]
+ MQ:Z [1 X X2 ]
+\end{verbatim}
+
+Then the error before and after non linear correction :
+
+\begin{verbatim}
+* 14a ErInit : 0.0723239 => ErCor : 0.0260313 DZ=-0.0254591
+* 14b ErInit : 0.043778 => ErCor : 0.0135564 DZ=0.00440725
+* 14c ErInit : 0.0277668 => ErCor : 0.0253775 DZ=0.0211511
+  13a ErInit : 0.0583578 => ErCor : 0.0456215 DZ=-0.042776
+  13b ErInit : 0.0361378 => ErCor : 0.0231452 DZ=-0.0176777
+  13c ErInit : 0.0200873 => ErCor : 0.020112 DZ=0.00742163
+   ....
+\end{verbatim}
+
+Let detail the message for point {\tt  14a} :
+\begin{itemize}
+
+ \item {\tt * 14a ErInit : 0.0723239 => ErCor : 0.0260313 DZ=-0.0254591};
+ \item the {\tt *} means that point {\tt  14a} belongs to {\tt PatNLD}
+ \item {\tt 0.0723239} is the initial distance $||G_k - S(I_k)||$ (after bascule-swing);
+ \item {\tt 0.0260313} is the distance after non linear correction $||G_k - T(I_k)||$ ;
+ \item {\tt -0.0254591} is the $Z$ value of $||G_k - T(I_k)||$ (generally the most important);
+ 
+\end{itemize}
+
+
+
+
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{A detailled example}
+
+
+
+
+
+
+
+
+
 
 
 
