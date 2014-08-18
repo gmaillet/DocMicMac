@@ -28,7 +28,8 @@
           <Centre>100 200 300</Centre>
           <VitesseFiable>true</VitesseFiable>
           <ParamRotation>
-               <CodageAngulaire>1 2 3</CodageAngulaire>
+               <CodageAngulaire>11 2.2 -33.3</CodageAngulaire>
+
           </ParamRotation>
      </Externe>
      <ConvOri>
