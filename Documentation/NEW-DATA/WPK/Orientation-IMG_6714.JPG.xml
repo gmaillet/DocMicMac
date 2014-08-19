@@ -34,5 +34,8 @@
      </Externe>
      <ConvOri>
           <KnownConv>eConvAngPhotoMDegre</KnownConv>
+<!--
+          <KnownConv>eConvApero_DistM2C</KnownConv>
+-->
      </ConvOri>
 </OrientationConique>

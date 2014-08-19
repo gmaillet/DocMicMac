@@ -531,3 +531,52 @@ R0040579.JPG|R0040538.JPG|R0040577.JPG|R0040534.JPG|R0040497.JPG|R0040500.JPG|R0
 \end{verbatim}
 
 This pattern may be utilized advantageously with {\tt Tapiocas} and {\tt Tapas} for example. Attention must be paid when using {\tt OriConvert} for the selection of a sub-block that coordinate system is an euclidean coordinate system, as well as for the image pairs file generation.
+
+
+\subsection{Exporting external oriention to Omega-Phi-Kapa}
+
+The tool {\tt OriExport} can convert MicMac external oriention to the \emph{de facto} standard
+codification using omega-phi-kapa.
+
+
+\begin{verbatim}
+mm3d OriExport
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full Directory (Dir+Pattern)}
+  * string :: {Results}
+Named args : 
+  * [Name=AddF] bool :: {Add format as first line of header, def= false}
+  * [Name=ModeExp] string :: {Mode export, def=WPK (Omega Phi Kapa)}
+\end{verbatim}
+
+For now it's quite basic and all the options are not implemented. However, it should solve the
+majority of problem relative to exporting resuls in classical photogrammetric softwares.
+
+An example with Cuxha data set :
+
+\begin{verbatim}
+mm3d OriExport Ori-All-Rel/Orientation-Abbey-IMG_034.*.jpg.xml  res.txt
+\end{verbatim}
+
+Will generate the file {\tt res.txt}  containinig :
+
+\begin{verbatim}
+Abbey-IMG_0340.jpg -4.304443 11.785803 136.229854 -5.491274 2.702560 -0.004106
+Abbey-IMG_0341.jpg -3.775959 11.249636 137.040260 -6.109496 2.042527 0.097497
+Abbey-IMG_0342.jpg -3.849398 11.231276 137.533559 -6.707432 1.351133 0.224315
+Abbey-IMG_0343.jpg -3.921196 11.302498 137.899618 -7.334180 0.668316 0.362218
+\end{verbatim}
+
+
+
+
+
+
+
+
+
+
+
