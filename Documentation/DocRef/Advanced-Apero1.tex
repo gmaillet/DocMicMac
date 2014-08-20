@@ -741,8 +741,8 @@ used. The meaning of the different parameters is then :
          in the final application probably one will use {\tt "PatNLD=.*"} to specify that all GCP; however,
          if one want to esitmate the accuracy with GCP that are not used for the estimation, it can be
          convenient to specify a subset:
-   \item  {\tt NLDegX}, {\tt NLDegY} and  {\tt NLDegZ} specify the degree of the polynoms $X'^c,Y'^c,Z'^c$,
-          see details bellow;
+   \item  {\tt NLDegX}, {\tt NLDegY} and  {\tt NLDegZ} specify the monoms that be used for  $X'^c,Y'^c,Z'^c$,
+          it a vector of strings  which elements must belongs to {\tt \{1,X,Y,X2,XY,Y2\}};
    \item  {\tt NLFR}  : as the function $T$ is no longer a pure similitude, the orientation of each image
           can no longer be exactly a rotation matrix; the parameter {\tt NLFR} mean "Non Linear For Rotation" and
           control the export is done ; if :
@@ -762,24 +762,6 @@ used. The meaning of the different parameters is then :
 \end{itemize}
 
 
-The way the parameters  {\tt NLDegX}, {\tt NLDegY} and  {\tt NLDegZ} is used is the following \footnote{same for the three} :
-
-\begin{itemize}
-   \item  {\tt NLDegX} =[$d_i,d_j,d_k]$ specifies the maximum degree of   monom of $c^x_{ij} X^i Y^j$
-   \item  if  $ i > d_i$ then  $c^x_{ij}=0$;
-   \item  if  $ j > d_j$ then  $c^x_{ij}=0$;
-   \item  if  $ i+j > d_k$ then  $c^x_{ij}=0$;
-\end{itemize}
-
-For example :
-
-
-\begin{itemize}
-   \item  {\tt NLDegX} =[2,0,2] means $C^x = c^x_{00} + c^x_{10} X + c^x_{20} X^2$
-   \item  {\tt NLDegX} =[1,1,1] means $C^x = c^x_{00} + c^x_{10} X + c^x_{01} Y$
-   \item  {\tt NLDegX} =[1,1,2] means $C^x = c^x_{00} + c^x_{10} X + c^x_{01} Y +  c^x_{11} XY$
-\end{itemize}
-
 
 
 \subsubsection{Example of use, and message interpretation}
@@ -789,7 +771,7 @@ Here is a possible use :
 {\small
 \begin{verbatim}
  "mm3d" "GCPBascule" ".*ARW" "Ori-AllRell-F15AddP7/" "Basc-Def-NonO" "GCP.xml" "MesFinal-S2D.xml" \
-   "PatNLD=(3|7|14).*" "NLDegZ=[2,0,2]" "NLDegX=[1,1,1]" "NLDegY=[1,1,1]" "NLFR=false" "NLShow=true"
+   "PatNLD=(3|7|14).*" "NLDegZ=[1,X,X2]" "NLDegX=[1,X,Y]" "NLDegY=[1,X,Y]" "NLFR=false" "NLShow=true"
 \end{verbatim}
 }
 
@@ -812,7 +794,7 @@ BEGIN AMD
 END AMD 
 \end{verbatim}
 
-Then  a message indicating the monom used for $X'^c,Y'^c,Z'^c$ :
+Then  a message remembering the monom used for $X'^c,Y'^c,Z'^c$ :
 
 \begin{verbatim}
  MQ:X [1 X Y ]
