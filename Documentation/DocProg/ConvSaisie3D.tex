@@ -1,0 +1,48 @@
+
+%\selectlanguage{english}
+
+\section{Conventions for 3D selection tool}
+
+SaisieMasqQT allows to open ply files and to do some manual segmentation with a polygonal selection tool.
+User can mainly perform 2 actions:
+\begin{itemize}
+\item move camera around point cloud (rotate and/or translate)
+\item draw a polygon and select/deselect points inside polygon
+\end{itemize}
+
+SaisieMasqQT can store an xml file (myPly_selectionInfo.xml) with polygonal selection information (camera position, and viewport coordinates of polygon vertex).
+
+For each pair of camera pose and polygonal selection, xml file contains a tag <Item> with:
+\begin{itemize}
+\item camera pose matrix
+\item openGL viewport size
+\item polygon vertex viewport coordinates
+\item selection mode (add, remove, invert, etc.)
+\end{itemize} 
+
+Two camera pose matrix are stored using openGL conventions:
+
+\begin{itemize}
+\item modelView matrix (16 parameters)
+\itme projection matrix (16 parameters)
+\end{itemize}
+
+For more information on these matrix: 
+
+http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/#The_Model__View_and_Projection_matrices
+
+
+How to transform polygon viewport coordinates (as stored) into 3D world coordinates:
+
+HistoryManager->load()
+QVector <selectInfos> vInfos = HistoryManager->getSelectInfos();
+for (int aK=0; aK< vInfos.size();++aK)
+{
+	MatrixManager->importMatrices(vInfos[aK]);
+	for (int bK=0;bK < vInfos[aK].poly.size();++bK)
+	{
+		QPointF pt = vInfos[aK].poly[bK];
+		MatrixManager->InverseProjection(pt, 100, pt3d);
+	}
+}
+

@@ -3,7 +3,7 @@
 
 \section{C++ course under MicMac's library : Elise}
 \subsection{Introduction and generalities}
-A \verb!C++! course was organised at ENSG (The National School of Geographic Sciences). The purpose of this course is to be able to create your own programs using the Elise library used in MicMac. In this section we start by giving some informations about the location of each files that will be needed, then some examples that have been implemented during this session will be detailed and explained.\newline
+A \verb!C++! course was organized at ENSG (The National School of Geographic Sciences). The purpose of this course is to be able to create your own programs using the Elise library used in MicMac. In this section we start by giving some information about the location of each files that will be needed, then some examples that have been implemented during this session will be detailed and explained.\newline
 
 Here is a list of locations of files that will be used along the course:\newline
 \begin{itemize}
@@ -11,8 +11,8 @@ Here is a list of locations of files that will be used along the course:\newline
 \item $\textbf{/culture3d/include}$ : contains header files (extension .h)\newline
 \item $\textbf{/culture3d/include/XML\_MicMac}$ : contains \verb!xml! files describing parameters for simplified tools as \textbf{Tapioca}, \textbf{Tapas}, ... etc\newline
 \item $\textbf{/culture3d/include/XML\_GEN}$ : contains \verb!xml! files, and an associated header file (generated automatically from the \verb!xml! file)\newline
-\item $\textbf{culture3d/src/CBinaires/}$ : contains executables that can be called without using \textbf{mm3d}. This is maintained, but using \textbf{mm3d} is recommended\newline
-\item \textbf{mm3d.cpp} specifies each command, with some commentary and log informations\newline
+\item $\textbf{culture3d/src/CBinaires/}$ : contains binaries that can be called without using \textbf{mm3d}. This is maintained, but using \textbf{mm3d} is recommended\newline
+\item \textbf{mm3d.cpp} specifies each command, with some commentary and log information\newline
 \end{itemize}
 
 Some convention are used while developing MicMac tools. Here we give some of them in order to understand the approach adopted: \newline
@@ -24,10 +24,10 @@ Some convention are used while developing MicMac tools. Here we give some of the
 \subsection{How to create a new .cpp file and compile it using the library Elise?}
 Start by creating a new file under the folder $\textbf{/culture3d/src/TpMMPD}$ and call it \\$\textbf{cExoMM\_CorrelMulImage.cpp}$. Note that the file $\textbf{ExoMM\_CorrelMulImage.cpp}$ under the same folder contains the solution of this course.
 \subsubsection{Hello World !}
-The first exrcice is displaying the famous \og hello world \fg\ under the prompt. The most important thing here is to succeed to compile your directory \textbf{culture3d} with your new file  $\textbf{cExoMM\_CorrelMulImage.cpp}$.\newline
+The first exercise is displaying the famous \og hello world \fg\ under the prompt. The most important thing here is to succeed to compile your directory \textbf{culture3d} with your new file  $\textbf{cExoMM\_CorrelMulImage.cpp}$.\newline
 
 
-Under your favourite IDE, for example Geany, start by including this file \textbf{StdAfx.h} wich contains all the headers of the library Elise. You are invited to check what is contained under $\textbf{/culture3d/include/StdAfx.h}$ \newline
+Under your favorite IDE, for example Geany, start by including this file \textbf{StdAfx.h} wich contains all the headers of the library Elise. You are invited to check what is contained under $\textbf{/culture3d/include/StdAfx.h}$ \newline
 
 \begin{lstlisting}
 #include "StdAfx.h" 
@@ -78,8 +78,8 @@ const std::vector<cMMCom> & getAvailableCommands() {...}
 \textit{TestlibAvailableCommands()} vector contains the commands accessible through the syntax: \textbf{mm3d TestLib MyCommand}. It's our case above.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Mandatory or Optionnal Argument?}
-If you are a user of MicMac you know that calling a mandatory argument doesn't recquire to specify the name of the option. For example \textbf{Tapas} recquires at least two arguments : model of distortion and a pattern, while optional arguments are specified by a name. For instance the option \textbf{InCal=} or \textbf{InOri=}.\newline
+\subsection{Mandatory or Optional Argument?}
+If you are a user of MicMac you know that calling a mandatory argument doesn't require to specify the name of the option. For example \textbf{Tapas} requires at least two arguments : model of distortion and a pattern, while optional arguments are specified by a name. For instance the option \textbf{InCal=} or \textbf{InOri=}.\newline
 
 
 Edit $\textbf{cExoMM\_CorrelMulImage.cpp}$ and add this loop at the beginning :\newline
@@ -238,7 +238,7 @@ std::list<cOneAppuisDAF> & aLGCP =  aDico.OneAppuisDAF();
 \end{verbatim}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{How to get list of files in a folder?}
-Here we start by declaring and defining two classes that we will use later in our global exercice which contains the algorithm of Multi Correlation Images. Our first class $\textbf{cMCI\_Appli}$ concerns the application, and the second one $\textbf{cMCI\_Ima}$ deals with image manipulations and will be defined in next section. \newline
+Here we start by declaring and defining two classes that we will use later in our global exercise which contains the algorithm of Multi Correlation Images. Our first class $\textbf{cMCI\_Appli}$ concerns the application, and the second one $\textbf{cMCI\_Ima}$ deals with image manipulations and will be defined in next section. \newline
 
 Now, edit again your file $\textbf{cExoMM\_CorrelMulImage.cpp}$ in order to contain the following code:
 
