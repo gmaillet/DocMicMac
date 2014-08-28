@@ -9,7 +9,7 @@
 
 \subsection{SaisieMasq}
 
-SaisieMasq is a very simple tool to edit mask images.
+{\tt SaisieMasq} is a very simple tool to edit mask images.
 It creates a binary mask image from a polygonal selection in the displayed image.\\*
 
 Typing {\tt SaisieMasq -help}, one gets:
@@ -51,12 +51,12 @@ Processing is as follow:
 
 \subsection{SaisieMasqQT}
 
-SaisieMasqQT is the same tool as SaisieMasq, available on all platforms (Linux, Windows, MacOS).
-SaisieMasqQT should be run with command: mm3d SaisieMasqQT + arguments.\\*
+{\tt SaisieMasqQT } is the same tool as {\tt SaisieMasq }, available on all platforms (Linux, Windows, MacOS).
+{\tt SaisieMasqQT } should be run with command: mm3d SaisieMasqQT + arguments.\\*
 
-Example: mm3d SaisieMasqQT IMG.tif SzW=[1200,800] Name=PLAN Gama=1.5\\*
+Example: \begin{verbatim} mm3d SaisieMasqQT IMG.tif SzW=[1200,800] Name=PLAN Gama=1.5 \end{verbatim}\\*
 
-SaisieMasqQT has the same arguments as SaisieMasq. Some light differences with SaisieMasq processing workflow should be noticed:
+{\tt SaisieMasqQT } has the same arguments as SaisieMasq. Some light differences with {\tt SaisieMasq } processing workflow should be noticed:
 you need to draw a polygon first, and then apply an action (add to mask, remove from mask, etc.).
 You can get a complete list of possibles actions typing F1 when application is launched.\\*
 
@@ -75,9 +75,9 @@ Main actions are:
 
 NB:
 \begin{itemize}
-\item 1: SaisieMasqQT can run without any argument (open files from File menu, or drag \& drop them)
-\item 2: visual interface for argument edition available with command: mm3d vSaisieMasqQT
-\item 3: SaisieMasqQT can display ply files and camera orientation files
+\item 1: {\tt SaisieMasqQT } can run without any argument (open files from File menu, or drag \& drop them)
+\item 2: visual interface for argument edition available with command: {\tt mm3d vSaisieMasqQT }
+\item 3: {\tt SaisieMasqQT } can display ply files and camera orientation files
 \item 4: Typing {\tt mm3d SaisieMasqQT -help}, one gets help message.
 \end{itemize}
 
@@ -227,14 +227,14 @@ When exiting the interface, two {\tt Xml} files are stored, with respectively 2D
 Note that if for some reason some points are missing, you can re-run the same command, and continue the input job.
 Points that have already been stored will be displayed, and the same process can be followed.\\
 
-SaisieAppuisInit is available on Linux and MacOS.
+{\tt SaisieAppuisInit} is available on Linux and MacOS.
 An equivalent tool is available on Windows, Linux and MacOS and is called with command: \begin{verbatim} mm3d SaisieAppuisInitQT + arguments \end{verbatim}
-It runs with the same arguments as SaisieAppuisInit. For example :
+It runs with the same arguments as {\tt SaisieAppuisInit}. For example :
 \begin{verbatim}
 mm3d SaisieAppuisInitQT  "IMG_(023[3456]).jpg" All NamePoint.txt  Mesure.xml
 \end{verbatim}
 
-Same equivalent tools exist for SaisieAppuisPredic and SaisieBasc (ie. mm3d SaisieAppuisPredicQT and mm3d SaisieBascQT).
+Same equivalent tools exist for {\tt SaisieAppuisPredic} and {\tt SaisieBasc} (ie. \begin{verbatim}mm3d SaisieAppuisPredicQT\end{verbatim} and \begin{verbatim}mm3d SaisieBascQT\end{verbatim}).
 
 
 \subsection{For fast predictive entering GCP with {\tt SaisieAppuisPredic}}
