@@ -1,6 +1,6 @@
 \chapter{Vrac -Bis }
 
-Suite du Vrac. Regroupe plut\^ot des  bribes de documentation interne 
+Suite du Vrac. Regroupe plut\^ot des  bribes de documentation interne
 eLiSe .
 
 %-------------------------------------------------------------------
@@ -47,7 +47,7 @@ void cElCompiledFonc::AddDevLimOrd1ToSysSurRes
 void cElCompiledFonc::AddContrainteEqSSR
      (bool contr,REAL aPds,cGenSysSurResol & aSys,bool EnPtsCur)
 {
-   // met les valeur des derivees dans mRealDer qui, apparament 
+   // met les valeurs des derivees dans mRealDer qui, apparemment
    // est un tableau ayant la meme taille que le systeme global !
    for ( aD ...)
        aSys.GSSR_AddNewEquation(aPds,&(mRealDer[aD][0]),aB);
@@ -66,11 +66,11 @@ void L2SysSurResol::V_GSSR_AddNewEquation(REAL aPds,REAL * aCoeff,REAL aB)
 
 void L2SysSurResol::AddEquation(REAL aPds,REAL * aCoeff,REAL aB)
 {
-    // selectione (! enfin ...) les coeffs non nuls dans une table d'indexe
+    // selectionne (! enfin ...) les coeffs non nuls dans une table d'indexe
     L2SysSurResol::V_GSSR_AddNewEquation_Indexe(VInd,aPds,&VALS[0],aB);
 }
 
-// En L1 ca donne simplement 
+// En L1 ca donne simplement
 
 void SystLinSurResolu::V_GSSR_AddNewEquation(REAL aPds,REAL * aCoeff,REAL aB)
 {
@@ -88,8 +88,8 @@ chaque \'equation doit \^etre repr\'ent\'ee explicitement et de mani\`ere compl\
 
 \subsection {Fili\`ere indexee}
 
-Elle est utilisee par les foncteur ayant un tres grand nombre d'inconnue
-et (par consequence) des matrices creuses. Par exemple dans
+Elle est utilisée par les foncteurs ayant un tres grand nombre d'inconnue
+et (par consequent) des matrices creuses. Par exemple dans
 {\tt src/photogram/phgr\_cGridIncImageMnt.cpp}?
 
 
@@ -124,7 +124,7 @@ void cElCompiledFonc::SVD_And_AddEqSysSurResol
       if (UseMat)
       {
            double ** aDM = aMat.data();
-	   double  * aDF = aFLin.data();
+           double  * aDF = aFLin.data();
 
            aSys.GSSR_EqMatIndexee(aVInd,aPds,aDM,aDF,aCste);
       }
@@ -162,7 +162,7 @@ Soit un ensemble d'\'equations d'observations :
    F^j(X)- O^j = 0;
 \end{equation}
 
-Un foncteur correpond a une lin\'erisation de  ces equations.  On 
+Un foncteur correpond a une lin\'erisation de  ces equations.  On
 regroupe plusieur \'equations en un seul foncteur, lorsqu'il y a une
 synergie permettant de mettre en commun les calcul (cas courant, projection
 image en $x$ et $y$).  A VOIR : PEUT ON GAGNER DU TEMPS EN FACTORISANT TOUTE
@@ -177,7 +177,7 @@ Si on linéarise l'\'equation en $X_0$, on a :
 En notant :
 
 \begin{equation}
-      D^j_k= \frac{\partial F^j}{\partial X_k} = {\tt mCompDer[j][k]} 
+      D^j_k= \frac{\partial F^j}{\partial X_k} = {\tt mCompDer[j][k]}
 \end{equation}
 \begin{equation}
       V^j =  F^j(X_0) - O^j = {\tt mVal[j]}
@@ -200,7 +200,7 @@ correspond \`a l'observation :
 
 C'est pour cela que dans {\tt AddContrainteEqSSR} on a $B=-V$.
 
-A priori, dans toutes ces \'equations, l'inconnue est directement un delta 
+A priori, dans toutes ces \'equations, l'inconnue est directement un delta
 par rapport au point courant (param\`etre {\tt EnPtsCur} vaut {\tt true}).
 Si ce n'\'etait pas le cas,  les inconnues seraient $x_k$ et les  \'equation
 deviendraient :
@@ -231,69 +231,71 @@ Si le syst\`eme d'\'equation l'autorise, on va \'ecrire directemnt un forme
 quadratique . Chaque \'equation :
 
 \begin{equation}
-    P (^t L  X =  B)  
+    P (^t L  X =  B)
 \end{equation}
 
-Appporte une contribution :
+Apporte une contribution :
 
 \begin{equation}
     P (^t L  X -  B) ^2  = P (^t X (^tLL)X  -2B^tL X + B^2)
 \end{equation}
 
-\section{Calculs de masques automatiques}
+\section{Mesh computation}
 
-Les commandes successives \`a appeler sont :
+Commands are:
 
 \begin{itemize}
 \item {\tt Malt} with ZoomF=4 (or 8 if you tweak the code...) or use meshlab to downsample point cloud after Nuage2Ply and MergePly (clustered vertex sampling, with cell size = 0,25 %, and average parameter)
 \item {\tt Nuage2Ply} with Normale=5 option: computes local normal for each point and writes a .ply file with X Y Z NX NY NZ format.
 \item {\tt MergePly} writes one ply file from multiple ply files (deals only with .ply with the previous format)
 \item {\tt Poisson} computes a mesh from the previous ply file
-\item {\tt Mascarpone} computes a mask using normal directions and then runs a graph-cut to get smoother region (currently fails).
+ (currently fails).
 \end{itemize}
 
-\subsection{Commande {\tt Nuage2Ply} :}
+\begin{comment}
+\item {\tt Mascarpone} computes a mask using normal directions and then runs a graph-cut to get smoother region
+\end{comment}
+
+\subsection{Command {\tt Nuage2Ply} :}
 
 "Normale" parameters indicates the window size to compute normal: should be 3, 5, 7, etc...
 
-\subsection{Commande {\tt MergePly} :}
+\subsection{Command {\tt MergePly} :}
 
-La commande MergePly concat\`ene plusieurs fichiers .ply.
+MergePly command concats several ply files.
 
-Les noms de fichiers \`a fusionner doivent \^etre list\'es et s\'epar\'es par un \#
+\subsection{Example}
 
-\subsection{Exemple}
-
-\begin{verbatim} 
+\begin{verbatim}
 mm3d Nuage2Ply NuageImProf_Geom-Im-5564_Etape_5.xml Normale=5 Out=Fic0.ply
 mm3d Nuage2Ply NuageImProf_Geom-Im-5581_Etape_5.xml Normale=5 Out=Fic1.ply
 mm3d Nuage2Ply NuageImProf_Geom-Im-5588_Etape_5.xml Normale=5 Out=Fic2.ply
 
-mm3d MergePly fic0.ply#fic1.ply#fic2.ply Out=merged.ply Normale=1
+mm3d MergePly .*ply Out=merged.ply Normale=1
 
-mm3d Poisson --in merged.ply --out result_poisson --depth 10				 	 
+mm3d Poisson --in merged.ply --out result_poisson --depth 10
+\end{verbatim}
 
-mm3d Mascarpone NuageImProf_Geom-Im-5564_Etape_5.xml#NuageImProf_Geom-Im-5581_Etape_5.xml#NuageImProf_Geom-Im-5588_Etape_5.xml 
+\begin{comment}
+mm3d Mascarpone NuageImProf_Geom-Im-5564_Etape_5.xml#NuageImProf_Geom-Im-5581_Etape_5.xml#NuageImProf_Geom-Im-5588_Etape_5.xml
 Ply=result_poisson.ply Out=FileOut.tif Max=80
-\end{verbatim} 
+\end{comment}
 
 \subsection{Helps}
 
-\begin{verbatim}   
+\begin{verbatim}
 mm3d MergePly
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args :
-  * string
+Mandatory unnamed args :
+  * string :: {Full Name (Dir+Pattern)}
 Named args :
   * [Name=Out] string
-  * [Name=Comments] vector<std::string>
-  * [Name=Bin] INT :: {Generate Binary or Ascii (Def=1, Binary)}
-  * [Name=Normale] INT
+  * [Name=Bin] INT :: {Generate Binary or Ascii (Def=true, Binary)}
 \end{verbatim}
-  
-\begin{verbatim}   
+
+\begin{verbatim}
 mm3d Poisson
 Usage: Poisson
          --in  <input points>
@@ -333,38 +335,34 @@ Usage: Poisson
         [--verbose]
                  If this flag is enabled, the progress of the reconstructor will be output to STDOUT.
 \end{verbatim}
+For more information on Misha Khazdan's code: http://www.cs.jhu.edu/~misha/Code/PoissonRecon/Version4/
 
-Pour plus d'infos sur le code de Misha Khazdan:
-
-http://www.cs.jhu.edu/~misha/Code/PoissonRecon/Version4/
-	
-\vspace{\baselineskip}
-(Reste à mettre le Help au format MicMac...)
-
-\begin{verbatim} 
+\begin{comment}
+\begin{verbatim}
 mm3d Mascarpone
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args :
+Unnamed args :
   * string
 Named args :
   * [Name=Ply] string
   * [Name=Out] string
   * [Name=Max] REAL :: {Max angle between surface and viewing direction (degree expected in ]0,90]) - default is 90}
 \end{verbatim}
+\end{comment}
 
 
-\chapter{Differente formula}
+\chapter{Various formula}
 
-I put here different formula that may be usefull to understand some part of MicMac. As it's purely utilitary, I do it the fast way by
+I put here different formula that may be useful to understand some part of MicMac. As it's purely utilitarian, I do it the fast way by
 scanning the paper version.
 
 \section{Space resection}
 
 
 As the code for computation of space resection from $3$ GCP is a bit tricky, I have summarized the main
-computation on figure~\ref{Not:ResSpace}. This notation should be compatible with the variable 
+computation on figure~\ref{Not:ResSpace}. This notation should be compatible with the variable
 of class {\tt cNewResProfChamp<Type>} defined in {\tt src/photogram/phgr\_low\_level.cpp}
 
 
@@ -378,17 +376,17 @@ of class {\tt cNewResProfChamp<Type>} defined in {\tt src/photogram/phgr\_low\_l
 \end{figure}
 
 
-\section{Streching (etirement)}
+\section{Stretching (etirement)}
 
-I put her the justification of streching formula in function {\tt cZBuffer::BasculerUnTriangle} :
+I put her the justification of stretching formula in function {\tt cZBuffer::BasculerUnTriangle} :
 
 \begin{figure}
 \begin{tabular}{|c|}
    \hline \hline
    \includegraphics[width=160mm]{FIGS/Formules/CalcEtir.JPG}
 \end{tabular}
-\label{Not:ResSpace}
-\caption{Computation of streching-etirement formula}
+\label{Not:CalcEtir}
+\caption{Computation of stretching-etirement formula}
 \end{figure}
 
 

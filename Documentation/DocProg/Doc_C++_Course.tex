@@ -158,16 +158,16 @@ The first exercise is displaying the famous \og hello world \fg\ under the promp
 Under your favorite IDE, for example Geany, start by including this file \textbf{StdAfx.h} wich contains all the headers of the library Elise. You are invited to check what is contained under $\textbf{/culture3d/include/StdAfx.h}$ \newline
 
 \begin{lstlisting}
-#include "StdAfx.h" 
+#include "StdAfx.h"
 
-int ExoMCI_main(int argc, char ** argv) 
-{ 
+int ExoMCI_main(int argc, char ** argv)
+{
      std ::cout << "hello world" << "\n";
-     return EXIT_SUCCESS; 
+     return EXIT_SUCCESS;
 }
 \end{lstlisting}
 
-\textbf{\textcolor{red}{Achtung !}} We need to tell the compiler that there is a new source file. 
+\textbf{\textcolor{red}{Achtung !}} We need to tell the compiler that there is a new source file.
 
 Edit \textbf{Source.cmake} under the same folder and add this line : \newline
 
@@ -197,7 +197,7 @@ Check that the compilation works properly by typing as usual $\textbf{make insta
 mm3d TestLib ExoMCI
 \end{lstlisting}
 Your prompt should display \og \textbf{hello world} \fg.\newline
- 
+
  \textbf{\textcolor{red}{Achtung !}} In \textbf{/culture3d/src/CBinairies/mm3d.cpp},  \textit{getAvailableCommands()} contains a list of commands accessible through the syntax: \textbf{mm3d MyCommand}. Its declaration in the file is:
 \begin{lstlisting}
 const std::vector<cMMCom> & getAvailableCommands() {...}
@@ -206,7 +206,7 @@ const std::vector<cMMCom> & getAvailableCommands() {...}
 \textit{TestlibAvailableCommands()} vector contains the commands accessible through the syntax: \textbf{mm3d TestLib MyCommand}. It's our case above.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Mandatory or Optionnal Argument?}
+\subsection{Mandatory or Optional Argument?}
 If you are a user of MicMac you know that calling a mandatory argument doesn't require to specify the name of the option. For example \textbf{Tapas} requires at least two arguments : model of distortion and a pattern, while optional arguments are specified by a name. For instance the option \textbf{InCal=} or \textbf{InOri=}.\newline
 
 
@@ -214,10 +214,10 @@ Edit $\textbf{cExoMM\_CorrelMulImage.cpp}$ and add this loop at the beginning :\
 
 \begin{lstlisting}
 for (int aK=0; aK<argc ; aK++)
-	std::cout << "Argv[" << aK << "]=" << argv[aK] << endl; 
+        std::cout << "Argv[" << aK << "]=" << argv[aK] << endl;
 \end{lstlisting}
 
-Now, compile as before then type in the following command: 
+Now, compile as before then type in the following command:
 \begin{lstlisting}
 mm3d TestLib ExoMCI MyArg1 MyArg2
 \end{lstlisting}
@@ -225,8 +225,8 @@ mm3d TestLib ExoMCI MyArg1 MyArg2
 The prompt should display:\newline
 
 \begin{lstlisting}
-Argv[0] = ExoMCI 
-Argv[1] = MyArg1 
+Argv[0] = ExoMCI
+Argv[1] = MyArg1
 Argv[2] = MyArg2
 \end{lstlisting}
 
@@ -237,23 +237,23 @@ Here is a second example dealing with manipulation of arguments.\newline
 Modify your file $\textbf{cExoMM\_CorrelMulImage.cpp}$ in order to contain the following code :
 
 \begin{lstlisting}
-#include "StdAfx.h" 
+#include "StdAfx.h"
 
-int ExoMCI_main(int argc,char ** argv) 
-{ 
-     int I,J; //declaration of two  arguments 
+int ExoMCI_main(int argc,char ** argv)
+{
+     int I,J; //declaration of two  arguments
      double D=1.0; //default value (for optional args)
-     ElInitArgMain 
-     ( 
-          argc, argv, //list of args 
-          LArgMain() << EAMC(I,"Left Operand") //EAMC means mandatory argument 
-                              << EAMC(J,"Right Operand"),    	
-          LArgMain() << EAM(D,"D",true,"divisor of I+J") //EAM means optional argument 
-     ); 
-     
+     ElInitArgMain
+     (
+          argc, argv, //list of args
+          LArgMain() << EAMC(I,"Left Operand") //EAMC means mandatory argument
+                              << EAMC(J,"Right Operand"),
+          LArgMain() << EAM(D,"D",true,"divisor of I+J") //EAM means optional argument
+     );
+
      std::cout << "(I+J)/D = " <<(I+J)/D << std::endl;
-     
-     return EXIT_SUCCESS; 
+
+     return EXIT_SUCCESS;
 }
 \end{lstlisting}
 
@@ -270,7 +270,7 @@ The prompt should display:
 If you type:
 \begin{lstlisting}
 mm3d TestLib ExoMCI 1 4 2
-\end{lstlisting} 
+\end{lstlisting}
 
 Then your prompt should display:
 \begin{lstlisting}
@@ -299,7 +299,7 @@ You can check if the file \og \textbf{120601.xml} \fg\ respects the formalism de
        <OneAppuisDAF Nb="*">
            <Pt Nb="1" Type="Pt3dr"> </Pt>
            <NamePt Nb="1" Type="std::string"> </NamePt>
-	<Incertitude Nb="1"  Type="Pt3dr"> </Incertitude>
+        <Incertitude Nb="1"  Type="Pt3dr"> </Incertitude>
        </OneAppuisDAF>
    </DicoAppuisFlottant>
 \end{lstlisting}
@@ -319,22 +319,22 @@ Now, edit $\textbf{cExoMM\_CorrelMulImage.cpp}$ in order to contain the followin
 \begin{lstlisting}
 #include "StdAfx.h"
 
-int ExoMCI_main(int argc,char ** argv) 
-{ 
+int ExoMCI_main(int argc,char ** argv)
+{
      std::string aNameFile; //will store your xml filename
      double D=1.0; //default value for optional argument
      ElInitArgMain //displays the help, and affect your command line to members
-     ( 
+     (
           argc, argv, /arguments list
-          LArgMain() << EAMC(aNameFile,"Left Operand"), //EAMC = mandatory argument 
-          LArgMain() << EAM(D,"D",true,"Unused") //EAM = optional argument 
-     ); 
+          LArgMain() << EAMC(aNameFile,"Left Operand"), //EAMC = mandatory argument
+          LArgMain() << EAM(D,"D",true,"Unused") //EAM = optional argument
+     );
 
-     //the DicoAppuisFlottant (xml file) is converted to cDicoAppuisFlottant (c++)     
+     //the DicoAppuisFlottant (xml file) is converted to cDicoAppuisFlottant (c++)
      cDicoAppuisFlottant aDico= StdGetFromPCP(aNameFile,DicoAppuisFlottant);
-	
-     std::cout << "NbPts = " << aDico.OneAppuisDAF().size() << std::endl; 
-     
+
+     std::cout << "NbPts = " << aDico.OneAppuisDAF().size() << std::endl;
+
      return EXIT_SUCCESS;
 }
 \end{lstlisting}
@@ -349,14 +349,14 @@ Your prompt should display : NbPts = 11 \newline
 If you want to access to each individual element and display for instance the name and coordinates for each point, you should add a loop and browser each \textbf{OneAppuisDAF} like following:
 
 \begin{lstlisting}
-std::list<cOneAppuisDAF> & aLGCP =  aDico.OneAppuisDAF(); 
-	 //OneAppuisDAF (xml) becomes cOneAppuisDAF (C++)
+std::list<cOneAppuisDAF> & aLGCP =  aDico.OneAppuisDAF();
+         //OneAppuisDAF (xml) becomes cOneAppuisDAF (C++)
      for ( //as long as we are in the same dictionnary ==> browse each point
-          std::list<cOneAppuisDAF>::iterator iT = aLGCP.begin(); 
-          iT != aLGCP.end(); 
-          iT++ ) 
-          { 
-          std::cout << iT->NamePt() << " " << iT->Pt() << "\n"; 
+          std::list<cOneAppuisDAF>::iterator iT = aLGCP.begin();
+          iT != aLGCP.end();
+          iT++ )
+          {
+          std::cout << iT->NamePt() << " " << iT->Pt() << "\n";
           //NamePt and Pt are the classes names in the xml
           }
 \end{lstlisting}
@@ -367,57 +367,57 @@ Here we start by declaring and defining two classes that we will use later in ou
 Now, edit again your file $\textbf{cExoMM\_CorrelMulImage.cpp}$ in order to contain the following code:
 
 \begin{lstlisting}
-#include "StdAfx.h" 
+#include "StdAfx.h"
 
-//list of class 
-class cMCI_Appli; 
-class cMCI_Ima; 
+//list of class
+class cMCI_Appli;
+class cMCI_Ima;
 
-//classes declaration 
-class cMCI_Appli 
-{ 
-     public : 
-          cMCI_Appli(int argc,char ** argv); 
-     private : 
-          std::list<std::string> mLFile; 
-          std::string mFullName; 
-          std::string mDir; //directory in which we are working 
-          std::string mPat; //pattern of images 
-          cInterfChantierNameManipulateur * mICNM; 
-}; 
+//classes declaration
+class cMCI_Appli
+{
+     public :
+          cMCI_Appli(int argc,char ** argv);
+     private :
+          std::list<std::string> mLFile;
+          std::string mFullName;
+          std::string mDir; //directory in which we are working
+          std::string mPat; //pattern of images
+          cInterfChantierNameManipulateur * mICNM;
+};
 
-cMCI_Appli::cMCI_Appli(int argc,char ** argv) 
-{ 
-     bool aShowArgs=true; 
-     ElInitArgMain 
-     ( 
+cMCI_Appli::cMCI_Appli(int argc,char ** argv)
+{
+     bool aShowArgs=true;
+     ElInitArgMain
+     (
           argc, argv, //list of args
-          //EAMC = mandatory argument 
+          //EAMC = mandatory argument
           LArgMain() << EAMC(mFullName,"Full Name (Dir+Pat)"),
-          //EAM = optional argument 
+          //EAM = optional argument
           LArgMain() << EAM(aShowArgs,"Show",true,"Gives details on arguments")
-     ); 
+     );
 
-     SplitDirAndFile(mDir, mPat, mFullName); 
-     mICNM = cInterfChantierNameManipulateur::BasicAlloc(mDir); 
-     mLFile = mICNM->StdGetListOfFile(mPat); 
+     SplitDirAndFile(mDir, mPat, mFullName);
+     mICNM = cInterfChantierNameManipulateur::BasicAlloc(mDir);
+     mLFile = mICNM->StdGetListOfFile(mPat);
 
-     if (aShowArgs) ShowArgs(); 
-} 
+     if (aShowArgs) ShowArgs();
+}
 
-void cMCI_Appli::ShowArgs() 
-{ 
-     std::cout << "DIR = " << mDir << "Pat = " << mPat << "\n"; 
-          std::cout << "Nb Files " << mLFile.size() << "\n";     
-          for ( 
-               std::list<std::string>::iterator itS=mLFile.begin(); 
-               itS != mLFile.end(); 
-               itS ++) 
+void cMCI_Appli::ShowArgs()
+{
+     std::cout << "DIR = " << mDir << "Pat = " << mPat << "\n";
+          std::cout << "Nb Files " << mLFile.size() << "\n";
+          for (
+               std::list<std::string>::iterator itS=mLFile.begin();
+               itS != mLFile.end();
+               itS ++)
                     { std::cout << "     F = " << *itS << "\n"; }}}
-                     
-int ExoMCI_main(int argc,char ** argv) 
-{ 
-     cMCI_Appli anAppli(argc,argv); 
+
+int ExoMCI_main(int argc,char ** argv)
+{
+     cMCI_Appli anAppli(argc,argv);
      return EXIT_SUCCESS;
 }
 \end{lstlisting}
@@ -429,8 +429,8 @@ mm3d TestLib ExoMCI ".*jpg"
 
 Your prompt should display:
 \begin{lstlisting}
-Nb Files 48 
-     F = Abbey-IMG\_0173.jpg 
+Nb Files 48
+     F = Abbey-IMG\_0173.jpg
      F = Abbey-IMG\_0191.jpg
 \end{lstlisting}
 
