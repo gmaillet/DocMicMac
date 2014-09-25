@@ -1,4 +1,4 @@
-\chapter{Advanced matching, practicall aspect}
+\chapter{Advanced matching, practical aspect}
 
 
 \section{Cost function}
@@ -11,21 +11,21 @@ The discrete version of the cost function is:
    E(Z) = \sum Corr(i,j,Z(i,j)) + F(|Z(i+1,j)-Z(i,j)|)  + \dots
 \end{equation}
 
-The $F$ function allows to control the apriori on the Z:
- 
+The $F$ function allows to control the a priori on the Z:
+
 \begin{itemize}
-   \item  if the desired model is smooth, a convex   $F$  can be adequate (its better to
+   \item  if the desired model is smooth, a convex   $F$  can be adequate (it's better to
           climb a given jump by regular step);
 
-   \item  if  the desired model has many discontinuities, a $F$   concave can be adequate 
-          (it's better to climn a given jump in one single step);
+   \item  if  the desired model has many discontinuities, a $F$   concave can be adequate
+          (it's better to climb a given jump in one single step);
 
-   \item when there is no strong a prioir, the  default choice is to have $F$ linear;
+   \item when there is no strong a prior, the  default choice is to have $F$ linear;
 
 \end{itemize}
 
 
-The basic form of $F$ has two parameter $R$ and $Q$ :
+The basic form of $F$ has two parameters $R$ and $Q$ :
 
 \begin{equation}
    F(\Delta_Z) =  R |\Delta_Z| + Q {\Delta_Z}^2
@@ -33,7 +33,7 @@ The basic form of $F$ has two parameter $R$ and $Q$ :
 
 
 This allows to create linear and convex function. To create concavity,
-there exists parameters $S$  and $A$ such that:
+there exists parameters $S$ and $A$ such that:
 
 \begin{equation}
    F(\Delta_Z) =  R |\Delta_Z| + Q {\Delta_Z}^2 ,  |\Delta_Z| < S

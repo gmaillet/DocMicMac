@@ -4,16 +4,16 @@
 
 \section{Notations G\'eom\'etriques}
 
-On est dans la contexte ou l'on dispose de $N$ images 
+On est dans la contexte ou l'on dispose de $N$ images
 not\'ees $Im_k(u,v)_{k\in [1,N]}$ .
 
 On adopte les notations suivantes :
 
 \begin{itemize}
-   \item \ETer,  avec  $\ETer = \RR ^2$, l'espace "terrain", au sens assez large, 
-         c'est l'espace dans lequel est restitu\'e le "MNT"; 
+   \item \ETer,  avec  $\ETer = \RR ^2$, l'espace "terrain", au sens assez large,
+         c'est l'espace dans lequel est restitu\'e le "MNT";
 
-   \item \EPx, avec  $\EPx = \RR$ ou avec  $\EPx = \RR ^2$ suivant les cas, 
+   \item \EPx, avec  $\EPx = \RR$ ou avec  $\EPx = \RR ^2$ suivant les cas,
          l'espace des parallaxes; on notera \DimPx la dimension de l'espace
          des parallaxes;
 
@@ -30,9 +30,9 @@ fonction $\pi_k$ par image:
               (x,y,p_x)  \stackrel{\pi_k}{\rightarrow}  (u,v)
 \end{equation}
 
-Avec $p_x=z$ lorsque $\EPx = \RR$ et   $p_x=(p_{x_1},p_{x_2})$ 
+Avec $p_x=z$ lorsque $\EPx = \RR$ et   $p_x=(p_{x_1},p_{x_2})$
 lorsque $\EPx = \RR^2$. A  $p_x$ fix\'ee les fonctions $\pi_k$,
- consid\'er\'ees comme des fonction de \ETer dans  \EIm, 
+ consid\'er\'ees comme des fonction de \ETer dans  \EIm,
 sont injectives sur leur domaine d'int\'er\^et et on note
 abusivement  $\pi_k^{-1}$ la fonction "inverse" d\'efinie par  :
 
@@ -41,7 +41,7 @@ abusivement  $\pi_k^{-1}$ la fonction "inverse" d\'efinie par  :
 \end{equation}
 
 \begin{equation}
-   \pi_k^{-1}(\pi_k(x,y,p_x),p_x) = (x,y) 
+   \pi_k^{-1}(\pi_k(x,y,p_x),p_x) = (x,y)
 \end{equation}
 
 
@@ -49,7 +49,7 @@ Le r\'esultat de la mise en correspondance est un fonction  \FPx de
 \ETer dans \EPx:
 
 \begin{equation}
-   \FPx :   \ETer  \rightarrow  \EPx 
+   \FPx :   \ETer  \rightarrow  \EPx
 \end{equation}
 
 On note ${\FPx}^d,d\in [1,\DimPx]$ les diff\'erentes composantes de\FPx.
@@ -62,11 +62,11 @@ On note ${\FPx}^d,d\in [1,\DimPx]$ les diff\'erentes composantes de\FPx.
 \label{Disc:Quant}
 
 Dans la tr\`es grande majorit\'e des cas,
-MicMac  fonctionne par discr\'etisation 
+MicMac  fonctionne par discr\'etisation
 des espaces \ETer et \EPx (par opposition par exemple aux
 approches variationnelles). A chaque \'etape
-de l'approche multi-r\'esolution (voir~\ref{Appr:Multi:Resol}), sont 
-d\'efinis des pas de discr\'etisation  $\Delta^{xy}$ pour \ETer , 
+de l'approche multi-r\'esolution (voir~\ref{Appr:Multi:Resol}), sont
+d\'efinis des pas de discr\'etisation  $\Delta^{xy}$ pour \ETer ,
 et $\Delta^{px}_k, k \in [1,\DimPx]$ pour  \EPx.
 
 A une \'etape donn\'ee, on se donne en plus un pas de
@@ -76,13 +76,13 @@ de mani\`ere \`a ce que la r\'esolution image obtenue soit
 \'egale \`a  $\Delta^{xy}$,
 mais il peut y avoir des exceptions. Pour chaque pas $\DeltaI$
 utilis\'e MicMac calcule des images sous-r\'esolues d'un facteur
-$\DeltaI$, on note $Im_k(\frac{}{\DeltaI})$ ces images et 
+$\DeltaI$, on note $Im_k(\frac{}{\DeltaI})$ ces images et
 $\EIm*\DeltaI$ leur espace associ\'e.
 
 
 Pour des pas de discr\'etisation donn\'es,
-on d\'efini $p_k$ la version discr\`ete de $\pi_k$ par 
-\footnote{avec modification imm\'ediate de~\ref{EQ:Disc:Proj} 
+on d\'efinit $p_k$ la version discr\`ete de $\pi_k$ par
+\footnote{avec modification imm\'ediate de~\ref{EQ:Disc:Proj}
 lorsque $\DimPx=1$}:
 
 \begin{equation}

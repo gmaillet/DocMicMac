@@ -1,6 +1,6 @@
 \chapter{A Quick Overview of Orientation}
 
-This chapter will give a global overview of the necessary tools 
+This chapter will give a global overview of the necessary tools
 to orientate a set of images.
 
 
@@ -14,7 +14,7 @@ to orientate a set of images.
 
 \subsection{Input and Output}
 
-Apero is a software for computing orientation, position and calibration 
+Apero is a software for computing orientation, position and calibration
 of a set of images compatible with a set of observations, these
 observations being noisy and (hopefully) highly redundant.
 The objective is that you provide the observations,
@@ -54,7 +54,7 @@ which can be:
 
 \end{itemize}
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - 
+% - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{General Strategy}
 
@@ -65,7 +65,7 @@ into two main sub-problems:
 \begin{itemize}
     \item  computation of initial values, hopefully closed to the "real" solution,
            with direct algorithms;
-           
+
     \item  once a reasonable solution is obtained, refine this solution by iteration of :
             \footnote{in photogrammetry, this classical second step has some particularities and it is called bundle adjustment}
 
@@ -74,21 +74,21 @@ into two main sub-problems:
        \item linearization of the equations;
        \item solving the redundant linearized equations by some kind of weighted least mean squares;
 \end{itemize}
- 
+
 \end{itemize}
 
 The first step is the most difficult because there is no known algorithm
 for computing directly  a set of orientations compatible with tie points.
 There exist several algorithms for computing the relative orientation between
 pair of images and these algorithms have to be called many times to build
-step by step the global orientation of a large block of images; 
+step by step the global orientation of a large block of images;
 although there is no better known solution,
 this incremental approach has two consequences:
 
 \begin{itemize}
    \item  it creates the need of a "good" ordering of the images;
            this order can be specified by the user, or you can let Apero use its
-           own heuristics; 
+           own heuristics;
 
    \item   because the direct algorithms do not use all the information, there is an accumulation
            of errors that can lead to divergence when the refinement step begins; to avoid
@@ -103,14 +103,14 @@ universal global solution; there is a bag of elementary solutions, and in most c
 it is possible to assemble these small pieces of solution to build a coherent puzzle.
 Practically, there is a lot of current cases, where the orientation can be solved
 with a limited number of predefined strategies, and some few cases that
-require a very special \UNCLEAR{tuning}. 
+require a very special \UNCLEAR{tuning}.
 What I tried to do when conceiving Apero was to have a tool that simultaneously
 gives a fine control to the user, for solving some difficult cases~\footnote{maybe
 after some testing}, and that on the other hand offers the possibility to have
 predefined files for most current configurations.
 
 The interface \UNCLEAR{around} Apero generally lets the user select one of the predefined
-configuration \UNCLEAR{and} %qu'est ce qu'il y a après and?  
+configuration \UNCLEAR{and} %qu'est ce qu'il y a après and?
 Here is an example of predefined strategy currently employed in the
 interface developed by Isabelle Clery:
 
@@ -119,21 +119,21 @@ interface developed by Isabelle Clery:
 
 \begin{itemize}
 
-    \item Unknowns: position and orientation of each image, internal calibration common to all images; 
-            initially all the internal parameters are frozen; 
+    \item Unknowns: position and orientation of each image, internal calibration common to all images;
+            initially all the internal parameters are frozen;
 
      \item        Add the first image, in arbitrary position;
 
-      \item        Iterate: %1- choice the best images to add  by computing stability estimator on the cloud of tie points 
-            %2- use the tie points to compute the initial value of the orientation of new image with direct algorithms  
+      \item        Iterate: %1- choice the best images to add  by computing stability estimator on the cloud of tie points
+            %2- use the tie points to compute the initial value of the orientation of new image with direct algorithms
             %3- make one round of a bundle adjustment to avoid error accumulation;
 \begin{enumerate}
-	\item choose the best images to add  by computing stability estimator on the cloud of tie points;
-	\item use the tie points to compute the initial value of the orientation of new image with direct algorithms;
-	\item make one round of a bundle adjustment to avoid error accumulation;
+        \item choose the best images to add  by computing stability estimator on the cloud of tie points;
+        \item use the tie points to compute the initial value of the orientation of new image with direct algorithms;
+        \item make one round of a bundle adjustment to avoid error accumulation;
 \end{enumerate}
 
-       \item      Release one by one the internal parameters in this order : distortion coefficient, focal length, 
+       \item      Release one by one the internal parameters in this order : distortion coefficient, focal length,
             distortion center, principal point; each time a parameter is released, make a bundle adjustment round;
 
 
@@ -141,7 +141,7 @@ interface developed by Isabelle Clery:
 \end{itemize}
 
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - 
+% - - - - - - - - - - - - - - - - - - - - - - - - -
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
@@ -196,7 +196,7 @@ The skeleton of this file is:
        <SectionCompensation>
               <EtapeCompensation> ..  </EtapeCompensation>
               <EtapeCompensation> ..  </EtapeCompensation>
-              <EtapeCompensation>  .. 
+              <EtapeCompensation>  ..
                      <SectionExport> ... </SectionExport>
               </EtapeCompensation>
        </SectionCompensation>
@@ -209,7 +209,7 @@ The skeleton of this file is:
 A few comments on the different sections:
 
 \begin{itemize}
-       \item {\tt <SectionBDD\_Observation>} contains all the information 
+       \item {\tt <SectionBDD\_Observation>} contains all the information
              relative to the observations, this is essentially a set of files
              Apero has to load;
 
@@ -228,7 +228,7 @@ A few comments on the different sections:
 
 \label{Tie:Poi:Ex:Apero}
 
-Here, the observations are limited to a set of tie-points. The tie points 
+Here, the observations are limited to a set of tie-points. The tie points
 we will use are located in the directory {\tt Homol/}. Here, they have been
 generated using the tool {\tt Tapioca} described in~\ref{Tapioca}. If you
 take a look at the content of {\tt Homol/} you will see that it contains
@@ -254,7 +254,7 @@ the file {\tt Homol/PastisIMG\_5588/IMG\_5589.txt} contains
 the tie points between images {\tt IMG\_5588.txt} and {\tt IMG\_5589.txt}.
 This is an ASCII-file, each line contains a tie point in format $x_1 y_1 x_2 y_2$
 where $x_1 y_1$ is in {\tt  IMG\_5588.txt} and $x_2 y_2$ is in {\tt  IMG\_5589.txt} .
-This structuring should make it easy, if you have a tie point 
+This structuring should make it easy, if you have a tie point
 generator \UNCLEAR{preferred} to {\tt Tapioca}, to replace it by your own tie points.
 
 
@@ -286,8 +286,8 @@ The meaning of the three tags of  {\tt BDD\_PtsLiaisons} is:
     \item {\tt Id} is a name, or identifier, that is given to this set
           of tie points, it will be used each time we will refer to this set;
           it is necessary, because in some special cases, you may have several
-          sets of tie points~\footnote{for example, a set computed automatically 
-          and a set created by operator} and you will need to indicate the set 
+          sets of tie points~\footnote{for example, a set computed automatically
+          and a set created by operator} and you will need to indicate the set
           you are refering to;
 
     \item  {\tt KeySet} tells Apero  which files of tie points are to be
@@ -303,7 +303,7 @@ The meaning of the three tags of  {\tt BDD\_PtsLiaisons} is:
 \end{itemize}
 
 The value of {\tt KeySet} is {\tt NKS-Set-Homol@@txt}. This is a predefined key,
-its definition can be found in 
+its definition can be found in
 {\tt DefautChantierDescripteur.xml}\footnote{directory include/XML\_GEN/}:
 
 
@@ -321,7 +321,7 @@ its definition can be found in
 \end{verbatim}
 }
 
-This is a parametrized key. Here, the first argument, {\tt \#1}, is empty and 
+This is a parametrized key. Here, the first argument, {\tt \#1}, is empty and
 the second argument, {\tt \#2}, is {\tt txt}.
 It describes that the files are in the directory {\tt Homol/}, in the sub-directories {\tt Pastis.*/},
 and they have {\tt txt} as a suffix.
@@ -365,8 +365,8 @@ some interesting innovations:
           the associated tie points file;
 
    \item  in {\tt <Cals>}  there is a {\tt <Direct>} and a {\tt <Inverse>}
-          part. This is because what we want here is a reversible mapping, {\tt <Direct>} 
-          is a $S\times S\rightarrow S$ mapping and {\tt <Inverse>} has to be the $S\rightarrow S\times S$ 
+          part. This is because what we want here is a reversible mapping, {\tt <Direct>}
+          is a $S\times S\rightarrow S$ mapping and {\tt <Inverse>} has to be the $S\rightarrow S\times S$
           inverse mapping of  {\tt <Direct>}. Apero will need to get back
           the pair of images from the name of the tie points; of course, it is your responsibility
           to have the \UNCLEAR{property} that {\tt <Inverse>}  and  {\tt <Direct>} are inverse
@@ -375,17 +375,17 @@ some interesting innovations:
     \item {\tt <Direct>} specifies a $S\times S\rightarrow S$ mapping. When it is used, for example, with
           {\tt IMG\_5588.tif}  and {\tt IMG\_5589.tif}, the string {\tt IMG\_5588.tif\% IMG\_5589.tif}
           which matches the regular expression {\tt  (.*)\textbackslash.tif\}\%(.*)\textbackslash.tif};
-        
+
     \item  {\tt <Inverse>} specifies a $S\rightarrow S\times S$ mapping. This is simply
            done by having several {\tt  <CalcName>}, the first {\tt  <CalcName>} specifies
            the first string , the second {\tt  <CalcName>} specifies
-           the second string \dots 
+           the second string \dots
 
 \end{itemize}
 
 \subsection{Declaring the Unknowns, Camera-calibration}
 
-The section {\tt SectionInconnues} contains the declaration of the 
+The section {\tt SectionInconnues} contains the declaration of the
 unknowns and their initialization. Here, the unknowns are camera
 calibration and camera poses.
 
@@ -421,7 +421,7 @@ The signification of the tags is:
 
 
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - 
+% - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 \subsection{Declaring the Unknowns, Camera-poses}
@@ -451,12 +451,12 @@ The signification of the tags is:
 
     \item {\tt <PosValueInit>} is the initialization part. It can contain
           different sub-tags, according to the selected initialization method;
-         
-    \item {\tt <PosId>} means that we want an identity pose 
+
+    \item {\tt <PosId>} means that we want an identity pose
           \footnote{rotation matrix=identity, center =$(0,0,0)$};
            in fact, as it is the first image, the value being $100\%$ arbitrary,
            identity is not a bad choice.
-            
+
 \end{itemize}
 
 
@@ -490,7 +490,7 @@ The signification of the new tags is:
          being extracted from the {\tt Id\_Pastis\_Hom} set.
 \end{itemize}
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - 
+% - - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Running the Compensation}
 
@@ -529,7 +529,7 @@ minimizing the global energy:
 \end{equation}
 
 \begin{equation}
-      E = \sum_{l,m}  || res(l,m)||^2 \label{FORM:EL2}
+      E = \sum_{l,m}  || res(l,m)||^2 \label{FORM:EL2b}
 \end{equation}
 
 If the equations were linear, and the observations robust, it would be easy:
@@ -591,7 +591,7 @@ weighting and constraining.
 
 \subsubsection{Structure of {\tt SectionCompensation}}
 
-As it can be seen in  file {\tt Apero-0.xml}, the structure is 
+As it can be seen in  file {\tt Apero-0.xml}, the structure is
 the most complicated:
 
 \begin{itemize}
@@ -599,11 +599,11 @@ the most complicated:
          for each one you redefine completely the observations and
          their weighting in the {\tt <SectionObservations>};
 
-   \item  each  {\tt <EtapeCompensation>} is made of several  
+   \item  each  {\tt <EtapeCompensation>} is made of several
          {\tt <IterationsCompensation>};
 
     \item for each  {\tt <IterationsCompensation>}, Apero will
-     run a Gauss-Jordan iteration: 
+     run a Gauss-Jordan iteration:
 
 \begin{itemize}
       \item computation \UNCLEAR{of linearised of equation} and accumulation
@@ -671,11 +671,11 @@ The meaning of the constraints is:
 
     \item for the second image, the value {\tt ePoseBaseNormee} means that in
            the evolution of {\tt IMG\_5589.tif} we freeze the
-          length of the base to  {\tt IMG\_5588.tif}; this will freeze the 
+          length of the base to  {\tt IMG\_5588.tif}; this will freeze the
           scale of the block (and so the seventh arbitrary constraint);
 \end{itemize}
 
-All the constraints are enumerated values, they are of type 
+All the constraints are enumerated values, they are of type
 {\tt eTypeContrainteCalibCamera}, defined in {\tt ParamApero.xml}.
 Formal description of enumerated values can be found in~\ref{Type::Enum}.
 
@@ -718,60 +718,60 @@ The meaning of the tags is:
           {\tt EcartMax}  for $B$,  {\tt SigmaPond}  for $\sigma$;
 \end{itemize}
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - 
+% - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 \subsubsection{Weighting of homogeneous and heterogeneous observations}
 
 In this section, we present the different ways to cope with the weighting of observations used in the bundle adjustment. Prior to the description of the functioning of weighting in {\tt Apero} (and {\tt Campari}), we review briefly the different categories of measurements/observations that can be used in the bundle bloc adjustment (in french, the {\it compensation par faisceaux}).
 
-In many cases, the bundle block adjustment is performed based exclusively on one type of observations: {\bf tie points}. 
-Sets of tie points are abundant observations that are generated automatically by means of image feature descriptor, as e.g. SIFT (tool {\tt Tapioca}). 
-The quality of the set of tie point measurements is related to the images themselves: their quality and overlap, the complexity of the structure of the objects visible on the images, etc. For example, what may be a good tie point is a tie point located on a motionless object corner, detected on more than two images. A low quality tie point may be a tie point detected on the edge of a shadow, as the interval of time between two image shots involves a motion of the illumination source (the sun) and thus of the shadow as well. Presence of outliers in the tie point measurements is not scarce. 
+In many cases, the bundle block adjustment is performed based exclusively on one type of observations: {\bf tie points}.
+Sets of tie points are abundant observations that are generated automatically by means of image feature descriptor, as e.g. SIFT (tool {\tt Tapioca}).
+The quality of the set of tie point measurements is related to the images themselves: their quality and overlap, the complexity of the structure of the objects visible on the images, etc. For example, what may be a good tie point is a tie point located on a motionless object corner, detected on more than two images. A low quality tie point may be a tie point detected on the edge of a shadow, as the interval of time between two image shots involves a motion of the illumination source (the sun) and thus of the shadow as well. Presence of outliers in the tie point measurements is not scarce.
 The great advantage of tie points, which are measured on the images (image measurement), is the fact that they are numerous and automatically measured.
 
-In addition, it is appropriate to provide to the bundle adjustment some observation about the {\bf camera inner orientation}, i.e. the calibration. 
-Contrary to tie points, observations related to camera calibration are not numerous, as the calibration is shared by many images. 
-Camera calibration is crucial in photogrammetry [{\it MPD 2011, personal communication}]. 
+In addition, it is appropriate to provide to the bundle adjustment some observation about the {\bf camera inner orientation}, i.e. the calibration.
+Contrary to tie points, observations related to camera calibration are not numerous, as the calibration is shared by many images.
+Camera calibration is crucial in photogrammetry [{\it MPD 2011, personal communication}].
 There is no weighting of calibration parameters implemented in {\tt Apero}.
 
-For aerial acquisition, embedded GPS and possibly inertial measurement unit (IMU) can deliver an initial image exterior orientation (i.e. image position, $X$, $Y$, $Z$ and image orientation $omega$, $phi$, $kappa$). 
-Bundle adjustment process can integrated the {\bf embedded GPS} observations ($X$, $Y$, $Z$). 
-These measurements may have different level of accuracy, depending on the GPS itself. 
-There is obviously a maximum of one GPS measurement per image. 
-These observations are not as numerous as the tie point for example (often hundreds of tie points per image), but for very large image block (hundreds or thousands of images), these measurements can be abundant. 
-Depending on the GPS system, lever arm and boresight bias may be present, i.e. the difference in the GPS position and the camera position. 
+For aerial acquisition, embedded GPS and possibly inertial measurement unit (IMU) can deliver an initial image exterior orientation (i.e. image position, $X$, $Y$, $Z$ and image orientation $omega$, $phi$, $kappa$).
+Bundle adjustment process can integrated the {\bf embedded GPS} observations ($X$, $Y$, $Z$).
+These measurements may have different level of accuracy, depending on the GPS itself.
+There is obviously a maximum of one GPS measurement per image.
+These observations are not as numerous as the tie point for example (often hundreds of tie points per image), but for very large image block (hundreds or thousands of images), these measurements can be abundant.
+Depending on the GPS system, lever arm and boresight bias may be present, i.e. the difference in the GPS position and the camera position.
 In addition, badly synchronization between the GPS and the camera triggering may result in a delay (see section \ref{OriConvert:GPSdelay} for an example in Unmanned Aerial Systems photogrammetry).
 
-The last category of observation that can be supported in the bundle adjustment implemented in {\tt Apero} are {\bf ground control point}. 
-Ground control points (GCPs) are of capital importance, because they are in many cases the best way to reference accurately the model in a consistent coordinate system. 
-GCPs are features clearly recognizable on the images for which coordinates have been measured in the real world. 
-As GCPs are mainly used in aerial photogrammetry, we refer to as {\it ground measurement}  the coordinate measurement of these features in the physical world. 
-Ground measurements of GCPs may be the planimetric and altimetric position ($X$, $Y$ and $Z$) or only the planimetric or the altimetric position ($X$ and $Y$ or only $Z$). 
-Generally, ground measurement of GCPs are of good accuracy and the number of observations is about a dozens of GCPs. 
-To be supported in the bundle adjustment, GCPs have additionally to be measured on the images. 
-Each GCP have to be identified (generally manually) on at least 2 images, resulting in {\it image measurements} similar than tie point. 
+The last category of observation that can be supported in the bundle adjustment implemented in {\tt Apero} are {\bf ground control point}.
+Ground control points (GCPs) are of capital importance, because they are in many cases the best way to reference accurately the model in a consistent coordinate system.
+GCPs are features clearly recognizable on the images for which coordinates have been measured in the real world.
+As GCPs are mainly used in aerial photogrammetry, we refer to as {\it ground measurement}  the coordinate measurement of these features in the physical world.
+Ground measurements of GCPs may be the planimetric and altimetric position ($X$, $Y$ and $Z$) or only the planimetric or the altimetric position ($X$ and $Y$ or only $Z$).
+Generally, ground measurement of GCPs are of good accuracy and the number of observations is about a dozens of GCPs.
+To be supported in the bundle adjustment, GCPs have additionally to be measured on the images.
+Each GCP have to be identified (generally manually) on at least 2 images, resulting in {\it image measurements} similar than tie point.
 
-There are 3 ways to deal with weighting of measurements in {\tt Apero}. 
-These three techniques are cumulative and optional, offering to the user a flexible (and complicated) tool. 
-The different way of weighting may be perceive as redundant. 
+There are 3 ways to deal with weighting of measurements in {\tt Apero}.
+These three techniques are cumulative and optional, offering to the user a flexible (and complicated) tool.
+The different way of weighting may be perceive as redundant.
 
-The first way can be utilized either to weight observations of different categories, or to weight observations from a single category. 
-It is based on the uncertainty of the measurement and can be controlled by means of the tag {\tt <EcartMesureIndiv>} and more specifically for the ground measurements of the GCPs through the tag {\tt <Incertitude>}. 
-Each observation is multiplied by $\frac1{Ec^2}$, $Ec$ being the uncertainty of the measurement. 
-$Ec$ units are the same than the measurement: for tie point, $Ec$ is in pixels. 
-For embedded GPS, the uncertainty is in meter is the coordinate system is metric. 
-This weighting has no effect is the value of $Ec$ is equal to $1$. 
-It is possible to assign an uncertainty value for tie points, embedded GPS observations and GCPs image measurements. 
-In addition, it is possible to assign a value of uncertainty for ground measurement of GCPs, individually (the tag {\tt <Incertitude>} pertaining to a single GCP). 
-For a set of embedded GPS measurements, it is currently not possible to define an uncertainty for a single embedded GPS observation: the whole set of GPS measurements share the same uncertainty. 
-To conclude, setting uncertainty is useful for controlling the respective influence of each set of measurements, and can be utilized additionally for differentiating different level of accuracy in GCP ground measurements. 
+The first way can be utilized either to weight observations of different categories, or to weight observations from a single category.
+It is based on the uncertainty of the measurement and can be controlled by means of the tag {\tt <EcartMesureIndiv>} and more specifically for the ground measurements of the GCPs through the tag {\tt <Incertitude>}.
+Each observation is multiplied by $\frac1{Ec^2}$, $Ec$ being the uncertainty of the measurement.
+$Ec$ units are the same than the measurement: for tie point, $Ec$ is in pixels.
+For embedded GPS, the uncertainty is in meter is the coordinate system is metric.
+This weighting has no effect is the value of $Ec$ is equal to $1$.
+It is possible to assign an uncertainty value for tie points, embedded GPS observations and GCPs image measurements.
+In addition, it is possible to assign a value of uncertainty for ground measurement of GCPs, individually (the tag {\tt <Incertitude>} pertaining to a single GCP).
+For a set of embedded GPS measurements, it is currently not possible to define an uncertainty for a single embedded GPS observation: the whole set of GPS measurements share the same uncertainty.
+To conclude, setting uncertainty is useful for controlling the respective influence of each set of measurements, and can be utilized additionally for differentiating different level of accuracy in GCP ground measurements.
 
-The second way to control the weighting of observation is to limit the influence of a specific category of measurement. 
-Let's consider an example in which we use a bundle block adjustment supporting, in addition to tie points, both embedded GPS and ground control points. 
+The second way to control the weighting of observation is to limit the influence of a specific category of measurement.
+Let's consider an example in which we use a bundle block adjustment supporting, in addition to tie points, both embedded GPS and ground control points.
 Considering this fictitious example, the number of observation per category is the following: tie points are the more abundant (thousands, e.g. 25k), followed by embedded GPS (hundreds, e.g. 200 images) and eventually by GCPs (dozens, e.g. 15 GCPs with a total of 75 image measurements, each GCP being visible on 5 images).
-Without any weighting, tie points would absolutely lead the solving of the bundle adjustment. 
-In order to limit the impact of the set of tie points measurements, a threshold can be set, referred to as $Nbmax$ (tag {\tt <Nbmax>}). 
+Without any weighting, tie points would absolutely lead the solving of the bundle adjustment.
+In order to limit the impact of the set of tie points measurements, a threshold can be set, referred to as $Nbmax$ (tag {\tt <Nbmax>}).
 This threshold limit the influence of the set of $x$ observations below the influence of a set of $Nbmax$ observations by means of the following weighting function:
 
 \begin{equation}
@@ -779,14 +779,14 @@ This threshold limit the influence of the set of $x$ observations below the infl
      \frac{(\frac{x*Nbmax}{x+Nbmax})}{x}
 \end{equation}
 
-For a threshold value of $Nbmax$ equals to 100, each tie point measurement of the set of 25 000 observation ($x$) is multiplied by $0.00398$ (equation \ref{EQ:weighting:Nbmax}, illustrated on figure \ref{FIG:weighting:Nbmax}). 
+For a threshold value of $Nbmax$ equals to 100, each tie point measurement of the set of 25 000 observation ($x$) is multiplied by $0.00398$ (equation \ref{EQ:weighting:Nbmax}, illustrated on figure \ref{FIG:weighting:Nbmax}).
 The weight of the whole set of tie points is $\frac{x*Nbmax}{x+Nbmax}$, either $99.6$.
-Theirs influence will thus will be limited, given more importance to the other categories of observations (embedded GPS and GCPs). 
+Theirs influence will thus will be limited, given more importance to the other categories of observations (embedded GPS and GCPs).
 In a similar way, impact of the embedded GPS data or of the GCP image measurements can be control with the same weighting function, provided that a threshold of $Nbmax$ is set for these observation categories.
-On the other hand, this is not possible to limit the number of GCP ground measurement with this weighting function. 
+On the other hand, this is not possible to limit the number of GCP ground measurement with this weighting function.
 Indeed, {\tt Apero} is right in assuming that the number of GCP ground measurement is never exceeding.
-In our example, there is a large number of embedded GPS measurements ($x= 200$). We may want to limit their impact in a similar way, setting $Nbmax$ to $50$ for e.g. 
-The weight of the whole set of embedded GPS observations is thus reduced to a value of $40$. 
+In our example, there is a large number of embedded GPS measurements ($x= 200$). We may want to limit their impact in a similar way, setting $Nbmax$ to $50$ for e.g.
+The weight of the whole set of embedded GPS observations is thus reduced to a value of $40$.
 Weights for tie points, embedded GPS, GCP ground measurements and GCP images measurement are thus $99.6$, $40$, $15$ and $75$ respectively.
 
 \begin{figure}
@@ -796,20 +796,20 @@ Weights for tie points, embedded GPS, GCP ground measurements and GCP images mea
 \caption{ Visual representation of 2 weighting functions. Left, figure \ref{FIG:weighting:Nbmax}: weighting heterogeneous observation set with threshold $Nbmax$ (equation \ref{EQ:weighting:Nbmax}). The goals is to limit the impact of large set of observation as tie points, in order to give more weight to other kind of observation as ground control points. Right, figure \ref{FIG:weighting:resid}: weighting observation by their residuals with {\it L1Secured} (equation \ref{EQ:L1:SEC}). The objective is to reduce the weight of observation presenting a high residuals (e.g. reprojection error for a tie points) and to filter the outliers.}
 \end{figure}
 
-The third and last way to control the weighting of a measurement is to link the weight of an observation to its residual in the bundle block adjustment. 
+The third and last way to control the weighting of a measurement is to link the weight of an observation to its residual in the bundle block adjustment.
 The approach is based on the assumption that a set of observation of a specific category is made up of measurements characterized by different levels of accuracy. The goal of this weighting function is to give more weight to observations with a high level of accuracy and less weight to measurement with a low level of accuracy.
-In addition, a filter is implemented in order to exclude measurements that seem to be outliers or to have a very low level of accuracy. 
-This weighting function has been previously described in this document and is illustrated on figure \ref{FIG:weighting:resid}. 
-On this figure, two weighting functions are compared, the weighting function {\it L1Secured} (equation \ref{EQ:L1:SEC}) and {\it L1} ($\rho(x)=\frac1x$). 
-The behavior of {\it L1} for very low residual values is unappropriated, as it gives too much weight on observations presenting such a residual. 
-This is the reason why {\it L1Secured} is more appropriated, but have the drawback to require the parameterization of two parameters, {\tt EcartMax}  ($B$) and {\tt SigmaPond}  ($\sigma$). 
-To illustrate the functioning of the weighting function {\it L1Secured}, let's consider an example of a set of tie points, among them three tie points $TP1$, $TP2$ and $TP2$. 
-{\it L1Secured} is parameterized, for the tie points measurements, in the same way than in the figure \ref{FIG:weighting:resid}, with {\tt SigmaPond} equals 1 and {\tt EcartMax} equals 3 pixels. 
-In the bundle adjustment, for one of the numerous iteration, $TP1$ has a reprojection error (residual) of 1.32 pixels. 
-Its weight for the following iteration is then 0.604. 
-$TP2$ shows a better result of a reprojection error of 0.45 pixel. 
-It weight for the next iteration is thus 0.912. 
-Regarding $TP3$, its reprojection error is quite high, about 3.3 pixels. 
+In addition, a filter is implemented in order to exclude measurements that seem to be outliers or to have a very low level of accuracy.
+This weighting function has been previously described in this document and is illustrated on figure \ref{FIG:weighting:resid}.
+On this figure, two weighting functions are compared, the weighting function {\it L1Secured} (equation \ref{EQ:L1:SEC}) and {\it L1} ($\rho(x)=\frac1x$).
+The behavior of {\it L1} for very low residual values is unappropriated, as it gives too much weight on observations presenting such a residual.
+This is the reason why {\it L1Secured} is more appropriated, but have the drawback to require the parameterization of two parameters, {\tt EcartMax}  ($B$) and {\tt SigmaPond}  ($\sigma$).
+To illustrate the functioning of the weighting function {\it L1Secured}, let's consider an example of a set of tie points, among them three tie points $TP1$, $TP2$ and $TP2$.
+{\it L1Secured} is parameterized, for the tie points measurements, in the same way than in the figure \ref{FIG:weighting:resid}, with {\tt SigmaPond} equals 1 and {\tt EcartMax} equals 3 pixels.
+In the bundle adjustment, for one of the numerous iteration, $TP1$ has a reprojection error (residual) of 1.32 pixels.
+Its weight for the following iteration is then 0.604.
+$TP2$ shows a better result of a reprojection error of 0.45 pixel.
+It weight for the next iteration is thus 0.912.
+Regarding $TP3$, its reprojection error is quite high, about 3.3 pixels.
 As this residual exceeds the threshold {\tt EcartMax}, this tie point is considered as an outliers and will not be taken into account in the following adjustment iteration.
 
 
@@ -820,7 +820,7 @@ Run now the command line:
 
 {\scriptsize
 \begin{verbatim}
- bin/Apero ../micmac_data/ExempleDoc/Boudha/Apero-0.xml 
+ bin/Apero ../micmac_data/ExempleDoc/Boudha/Apero-0.xml
 \end{verbatim}
 }
 
@@ -834,9 +834,9 @@ BEGIN Init Inconnues
 NUM 0 FOR IMG_5588.tif
 NUM 1 FOR IMG_5589.tif
 BEGIN Compensation
-BEGIN AMD 
+BEGIN AMD
 AMD::NB= 4
-END AMD 
+END AMD
 RES:[IMG_5588.tif] ER2 1.04921 Nn 100 Of 4335 Mul 0 Mul-NN 0 Time 0.199447
 RES:[IMG_5589.tif] ER2 1.05125 Nn 100 Of 4327 Mul 0 Mul-NN 0 Time 0.164516
 | |  RESIDU LIAISON MOYENS = 1.05023 pour Id_Pastis_Hom
@@ -866,7 +866,7 @@ The lines beginning with {\tt RES:} may be useful for interpreting the results:
     \item {\tt [IMG\_5588.tif]} is obviously the name of the image;
 
     \item {\tt [ER2 0.143439]} is the square root of the weighted average of quadratic residuals;
-    
+
     \item {\tt [Nn 99.9769]} is the percentage of residuals that are under {\tt EcartMax};
           it should be over $95\%$, or else it may signify that you have got residuals just
           because you have thrown away high residuals!
@@ -880,7 +880,7 @@ The lines beginning with {\tt RES:} may be useful for interpreting the results:
         \item {\tt Time 0.159912} is the time of computation, internal purpose mainly.
 \end{itemize}
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - 
+% - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Storing the Results}
 
 \label{Result:Apero0}
@@ -927,10 +927,10 @@ Now take a look at the directory {\tt ../micmac\_data/ExempleDoc/Boudha/Ori-Test
 
 \section{More Examples}
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - 
+% - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Adding More Images}
 
-In the file {\tt Apero-1.xml}, we compute the orientation of a block of 
+In the file {\tt Apero-1.xml}, we compute the orientation of a block of
 5 images.  The main difference with {\tt Apero-0.xml} is the added
 initialization of the three supplementary images:
 
@@ -955,8 +955,8 @@ initialization of the three supplementary images:
 \end{verbatim}
 }
 
-The line {\tt PatternName} adds three images, {\tt  IMG\_5590.tif, 
-IMG\_5591.tif, IMG\_5592.tif}. For these images, two images are 
+The line {\tt PatternName} adds three images, {\tt  IMG\_5590.tif,
+IMG\_5591.tif, IMG\_5592.tif}. For these images, two images are
 given for initialization:
 
 \begin{itemize}
@@ -967,7 +967,7 @@ given for initialization:
         the following ones;
 
    \item that is why {\tt IMG\_5589.tif} is given, so that Apero can also
-         resolve the base ambiguity in initialization. 
+         resolve the base ambiguity in initialization.
 
 \end{itemize}
 
@@ -1050,7 +1050,7 @@ arbitrary, this can be more convenient as this  part
 of the file stays valid whatever may be the set of images.
 
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - 
+% - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Computing the Internal Parameters}
 
 Until now, we have used a file {\tt Calib-F050.xml} that contains a
@@ -1058,7 +1058,7 @@ Until now, we have used a file {\tt Calib-F050.xml} that contains a
 this value. However, it will happen very often that you do not have
 such a value of internal calibration, and you will need to compute it
 by yourself.
-The file {\tt Apero-2.xml} and {\tt Apero-2-Bis.xml} introduce how internal 
+The file {\tt Apero-2.xml} and {\tt Apero-2-Bis.xml} introduce how internal
 parameters of calibration can be re-estimated in Apero.
 
 The file containing the initial value  of calibration is {\tt CalibInitNoDist.xml}.
@@ -1138,9 +1138,9 @@ In  {\tt Apero-2-Bis.xml}, you can see the differences in the second  {\tt Etape
              <Messages>  LIB  FOCALE </Messages>
         </IterationsCompensation>
         <IterationsCompensation> </IterationsCompensation>
-....        
+....
    </EtapeCompensation>
-....        
+....
 
 \end{verbatim}
 }
@@ -1163,7 +1163,7 @@ the significant difference in the final values of the residuals.
 
 
 
-% a - - - - - - - - - - - - - - - - - - - - - - - - 
+% a - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Automatic Image Ordering}
 
 \label{Apero:Ordering}
@@ -1226,12 +1226,12 @@ results, you will see:
 \end{verbatim}
 }
 
-So you can see that the process goes through a phase of very high 
-residuals.  The problem is that the direct initialization 
+So you can see that the process goes through a phase of very high
+residuals.  The problem is that the direct initialization
 is error prone; with many images there is an accumulation of error
 that can lead to a solution far from the optimal one.
 Here it has no big consequences, but this may be a
-source of divergence. 
+source of divergence.
 
 To decrease this risk, Apero proposes a mechanism where you can
 mix bundle adjustment with initialization: each time you have
@@ -1265,7 +1265,7 @@ the bundle adjustment. You can see the slight differences in {\tt  Apero-3-Bis.x
 \end{verbatim}
 }
 
-The first difference is in {\tt  <PoseCameraInc>}, the tag 
+The first difference is in {\tt  <PoseCameraInc>}, the tag
 {\tt <InitNow>} value is {\tt false}; this blocks the initialization.
 Then in the first {\tt IterationsCompensation} we have {\tt <Pose2Init>},
 when Apero gets this tag, it will do that:
@@ -1282,7 +1282,7 @@ when Apero gets this tag, it will do that:
 \end{itemize}
 
 Run {\tt  Apero-3-Bis.xml}, you will see that the residuals do not
-go through a high value phase. 
+go through a high value phase.
 
 
 Another way to avoid divergence is to compute a approximate calibration
@@ -1299,10 +1299,10 @@ initial value in the global set.  Run for example {\tt Apero-3-Ter.xml}.
 
 \section{Geo-referencing}
 
-%  - - - - - - - - - - - - - - - - - - - - - - - - 
+%  - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{External Initialization}
 
-Until now, we have always build the orientation "from scratch". This way is 
+Until now, we have always build the orientation "from scratch". This way is
 fine when you use "small" terrestrial acquisition. However, there are
 several cases where you would like to start with some pose, having
 already a given initial value:
@@ -1312,12 +1312,12 @@ already a given initial value:
          different resolutions of images. It will currently be a good strategy to
          orientate first the low resolution images and, in a second step,
          orientate the high resolution images starting from the already orientated images;
-        
-   \item when you have an \UNCLEAR{instrumental} %inertial measurement 
+
+   \item when you have an \UNCLEAR{instrumental} %inertial measurement
     system (IMU), that gives reasonable initial values.
 \end{itemize}
 
-The {\tt Apero-4.xml} file shows how known orientations can be used as initial 
+The {\tt Apero-4.xml} file shows how known orientations can be used as initial
 values:
 
 {\scriptsize
@@ -1360,7 +1360,7 @@ to be declared for \UNCLEAR{loading in the} {\tt  <SectionBDD\_Observation>}.
     \item {\tt <KeyAssoc>} contains the key describing  the association
          between a name of an image and a name of an orientation file;
 
-     \item with {\tt \$\{AeroIn\}} being equal to {\tt -Test-3}, 
+     \item with {\tt \$\{AeroIn\}} being equal to {\tt -Test-3},
           we will load results of {\tt Apero-3.xml}.
 \end{itemize}
 
@@ -1372,20 +1372,20 @@ it shows what is the mechanism that could be used in a two step orientation
 with different resolutions of images.
 
 
-%  - - - - - - - - - - - - - - - - - - - - - - - - 
+%  - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Scene-based Orientation}
 
 \label{SC:Base:Or}
 
-There are occasions where, although there is no "real" geo-referencing 
+There are occasions where, although there is no "real" geo-referencing
 information available, one would like to compute an orientation which is coherent with
 some physical constraint:
 
 
 \begin{itemize}
 
-   \item  use some part of the scene, known to define a horizontal plane, to 
-          obtain an orientation where the $OZ$ axis is on the "real" vertical (in 
+   \item  use some part of the scene, known to define a horizontal plane, to
+          obtain an orientation where the $OZ$ axis is on the "real" vertical (in
           fact orthogonal to this plane);
 
    \item  use a line of the scene, known to be on a given direction,  to
@@ -1395,10 +1395,10 @@ some physical constraint:
           (until now, all scaling were totally arbitrary).
 \end{itemize}
 
-File {\tt Apero-5.xml} illustrates these three operations. 
+File {\tt Apero-5.xml} illustrates these three operations.
 The first operation is {\tt <BasculeOrientation>}.
 In this operation, a set of $3D$ points known to be coplanar are specified,
-a "best" plane $P$ is fitted on these points, then one of the  rotation-translation 
+a "best" plane $P$ is fitted on these points, then one of the  rotation-translation
 transforming the plane $P$ to the plane $Z=0$ is applied:
 
 
@@ -1442,7 +1442,7 @@ The meaning of the tags above is the following:
    \item {\tt <PatternNameEstim>} specifies the images $I_k$ that are to be used to
          select the $3D$ points;
 
-   \item for each image $I_k$, {\tt KeyCalculMasq} is used to compute the name 
+   \item for each image $I_k$, {\tt KeyCalculMasq} is used to compute the name
          of  a file mask $M_k$ (so be careful when setting {\tt <PatternNameEstim>}
          that all corresponding masks exist);
 
@@ -1488,19 +1488,19 @@ we can set the "horizontal" orientation:
 }
 
 The idea is to select a  line, and to set its horizontal orientation.
-For the most general case, the line  would have to be specified in $3D$ by 
+For the most general case, the line  would have to be specified in $3D$ by
 giving two stereoscopic points. This general case will be implemented
 later. In the present case, the line is supposed to be horizontal
 \footnote{i.e. the points have the same $Z$ after the {\tt <BasculeOrientation>}
 has been run} and two monoscopic points are sufficient, they are transformed into $3D$ points
 by giving them the altitude $0$. With this specification,
-{\tt Apero} will apply a rotation around the $OZ$ axis so that 
+{\tt Apero} will apply a rotation around the $OZ$ axis so that
 $\overrightarrow{p_1p_2} $ is aligned with $\vec{V}$ \footnote{with $p_1$
 and $p_2$ given by {\tt <Pt>} and $\vec{V}$ given by {\tt <Vecteur>}}.
 
 
 To set the arbitrary scale of the model, a
-$3D$ segment of a known size must be specified. To specify a $3D$ segment, 
+$3D$ segment of a known size must be specified. To specify a $3D$ segment,
 two stereoscopic points must be specified:
 
 
@@ -1540,7 +1540,7 @@ Note that, in the current state of {\tt Apero}'s development, all these transfor
 are not made for metrology, they can be used \UNCLEAR{for changing to an orientation having
 some sense}, but  they cannot be used during compensation phase.
 
-%  - - - - - - - - - - - - - - - - - - - - - - - - 
+%  - - - - - - - - - - - - - - - - - - - - - - - -
 
 \subsection{Using Embedded GPS}
 
@@ -1554,7 +1554,7 @@ GPS information.
 You will generally use this GPS information in two steps:
 
 \begin{itemize}
-   \item transform the purely relative orientation computed from tie points 
+   \item transform the purely relative orientation computed from tie points
          to a first geo-referenced orientation;
 
    \item use this GPS information in the compensation phase by adding a observation
@@ -1623,25 +1623,25 @@ The new parts are:
 }
 
 The first innovation is the creation of data base of the center {\tt <BDD\_Centre>}.
-The mechanism for declaring a set of files, and an association between names 
+The mechanism for declaring a set of files, and an association between names
 is the same as usual; each file must contain a tag {\tt  <Centre>}
 containing a point in $3D$, see for example {\tt Ori-BDDC/Orientation-IMG\_5564.tif.xml}.
 
 Once the data has been loaded, it must be used to attach a center information
 to the images. This is done by  {\tt  <IdBDCentre> Id-Centre </IdBDCentre>}.
-In case that not all the images have information center, the 
+In case that not all the images have information center, the
 initialization will have to be split in two {\tt <PoseCameraInc>}.
 
 The global transformation is made by {\tt  <BasculeOrientation>} as in~\ref{SC:Base:Or}.
 The parameters are:
 
-  
+
 \begin{itemize}
    \item {\tt <PatternNameEstim>}, it indicates which image must be used. Be warned that, in the
           current version, an error will appear if images without attached center are selected.
           If this pattern does not select at least $3$ images, an error will occur;
 
-   \item  {\tt  <AfterCompens>}, the value {\tt false} specifies that the transformation 
+   \item  {\tt  <AfterCompens>}, the value {\tt false} specifies that the transformation
           must be made at the beginning of the {\tt IterationsCompensation} including it. This
           is necessary to insure that the image are geo-referenced when the compensation begins;
 
@@ -1669,7 +1669,7 @@ Where:
           $p$ values $1$; this is quite common if there is no outlier in GPS;
 
 
-    \item $Ecart$ for {\tt <EcartMesureIndiv>} allows to control the weighting between 
+    \item $Ecart$ for {\tt <EcartMesureIndiv>} allows to control the weighting between
           heterogeneous measurements (here, the relative importance between tie points and GPS).
 \end{itemize}
 
@@ -1683,11 +1683,11 @@ value, and there is no risk to \UNCLEAR{free} %release, let free
 
 
 
-%  - - - - - - - - - - - - - - - - - - - - - - - - 
+%  - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Ground Control Points}
 
 For geo-referencing acquisition ground points are also interesting,
-they are generally more precise than embedded GPS and can be acquired in 
+they are generally more precise than embedded GPS and can be acquired in
 \UNCLEAR{more general} condition, on the other hand they are more expensive, time-wise, to
 \UNCLEAR{acquired}.
 
@@ -1717,7 +1717,7 @@ of declarations of ground points:
                <NamePt>Coin-Gauche </NamePt>
                <Incertitude>  10 10 10  </Incertitude>
           </OneAppuisDAF>
-....     
+....
          <OneAppuisDAF>
                <Pt>  370 -544 229 </Pt>
                <NamePt> Levre </NamePt>

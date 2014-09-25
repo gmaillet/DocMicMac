@@ -1,0 +1,83 @@
+\chapter{Using satellite images}
+
+This chapter presents some tools for using satellite images in the {\tt MicMac} workflow.
+
+\section{Pleiades-Spot images}
+
+A tool to convert Pleiades files into localization grids called {\tt Dimap2Grid} allows using Pleiades images with {\tt Malt}.\\*
+
+User has to provide:
+\begin{itemize}
+\item a RPC\footnote{Rational Polynomial Coefficient}/DIMAP file for each image 
+\item cartographic step (pixels)
+\item projection system
+\end{itemize}
+
+As initial localization is not enough to run a good correlation process, a refine step has been added to improve the grid.
+
+\subsection{Image couple}
+
+The way to get grids from a Pleiades image couple is as following:
+
+\begin{itemize}
+\item Dimap2Grid for each image (produces a rough grid)
+\item Tapioca (generates tie-points)
+\item RefineModel (computes affinity coefficients)
+\item Dimap2Grid with option refineCoef (produces accurate grid)
+\end{itemize}
+
+The command to use for this workflow are:
+\begin{verbatim}
+mm3d TestLib Dimap2Grid dimapFile imageFile altitudeMin altitudeMax nbLayers
+mm3d Tapioca All imagesPattern -1
+mm3d TestLib RefineModel image_1.GRI image_2.GRI pts_1_2.dat meanAltitude
+mm3d TestLib Dimap2Grid dimapFile imageFile altMin altMax nbLay refineCoef=refine/refineCoef.txt
+\end{verbatim}
+
+To know the syntax of {\tt Dimap2Grid}:
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Dimap file}
+  * string :: {Image name}
+  * REAL :: {altitude min}
+  * REAL :: {altitude max}
+  * INT :: {number of layers}
+Named args : 
+  * [Name=targetSyst] string :: {target system Proj4 +init=IGNF:LAMB93+datum}
+  * [Name=stepPixel] REAL :: {Step in pixel}
+  * [Name=stepCarto] REAL :: {Step in m (carto)}
+  * [Name=sampCrop] INT :: {upper left samp - crop}
+  * [Name=rowCrop] INT :: {upper left row - crop}
+  * [Name=refineCoef] string :: {File of Coef to refine Grid}
+\end{verbatim}
+
+{\tt Dimap2Grid} generates a .GRI file whose name is set after image name.
+First two mandatory arguments should be quite obvious. Other arguments are:
+\begin{itemize}
+\item min and max altitude: ground min and max altitude
+\item number of layers: number of altitudes layers for the grid
+\item targetSyst: target coordinate system, in the proj4 syntax
+\item stepPixel: grid step in image coordinates (default = 100 pixels)
+\item stepCarto: grid step in cartographic coordinates (default = 50m)
+\item sampCrop: line of the upper left corner (for image cropping)
+\item rowCrop: row of the upper left corner (for image cropping)
+\item refineCoef: file produced by RefineModel command to refine Grid
+\end{itemize}
+
+{\tt RefineModel} syntax is: 
+
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {master image GRID}
+  * string :: {slave image GRID}
+  * string :: {Tie Points}
+  * REAL :: {average altitude of the TiePoints}
+\end{verbatim}
+
+Tie-points string is the tie-point file (.dat) computed by Tapioca and available in the {\tt Homol} directory.
