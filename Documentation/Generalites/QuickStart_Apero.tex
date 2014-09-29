@@ -165,7 +165,7 @@ take some action to avoid degeneracy. There are different ways to do it, here we
 fix seven arbitrary values:
 
 \begin{itemize}
-  \item  fix the position and orientation of an abitrary pose;
+  \item  fix the position and orientation of an arbitrary pose;
   \item  fix the length of the base between two arbitrary poses.
 \end{itemize}
 
@@ -1831,13 +1831,13 @@ The file {\tt Apero-7.xml} illustrates how GCP can be used:
 \end{verbatim}
 }
 
-First, the GPC and their observations must be loaded:
+First, the GCP and their observations must be loaded:
 
 \begin{itemize}
    \item in the {\tt <SectionInconnues>} they are declared as unknowns in {\tt <PointFlottantInc>},
          their initial value is contained in the file {\tt <KeySetOrPat>};
 
-  \item  in the  {\tt <SectionBDD\_Observation>}, their obsevation in images is loaded;
+  \item  in the  {\tt <SectionBDD\_Observation>}, their observation in images is loaded;
 
    \item this is the value {\tt Id-Appui} of  identifier {\tt <Id>}
          that makes the link between unknowns and their observations; it will be used
@@ -1849,7 +1849,7 @@ or  for compensation once the images are approximately geo-referenced:
 
 \begin{itemize}
    \item {\tt  <BascOnCentre>} is replaced with {\tt <BascOnAppuis>}, the identifier of
-          the GPC set being given as argument; for this operation, there must exist at least
+          the GCP set being given as argument; for this operation, there must exist at least
           $3$ GCP being measured in at least $2$ images;
 
 
