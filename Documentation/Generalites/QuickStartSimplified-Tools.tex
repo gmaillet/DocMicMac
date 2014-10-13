@@ -23,7 +23,7 @@ will be available soon. However many tools already exist, what is ready now :
 \begin{itemize}
     \item full automatic tie points computation works (see {\tt Tapioca} tool in~\ref{Tapioca});
     \item full automatic orientation computation works (see {\tt Tapas} tool in~\ref{Tapas});
-    \item full automatic matching is not achieved,  there exist some piece  of 
+    \item full automatic matching is not achieved,  there exist some piece  of
           code that may be already useful for some users, see~\ref{FullAutoMatch};
     \item semi-automatic matching works with tool {\tt Malt}, see~\ref{SemiAutoMatch};
 \end{itemize}
@@ -38,7 +38,7 @@ will be available soon. However many tools already exist, what is ready now :
 \label{MERCURIAL}
 
 Since end of $2012$, several modification on the general organization of the project occurred.
-This section describes the main modification. Although much care were taken to guarantee a strict 
+This section describes the main modification. Although much care were taken to guarantee a strict
 compatibility with previous version, it is recommended to use the new mechanisms.
 
 
@@ -67,13 +67,13 @@ To get the source (you will need to install the mercurial versionning system) ty
 \end{verbatim}
 
 To update source code, type:
- 
+
 \begin{verbatim}
- hg pull https://culture3d:culture3d@geoportail.forge.ign.fr/hg/culture3d 
+ hg pull https://culture3d:culture3d@geoportail.forge.ign.fr/hg/culture3d
 \end{verbatim}
 
 \begin{verbatim}
-hg up https://culture3d:culture3d@geoportail.forge.ign.fr/hg/culture3d 
+hg up https://culture3d:culture3d@geoportail.forge.ign.fr/hg/culture3d
 \end{verbatim}
 
 \subsection{The \emph{new universal} command {\tt mm3d}}
@@ -111,10 +111,10 @@ When typing only {\tt mm3d}, user can get a list of existing commands :
 
 \begin{verbatim}
  mm3d
-mm3d : Allowed commands 
+mm3d : Allowed commands
  AperiCloud	 Visualization of camera in ply file
  Apero	 Compute external and internal orientations
- AperoChImSecMM	Select secondary images for MicMac 
+ AperoChImSecMM	Select secondary images for MicMac
  Bascule	 Generate orientations coherent with some physical information on the scene
  BatchFDC	 Tool for batching a set of commands
  Campari	 Interface to Apero, for compensation of heterogeneous measures
@@ -128,7 +128,7 @@ mm3d : Allowed commands
 ....
 \end{verbatim}
 
-If the first argument is not an existing command, some indication is given to help to find 
+If the first argument is not an existing command, some indication is given to help to find
 the "good" name. For example, if one knows that command begin by {\tt ta}  :
 
 \begin{verbatim}
@@ -156,7 +156,7 @@ Suggest by Subex Match
 \end{verbatim}
 
 
-Finally if arg is nor a prefix nor a subexpression of any command, it will be tested as posix regular 
+Finally if arg is nor a prefix nor a subexpression of any command, it will be tested as posix regular
 expression :
 
 \begin{verbatim}
@@ -244,7 +244,7 @@ The meaning of arguments is:
     \item {\tt Mode} is an enumerated value specifying a functioning mode
           (i.e. a way to compute the pair of images that are to be matched).
           These values are {\tt All} for all possible pairs, {\tt MulScale}
-          for a multi-scale optimization, {\tt Line} for a selection adapted 
+          for a multi-scale optimization, {\tt Line} for a selection adapted
           to linear images acquisition, and {\tt File} for  XML file
           describing the pairs;
 
@@ -278,15 +278,15 @@ The meaning of arguments is:
 
 \end{itemize}
 
-If you do not remember the possible mode key words, just type: 
+If you do not remember the possible mode key words, just type:
 
 \begin{center}
         {\tt bin/Tapioca}
 \end{center}
 
-The possible values will be printed. 
+The possible values will be printed.
 
-If you do not remember the argument 
+If you do not remember the argument
 corresponding to a possible mode, just type {\tt bin/Tapioca mode -help},
 for example:
 
@@ -301,7 +301,7 @@ for example:
 \subsection{Computing All the Tie Points of a Set of Images}
 
 The simplest case of use of {\tt Tapioca} is when you only want to compute tie points
-between all the pairs of a set of images. The syntax is: 
+between all the pairs of a set of images. The syntax is:
 
 {\scriptsize
 \begin{verbatim}
@@ -365,8 +365,8 @@ The mode  {\tt MulScale} can save  significant computation time on large sets of
 Even if it is not optimal for all canvas, it has the benefit of being general
 and usable with any data set.
 
-In this mode, a first computation of tie points is made for all the pairs 
-of images at very low resolution (so it is quite fast).Then the 
+In this mode, a first computation of tie points is made for all the pairs
+of images at very low resolution (so it is quite fast).Then the
 computation, at the desired resolution, is done  only for the pairs
 having, at low resolution, a number  of tie points exceeding a given
 threshold.
@@ -378,7 +378,7 @@ threshold.
      bin/Tapioca MulScale Files  SizeLow Size  NbMinPt=   ArgOpt=
 \end{verbatim}
 }
- 
+
 {\tt SizeLow} is the size of the images that will be used at low resolution.
 {\tt Size} is the targeted size.  The optional value {\tt NbMinPt}
 is the threshold on the number of tie points detected at low resolution,
@@ -454,11 +454,11 @@ GrapheHom  -help
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args : 
+Unamed args :
   * string
   * string
   * string
-Named args : 
+Named args :
   * [Name=TagC] string
   * [Name=TagOri] string
   * [Name=AltiSol] REAL
@@ -502,7 +502,7 @@ For example :
 
 \begin{verbatim}i
 GrapheHom ./   ".*.ARW" NKS-Assoc-Im2Orient@-A0-Navig-UTM
-Or 
+Or
 GrapheHom ./   ".*.ARW" -A0-Navig-UTM
 \end{verbatim}
 
@@ -517,7 +517,7 @@ GrapheHom ./   ".*.ARW" -A0-Navig-UTM
 
 \label{Tapas}
 
-     % - - - - - - - - - - - - - - - - -  - - - - - 
+     % - - - - - - - - - - - - - - - - -  - - - - -
 
 \subsection{Generalities}
 
@@ -532,7 +532,7 @@ to some of the elementary functionalities of {\tt Apero} :
 
    \item {\tt AperiCloud}, in~\ref{APERICLOUD} for generating a visualization of camera
          position and sparse $3D$ model;
-		 
+
    \item {\tt Campari}, in~\ref{CAMPARI} is a tool for compensation of heterogeneous measures (tie points and ground control points);
 
    \item {\tt Bascule}, in~\ref{BASCULE}, for generating orientations coherent with
@@ -546,14 +546,14 @@ to some of the elementary functionalities of {\tt Apero} :
 Like with many tools, one can type {\tt Tapas -help} to a have a brieve description
 of {\tt Tapas}'s argument.
 
-     % - - - - - - - - - - - - - - - - -  - - - - - 
+     % - - - - - - - - - - - - - - - - -  - - - - -
 
 \subsection{The data set  "Mur Saint Martin"}
 
         %  -    -    -    -    -    -    -     -
 
 
-The directory {\tt MurSaintMartin/} in {\tt micmac\_data/ExempleDoc/}, contains 
+The directory {\tt MurSaintMartin/} in {\tt micmac\_data/ExempleDoc/}, contains
 a first set of data, that will be used for illustrating {\tt Tapas}.
 This set is made of $23$ jpeg images that have been acquired with the same
 camera and same focal length; it is made of two subset :
@@ -597,7 +597,7 @@ camera and same focal length; it is made of two subset :
 \end{figure}
 
 To run the example using {\tt Tapas}, tie points will be required, they can
-be computed by the two  commands \footnote{the command used in this example can be found in  
+be computed by the two  commands \footnote{the command used in this example can be found in
 the file {\tt ExCmd.txt}} :
 
 
@@ -642,17 +642,17 @@ Means :
 
 
 \begin{itemize}
-   \item compute the relative orientation of the set of images defined by the regular 
+   \item compute the relative orientation of the set of images defined by the regular
          expression ;
 
    \item for the intrinsic calibration use a model {\tt RadialExtended};
 
     \item there is exactly one intrinsic calibration unknown for each focal length, the focal
-          length being extracted from exif metadata; the exif meta-data is used for 
-          defining the  initial value of each 
+          length being extracted from exif metadata; the exif meta-data is used for
+          defining the  initial value of each
 
     \item  use a predefined strategy for computing orientations and intrinsic calibration.
-         
+
 \end{itemize}
 
         %  -    -    -    -    -    -    -     -
@@ -665,17 +665,17 @@ The possible value of  {\tt ModeCalib} are :
 
 \begin{itemize}
 
-   \item {\tt \bf RadialExtended} a model with radial distortion 
-         (as specified in~\ref{SpGeo:Rad}); 
+   \item {\tt \bf RadialExtended} a model with radial distortion
+         (as specified in~\ref{SpGeo:Rad});
          in this model there are $10$ degrees of freedom:
-         $1$ for focal length  , $2$ for principal point, $2$ for distorsion center , 
+         $1$ for focal length  , $2$ for principal point, $2$ for distorsion center ,
          $5$ for coefficients of radial distortion ($r^3$, $r^5$ \dots $r^{11}$);
 
    \item {\tt \bf RadialBasic}  a "subset" of previous model:
           radial distortion with limited degrees of freedom ;
-         adapted when there is a risk of divergence of {\tt RadialExtended}; 
-         in this model there are $5$ degrees of freedom :  $1$ for focal length  , 
-         $2$ for principal point and distortion center \footnote{they are constrained to have 
+         adapted when there is a risk of divergence of {\tt RadialExtended};
+         in this model there are $5$ degrees of freedom :  $1$ for focal length  ,
+         $2$ for principal point and distortion center \footnote{they are constrained to have
          the same value} ,
          $2$ for coefficients of radial distortion ($r^3$ and  $r^5$);
 
@@ -683,7 +683,7 @@ The possible value of  {\tt ModeCalib} are :
 
    \item {\tt \bf Fraser}  a radial model, with decentric and affine parameters
           (as specified in~\ref{SpGeo:Fraser}); there are $12$ degrees of freedom:
-         $1$ for focal length  , $2$ for principal point, $2$ for distortion center , 
+         $1$ for focal length  , $2$ for principal point, $2$ for distortion center ,
          $3$ for coefficients of radial distorsion ($r^3$, $r^5$  $r^7$),
          $2$ for decentric parameters, $2$ for affine parameters;
          the optional parameters {\tt LibAff} and {\tt LibDec} (def value true) can
@@ -696,14 +696,14 @@ The possible value of  {\tt ModeCalib} are :
    \item {\tt \bf FishEyeEqui}  a model adapted for diagonal fisheyes equilinear
          ( with $atan$ physicall model completed with polynomial parameters,
           as specified in~\ref{SpGeo:FishEye}); there are $14$ degrees of freedom:
-         $1$ for focal length  , $2$ for principal point, $2$ for distorsion center , 
+         $1$ for focal length  , $2$ for principal point, $2$ for distorsion center ,
          $5$ for coefficients of radial distortion ($r^3$, $r^5$  $r^7$),
          $2$ for decentric parameters, $2$ for affine parameters;
          by default the ray defining the useful mask, see~\ref{SpGep:RU}
          is $95\%$ of the diagonal;
 
 
-   \item {\tt \bf HemiEqui}  same model as previous, but  by default the ray defining 
+   \item {\tt \bf HemiEqui}  same model as previous, but  by default the ray defining
          the useful mask, see~\ref{SpGep:RU} is $52\%$ of the diagonal; adapted
          to hemispheric equilinear fisheye;
 
@@ -722,7 +722,7 @@ value of intrinsic calibration is computed this way :
 \begin{itemize}
    \item focal length is computed from exif data using the rules described in~\ref{CamDB};
 
-   \item principal point and, when apply, distortion center are  at the middle 
+   \item principal point and, when apply, distortion center are  at the middle
          of image (except when using the {\tt Decentre} option);
 
    \item initial distortion is equal to the physical ideal model :   null for the
@@ -742,7 +742,7 @@ orientation.  The predefined strategy used by {\tt Tapas} is :
 
    \item choose a central images (the image that has the maximum of tie points);
 
-   \item compute the orientation of images with the "standard" strategy described 
+   \item compute the orientation of images with the "standard" strategy described
           in~\ref{Apero:Ordering};
 
 
@@ -753,7 +753,7 @@ orientation.  The predefined strategy used by {\tt Tapas} is :
 
 \subsubsection{Results}
 
-The result of {\tt Tapas} are stored in a subdirectory {\tt Ori-OUTDIR} , 
+The result of {\tt Tapas} are stored in a subdirectory {\tt Ori-OUTDIR} ,
 where {\tt OUTDIR} is specified by the optional {\tt out} argument of {\tt Tapas},
 when {\tt out} is not specified the value of {\tt ModeCalib} is used.
 With this basic command, the result are stored in the directory {\tt Ori-RadialExtended/} :
@@ -768,7 +768,7 @@ With this basic command, the result are stored in the directory {\tt Ori-RadialE
    \item   the  files {\tt Orientation-IMGPXXXX.JPG.xml} contain the external orientations;
 
    \item  the detailed specification of intrinsic calibration and external orientation can
-          be found in~\ref{Chap:GeoLoc}, by the way it's not necessary to have a full 
+          be found in~\ref{Chap:GeoLoc}, by the way it's not necessary to have a full
           understanding of this format for using it in {\tt MicMac} and  other tools .
 \end{itemize}
 
@@ -791,8 +791,8 @@ With large data set, it is often preferable to proceed in two step :
           it should fulfill the following requirements :
 
 \begin{itemize}
-  \item  all image converging  to same part of the scene,to facilitate the computation 
-         of external  orientation 
+  \item  all image converging  to same part of the scene,to facilitate the computation
+         of external  orientation
 
    \item  a scene with sufficient depth variation ,to have accurate focal length estimation;
 
@@ -825,17 +825,17 @@ Some comments :
    \item the first line is equivalent to~\ref{Basi:Tapas}, the only difference
          is that the out directory is specified; here, the results are  then written
          in {\tt Ori-Calib};
-  
+
 
    \item in the second line, the argument {\tt InCal=Calib} specifies that for each
          unknown calibration of focal $F$ , if there exist a file {\tt Ori-Calib/AutoCal(F*10).xml},
-         this file must be used as an initial value ; here, with a $28mm$ focal, 
+         this file must be used as an initial value ; here, with a $28mm$ focal,
          the file {\tt Ori-Calib/AutoCal280.xml} has been created by previous line
          and is used;
 
     \item  here, with {\tt  ModeCalib=AutoCal}~\footnote{also with {\tt ModeCalib=Figee}},
             when the file  {\tt Ori-Calib/AutoCal(F*10).xml} do not exist an error occurs;
-           
+
 
     \item  with other mode of {\tt ModeCalib}
            \footnote{RadialBasic, RadialExtended, Fraser, FishEyeEqui, HemiEqui}
@@ -874,7 +874,7 @@ can for example be:
    \item acquire with a short focal lenses, a set of images with a wide
          overlapping that will form a highly connected set;
 
-   \item acquire with a longer focal length convergent sets of images on 
+   \item acquire with a longer focal length convergent sets of images on
           areas (possibly covering all the scene) interesting for $3d$ modelization;
 
    \item when acquiring the second set (longer focal) do not worry about
@@ -891,12 +891,12 @@ There is three subset of images :
     \item {\tt IMGP4123.JPG} to {\tt IMGP4151.JPG} , $29$ images of a narrow street,
           mixing $10mm$ and $17mm$ focal; although the images have been acquired for
           the purpose of the documentation \footnote{and  so the dataset is a bit artificial}
-         , one could imagine the $10mm$ are used for the global context and the $17mm$ is used for 
+         , one could imagine the $10mm$ are used for the global context and the $17mm$ is used for
           modelization of some details (the $17mm$ are made of two convergent subset :
           $44$ to $47$ and $48$ to $51$);  figure~\ref{FIG:StM:Rue} shows some
           of the $10mm$ images and figure~\ref{FIG:StM:StrConv} shows some of the $17mm$ images;
 
-    \item {\tt IMGP4152.JPG} to {\tt IMGP4158.JPG} , $7$ images for the calibration of 
+    \item {\tt IMGP4152.JPG} to {\tt IMGP4158.JPG} , $7$ images for the calibration of
           the $17mm$.
 
 \end{itemize}
@@ -941,7 +941,7 @@ strategy will be also separated in several steps; for example:
 
 \begin{itemize}
     \item  orientate at first the  short focal lenses, that will constitute the
-           global canvas 
+           global canvas
     \item  compute the orientations of other images based on the canvas of
             the already oriented images;
 \end{itemize}
@@ -975,7 +975,7 @@ Let's comment  :
 
 \begin{itemize}
    \item  the first two lines generates an initial calibration  with the calibration subsets;
-          it is quite similar to~\ref{Succ:Call:Tapas}, the difference being that the 
+          it is quite similar to~\ref{Succ:Call:Tapas}, the difference being that the
           {\tt FishEyeEqui} specifies that we have a fisheye;
 
    \item  the third line uses the  {\tt InCal} options, already seen;  it also
@@ -987,7 +987,7 @@ Let's comment  :
          to have all our required input on the same directory {\tt Ori-Tmp1}
 
     \item in the next call to {\tt Tapas}, we specify {\tt InOri=Tmp1},  this has two effects :
-         
+
 \begin{itemize}
          \item  as before when files {\tt Ori-Tmp1/AutoCalXXX.xml} ( {\tt XXX} being the required focal) exist
                 they are used to initialize intrinsic calibrations;
@@ -1015,14 +1015,14 @@ focal it's relatively easy :
 
 \begin{itemize}
   \item for the distortion , the initial value is nul \footnote{more
-        precisely, it is the initial physical model, for example 
+        precisely, it is the initial physical model, for example
         with fish-eye the initial value is a $\tan^{-1} $ function, see~\ref{SpGeo:FishEye}};
 
-  \item for the principal point the initial value is a at center of image 
+  \item for the principal point the initial value is a at center of image
         \footnote{ of course, this wouldn't  be suitable with shift lenses}.
 \end{itemize}
 
-For the focal lens Tapas must compute an initial value in pixel, this information is 
+For the focal lens Tapas must compute an initial value in pixel, this information is
 computed with the help of xif data. To see some example of xif data, goto MurSaint martin
 and try {\tt ElDcraw -i -v} or {\tt exiv2} or {\tt exiftool} :
 
@@ -1036,16 +1036,16 @@ Focal Equi35: 42.0 mm
 ....
 \end{verbatim}
 
-As the xif meta data never contains directly the focal in pixel , 
+As the xif meta data never contains directly the focal in pixel ,
 several case can  occur :
 
 \begin{itemize}
-  \item if the xif meta data contain the value $F_{35}$ of the focal in equivalent $35mm$  
+  \item if the xif meta data contain the value $F_{35}$ of the focal in equivalent $35mm$
        \footnote{try {\tt ElDcraw FileName} to see}, then the focal is estimated by
-       $\frac{F_{35} * W_{Pix}}{35.0}$, where $W_{Pix}$ is the width (= number) 
+       $\frac{F_{35} * W_{Pix}}{35.0}$, where $W_{Pix}$ is the width (= number)
        of image in pixel;
 
-  \item if the xif meta data contain the value $F_{mm}$ of the focal in millimeter, 
+  \item if the xif meta data contain the value $F_{mm}$ of the focal in millimeter,
         and the width  $W_{mm}$  of the sensor is known  in millimeter, the focal is estimated
         by $\frac{F_{mm} * W_{Pix}}{W_{mm}}$.
 
@@ -1058,7 +1058,7 @@ somewhere else; this is the role of the camera data base.
 \subsection{Camera data base}
 \label{CamDB}
 
-With all camera sold for people, xif meta data contain a tag indicating the 
+With all camera sold for people, xif meta data contain a tag indicating the
 name of the camera.  For example you can see that the {\tt MurSaintMartin }
 has been acquired with a {\tt PENTAX K-5} camera. This camera name is
 used by the different tools as an entry in data bases containing  information
@@ -1069,23 +1069,23 @@ These data base can be located in three different files :
 \begin{itemize}
    \item  {\tt  include/XML\_MicMac/DicoCamera.xml} , this global file always exist as
          it is part of the {\tt MicMac} distribution, I put here the camera necessary
-         for the examples; I also update it when I  I meet a new camera 
+         for the examples; I also update it when I  I meet a new camera
          so that  users can take benefit of it;
          NEVER modify this file to add your own camera, as your may loose all your
-         modification at next update; 
-   
+         modification at next update;
+
    \item  {\tt  include/XML\_User/DicoCamera.xml} , this file does not exist
          when you make the first installation of MicMac; so you have to create it,
          and put inside the description of all the camera that you will use
          currently; as this file is not handled by subversion, there is no risk
          of over writing it when you update;
 
-   \item  {\tt  MicMac-LocalChantierDescripteur.xml},  in your working 
+   \item  {\tt  MicMac-LocalChantierDescripteur.xml},  in your working
           directory when this file exists; the {\tt ENAC} example contains
           en example of such usage;
 \end{itemize}
 
-Naturally , if the same camera is described in several file, the more local file has the 
+Naturally , if the same camera is described in several file, the more local file has the
 priority \footnote{e.q. {\tt MicMac-LocalChantierDescripteur.xml} highest priority
 {\tt XML\_MicMac/DicoCamera.xml} lowest} .
 Take a look at  {\tt  include/XML\_MicMac/DicoCamera.xml}, the structure is quite
@@ -1096,7 +1096,7 @@ simple :
           to describe;
     \item a {\tt CameraEntry} contains :
 
- 
+
      \begin{itemize}
            \item a {\tt Name} that is used to make the link with information in xif file;
            \item a {\tt SzCaptMm} that contains the size of sensor in millimeter;
@@ -1116,19 +1116,19 @@ by creating specific key in the {\tt  MicMac-LocalChantierDescripteur.xml}.
 The {\tt ENAC} dataset  illustrates this usage :
 
 \begin{itemize}
-    \item to indicate camera names, the user must define a rule 
+    \item to indicate camera names, the user must define a rule
            (see \ref{Ref:Key:Map}) of key  {\tt NKS-Assoc-STD-CAM}, this rule must
            transform the name of the file into the name of the camera;
            in {\tt ENAC} there is only one camera, the rule specify  then that,
            whatever be the image name, the camera name will be {\tt TheGOPRO};
- 
 
-    \item to indicate focal length, the user must define a rule 
+
+    \item to indicate focal length, the user must define a rule
           of key {\tt NKS-Assoc-STD-FOC} that associate to each image name
           its focal; here we have only one focal $3.8$, the rule is simple;
 
 
-    \item the association mechanism described in \ref{Ref:Key:Map} may seem 
+    \item the association mechanism described in \ref{Ref:Key:Map} may seem
           over complicated, however it has to be very flexible to handle case
           where there are several cameras or focal lengths not present in xif files;
 
@@ -1137,7 +1137,7 @@ The {\tt ENAC} dataset  illustrates this usage :
 
 \subsection{Modifying  exif}
 
-Another solution to deal with missing xif info is to use the 
+Another solution to deal with missing xif info is to use the
 modifying facilities offered by the  exiv2 command .
 I recommend that you read carefully
 the exiv2 documentation before using it. Here is a short example,
@@ -1166,13 +1166,13 @@ As exif extraction can be relatively slow, since mercurial revision $3293$, ther
 The tool {\tt MMXmlXif} can be used for explicitly creating this files :
 
 \begin{itemize}
-   \item call {\tt mm3d MMXmlXif Pattern} 
+   \item call {\tt mm3d MMXmlXif Pattern}
    \item  for each file {\tt aFile} in {\tt Pattern}, a xml version of the xif information is created in
           {\tt Tmp-MM-Dir/aFile-MDT-$Num$.xml}  where $Num$ is some versioning number:
     \item when the exif information will be required, if the  xml file exist, it will be used to load it;
 \end{itemize}
 
-If for example with {\tt ENAC} data set you run {\tt mm3d MMXmlXif test00.*jpg} 
+If for example with {\tt ENAC} data set you run {\tt mm3d MMXmlXif test00.*jpg}
 you will have a file {\tt Tmp-MM-Dir/test0050.jpg-MDT-3293.xml} to contain :
 
 \begin{verbatim}
@@ -1201,7 +1201,7 @@ some option will be added to suppress it when necessary.
 
 Sometime the images are in a pure Raw format, with no header describing the physical representation
 of the image on hard disk. It is possible to use these images in {\tt Apero/MicMac} but user has
-to explain the missing information . This is done this way :
+to explain the missing information. This is done this way :
 
 \begin{itemize}
        \item for each kind of format create file containing a structure {\tt SpecifFormatRaw};
@@ -1221,15 +1221,15 @@ An example is given in folder {\tt Documentation/NEW-DATA/RAW-IMAGES}. This case
 
        \item in this case the optional {\tt <BayPat>} tag indicate that the image are bayer images;
 
-       \item the {\tt <Focalmm>}, {\tt <FocalEqui35>} , {\tt <Camera>} tags are used to fit the minimal 
-             xif information for using at the end in {\tt Apero/Tapas}. 
+       \item the {\tt <Focalmm>}, {\tt <FocalEqui35>} , {\tt <Camera>} tags are used to fit the minimal
+             xif information for using at the end in {\tt Apero/Tapas}.
 
 \end{itemize}
 
-If the tag {\tt <BayPat>} is present the image is interpreted as a color image acquired by bayer matrix 
-specified the string. If is not present, the images is considered  as a gray scale image. This is 
-illustrated by figure~\ref{FIG:RawBayer}. This figure present crops of results of the command 
-{\tt ConvertIm} wih different value of {\tt <BayPat>} tag in the file {\tt  SpecRaw.xml}~:
+If the tag {\tt <BayPat>} is present the image is interpreted as a color image acquired by bayer matrix
+specified the string. If it is not present, images are considered  as gray scale images. This is
+illustrated by figure~\ref{FIG:RawBayer}. This figure presents crops of results of the command
+{\tt ConvertIm} with different value of {\tt <BayPat>} tag in the file {\tt  SpecRaw.xml}~:
 
 
 \begin{itemize}
@@ -1239,7 +1239,7 @@ illustrated by figure~\ref{FIG:RawBayer}. This figure present crops of results o
        \item middle : the optional {\tt <BayPat>} tag is absent, the image is interpreted as a gray value
              image (which generate the checkboard effect);
 
-       \item right : a false value (here  {\tt GBRG}) , the color are swapped. 
+       \item right : a false value (here  {\tt GBRG}), the color are swapped.
 \end{itemize}
 
 \begin{figure}
@@ -1267,7 +1267,7 @@ illustrated by figure~\ref{FIG:RawBayer}. This figure present crops of results o
 
 The optional arg {\tt FrozenPoses} of {\tt Tapas}, can be used to indicate
 a subset of images for which orientation will be frozen during all the
-compensation;  {\tt FrozenPoses} is a generalized regular expression  
+compensation;  {\tt FrozenPoses} is a generalized regular expression
 (pattern or key) describing this subset.
 
 
@@ -1301,10 +1301,10 @@ Typing {\tt AperiCloud -help}, one gets:
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args : 
+Unamed args :
   * string
   * string
-Named args : 
+Named args :
   * [Name=ExpTxt] INT
   * [Name=Out] string
   * [Name=Bin] INT
@@ -1328,7 +1328,7 @@ Meaning of args is:
 \subsection{The tool {\tt Campari}}
 \label{CAMPARI}
 
-This section describes {\tt Campari} an interface to {\tt Apero}, for compensation 
+This section describes {\tt Campari} an interface to {\tt Apero}, for compensation
 of heterogeneous measures, that is: tie points and ground control points.
 
 \vspace{\baselineskip}
@@ -1372,15 +1372,15 @@ Mandatory part of GCP:
 
 \vspace{\baselineskip}
 The xml file containing 3D coordinates has to verify a specific format.
-A tool to convert existing coordinates listing files into this format 
+A tool to convert existing coordinates listing files into this format
 is proposed with {\tt GCPConvert} and described in \ref{GCPConvert}.
 
 \vspace{\baselineskip}
-The xml file containing 2D coordinates can be generated using interfaces 
+The xml file containing 2D coordinates can be generated using interfaces
 {\tt SaisieAppuisInit} and {\tt SaisieAppuisPredic} in Linux, described in \ref{SaisieAppuisInit}.
 
 \vspace{\baselineskip}
-For a detailed example on how to use {\tt Campari} in a typical aerial 
+For a detailed example on how to use {\tt Campari} in a typical aerial
 surveying workflow, see \ref{Cuxa:DataSet}.
 
 
@@ -1399,7 +1399,7 @@ In "old" version of Apero/MicMac :
 
 \label{BASCULE}
 This section, describe the simplified version of the {\tt <BasculeOrientation>} mechanisms
-described in~\ref{SC:Base:Or}. This mechanisms is used when global transformation of the 
+described in~\ref{SC:Base:Or}. This mechanisms is used when global transformation of the
 orientation is required. The tools for bascule are :
 
 \begin{itemize}
@@ -1407,7 +1407,7 @@ orientation is required. The tools for bascule are :
    \item {\tt SBGlobBascule}  is a tool for "scene based global" bascule,
          it is used when no absolute information is available but the user
          still wishes to give some physical meaning to the orientation;
-         
+
    \item {\tt GCPBascule}  for using ground control point (GCP) to make
          a global transformation from a generally purely relative orientation
          to an orientation in the system of the GCP;
@@ -1419,7 +1419,7 @@ orientation is required. The tools for bascule are :
          a global transformation from a generally purely relative orientation
          to an absolute orientation;
 
-   \item   the {\tt Bascule} used to do, more a less, all of the previous 
+   \item   the {\tt Bascule} used to do, more a less, all of the previous
            functionality; it is obsolete, still maintained for compatibility,
            but no longer documented;
 \end{itemize}
@@ -1429,10 +1429,10 @@ orientation is required. The tools for bascule are :
 \subsubsection{Scene based orientation with {\tt SBGlobBascule}}
 
 \label{ScBas:Basc}
- 
+
 A current case in architectural modeling, is when a part of the
 scene is \emph{globally} plane and we want to do computation in
-coordinate system where this plane is the horizontal plane. 
+coordinate system where this plane is the horizontal plane.
 This can be done with the tool {\tt SBGlobBascule}:
 
 
@@ -1448,7 +1448,7 @@ This can be done with the tool {\tt SBGlobBascule}:
 
 
    \item finally bascule {\tt SBGlobBascule} compute the rotation that transform
-         current coordinates in a new system where the fitted plane correspond to 
+         current coordinates in a new system where the fitted plane correspond to
          the plane $Z=0$;
 
     \item {\tt SBGlobBascule}  fix  also the orientation inside the plane;
@@ -1485,13 +1485,13 @@ The meaning of the arguments are:
 
   \item fourth  arg {\tt Basc} defines the output orientation;
 
-  \item optional args {\tt PostPlan=\_MasqPlan}  means that if image is {\tt IMGP4171.JPG} 
+  \item optional args {\tt PostPlan=\_MasqPlan}  means that if image is {\tt IMGP4171.JPG}
         (or {\tt IMGP4171.CR2} or \dots), then the associated mask {\tt IMGP4171\_MasqPlan.tif}
 
    \item  if there are several masks it will use all them for
          fitting the plane (which can be useful with wide dataset when high accuracy  is required);
          of course if there are no existing mask an error will occur;
-  
+
   \item optional args {\tt DistFS=0.6} is used to fix the scale;
 \end{itemize}
 
@@ -1518,7 +1518,7 @@ in this file:
    \item optionally two point {\tt Ech1} and {\tt Ech2} to fix the scale,
          each point must be entered in two image, so that a $3d$ position
          can be computed; when {\tt DistFS} is entered, new coordinate system
-         is computed with the constraint that the distant between the $3d$  
+         is computed with the constraint that the distant between the $3d$
          position of  {\tt Ech1} and {\tt Ech2} is equal to {\tt DistFS} ;
          if {\tt DistFS} is entered and {\tt Ech1} and {\tt Ech2} do not
          exist in at least two images, an error occurs;
@@ -1531,12 +1531,12 @@ To have the full syntax, as usual:
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args : 
+Unamed args :
   * string :: {Full name (Dir+Pat)}
   * string :: {Orientaion in}
   * string :: {XML File of Images Measures}
   * string :: {Out : orientation }
-Named args : 
+Named args :
   * [Name=ExpTxt] bool
   * [Name=PostPlan] string
   * [Name=DistFS] REAL :: {Distance between  Ech1 and Ech2 to fixe scale (if not given no scaling)}
@@ -1576,13 +1576,13 @@ To know the syntax of {\tt GCPBascule} :
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {Full name (Dir+Pat)}
   * string :: {Orientation in}
   * string :: {Orientation out}
   * string :: {File for Ground Control Points}
   * string :: {File for Image Measurements}
-Named args : 
+Named args :
   * [Name=L1] bool :: {L1 minimization vs L2; (Def=false)}
 \end{verbatim}
 
@@ -1600,7 +1600,7 @@ The meaning should be quite obvious:
   \item fourth arg defines the file containing the GCP and their $3d$ measures ;
   \item fifth arg defines the file containing the image measurement of GCP;
   \item  optional arg {\tt L1} indicates if the transformation from relative to absolute
-         must be done using $L_1$ or $L_2$ minimization ( as currently the  measurements 
+         must be done using $L_1$ or $L_2$ minimization ( as currently the  measurements
          will have some redundancy).
 \end{itemize}
 
@@ -1641,7 +1641,7 @@ default convention is:
 \end{itemize}
 
 
-These conventions are perfectly ok in aerial photogrammetry, 
+These conventions are perfectly ok in aerial photogrammetry,
 the context  in which {\tt MicMac} was originally developed. However,
 it won't work in architectural context, to make the orthophoto of a
 vertical wall in some ground coordinate system where $Z$ axis  is vertical.
@@ -1677,18 +1677,18 @@ RepLocBascule -help
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {Full name (Dir+Pat)}
   * string :: {Input Orientation}
   * string :: {XML File of Images Measures}
   * string :: {Out Xml File to store the results"}
-Named args : 
+Named args :
   * [Name=ExpTxt] bool :: {Are tie point in ascii mode ? (Def=false)}
   * [Name=PostPlan] string :: {Pots fix for plane name, (Def=_Masq)}
   * [Name=OrthoCyl] bool :: {Is the repere in ortho-cylindric mode ?}
 \end{verbatim}
 
-The meaning of the three first args is similar to {\tt SBGlobBascule}. The fourth 
+The meaning of the three first args is similar to {\tt SBGlobBascule}. The fourth
 arg specifies the output xml file.
 
 In the data set of Mur Saint Martin, one could type:
@@ -1720,7 +1720,7 @@ Tarama "IMGP41((6[7-9])|([7-8][0-9])).JPG" Ground  Repere=RepCorr.xml
 \end{verbatim}
 
 This will generate the rectified image of figure~\ref{FIG:OkRec:StMartin}.
- 
+
 \begin{figure}
 \begin{center}
 \includegraphics[width=120mm]{FIGS/MurSaintMartin/TA_OK-LeChantier.jpg}
@@ -1733,7 +1733,7 @@ This will generate the rectified image of figure~\ref{FIG:OkRec:StMartin}.
 
 %   centerbascule -----------------------
 
-			
+
 \subsubsection{Geo-referencing with {\tt CenterBascule}}\label{Sec:CenterBascule}
 
 
@@ -1748,13 +1748,13 @@ CenterBascule "R.*.JPG" All-Rel Nav-adjusted-RTL All-RTL
 
 To know the syntax of {\tt CenterBascule} :
 \begin{verbatim}
-	CenterBascule -help
-Unnamed args : 
+        CenterBascule -help
+Unnamed args :
   * string :: {Full name (Dir+Pat)}
   * string :: {Orientation in}
   * string :: {Localization of Information on Centers}
   * string :: {Orientation out}
-Named args : 
+Named args :
   * [Name=L1] bool :: {L1 minimization vs L2; (Def=false)}
   * [Name=CalcV] bool :: {Use speed to estimate time delay (Def=false)}
 \end{verbatim}
@@ -1768,9 +1768,9 @@ The meaning of the arguments is:
   \item third arg defines the location of the data base of center;
   \item fourth arg defines the location of output orientation that will be generated by {\tt CenterBascule}
   \item optional arg {\tt L1} indicates if the transformation from relative to absolute
-         must be done using $L_1$ or $L_2$ minimization ( as currently the  measures 
+         must be done using $L_1$ or $L_2$ minimization ( as currently the  measures
          will have some redundancy).
-	\item optional arg {\tt CalcV} indicates if GPS delay has to be computed from camera relative speed (see \ref{OriConvert}).
+        \item optional arg {\tt CalcV} indicates if GPS delay has to be computed from camera relative speed (see \ref{OriConvert}).
 \end{itemize}
 
 The command line {\tt grep Centre All-RTL/*} enable you to quickly check the result.
@@ -1839,10 +1839,10 @@ $ mm3d AperoChImSecMM
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {Dir + Pattern}
   * string :: {Orientation}
-Named args : 
+Named args :
   * [Name=ExpTxt] bool :: {Have tie point been exported in text format (def = false)}
   * [Name=Out] string :: {Out Put destination (Def= same as Orientation-parameter)}
 \end{verbatim}
@@ -1850,12 +1850,12 @@ Named args :
 Using it with the tortoise data-set we enter :
 
 \begin{verbatim}
- mm3d AperoChImSecMM ".*JPG" All 
+ mm3d AperoChImSecMM ".*JPG" All
 \end{verbatim}
 
 For further use, it is not strictly necessary to understand what is done
  by {\tt AperoChImSecMM}; however, it  can never be bad to understand the tool you use
-\footnote{at least, this is the "philosophy" with free open source products} \dots 
+\footnote{at least, this is the "philosophy" with free open source products} \dots
 When it is finished, we can take a look at  {\tt Ori-All} directory, it
 contains $53$ files  {\tt ImSec-XXXX.xml}. Each file contains possible sets of secondary images.
 For example, if we open {\tt ImSec-IMGP6857.JPG.xml}  :
@@ -1917,8 +1917,8 @@ associated score. Here the "best" set according to {\tt AperoChImSecMM} has $4$ 
 a score of $0.663....$.
 
 These result will be used implicitly in the following automatic tools. It is also possible to use them explicitly
-"by hand" in creating your own {\tt xml} file for {\tt MicMac} \footnote{Use in {\tt Malt} will come soon}. 
-See for example of how to use this inside {\tt MICMAC} the section {\tt ImSecCalcApero} of file 
+"by hand" in creating your own {\tt xml} file for {\tt MicMac} \footnote{Use in {\tt Malt} will come soon}.
+See for example of how to use this inside {\tt MICMAC} the section {\tt ImSecCalcApero} of file
 {\tt include/XML\_MicMac/MM-TieP.xml}.
 
 
@@ -1937,10 +1937,10 @@ $ mm3d MMInitialModel
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {Dir + Pattern}
   * string :: {Orientation}
-Named args : 
+Named args :
   * [Name=Visu] bool :: {Interactif Visualization (tuning purpose, program will stop at breakpoint)}
   * [Name=DoPly] bool :: {Generate ply ,for tuning purpose, (Def=false)}
   * [Name=Zoom] INT :: {Zoom of computed models, (def=8)}
@@ -1954,7 +1954,7 @@ When using it now, do not forget the arg {\tt \bf DoPly=1}, else you won't get a
 mm3d MMInitialModel ".*JPG" All  DoPly=1
 \end{verbatim}
 
-Figure~\ref{FIG:Tortue:Output} present the result of this command. 
+Figure~\ref{FIG:Tortue:Output} present the result of this command.
 
 \begin{figure}
 \begin{center}
@@ -1996,7 +1996,7 @@ this option.
 \includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_7.jpg}
 \includegraphics[width=50mm]{FIGS/Tortue/DumpMMTieP_8.jpg}
 \end{center}
-\caption{Evolution of 3D model, as can be seen with {\tt Visu=1} option 
+\caption{Evolution of 3D model, as can be seen with {\tt Visu=1} option
 of {\tt MMInitialModel}}
 \label{FIG:Tortue:Dump}
 \end{figure}
@@ -2007,11 +2007,11 @@ of {\tt MMInitialModel}}
 \subsection{The tool {\tt MMTestAllAuto}}
 
 The tool {\tt MMTestAllAuto} is a \emph{precursor} of the fully automatic tool that will
-be executed, driven by the coarse model of {\tt MMInitialModel} . It assume that  {\tt AperoChImSecMM} 
+be executed, driven by the coarse model of {\tt MMInitialModel} . It assume that  {\tt AperoChImSecMM}
 has been executed, and compute a "fine" 3D model for a given master image using a predefined parametrization
 of {\tt MICMAC}.
 
-The tool works generally well when the master image has "good" secondary image. Conversely, 
+The tool works generally well when the master image has "good" secondary image. Conversely,
 the  result can be almost empty in the other cases. Figure~\ref{FIG:Tortue:AllAuto} illustrates the
 results.
 
@@ -2025,7 +2025,7 @@ results.
 \includegraphics[width=60mm]{FIGS/Tortue/RIMGP6900.JPG}
 \end{center}
 \caption{Illustration of the {\tt MMTestAllAuto} tool; up two views where it works correctly;
-down one view (and it corresponding original image) where, due to lack of good secondary image, 
+down one view (and it corresponding original image) where, due to lack of good secondary image,
 the result is almost empty}
 \label{FIG:Tortue:AllAuto}
 \end{figure}
@@ -2047,7 +2047,7 @@ To run the matching process (with {\tt MicMac} or {\tt Malt}) the
 program must decide which space has to be explored. If no
 information is given, the program will adopt a default strategy: it
 will select points of the scene that are visible on at least $N$ images
-\footnote{generally $N=2$ or $N=3$}, 
+\footnote{generally $N=2$ or $N=3$},
 making the assumption that the scene is globally flat. Although this
 strategy may be perfectly ok on aerial acquisition, in the the general
 case it may create a uselessly too large area. In general case, the
@@ -2059,7 +2059,7 @@ and not on the street.
 
 An easy way to indicate which part of the scene you want to use,
 is to create a mask on a rectified mosaic. The tool Tarama allows
-to create such mosaic. At this step the relief is unknown and the 
+to create such mosaic. At this step the relief is unknown and the
 rectification is made with the assumption that $Z=ZMoy$, so of
 course these mosaic are not very accurate.
 
@@ -2070,10 +2070,10 @@ The syntax is:
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {Full Imaeg (Dir+Pat)}
   * string :: {Orientation}
-Named args : 
+Named args :
   * [Name=Zoom] INT :: {Resolution, (Def=8, must be pow of 2)}
   * [Name=Repere] string :: {local repair as created with RepLocBascule}
   * [Name=Out] string :: {drectory for output (Deg=TA)}
@@ -2098,7 +2098,7 @@ With the Mur Saint Martin data set,  using the orientation created with
 Tarama "IMGP41((6[7-9])|([7-8][0-9])).JPG" LocBasc
 \end{verbatim}
 
-The mosaic image will creatd on {\tt TA/TA\_LeChantier.tif}. 
+The mosaic image will creatd on {\tt TA/TA\_LeChantier.tif}.
 Figure~\ref{FIG:Rectif:StMartin} shows the result.
 
 
@@ -2120,14 +2120,14 @@ Example using local repair, have be done in~\ref{Sec:RepLocBascule}.
 \subsubsection{General characteristics}
 
 {\tt Malt} is a simplified  interface to  {\tt MicMac}. Currently it can
-handle matching in ground geometry (see~\ref{Ground:Geom}) and 
+handle matching in ground geometry (see~\ref{Ground:Geom}) and
 ground-image geometry (see~\ref{EX:TER:IM:GEOM}).
 
 
 Ground geometry is adapted
 when the scene can be described by a single function $Z=f(X,Y)$ (with $X,Y,Z$
 being euclidean coordinates); this case occurs quite often when the
-scene is relatively flat and the acquisition is made by photo acquired 
+scene is relatively flat and the acquisition is made by photo acquired
 orthogonally to the main plane. The main use cases are:
 
 \begin{itemize}
@@ -2170,7 +2170,7 @@ An example with data set of Mur Saint Martin:
 \begin{verbatim}
 Malt Ortho "./IMGP41((6[7-9])|([7-8][0-9])).JPG" Basc
 \end{verbatim}
-  
+
 
 
 A basic help can be asked with {\tt Malt -help}:
@@ -2178,18 +2178,18 @@ A basic help can be asked with {\tt Malt -help}:
 {\scriptsize
 \begin{verbatim}
 Malt -help
-Valide Types for MNS : 
+Valide Types for MNS :
    Ortho
    UrbanMNE
    GeomImage
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {Mode of correlation (must be in allowed enumerated values)}
   * string :: {Full Name (Dir+Pattern)}
   * string :: {Orientation}
-Named args : 
+Named args :
   * [Name=Master] string :: { Master image must  exist iff Mode=GeomImage}
   * [Name=SzW] INT :: {Correlation Window Size (1 means 3x3)}
   * [Name=Regul] REAL :: {Regularization factor}
@@ -2271,11 +2271,11 @@ Some comments:
 
 \begin{itemize}
    \item  the {\tt ZPas} does not specify directly a value in ground geometry;
-         for a given value of a the {\tt ZPas} parameters,  {\tt MICMAC} will compute 
-         the step, in ground geometry, such that, two consecutive projected point in images are 
+         for a given value of a the {\tt ZPas} parameters,  {\tt MICMAC} will compute
+         the step, in ground geometry, such that, two consecutive projected point in images are
          on average separated of {\tt ZPas};
          in the simple case where there would be two images, with a constant base-to-height ratio $R=\frac{B}{H}$,
-         the step in ground geometry would be $\frac{ZPas}{R}$, 
+         the step in ground geometry would be $\frac{ZPas}{R}$,
 
 
    \item the {\tt NbVI}
@@ -2283,7 +2283,7 @@ Some comments:
 
 \subsection{Image geometry with {\tt Malt}}
 
-An example of using {\tt Malt} in mode {\tt GeomImage} 
+An example of using {\tt Malt} in mode {\tt GeomImage}
 with the {\tt Ramses} data set:
 
 \begin{verbatim}
@@ -2295,12 +2295,12 @@ There are some specificities when using {\tt Malt} in the mode {\tt GeomImage}:
 \begin{itemize}
    \item  the parameter {\tt Master} must have a value, as it is the only way to
           distinguish the master image from the global set of image given by the pattern;
-   \item the masq is not search in {\tt TA/TA\_LeChantier.tif}; if, for example, 
+   \item the masq is not search in {\tt TA/TA\_LeChantier.tif}; if, for example,
          the master  image is {\tt IMG\_0355.CR2} then the masq is {\tt IMG\_0355\_Masq.tif}
          for example
    \item the directory for storing results, depends from the master image, with {\tt IMG\_0355.CR2}
          it will be  {\tt MM-Malt-Img-IMG\_0355};
-          
+
 \end{itemize}
 
 
@@ -2320,14 +2320,14 @@ See~\ref{Analog:Image} for an example of using the {\tt Spherik} option.
 \section{Ortho photo generation}
 
 The simplified tool for generating ortho mosaic is {\tt Tawny}, it is
-an interface to the {\tt Porto} tool described in~\ref{Porto}. 
+an interface to the {\tt Porto} tool described in~\ref{Porto}.
 The use of {\tt Tawny} is quite simple because it assumes that
 the data have been correctly prepared and organized during the matching
-process. Practically this is done when the matching has been made using 
+process. Practically this is done when the matching has been made using
 {\tt Malt} and I recommend to only use {\tt Tawny}  in conjunction with
 {\tt Malt}. In Ortho Mode, {\tt Malt} has created a set of
 individual ortho images, associated mask, incidence image, \dots in
-a directory {\tt Ortho-MEC-Malt/}; see for example~\ref{FIG:Malt:Input}. 
+a directory {\tt Ortho-MEC-Malt/}; see for example~\ref{FIG:Malt:Input}.
  The job of {\tt Tawny} is essentially to merge these data and to optionally do some
 radiometric equalization.
 
@@ -2366,7 +2366,7 @@ So there is also a global polynom $R$ that is computed, this polynom is such tha
 The radiometry of each image used for the ortho photo will finally be $O_i(x,y) P_i(x,y) R(x,y)$.
 Of course for equation~\ref{Eq:Rad:PolIndiv} and~\ref{Eq:Rad:PolGlob}, there is
 much more observations than unknowns and they are solved using least mean square.
-The user can control the radiometric equalization by specifying the 
+The user can control the radiometric equalization by specifying the
 degree of the polynom. The syntax is:
 
 
@@ -2377,9 +2377,9 @@ Tawny -help
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unnamed args : 
+Unnamed args :
   * string :: {Directory where are the datas}
-Named args : 
+Named args :
   * [Name=DEq] INT :: {Degree of equalization (Def=1)}
   * [Name=DEq] INT :: {Degree of equalization (Def=1)}
   * [Name=DEqXY] Pt2di :: {Degree of equalization, if diff in X and Y}
@@ -2394,7 +2394,7 @@ Named args :
   * [Name=NbPerIm] REAL :: {Average number of point per image}
 \end{verbatim}
 
-The only mandatory argument is the directory where the 
+The only mandatory argument is the directory where the
 elementary ortho images have been created by {\tt Malt}. The parameters
 {\tt DEq, DEqXY, AddCste, DegRap, DegRapXY} are relative to the correction
 function used in radiometric equalization process:
@@ -2415,7 +2415,7 @@ function used in radiometric equalization process:
    \item {\tt DegRap} fix the degree of global polynom $R$;
 
    \item {\tt DegRapXY} fix the degree of global polynom $R$ when different in $x$ and $y$;
-    
+
 \end{itemize}
 
 
@@ -2450,10 +2450,10 @@ small set. With many data sets, the default parameters already give an acceptabl
 \begin{figure}
 \begin{tabular} { | c | p{2 cm} |  } \hline
  Images   &    Args opt  \\  \hline \hline
-\includegraphics[width=150mm]{FIGS/MurSaintMartin/Ortho-Eg-Test-Redr-0-0.jpg}  &    DEq=0 \\  \hline 
-\includegraphics[width=150mm]{FIGS/MurSaintMartin/Ortho-Eg-Test-Redr-1-0.jpg}  &      \\  \hline 
-\includegraphics[width=150mm]{FIGS/MurSaintMartin/Ortho-Eg-Test-Redr-1-2.jpg}  &    DEq=1 DegRapXY=[2,0] \\  \hline 
-\includegraphics[width=150mm]{FIGS/MurSaintMartin/Ortho-Eg-Test-Redr-1-4_1.jpg}  &    DEq=1 DegRapXY=[4,1] \\  \hline 
+\includegraphics[width=150mm]{FIGS/MurSaintMartin/Ortho-Eg-Test-Redr-0-0.jpg}  &    DEq=0 \\  \hline
+\includegraphics[width=150mm]{FIGS/MurSaintMartin/Ortho-Eg-Test-Redr-1-0.jpg}  &      \\  \hline
+\includegraphics[width=150mm]{FIGS/MurSaintMartin/Ortho-Eg-Test-Redr-1-2.jpg}  &    DEq=1 DegRapXY=[2,0] \\  \hline
+\includegraphics[width=150mm]{FIGS/MurSaintMartin/Ortho-Eg-Test-Redr-1-4_1.jpg}  &    DEq=1 DegRapXY=[4,1] \\  \hline
 \end{tabular}
 \caption{Exemple of influence of polynomial degre parameter on ortho equalization}
 \label{Tab:Ortho:Polyn}
@@ -2468,9 +2468,9 @@ used for the radiometric equalization:
    \item {\tt SzV} is the size of the patch used for each sample of the radiometric equalization,
          this patches will be used for computing an average value and for correlation  \dots
 
-   \item  \dots on each patch, correlation coefficient  $C{i,j}$ are computed between pair 
+   \item  \dots on each patch, correlation coefficient  $C{i,j}$ are computed between pair
           of images, they are used only if  $C{i,j} > CorThr$ ;
- 
+
    \item {\tt NbPerIm} indicates the number of sample that will be approximately used on each image;
 
 \end{itemize}
