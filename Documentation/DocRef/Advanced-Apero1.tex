@@ -84,7 +84,7 @@ For more complicated case,  an {\tt <ExportCalib>} section  will have to be
 used with the following tags :
 
 \begin{itemize}
-    \item {\tt <PatternSel>}  to specify to wich calib it applies; the selection
+    \item {\tt <PatternSel>}  to specify to which calib it applies; the selection
          is made on the identifier (here $K(I)$);
 
     \item {\tt <KeyAssoc>}  to specify how to compute a file name from the identifier;
@@ -196,7 +196,7 @@ On {\tt DemoScanned/}, the directory {\tt Ori-InterneScan/}, contains all the in
 about the fiducial marks. It functions this way :
 
 \begin{itemize}
-    \item each file contains a structure a type {\tt <MesureAppuiFlottant1Im>} wich describe a list
+    \item each file contains a structure a type {\tt <MesureAppuiFlottant1Im>} which describe a list
           of named points (here the names are {\tt P0, P1, \dots}; this is the same structure used
           for image measurement of GCP, as seen in~\ref{GCP:Org};
 
@@ -300,7 +300,7 @@ from the fiducial marks :
 \subsection{introduction}
 
 This section describes the case where user want to adjust orientation using correspondance between $3d$ point
-and image line. It's rather specific, and was added in the context of  georeferencing aerial photograh with a $3d$ 
+and image line. It's rather specific, and was added in the context of  georeferencing aerial photograh with a $3d$
 data base of roads \footnote{I am not sure to see if there exist other example of application}. Formally we have :
 
 \begin{itemize}
@@ -321,9 +321,9 @@ Mathematically we want to add to the global minimization, the cost :
 
 \subsection{data set}
 
-The folder {\tt Documentation/NEW-DATA/CompensOnLine/} contains  data that illustrates how this can be done in 
+The folder {\tt Documentation/NEW-DATA/CompensOnLine/} contains  data that illustrates how this can be done in
 {\tt Apero}. These are completely artificial (simulated data) which were generated for developping and testing this functionnality : in this example it will be possible to cancel completely equation~\ref{EQU:LINE:POINT} which will obviously not
-be the case with real data.  
+be the case with real data.
 
 To run the data set extracted from the mercurial server, one first need to compute the tie points with:
 
@@ -352,15 +352,15 @@ This toy example is made from $4$ small images on the same strip. Of course the 
 
 \subsection{Organization of information}
 
-Basically, the information is structured the same way as for GCP in~\ref{GCP:Org},\ref{Sec:GCPBascule} and 
-\ref{CAMPARI} : 
+Basically, the information is structured the same way as for GCP in~\ref{GCP:Org},\ref{Sec:GCPBascule} and
+\ref{CAMPARI} :
 
 \begin{itemize}
    \item there is a file for storing the $3d$ point, in this example {\tt MesurePointGround.xml}, it is the same
          structure that for {\tt GCP}, and the adjustment of this point can mix measurement of $3d$ in ground,
          $2d$ points in images and $2d$ lines in images;
 
-   \item there is a file for storing $2d$ images line coordinates and the points that are supposed to project 
+   \item there is a file for storing $2d$ images line coordinates and the points that are supposed to project
          on these lines, in this example {\tt MesureLineImage.xml};
 
    \item in {\tt Apero} these files are loaded, linked and then used for adjustment.
@@ -374,10 +374,10 @@ The structure of {\tt MesureLineImage.xml} should be quite obvious:
          storing the observation related to one image;
    \item a  {\tt MesureAppuiSegDr1Im} contains the name of the image {\tt <NameIm>}, and list a of {\tt <OneMesureSegDr>}, each one storing the information related to a line;
 
-   \item a   {\tt <OneMesureSegDr>} contains exactly two $2$ points {\tt <Pt1Im>} and {\tt <Pt2Im>} that store 
-            the geometry of the line and a list of {\tt <NamePt>} that contains the name of the $3d$ points; 
-            there can be any number $N \geq 1$ of  {\tt <NamePt>} , even if in this example we 
-             have $N=2$ everywhere 
+   \item a   {\tt <OneMesureSegDr>} contains exactly two $2$ points {\tt <Pt1Im>} and {\tt <Pt2Im>} that store
+            the geometry of the line and a list of {\tt <NamePt>} that contains the name of the $3d$ points;
+            there can be any number $N \geq 1$ of  {\tt <NamePt>} , even if in this example we
+             have $N=2$ everywhere
              \footnote{which will probably be the standard case when the $3d$ points come from $3d$ lines}.
 
 \end{itemize}
@@ -400,28 +400,28 @@ are simulated). It's pretty much the same than~\ref{GCP:Org} :
 \end{itemize}
 
 As in this example the data are all frozen \footnote{see {\tt ePoseFigee} and {\tt eAllParamFiges}}, we just print the
-value of the observed distance, which turns to b $0$ up to the rounding error. We obtain the error for each point, and 
+value of the observed distance, which turns to b $0$ up to the rounding error. We obtain the error for each point, and
 the maximum of error :
 
 
 \begin{verbatim}
 ...
-    ErrMax = 1.65784e-11 For I=Abbey-IMG_0205.jpg,  C=P_8_B pixels 
-  - - - - - - - - - - - 
+    ErrMax = 1.65784e-11 For I=Abbey-IMG_0205.jpg,  C=P_8_B pixels
+  - - - - - - - - - - -
 ==== ADD Pts P_9_A Has Gr 1 Inc [1,1,1]
 --NamePt P_9_A Ec Estim-Ter [0,0,0]           Dist =0 ground units
 Inc = [1,1,1]PdsIm = [1,1]
     Ecart Estim-Faisceaux 16.2788
-      ErrMoy 2.71776e-13 pixels  SP=2 
-     ErrMax = 2.71776e-13 For I=Abbey-IMG_0204.jpg,  C=P_9_A pixels 
-  - - - - - - - - - - - 
+      ErrMoy 2.71776e-13 pixels  SP=2
+     ErrMax = 2.71776e-13 For I=Abbey-IMG_0204.jpg,  C=P_9_A pixels
+  - - - - - - - - - - -
 ==== ADD Pts P_9_B Has Gr 1 Inc [1,1,1]
 --NamePt P_9_B Ec Estim-Ter [0,0,0]           Dist =0 ground units
 Inc = [1,1,1]PdsIm = [1,1]
     Ecart Estim-Faisceaux 16.1819
-      ErrMoy 6.65003e-12 pixels  SP=2 
-     ErrMax = 8.11932e-12 For I=Abbey-IMG_0205.jpg,  C=P_9_B pixels 
-  - - - - - - - - - - - 
+      ErrMoy 6.65003e-12 pixels  SP=2
+     ErrMax = 8.11932e-12 For I=Abbey-IMG_0205.jpg,  C=P_9_B pixels
+  - - - - - - - - - - -
 
    ============================= ERRROR MAX PTS FL ======================
    ||    Value=4.56508e-10 for Cam=Abbey-IMG_0204.jpg and Pt=P_2_A
@@ -481,7 +481,7 @@ At the end, the orientation are exported in {\tt Ori-Check3/}, and it can be see
 
 In this example, we check that, as we would do in real case, it is possible to adjust simultaneously GCP-line with
 other measurement. Also we use a reduced set of line-point (with {\tt MesureLineImageIncompl.xml}), in this set
-there is lines only for the two central images. 
+there is lines only for the two central images.
 
 In {\tt Apero-4-CompensMixte.xml} we check that using simultaneaously tie point and "GCP-line", we can recover the orientation
 of the extremal images (where there is no GCP-line).
@@ -491,7 +491,7 @@ of the extremal images (where there is no GCP-line).
 \begin{itemize}
    \item  {\tt <KeySetSegDroite> } as before , to make adjusment on line;
    \item an additional {\tt  <KeySetOrPat>} to make adjusment of $2d$ points like in  ~\ref{GCP:Org};
-   
+
 \end{itemize}
 
 So in this example, the $3d$ point {\tt P\_1\_A} will be adjusted simultaneously on:
@@ -501,7 +501,7 @@ So in this example, the $3d$ point {\tt P\_1\_A} will be adjusted simultaneously
     \item $2d$ line measure stored in {\tt MesureLineImage.xml};
     \item $3d$ point measure stored in {\tt MesurePointGround.xml}.
 \end{itemize}
- 
+
 %=======================================================================================================
 \section{Recent evolution in Tapas and other orientation tools}
 
@@ -572,12 +572,12 @@ There is two familly of distorsion with high degree of freedom :
          distorsion with a polynom $r_3 \rho^3 +\dots + r_{19} \rho^{19}$; also I am not sure it maybe necessary to
          use until $ \rho^{19}$, I observe that with modern camera using sophisticated aspherical lenses, it may be
          unsufficient to use the so called $r_3 r_5 r_7$ model;
-         
+
 
    \item general polynial model, i.e $D_N(X,Y) \sum (A_{i,j} x^iy^j,B_{i,j} x^iy^j)$  where $i+j\leq N$,
          there accessible in {\tt Apero} a a unified model {\tt eModelePolyDeg2, \dots eModelePolyDeg7},
          for example,{\tt eModelePolyDeg7} has $66$ parameters, because $66=8*9-6$, the $-6$ comes because
-         there $6$ polynoms already modelized by focal, principal point and rotations; 
+         there $6$ polynoms already modelized by focal, principal point and rotations;
 \end{itemize}
 
 The firts one is accessible directly in {\tt Tapas}, not the second. Buth both are accessible as additional distortion.
@@ -600,7 +600,7 @@ A possible example of use :
 The first call is classical, just remark the {\tt DegGen=2} because by default only $1$ degree
 general parameter od {\tt Four15x2} is free.  In the second call we start from the first orienation/calibration
 and add a $7$ degree general polynom. Note that, as with {\tt AutoCal} et {\tt Figee} all the calibration must have
-an initial value when using the additionnal mode. 
+an initial value when using the additionnal mode.
 
 Also note that only the additionnal distorsion will be optimized (else the problem would be far over parametrized).
 The result in {\tt Ori-AddPolyDeg7/AutoCal60.xml} looks like :
@@ -653,11 +653,11 @@ The {\tt GCPBascule} tool, described in~\ref{Sec:GCPBascule}, transforms a relat
 into an absolute one, using at leats $3$ ground control point (GCP). The default use make
 the assumption that the relative orientation is "perfect" and it computes the minimum number
 of parameters, i.e. the seven parameter corresponding to the arbirtrary $3d$ similitude
- that can be computed from tie points : 
+ that can be computed from tie points :
 
 \begin{itemize}
-   \item $3$ paramater for rotation; 
-   \item $3$ paramater for translation; 
+   \item $3$ paramater for rotation;
+   \item $3$ paramater for translation;
    \item $1$ paramater for scale.
 \end{itemize}
 
@@ -673,13 +673,13 @@ excedent GCP for correcting this distortion. In {\tt MicMac} tools, there is two
    \item the "classical" way is to do a compensation with high weigthing on the CGP, this can be done
         with the simplified tool   {\tt Campari}  (\ref{CAMPARI} and \ref{Bundle:CAMPARI});
 
-   \item a non standard way is to use the redundacy of the GCP to directly estimate the non linear distorsion  
+   \item a non standard way is to use the redundacy of the GCP to directly estimate the non linear distorsion
         existing between the result of "Bascule" (swing) ans the ground truth; this is what is described here;
 
 \end{itemize}
 
 At the time of writing these documentation, it's not clear which method is "better". The first one is more
-standard and seems more correct from theoreticall point of view, however from experimental point of view, the 
+standard and seems more correct from theoreticall point of view, however from experimental point of view, the
 second one seems more accurate.
 
 
@@ -724,13 +724,13 @@ that the errors is only on $Z^c$,  and that this error depends only on  the
    \item $Z'^c =  c^z_{00} + c^z_{10} X' + c^z_{20} X'^2$
 \end{itemize}
 
-Also if we have a sufficient number of tie points \footnote{$6$ is the minimum, but $12$ would be more 
+Also if we have a sufficient number of tie points \footnote{$6$ is the minimum, but $12$ would be more
 reasonnable} and have high distorsion we can select the full model.
 
 
 \subsubsection{Using it in MicMac}
 
-The command {\tt GCPBascule} hase several parameters to compute a non linear 
+The command {\tt GCPBascule} hase several parameters to compute a non linear
 correction. Of course by defaut, the swing-bascule if made with the standard $7$ paramaters
 with no correction. The non linear correction is activated if the optional {\tt PatNLD} is
 used. The meaning of the different parameters is then :
@@ -755,7 +755,7 @@ used. The meaning of the different parameters is then :
 
      \item   {\tt NLFR} is true, {\tt MicMac} will export for each image the closest rotation that fit
              the new system; of course the price to pay for having true rotatuon is that the error will be bigger;
-            
+
 \end{itemize}
 
    \item  {\tt NLShow}  : give detailled information;
@@ -790,8 +790,8 @@ NUM 0 FOR 001aDSC01061.ARW
   .....
 NUM 179 FOR 242bDSC01005.ARW
 BEGIN Compensation
-BEGIN AMD 
-END AMD 
+BEGIN AMD
+END AMD
 \end{verbatim}
 
 Then  a message remembering the monom used for $X'^c,Y'^c,Z'^c$ :
@@ -822,7 +822,7 @@ Let detail the message for point {\tt  14a} :
  \item {\tt 0.0723239} is the initial distance $||G_k - S(I_k)||$ (after bascule-swing);
  \item {\tt 0.0260313} is the distance after non linear correction $||G_k - T(I_k)||$ ;
  \item {\tt -0.0254591} is the $Z$ value of $||G_k - T(I_k)||$ (generally the most important);
- 
+
 \end{itemize}
 
 
