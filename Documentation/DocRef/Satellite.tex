@@ -80,4 +80,27 @@ Mandatory unnamed args :
   * REAL :: {average altitude of the TiePoints}
 \end{verbatim}
 
-Tie-points string is the tie-point file (.dat) computed by Tapioca and available in the {\tt Homol} directory.
+Tie-points string is the tie-point file (.dat) computed by Tapioca and available in the {\tt Homol} directory.\\*
+
+Once GRI files have been computed, they have to be converted to binary files:
+\begin{verbatim}
+mm3d Gri2Bin path/file.GRI path/file.GRIBin
+\end{verbatim}
+
+Then, correlation can be run in ground geometry, with following command:
+
+\begin{verbatim}
+mm3d Malt UrbanMNE ".*JP2" GRIBin MOri=GRID BoxTerrain=[X1,Y1,X2,Y2]
+ZoomI=32 ZoomF=1 ZMoy=100 ZInc=500 NbVI=2
+\end{verbatim}
+
+\begin{itemize}
+ \item MOri= GRID states that we work with grid files
+ \item   BoxTerrain are region of interest Lambert93 coordinates
+ \item   ZoomI=32: first step is done with images rescaled with factor 32
+ \item   ZoomF=1 : last step at full resolution
+ \item   ZMoy=100  Z mean value 
+ \item   ZInc=100 uncertainty value around Z (in meter)
+ \item   NbVI=2 minimal number of visible images  (by default 3 for UrbanMNE)
+\end{itemize}
+  
