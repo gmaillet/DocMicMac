@@ -2,11 +2,11 @@
 
 \section{Generalities}
 
-As many developers, in {\tt MicMac/Apero}, I often could not resist to 
-define my own format, sometime because I thought that existing 
+As many developers, in {\tt MicMac/Apero}, I often could not resist to
+define my own format, sometime because I thought that existing
 format were not suited for what I needed and sometime just because I was in
 hurry and thought that the format question was a minor issue that could be
-dealt with later \dots In fact, often, there were no ideal solution, because 
+dealt with later \dots In fact, often, there were no ideal solution, because
 photogrammetry has such a long history and in many case it is often difficult to
 know what is "the" standard.
 
@@ -41,7 +41,7 @@ difficulties for importing orientations :
           analog images, rather work in millimeters;
 
     \item for external orientation, I store directly the rotation matrix which
-          has few ambiguities \footnote{even if internally I use $3$ angles in 
+          has few ambiguities \footnote{even if internally I use $3$ angles in
           optimization step} ; however many softwares use angles, the problem
           with angles being that almost each software has its own convention \dots
 \end{itemize}
@@ -49,14 +49,14 @@ difficulties for importing orientations :
 This section describes how calibration in millimeters and some orientation in angles
 can be directly imported in {\tt Apero/MicMac}. If you have data that cannot be
 imported with the facilities described here, I may be open to add the facilities in
-{\tt MicMac/Apero} if I am convinced that I can do it easily and that it will 
+{\tt MicMac/Apero} if I am convinced that I can do it easily and that it will
 be usefull to others; concretely it means that at least the following conditions should apply :
 
 \begin{itemize}
       \item  you have some document that describe formally the convention/format;
       \item  you have a reasonably small data-set (image+meta data) that can  be used
              to validate the import/export;
-      \item  these data can be distributed, with acknowledgment, as open data on the 
+      \item  these data can be distributed, with acknowledgment, as open data on the
              MicMac/Apero site;
 \end{itemize}
  %------------------------------------------
@@ -118,9 +118,9 @@ check if they work. You can give it a try, if it works perfect, else you can con
 
 When you use a calibration in mm, and do not want to "translate" by hand the values
 in pixel, the optional {\tt <OrIntGlob>},  of {\tt <CalibrationInternConique>} allows
-to add an affinity to the internal orientation. In some way it is redundant with the 
-{\tt <OrIntImaM2C>} described in~\ref{Image:Int:Ori}; however the {\tt <OrIntImaM2C>} 
-must be defined for each image and is rather convenient when dealing with the 
+to add an affinity to the internal orientation. In some way it is redundant with the
+{\tt <OrIntImaM2C>} described in~\ref{Image:Int:Ori}; however the {\tt <OrIntImaM2C>}
+must be defined for each image and is rather convenient when dealing with the
 scanning of analog image. In the file {\tt  Ori-OMApero/AutoCal350.xml} of  data set
 {\tt TestPM/}  we find the import of a calibration that was made with {\tt PhotoModeler} :
 
@@ -186,8 +186,8 @@ datas from some text format to the {\tt Xml} format used in {\tt Apero/MicMac}.
 
 The command {\tt GCPConvert} is used to:
 \begin{itemize}
- \item transform a set of ground control points from most text format to {\tt MicMac}'s {\tt Xml} format 
-\item transform the ground control points into an euclidean coordinate system, suitable for {\tt MicMac}. 
+ \item transform a set of ground control points from most text format to {\tt MicMac}'s {\tt Xml} format
+\item transform the ground control points into an euclidean coordinate system, suitable for {\tt MicMac}.
 \end{itemize}
 
 \subsubsection{File format conversion with GCPConvert}
@@ -197,7 +197,7 @@ of directory {\tt TestPM/}, here are two lines extracted :
 
 
 \begin{verbatim}
-157     233.28   144.03    103.05  0.00332    0.0034    0.0039 
+157     233.28   144.03    103.05  0.00332    0.0034    0.0039
 158     317.011  -0.00000  0.0000  0.0053     0.0060    0.0071
 ...
 \end{verbatim}
@@ -210,7 +210,7 @@ This is done in the file {\tt CP3D\_Format.txt}, the beginning is :
 
 \begin{verbatim}
 #F= N X Y Z  Ix Iy Iz
-157     233.28   144.03    103.05  0.00332    0.0034    0.0039 
+157     233.28   144.03    103.05  0.00332    0.0034    0.0039
 158     317.011  -0.00000  0.0000  0.0053     0.0060    0.0071
 ...
 \end{verbatim}
@@ -246,7 +246,7 @@ GCPConvert AppInFile CP3D_Format.txt
 \end{verbatim}
 
 For the first arg, the key word {\tt AppInFile} means that the format specification is given
-at the first line of the file. If you don't want to modify the file it is possible to  
+at the first line of the file. If you don't want to modify the file it is possible to
 give the format specification directly on the command line. If the first argument is not
 a known keyword, then it will try to interpret it as a format specification. The syntax
 is a bit ugly because it is not possible to give white space in the shell, so they must
@@ -260,7 +260,7 @@ As usual, to have the full syntax:
 
 \begin{verbatim}
  GCPConvert -help
-Valide Types for MNS : 
+Valid Types for enum value:
    AppEgels
    AppGeoCub
    AppInFile
@@ -268,10 +268,10 @@ Valide Types for MNS :
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args : 
+Unamed args :
   * string :: {Format specification}
   * string :: {GCP  File}
-Named args : 
+Named args :
   * [Name=Out] string :: {Xml Out File}
   * [Name=ChSys] string :: {Change coordinate file}
 \end{verbatim}
@@ -294,7 +294,7 @@ The meaning of the other arguments is:
     \item first arg, contains the format specification, as seen above;
     \item second arg, is the name of the file containing the GCP data;
     \item third optional arg {\tt Out}, is the name of the xml output file;
-    \item optional arg {\tt ChSys}, is the specification for coordinate system transform; 
+    \item optional arg {\tt ChSys}, is the specification for coordinate system transform;
 \end{itemize}
 \vspace{\baselineskip}
 The optional arg {\tt ChSys} can describe a file for coordinate change as described in~\ref{Coordinat:System}
@@ -379,11 +379,11 @@ The two optional arguments are:
 
 The tool {\tt OriConvert} is a versatile command used to:
 \begin{itemize}
-\item transform embedded GPS data from text format to {\tt MicMac}'s {\tt Xml} orientation format. 
+\item transform embedded GPS data from text format to {\tt MicMac}'s {\tt Xml} orientation format.
 \item transform the GPS coordinate system, potentially into an euclidean coordinate system.
 \item generate image pattern for selecting a sample of the image block.
 \item compute relative speed of each camera in order to determine and correct GPS systematic error (delay).
-\item importing external orientation from others software: {\tt to come}. 
+\item importing external orientation from others software: {\tt to come}.
 \end{itemize}
 
 \subsubsection{File format conversion with {\tt OriConvert}}
@@ -398,7 +398,7 @@ R0040439.JPG	50.5864719060	4.7953921650	376.604	319.4	10.1	3.6
 \end{verbatim}
 
 
-In this example (from the UAS Grand-Leez data set, file {\tt GPS\_WPK\_Grand-Leez.csv}), column titles are specified on the first line. Nevertheless, {\tt MicMac} has its own convention regarding column title. We have to add columns specs as explained in previous section (\ref{GCPConvert}) but with the symbols $K$, $W$, $P$ standing for kappa, omega and phi. 
+In this example (from the UAS Grand-Leez data set, file {\tt GPS\_WPK\_Grand-Leez.csv}), column titles are specified on the first line. Nevertheless, {\tt MicMac} has its own convention regarding column title. We have to add columns specs as explained in previous section (\ref{GCPConvert}) but with the symbols $K$, $W$, $P$ standing for kappa, omega and phi.
 
 \begin{verbatim}
 #F=N Y X Z K W P
@@ -419,7 +419,7 @@ Which will produce an orientation database named {\tt Nav-Brut} (for raw-navigat
 One may require to transform the orientation into a euclidean coordinate system, which is achieved by using the optional argument {\tt ChSys} with the appropriate file {\tt SysCoRTL.xml} that specified the locally tangent repair (as presented in section ~\ref{Coordinat:System}):
 
 \begin{verbatim}
-mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-Brut-RTL ChSys=DegreeWGS84@SysCoRTL.xml 
+mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-Brut-RTL ChSys=DegreeWGS84@SysCoRTL.xml
 \end{verbatim}
 
 As usual, to display the succinct help, type {\tt mm3d OriConvert -help}:
@@ -429,23 +429,23 @@ mm3d OriConvert -help
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args : 
+Unamed args :
   * string :: {Format specification}
   * string :: {Orientation   File}
   * string :: {Targeted orientation}
-Named args : 
+Named args :
   * [Name=ChSys] string :: {Change coordinate file}
-	...
+        ...
   * [Name=ImC] string :: {Image "Center" for computing AltiSol}
   * [Name=NbImC] INT :: {Number of neigboor around Image "Center" (Def=50)}
- 	...
+        ...
   * [Name=CalcV] bool :: {Calcul speed (def = false)}
   * [Name=Delay] REAL :: {Delay to take into account after speed estimate}
-	...
+        ...
   * [Name=NameCple] string :: {Name of XML file to save couples}
-	...
+        ...
   * [Name=MTD1] bool :: {Compute Metadata only for first image (tuning)}
-	...
+        ...
 \end{verbatim}
 
 Here is the meaning of some of the optional arguments:
@@ -454,10 +454,10 @@ Here is the meaning of some of the optional arguments:
     \item {\tt ChSys}, enable to change (and define) the coordinate system;
     \item {\tt ImC}, is the name of the image which will be considered as the central image of the sub-block;
     \item {\tt NbImC}, is the number of neighbour images of {\tt ImC} that will be selected and gathered in a image pattern {\tt PATC}, referring to a sub-block potentially used for determining the delay;
-		\item {\tt CalcV}, based on the camera trajectory analysis, enable the computation of the relative speed of the platform during the shooting;
-		\item {\tt Delay}, once the eventual delay is determined, its will be used through this argument for correcting GPS data;
-		\item {\tt NameCple}, is the name of the file containing the images pairs that is used for the computation of tie points;
-		\item {\tt MTD1}, indicate if image metadata has to be extracted only from one image's exifs (appropriate if only one sensor and one focal length).
+                \item {\tt CalcV}, based on the camera trajectory analysis, enable the computation of the relative speed of the platform during the shooting;
+                \item {\tt Delay}, once the eventual delay is determined, its will be used through this argument for correcting GPS data;
+                \item {\tt NameCple}, is the name of the file containing the images pairs that is used for the computation of tie points;
+                \item {\tt MTD1}, indicate if image metadata has to be extracted only from one image's exifs (appropriate if only one sensor and one focal length).
 \end{itemize}
 \vspace{\baselineskip}
 
@@ -489,7 +489,7 @@ The resulting orientation is not interesting, so it is named {\tt tmp} and is su
 
 \begin{verbatim}
 ....
-END AMD 
+END AMD
 delay init :::    -0.0854304
 Basc-Residual R0040439.JPG [4.12465,-8.48416,60.1676]
 ....
@@ -499,7 +499,7 @@ The value of the delay is eventually utilized back again in {\tt OriConvert} by 
 
 \begin{verbatim}
 mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-adjusted-RTL \
-	ChSys=DegreeWGS84@SysCoRTL.xml 	MTD1=1 Delay=-0.0854304
+        ChSys=DegreeWGS84@SysCoRTL.xml 	MTD1=1 Delay=-0.0854304
 \end{verbatim}
 
 It is important to notice that the orientation {\tt  Nav-adjusted-RTL} is different than {\tt Nav-Brut}, hopefully, and this can be visualized by using the commands {\tt grep Centre Ori-Nav-Brut-RTL/*} and {\tt grep Centre Ori-Nav-adjusted-RTL/*}. The orientation {\tt  Nav-adjusted-RTL} is subsequently used for georeferencing a project by the means of {\tt CenterBascule}:
@@ -544,10 +544,10 @@ mm3d OriExport
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Mandatory unnamed args : 
+Mandatory unnamed args :
   * string :: {Full Directory (Dir+Pattern)}
   * string :: {Results}
-Named args : 
+Named args :
   * [Name=AddF] bool :: {Add format as first line of header, def= false}
   * [Name=ModeExp] string :: {Mode export, def=WPK (Omega Phi Kapa)}
 \end{verbatim}
