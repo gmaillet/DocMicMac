@@ -1014,16 +1014,16 @@ file, {\tt Tapas} has to build an initial  value. For all parameters, but the
 focal it's relatively easy :
 
 \begin{itemize}
-  \item for the distortion , the initial value is nul \footnote{more
+  \item for the distortion, the initial value is null \footnote{more
         precisely, it is the initial physical model, for example
         with fish-eye the initial value is a $\tan^{-1} $ function, see~\ref{SpGeo:FishEye}};
 
-  \item for the principal point the initial value is a at center of image
-        \footnote{ of course, this wouldn't  be suitable with shift lenses}.
+  \item for the principal point the initial value is at center of image
+        \footnote{ of course, this wouldn't be suitable with shift lenses}.
 \end{itemize}
 
 For the focal lens Tapas must compute an initial value in pixel, this information is
-computed with the help of xif data. To see some example of xif data, goto MurSaint martin
+computed with the help of xif data. To see some examples of xif data, go to MurSaint martin
 and try {\tt ElDcraw -i -v} or {\tt exiv2} or {\tt exiftool} :
 
 \begin{verbatim}
@@ -1036,8 +1036,8 @@ Focal Equi35: 42.0 mm
 ....
 \end{verbatim}
 
-As the xif meta data never contains directly the focal in pixel ,
-several case can  occur :
+As the xif meta data never contains directly the focal in pixel,
+several cases can  occure:
 
 \begin{itemize}
   \item if the xif meta data contain the value $F_{35}$ of the focal in equivalent $35mm$
@@ -1046,7 +1046,7 @@ several case can  occur :
        of image in pixel;
 
   \item if the xif meta data contain the value $F_{mm}$ of the focal in millimeter,
-        and the width  $W_{mm}$  of the sensor is known  in millimeter, the focal is estimated
+        and the width  $W_{mm}$  of the sensor is known in millimeter, the focal is estimated
         by $\frac{F_{mm} * W_{Pix}}{W_{mm}}$.
 
 \end{itemize}
@@ -1062,15 +1062,15 @@ With all camera sold for people, xif meta data contain a tag indicating the
 name of the camera.  For example you can see that the {\tt MurSaintMartin }
 has been acquired with a {\tt PENTAX K-5} camera. This camera name is
 used by the different tools as an entry in data bases containing  information
-absent from xif files.
+missing from xif files.
 
 These data base can be located in three different files :
 
 \begin{itemize}
    \item  {\tt  include/XML\_MicMac/DicoCamera.xml} , this global file always exist as
          it is part of the {\tt MicMac} distribution, I put here the camera necessary
-         for the examples; I also update it when I  I meet a new camera
-         so that  users can take benefit of it;
+         for the examples; I also update it when I meet a new camera
+         so that users can take benefit of it;
          NEVER modify this file to add your own camera, as your may loose all your
          modification at next update;
 
@@ -1082,10 +1082,10 @@ These data base can be located in three different files :
 
    \item  {\tt  MicMac-LocalChantierDescripteur.xml},  in your working
           directory when this file exists; the {\tt ENAC} example contains
-          en example of such usage;
+          an example of such usage;
 \end{itemize}
 
-Naturally , if the same camera is described in several file, the more local file has the
+Naturally, if the same camera is described in several files, the more local file has the
 priority \footnote{e.q. {\tt MicMac-LocalChantierDescripteur.xml} highest priority
 {\tt XML\_MicMac/DicoCamera.xml} lowest} .
 Take a look at  {\tt  include/XML\_MicMac/DicoCamera.xml}, the structure is quite
