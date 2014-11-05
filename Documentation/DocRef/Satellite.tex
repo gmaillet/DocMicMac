@@ -8,7 +8,7 @@ A tool to convert Pleiades files into localization grids called {\tt Dimap2Grid}
 
 User has to provide:
 \begin{itemize}
-\item a RPC\footnote{Rational Polynomial Coefficient}/DIMAP file for each image 
+\item a RPC\footnote{Rational Polynomial Coefficient}/DIMAP file for each image
 \item cartographic step (pixels)
 \item projection system
 \end{itemize}
@@ -39,13 +39,13 @@ To know the syntax of {\tt Dimap2Grid}:
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Mandatory unnamed args : 
+Mandatory unnamed args :
   * string :: {Dimap file}
   * string :: {Image name}
   * REAL :: {altitude min}
   * REAL :: {altitude max}
   * INT :: {number of layers}
-Named args : 
+Named args :
   * [Name=targetSyst] string :: {target system Proj4 +init=IGNF:LAMB93+datum}
   * [Name=stepPixel] REAL :: {Step in pixel}
   * [Name=stepCarto] REAL :: {Step in m (carto)}
@@ -67,13 +67,13 @@ First two mandatory arguments should be quite obvious. Other arguments are:
 \item refineCoef: file produced by RefineModel command to refine Grid
 \end{itemize}
 
-{\tt RefineModel} syntax is: 
+{\tt RefineModel} syntax is:
 
 \begin{verbatim}
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Mandatory unnamed args : 
+Mandatory unnamed args :
   * string :: {master image GRID}
   * string :: {slave image GRID}
   * string :: {Tie Points}
@@ -99,8 +99,36 @@ ZoomI=32 ZoomF=1 ZMoy=100 ZInc=500 NbVI=2
  \item   BoxTerrain are region of interest Lambert93 coordinates
  \item   ZoomI=32: first step is done with images rescaled with factor 32
  \item   ZoomF=1 : last step at full resolution
- \item   ZMoy=100  Z mean value 
+ \item   ZMoy=100  Z mean value
  \item   ZInc=100 uncertainty value around Z (in meter)
  \item   NbVI=2 minimal number of visible images  (by default 3 for UrbanMNE)
 \end{itemize}
-  
+
+\subsection{Set of Images}
+
+The way to get grids from a set of Pleiades images is the same as for an image couple, except for the refine stage, for which the command is (right now) slightly different:
+
+{\tt Refine} syntax is:
+
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args :
+  * string :: {GRID files pattern}
+Named args :
+  * [Name=DTM] string :: {DTM file}
+  * [Name=ExpRes] bool :: {Export residuals (def=false)}
+\end{verbatim}
+
+So the command to use for this workflow looks like:
+\begin{verbatim}
+mm3d TestLib Refine .*GRI
+\end{verbatim}
+
+First mandatory argument is the pattern for GRID files. Optional arguments are:
+\begin{itemize}
+\item DTM: use a DTM file (xml) to constrain depth (not supported yet)
+\item ExpRes: export residuals to refine/residus.txt (image coordinates and image residuals) and refine/residusGlob.txt (ground coordinates and rms error) (default = false)
+\end{itemize}
+
