@@ -9,6 +9,7 @@ FTEX=   DocMicMac.tex\
 	Generalites/QuickStartSimplified-Tools.tex\
 	Generalites/QuickStartSimplified-Tools-2.tex\
 	Generalites/ParamSpec.tex\
+	Generalites/FullAutomaticTools.tex\
 	Generalites/NameFileSpec.tex\
 	Generalites/InteractiveTool.tex\
 	Generalites/UseCase2D.tex\
