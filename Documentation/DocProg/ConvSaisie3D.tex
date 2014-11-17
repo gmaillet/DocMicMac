@@ -2,6 +2,7 @@
 %\selectlanguage{english}
 
 \section{Conventions for 3D selection tool}
+\label{Conv:selection}
 
 {\tt SaisieMasqQT} allows to open ply files and to do some manual segmentation with a polygonal selection tool.
 User can mainly perform 2 actions:
@@ -14,11 +15,11 @@ User can mainly perform 2 actions:
 
 For each pair of camera pose and polygonal selection, xml file contains a tag {\tt <Item> } with:
 \begin{itemize}
-\item camera pose matrix 
+\item camera pose matrix
 \item openGL viewport size (4 parameters)
 \item a list of polygon vertex viewport coordinates
 \item selection mode (add, remove, invert, etc.)\\*
-\end{itemize} 
+\end{itemize}
 
 Two camera pose matrix are stored using openGL conventions:
 
@@ -27,7 +28,7 @@ Two camera pose matrix are stored using openGL conventions:
 \item projection matrix (16 parameters)\\*
 \end{itemize}
 
-For more information on these matrix: 
+For more information on these matrix:
 
 \begin{verbatim} http://www.glprogramming.com/red/chapter03.html \end{verbatim}
 
@@ -41,47 +42,47 @@ How to transform polygon viewport coordinates (as stored) into world coordinates
 First, we map x and y from viewport coordinates to [-1,1]
 
 \begin{eqnarray*}
-	& x = 2 * ( x - viewport[0] ) / viewport[2] - 1\\
-    & y = 2 * ( y - viewport[1] ) / viewport[3] - 1 
+        & x = 2 * ( x - viewport[0] ) / viewport[2] - 1\\
+    & y = 2 * ( y - viewport[1] ) / viewport[3] - 1
 \end{eqnarray*}
 
 We compute global projection matrix from camera to world coordinates:
 
 \begin{equation*}
-	M  = ModelViewMatrix * ProjectionMatrix
+        M  = ModelViewMatrix * ProjectionMatrix
 \end{equation*}
 
 Let's define a point $P_h$ in homogeneous coordinates in the image plane:
 
 \begin{eqnarray*}
-	& Ph[0] = x\\
-	& Ph[1] = y\\
-	& Ph[2] = 0\\
-	& Ph[3] = 1
+        & Ph[0] = x\\
+        & Ph[1] = y\\
+        & Ph[2] = 0\\
+        & Ph[3] = 1
 \end{eqnarray*}
 
 Projection point $P_r$ will be:
 
 \begin{equation*}
-	P_r = P_h*M
+        P_r = P_h*M
 \end{equation*}
 
 And final point in world coordinates is:
 
 \begin{eqnarray*}
-	& x' = P_{r}[0]/P_{r}[3] \\
-	& y' = P_{r}[1]/P_{r}[3] \\		
-	& z' = P_{r}[2]/P_{r}[3]
+        & x' = P_{r}[0]/P_{r}[3] \\
+        & y' = P_{r}[1]/P_{r}[3] \\
+        & z' = P_{r}[2]/P_{r}[3]
 \end{eqnarray*}
 
-	
+
 These operations are performed in function {\tt getInverseProjection} from {\tt saisieQT/MatrixManager.cpp }
 
 a function to convert a polygon stored in selectInfo.xml (filename) into point cloud local frame looks like:
 
 \begin{verbatim}
 
-#include MatrixManager.h 
+#include MatrixManager.h
 
 HistoryManager *HM = new HistoryManager();
 MatrixManager  *MM = new MatrixManager();

@@ -51,14 +51,14 @@ Processing is as follow:
 
 \subsection{SaisieMasqQT}
 
-{\tt SaisieMasqQT } is the same tool as {\tt SaisieMasq }, available on all platforms (Linux, Windows, MacOS).
-{\tt SaisieMasqQT } should be run with command: mm3d SaisieMasqQT + arguments.\\*
+{\tt SaisieMasqQT} is the same tool as {\tt SaisieMasq}, available on all platforms (Linux, Windows, MacOS).
+{\tt SaisieMasqQT} should be run with command: mm3d SaisieMasqQT + arguments.\\*
 
-Example: \begin{verbatim} mm3d SaisieMasqQT IMG.tif SzW=[1200,800] Name=PLAN Gama=1.5 \end{verbatim}\\*
+Example: {\tt mm3d SaisieMasqQT IMG.tif SzW=[1200,800] Name=PLAN Gama=1.5}\\*
 
-{\tt SaisieMasqQT } has the same arguments as SaisieMasq. Some light differences with {\tt SaisieMasq } processing workflow should be noticed:
+{\tt SaisieMasqQT} has the same arguments as SaisieMasq. Some light differences with {\tt SaisieMasq} processing workflow should be noticed:
 you need to draw a polygon first, and then apply an action (add to mask, remove from mask, etc.).
-You can get a complete list of possibles actions typing F1 when application is launched.\\*
+You can get a complete list of possibles actions typing F1.\\*
 
 Main actions are:
 \begin{itemize}
@@ -69,17 +69,50 @@ Main actions are:
 \item Right click (close to a point): delete point
 \item Echap: delete polygon
 \item Shift + click: insert point
-\item Ctrl+S : save mask image and {\tt Xml} file
-\item Ctrl+Q : quit
+\item Ctrl+S: save mask image and {\tt Xml} file
+\item Ctrl+Q: quit\\*
 \end{itemize}
 
 NB:
 \begin{itemize}
-\item 1: {\tt SaisieMasqQT } can run without any argument (open files from File menu, or drag \& drop them)
-\item 2: visual interface for argument edition available with command: {\tt mm3d vSaisieMasqQT }
-\item 3: {\tt SaisieMasqQT } can display ply files and camera orientation files
-\item 4: Typing {\tt mm3d SaisieMasqQT -help}, one gets help message.
+\item 1: {\tt SaisieMasqQT} can run without any argument (open files from File menu, or drag \& drop them)
+\item 2: visual interface for argument edition available with command: {\tt mm3d vSaisieMasqQT}
+\item 3: Type {\tt mm3d SaisieMasqQT -help}, to get help message.
+\item 4: {\tt SaisieMasqQT} can display ply files (see below) and camera orientation files (open {\tt Xml} files)
 \end{itemize}
+
+\section{Entering 3D mask with {\tt SaisieMasqQT} }
+
+{\tt SaisieMasqQT} can also be used to measure 3D mask from a point cloud. This 3D mask is useful to restrict computation to the main object.
+{\tt SaisieMasqQT} allows to open ply files in a 3D view and to do a manual segmentation with a polygonal selection tool.
+{\tt SaisieMasqQT} can open one or several ply files (provided that ply files have been computed in the same reference frame).
+The 3D mask selection with SaisieMasqQT is designed to work with some specific functions, such as C3DC: the idea is to do a manual segmentation,
+by rotating around the objet, and by drawing a polygon.
+Each rotation (or translation) and polygonal selection is stored into a {\tt Xml} file which can be used with other MicMac commands.\\*
+
+Calling SaisieMasqQT can be performed in a command shell with: {\tt mm3d SaisieMasqQT}\\*
+
+To open a ply file, there are 3 possibilities:
+\begin{itemize}
+\item run command with filename or pattern: {\tt mm3d SaisieMasqQT filename.ply}
+\item run command {\tt mm3d SaisieMasqQT} and drag-and-drop ply file(s) in interface
+\item run command {\tt mm3d SaisieMasqQT} and use standard open file menu\\*
+\end{itemize}
+
+If input ply filename is {\tt cloud.ply}, resulting {\tt Xml} file is named {\tt cloud\_selectionInfo.xml}, and is saved in the ply file directory.\\*
+
+User can mainly perform 2 actions:
+\begin{itemize}
+\item move camera around point cloud (rotate and/or translate)
+\item draw a polygon and select/deselect points inside polygon\\*
+\end{itemize}
+
+To switch between move mode and selection mode, use F9 key.\\*
+
+To select a part of the point cloud, you have to draw a polygon by clicking in the 3D view. To add a point to the polygon, use left-click, to close the polygon, use righ-click. To select points inside polygon, use space bar.
+You can also modify a selection, with various actions (see help: F1).\\*
+
+For advanced users, {\tt Xml} file format is detailed in \ref{Conv:selection}.
 
 %========================================
 
