@@ -1,0 +1,52 @@
+[Apero-Ch-Im,Pyram,MetaData,Correl,Reech,Fusion,inspect]
+
+
+==============================================================
+
+-1- On Genere les match en epipolaire
+
+mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml Purge=true Do=APMCR
+
+-2- On Genere les enveloppes rapides 
+
+mm3d TestLib MMEnvlop   "IMGP703[0-5].*JPG" Ori-CalPerIm  16 4   Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml AutoPurge=true ModeQM=false
+
+-3- On Genere la fusion par image 
+
+mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml Purge=true Do=F
+
+
+Dans :
+
+mm3d TestLib  MMEnvStatute   IMGP7030.JPG
+
+
+
+====================== QUICK MAC ==================
+
+mm3d C3DC QuickMac IMGP70.*JPG Ori-Ori-CalPerIm/
+/home/mpd/MMM/culture3d/bin/mm3d MMByP   QuickMac "IMGP70.*JPG" Ori-CalPerIm  Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml  Do=AMP 
+
+/home/mpd/MMM/culture3d/bin/mm3d TestLib MMEnvlop   "IMGP70.*JPG" Ori-CalPerIm  16 4 DownScale=2  Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml  DoPlyDS=true
+
+/home/mpd/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMGP70.*JPG" Ori-CalPerIm  SzNorm=5 PlyCoul=1
+
+/home/mpd/MMM/culture3d/bin/mm3d MergePly  "Fusion-QuickMac/.*Tes.*ply" Out=C3DC.ply
+
+
+Quick Mac Modif en Statue :
+
+   - pas de down scale
+   - AutoPurge = 1
+   - Out=Fusion-0 (ou autre ...)
+
+Test :
+
+
+mm3d C3DC QuickMac "IMGP703[0-5].*JPG" Ori-Ori-CalPerIm/ Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml
+
+
+
+
+
+
