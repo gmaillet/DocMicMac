@@ -1,24 +1,38 @@
+Pipeline Statue OK, reste à lire Fusion-Statue/ au lieu de Fusion-QuickMac
+
+
 [Apero-Ch-Im,Pyram,MetaData,Correl,Reech,Fusion,inspect]
 
+
+mm3d C3DC QuickMac "IMGP703[0-5].*JPG" CalPerIm Masq3D=AperiCloud_CalPerIm_selectionInfo.xml 
+
+/home/marc/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMGP703[0-5].*JPG" CalPerIm  SzNorm=5 PlyCoul=1
 
 ==============================================================
 
 -1- On Genere les match en epipolaire
 
-mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml Purge=true Do=APMCR
+mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_CalPerIm_selectionInfo.xml Purge=true Do=APMCR
 
 -2- On Genere les enveloppes rapides 
 
-mm3d TestLib MMEnvlop   "IMGP703[0-5].*JPG" Ori-CalPerIm  16 4   Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml AutoPurge=true ModeQM=false
+mm3d TestLib MMEnvlop   "IMGP703[0-5].*JPG" CalPerIm  16 4   Masq3D=AperiCloud_CalPerIm_selectionInfo.xml AutoPurge=true ModeQM=false
 
 -3- On Genere la fusion par image 
 
-mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml Purge=true Do=F
+mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_CalPerIm_selectionInfo.xml Purge=true Do=F
 
 
 Dans :
 
-mm3d TestLib  MMEnvStatute   IMGP7030.JPG
+DownScale_NuageFusion-IMGP7030.JPG.xml
+
+// DownScale_NuageFusion-Depth_MG_1049.JPG.xml
+
+
+ScaleNuage MTD-Image-IMGP7032.JPG/QMNuage-Max.xml Fusion-Statue/DownScale_NuageFusion-MaxIMGP7032.JPG 2 InDirLoc=false
+
+
 
 
 
