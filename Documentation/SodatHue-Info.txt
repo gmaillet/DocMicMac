@@ -8,6 +8,8 @@ mm3d C3DC QuickMac "IMGP703[0-5].*JPG" CalPerIm Masq3D=AperiCloud_CalPerIm_selec
 
 /home/marc/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMGP703[0-5].*JPG" CalPerIm  SzNorm=5 PlyCoul=1
 
+mm3d C3DC QuickMac  "IMGP703[0-5].*JPG" CalPerIm Masq3D=AperiCloud_CalPerIm_selectionInfo.xml Tuning=0
+
 ==============================================================
 
 -1- On Genere les match en epipolaire
@@ -21,6 +23,15 @@ mm3d TestLib MMEnvlop   "IMGP703[0-5].*JPG" CalPerIm  16 4   Masq3D=AperiCloud_C
 -3- On Genere la fusion par image 
 
 mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_CalPerIm_selectionInfo.xml Purge=true Do=F
+
+-4- On merge
+
+/home/marc/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMGP703[0-5].*JPG" CalPerIm  SzNorm=5 PlyCoul=1 ModeMerge=Statue
+
+
+-5- 
+mm3d MergePly Fusion-Statue/.*ply Out=C3DC_Statue.ply
+
 
 
 Dans :
