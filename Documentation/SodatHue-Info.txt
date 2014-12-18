@@ -1,0 +1,33 @@
+8347 => bcp de "ficelle"
+=================================================yy====================
+Commande MergeDepthMap :
+
+mm3d  MergeDepthMap  /home/mpd/MMM/culture3d/include/XML_MicMac/Fusion-MMByP-Statute.xml WorkDirPFM=./MTD-Image-IMG_8347.JPG/ +ImMaster=IMG_8347.JPG
+
+
+MaxP compris en 0 et 1
+
+A priori, comportement OK si on met poids ancien 
+
+
+
+=================================================yy====================
+
+/home/mpd/MMM/culture3d/bin/mm3d MMByP   Statue "IMG_83.*JPG" All  Masq3D=AperiCloud_All_selectionInfo.xml  Purge=true Do=APMCR ZoomF=2 
+
+/home/mpd/MMM/culture3d/bin/mm3d TestLib MMEnvlop   "IMG_83.*JPG" All  16 4  Masq3D=AperiCloud_All_selectionInfo.xml  AutoPurge=true ModeQM=0
+
+/home/mpd/MMM/culture3d/bin/mm3d MMByP   Statue "IMG_83.*JPG" All  Masq3D=AperiCloud_All_selectionInfo.xml  Purge=true Do=F 
+
+/home/mpd/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMG_83.*JPG" All  ModeMerge=Statue SzNorm=5 PlyCoul=1
+
+/home/mpd/MMM/culture3d/bin/mm3d MergePly  "Fusion-Statue/.*Tes.*ply" Out=C3DC_Statue.ply
+
+
+
+
+
+
+
+
+
