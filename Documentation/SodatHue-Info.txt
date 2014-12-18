@@ -1,4 +1,19 @@
-8347 => bcp de "ficelle"
+
+"/home/marc/MMM/culture3d/bin/mm3d" MICMAC /home/marc/MMM/culture3d/include/XML_MicMac/MM-TieP.xml CalledByProcess=1  ByProcess=0  IdMasterProcess=28193  "WorkDir=./" "+Im1=AIMG_2472.JPG" "+Ori=-All" "+ImSec=-All" "+DoPly=0" "+DoMatch=0" "+ExportEnv=true"  "+Zoom=2" "+Do2Z=0" FirstEtapeMEC=1 LastEtapeMEC=2  NbBoitesMEC=1   "+FileMasq3D=AperiCloud_All_selectionInfo.xml" "+UseMasq3D=true" +Visu=1 FirstBoiteMEC=2
+
+
+"/home/marc/MMM/culture3d/bin/mm3d" MICMAC /home/marc/MMM/culture3d/include/XML_MicMac/MM-TieP.xml CalledByProcess=1  ByProcess=0  IdMasterProcess=5690  "WorkDir=./" "+Im1=AIMG_2472.JPG" "+Ori=-All" "+ImSec=-All" "+DoPly=0" "+DoMatch=0" "+ExportEnv=true" "+Visu=0" "+Zoom=2" "+Do2Z=0" "+UseMasq3D=true" "+FileMasq3D=AperiCloud_All_selectionInfo.xml" FirstEtapeMEC=1 LastEtapeMEC=2 FirstBoiteMEC=1 NbBoitesMEC=1
+
+
+
+mm3d MMInitialModel AIMG_2472.JPG Ori-All/ DoPyram=false DoMatch=false  Do2Z=false   ExportEnv=true  Zoom=2 Masq3D=AperiCloud_All_selectionInfo.xml
+
+
+/home/marc/MMM/culture3d/include/XML_MicMac/MM-TieP.xml
+
+2485
+
+
 =================================================yy====================
 Commande MergeDepthMap :
 
