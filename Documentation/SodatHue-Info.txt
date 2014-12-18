@@ -1,74 +1,30 @@
-Pipeline Statue OK, reste à lire Fusion-Statue/ au lieu de Fusion-QuickMac
+8347 => bcp de "ficelle"
+=================================================yy====================
+Commande MergeDepthMap :
+
+mm3d  MergeDepthMap  /home/mpd/MMM/culture3d/include/XML_MicMac/Fusion-MMByP-Statute.xml WorkDirPFM=./MTD-Image-IMG_8347.JPG/ +ImMaster=IMG_8347.JPG
 
 
-[Apero-Ch-Im,Pyram,MetaData,Correl,Reech,Fusion,inspect]
+MaxP compris en 0 et 1
 
-
-mm3d C3DC QuickMac "IMGP703[0-5].*JPG" CalPerIm Masq3D=AperiCloud_CalPerIm_selectionInfo.xml 
-
-/home/marc/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMGP703[0-5].*JPG" CalPerIm  SzNorm=5 PlyCoul=1
-
-mm3d C3DC QuickMac  "IMGP703[0-5].*JPG" CalPerIm Masq3D=AperiCloud_CalPerIm_selectionInfo.xml Tuning=0
-
-==============================================================
-
--1- On Genere les match en epipolaire
-
-mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_CalPerIm_selectionInfo.xml Purge=true Do=APMCR
-
--2- On Genere les enveloppes rapides 
-
-mm3d TestLib MMEnvlop   "IMGP703[0-5].*JPG" CalPerIm  16 4   Masq3D=AperiCloud_CalPerIm_selectionInfo.xml AutoPurge=true ModeQM=false
-
--3- On Genere la fusion par image 
-
-mm3d MMByP Statue "IMGP703[0-5].*JPG" Ori-CalPerIm/ ZoomF=2 Masq3D=AperiCloud_CalPerIm_selectionInfo.xml Purge=true Do=F
-
--4- On merge
-
-/home/marc/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMGP703[0-5].*JPG" CalPerIm  SzNorm=5 PlyCoul=1 ModeMerge=Statue
-
-
--5- 
-mm3d MergePly Fusion-Statue/.*ply Out=C3DC_Statue.ply
+A priori, comportement OK si on met poids ancien 
 
 
 
-Dans :
+=================================================yy====================
 
-DownScale_NuageFusion-IMGP7030.JPG.xml
+/home/mpd/MMM/culture3d/bin/mm3d MMByP   Statue "IMG_83.*JPG" All  Masq3D=AperiCloud_All_selectionInfo.xml  Purge=true Do=APMCR ZoomF=2 
 
-// DownScale_NuageFusion-Depth_MG_1049.JPG.xml
+/home/mpd/MMM/culture3d/bin/mm3d TestLib MMEnvlop   "IMG_83.*JPG" All  16 4  Masq3D=AperiCloud_All_selectionInfo.xml  AutoPurge=true ModeQM=0
 
+/home/mpd/MMM/culture3d/bin/mm3d MMByP   Statue "IMG_83.*JPG" All  Masq3D=AperiCloud_All_selectionInfo.xml  Purge=true Do=F 
 
-ScaleNuage MTD-Image-IMGP7032.JPG/QMNuage-Max.xml Fusion-Statue/DownScale_NuageFusion-MaxIMGP7032.JPG 2 InDirLoc=false
+/home/mpd/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMG_83.*JPG" All  ModeMerge=Statue SzNorm=5 PlyCoul=1
 
-
-
-
-
-====================== QUICK MAC ==================
-
-mm3d C3DC QuickMac IMGP70.*JPG Ori-Ori-CalPerIm/
-/home/mpd/MMM/culture3d/bin/mm3d MMByP   QuickMac "IMGP70.*JPG" Ori-CalPerIm  Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml  Do=AMP 
-
-/home/mpd/MMM/culture3d/bin/mm3d TestLib MMEnvlop   "IMGP70.*JPG" Ori-CalPerIm  16 4 DownScale=2  Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml  DoPlyDS=true
-
-/home/mpd/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "IMGP70.*JPG" Ori-CalPerIm  SzNorm=5 PlyCoul=1
-
-/home/mpd/MMM/culture3d/bin/mm3d MergePly  "Fusion-QuickMac/.*Tes.*ply" Out=C3DC.ply
+/home/mpd/MMM/culture3d/bin/mm3d MergePly  "Fusion-Statue/.*Tes.*ply" Out=C3DC_Statue.ply
 
 
-Quick Mac Modif en Statue :
 
-   - pas de down scale
-   - AutoPurge = 1
-   - Out=Fusion-0 (ou autre ...)
-
-Test :
-
-
-mm3d C3DC QuickMac "IMGP703[0-5].*JPG" Ori-Ori-CalPerIm/ Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml
 
 
 
