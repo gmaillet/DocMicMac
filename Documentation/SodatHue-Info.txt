@@ -1,17 +1,35 @@
 
-"/home/marc/MMM/culture3d/bin/mm3d" MICMAC /home/marc/MMM/culture3d/include/XML_MicMac/MM-TieP.xml CalledByProcess=1  ByProcess=0  IdMasterProcess=28193  "WorkDir=./" "+Im1=AIMG_2472.JPG" "+Ori=-All" "+ImSec=-All" "+DoPly=0" "+DoMatch=0" "+ExportEnv=true"  "+Zoom=2" "+Do2Z=0" FirstEtapeMEC=1 LastEtapeMEC=2  NbBoitesMEC=1   "+FileMasq3D=AperiCloud_All_selectionInfo.xml" "+UseMasq3D=true" FirstBoiteMEC=2
 
 
-"/home/marc/MMM/culture3d/bin/mm3d" MICMAC /home/marc/MMM/culture3d/include/XML_MicMac/MM-TieP.xml CalledByProcess=1  ByProcess=0  IdMasterProcess=5690  "WorkDir=./" "+Im1=AIMG_2472.JPG" "+Ori=-All" "+ImSec=-All" "+DoPly=0" "+DoMatch=0" "+ExportEnv=true" "+Visu=0" "+Zoom=2" "+Do2Z=0" "+UseMasq3D=true" "+FileMasq3D=AperiCloud_All_selectionInfo.xml" FirstEtapeMEC=1 LastEtapeMEC=2 FirstBoiteMEC=1 NbBoitesMEC=1
+/home/marc/MMM/culture3d/bin/mm3d  TestLib MMEnvStatute AIMG_2470.JPG
+/home/marc/MMM/culture3d/bin/mm3d  TestLib MMEnvStatute AIMG_2471.JPG
+/home/marc/MMM/culture3d/bin/mm3d  TestLib MMEnvStatute AIMG_2472.JPG
+/home/marc/MMM/culture3d/bin/mm3d  TestLib MMEnvStatute AIMG_2473.JPG
+/home/marc/MMM/culture3d/bin/mm3d  TestLib MMEnvStatute AIMG_2474.JPG
 
 
 
-mm3d MMInitialModel AIMG_2472.JPG Ori-All/ DoPyram=false DoMatch=false  Do2Z=false   ExportEnv=true  Zoom=2 Masq3D=AperiCloud_All_selectionInfo.xml
 
 
-/home/marc/MMM/culture3d/include/XML_MicMac/MM-TieP.xml
+=====================================================================
 
-2485
+mm3d MMInitialModel "IMG_2504.JPG" All DoPyram=false DoMatch=false Do2Z=false ExportEnv=true Zoom=2 Masq3D=AperiCloud_All_selectionInfo.xml
+
+=====================================================================
+/home/marc/MMM/culture3d/bin/mm3d MMByP   QuickMac "A.*IMG.*JPG" All  Masq3D=AperiCloud_All_selectionInfo.xml  Do=AMP  Zoom0=2 ZoomF=2
+
+/home/marc/MMM/culture3d/bin/mm3d TestLib MMEnvlop   "A.*IMG.*JPG" All  16 2  Masq3D=AperiCloud_All_selectionInfo.xml  AutoPurge=true ModeQM=1 DownScale=2 
+
+/home/marc/MMM/culture3d/bin/mm3d TestLib  MergeCloud   "A.*IMG.*JPG" All  ModeMerge=QuickMac SzNorm=5 PlyCoul=1
+
+/home/marc/MMM/culture3d/bin/mm3d MergePly  "Fusion-QuickMac/.*Tes.*ply" Out=C3DC_QuickMac.ply
+
+
+
+/home/marc/MMM/culture3d/bin/mm3d MMByP   QuickMac "A.*IMG.*JPG" All  Masq3D=AperiCloud_All_selectionInfo.xml  Do=AMP  Zoom0=8 ZoomF=8
+/home/marc/MMM/culture3d/bin/mm3d TestLib MMEnvlop   "A.*IMG.*JPG" All  16 8  Masq3D=AperiCloud_All_selectionInfo.xml  ModeQM=1 DownScale=1 
+
+
 
 
 =================================================yy====================
