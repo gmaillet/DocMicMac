@@ -1,24 +1,18 @@
 
 
+mm3d Malt Ortho TourEst.*ARW Ori-TourEst/ Repere=TheCyl.xml  DoMEC=0 
+
+=> Genere le NuageImProf_STD-MALT_Etape_8.xml
+mais aussi bcp de truc inutile,
+a simplifier ...
 
 =====================================================================
 
-Etat 0 : 16.5 %  1,3 Go
+
+ mm3d NuageBascule Fusion-BigMac/Nuage-Depth-TourEst1_6601.ARW.xml  MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  Bascule/Basc-TourEst1_6601.ARW.xml 
+
+    ==> Fonctionne, mais assez bruite
 
 
-#  At 1107 Debut Mask  , file= /home/marc/MMM/culture3d/src/uti_phgrm/MICMAC/MMMaskByTP.cpp
-
-   Etat 1 : 29.1 % 2,3 Go
-
-## At 1249 Before Free Mask  , file= /home/marc/MMM/culture3d/src/uti_phgrm/MICMAC/MMMaskByTP.cpp
-
-    Etat 2 : 30.9 % 2,4 Go
-
-
-
-
-
-
-
-
+mm3d MapCmd mm3d NuageBascule "P=Fusion-BigMac/Nuage-Depth-(.*).xml" MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  "c=Bascule/Basc-\$1.xml" 
 
