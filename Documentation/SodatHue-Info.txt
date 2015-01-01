@@ -1,4 +1,43 @@
 
+mm3d MapCmd mm3d NuageBascule "P=Fusion-QuickMac/Nuage-Depth-(.*).xml" MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  "c=Bascule/Basc-\$1.xml"  S=1
+
+
+=> mmxv Basc-IMG_0113.CR2_Masq.tif Gros pb de masq ???
+
+
+
+MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml :
+
+     <NbPixel>5107 8747</NbPixel>
+
+grep NbPixel Basc-IMG_0*xml
+
+Basc-IMG_0113.CR2.xml:     <NbPixel>4862 7566</NbPixel>
+Basc-IMG_0114.CR2.xml:     <NbPixel>4862 7292</NbPixel>
+Basc-IMG_0115.CR2.xml:     <NbPixel>4862 7269</NbPixel>
+Basc-IMG_0116.CR2.xml:     <NbPixel>4862 1130</NbPixel>
+Basc-IMG_0117.CR2.xml:     <NbPixel>4861 661</NbPixel>
+Basc-IMG_0118.CR2.xml:     <NbPixel>4862 839</NbPixel>
+Basc-IMG_0119.CR2.xml:     <NbPixel>4862 6838</NbPixel>
+Basc-IMG_0120.CR2.xml:     <NbPixel>4862 7255</NbPixel>
+Basc-IMG_0121.CR2.xml:     <NbPixel>4862 4296</NbPixel>
+Basc-IMG_0122.CR2.xml:     <NbPixel>4862 3503</NbPixel>
+Basc-IMG_0123.CR2.xml:     <NbPixel>4862 2856</NbPixel>
+Basc-IMG_0124.CR2.xml:     <NbPixel>4846 3143</NbPixel>
+Basc-IMG_0125.CR2.xml:     <NbPixel>4836 3481</NbPixel>
+Basc-IMG_0126.CR2.xml:     <NbPixel>4858 4208</NbPixel>
+Basc-IMG_0127.CR2.xml:     <NbPixel>4834 7518</NbPixel>
+Basc-IMG_0128.CR2.xml:     <NbPixel>4853 7499</NbPixel>
+Basc-IMG_0129.CR2.xml:     <NbPixel>683 353</NbPixel>
+Basc-IMG_0130.CR2.xml:     <NbPixel>360 161</NbPixel>
+#  Basc-IMG_0131.CR2.xml:     <NbPixel>348 322</NbPixel>
+Basc-IMG_0132.CR2.xml:     <NbPixel>4840 7433</NbPixel>
+Basc-IMG_0133.CR2.xml:     <NbPixel>924 666</NbPixel>
+
+
+
+mm3d MMInitialModel IMG_0131.CR2 Ori-StdCalPerIm/ Do2Z=false DoMatch=false Masq3D=AperiCloud_StdCalPerIm_selectionInfo.xml Visu=true Zoom=4
+
 
 mm3d Malt Ortho TourEst.*ARW Ori-TourEst/ Repere=TheCyl.xml  DoMEC=0 
 
@@ -14,5 +53,4 @@ a simplifier ...
     ==> Fonctionne, mais assez bruite
 
 
-mm3d MapCmd mm3d NuageBascule "P=Fusion-BigMac/Nuage-Depth-(.*).xml" MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  "c=Bascule/Basc-\$1.xml" 
 
