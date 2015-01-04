@@ -1,5 +1,23 @@
+/home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/Nuage-Depth-IMG_0134.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0134.CR2.xml
 
-mm3d MapCmd mm3d NuageBascule "P=Fusion-QuickMac/Nuage-Depth-(.*).xml" MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  "c=Bascule/Basc-\$1.xml"  S=1
+
+/home/mpd/MMM/culture3d/bin/mm3d   "NuageBascule" "Fusion-QuickMac/TopoBasc-Nuage-Depth-IMG_0134.CR2-Zone2.xml" "MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml" "Fusion-QuickMac/Bascule/Basc-IMG_0134.CR2-Zone2.xml" InternalATopo=false
+
+
+
+
+mm3d TestLib TopoBasc Nuage-Depth-IMG_0217.CR2.xml  ../MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  Show=1
+
+mm3d NuageBascule Nuage-Depth-IMG_0257.CR2.xml ../MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  Test.xml
+
+
+0217 => coupe en 2
+0257 => un seul bloc
+
+=======================================================
+
+
+mm3d MapCmd mm3d NuageBascule "P=Fusion-QuickMac/Nuage-Depth-(.*).xml" MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  "c=Bascule/Basc-\$1.xml"  Paral=0
 
 
 => mmxv Basc-IMG_0113.CR2_Masq.tif Gros pb de masq ???
