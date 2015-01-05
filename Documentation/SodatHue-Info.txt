@@ -1,5 +1,15 @@
+/home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/TopoBasc-Nuage-Depth-IMG_0134.CR2-Zone2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0134.CR2-Zone2.xml InternalATopo=false ShowCom=true  InternallCalledByP=true  InternallSuplOut=BoxBasc0_ BoxIn=[538,171,582,208]
+
+
+
+
+
 /home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/Nuage-Depth-IMG_0134.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0134.CR2.xml
 
+// OK : ? 
+/home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/Nuage-Depth-IMG_0217.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0217.CR2.xml
+
+/home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/Nuage-Depth-IMG_0257.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0257.CR2.xml
 
 /home/mpd/MMM/culture3d/bin/mm3d   "NuageBascule" "Fusion-QuickMac/TopoBasc-Nuage-Depth-IMG_0134.CR2-Zone2.xml" "MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml" "Fusion-QuickMac/Bascule/Basc-IMG_0134.CR2-Zone2.xml" InternalATopo=false
 
