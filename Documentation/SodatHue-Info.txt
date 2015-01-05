@@ -1,25 +1,21 @@
-/home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/TopoBasc-Nuage-Depth-IMG_0134.CR2-Zone2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0134.CR2-Zone2.xml InternalATopo=false ShowCom=true  InternallCalledByP=true  InternallSuplOut=BoxBasc0_ BoxIn=[538,171,582,208]
+Top Genere Bug :
+
+
+/home/mpd/MMM/culture3d/bin/mm3d NuageBascule  Fusion-QuickMac/Nuage-Depth-IMG_0206.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/IMG_0206.CR2.xml
+
+
+/home/mpd/MMM/culture3d/bin/mm3d   "NuageBascule" "Fusion-QuickMac/TopoBasc-Nuage-Depth-IMG_0206.CR2-Zone1.xml" "MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml" "Fusion-QuickMac/Bascule/IMG_0206.CR2-Zone1.xml" InternalATopo=false
+
+
+/home/mpd/MMM/culture3d/bin/mm3d   "NuageBascule" "Fusion-QuickMac/TopoBasc-Nuage-Depth-IMG_0206.CR2-Zone1.xml" "MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml" "Fusion-QuickMac/Bascule/Basc-IMG_0206.CR2-Zone1.xml" "Paral=0"  InternalATopo=false
 
 
 
-
-
-/home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/Nuage-Depth-IMG_0134.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0134.CR2.xml
-
-// OK : ? 
-/home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/Nuage-Depth-IMG_0217.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0217.CR2.xml
-
-/home/mpd/MMM/culture3d/bin/mm3d NuageBascule Fusion-QuickMac/Nuage-Depth-IMG_0257.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/Basc-IMG_0257.CR2.xml
-
-/home/mpd/MMM/culture3d/bin/mm3d   "NuageBascule" "Fusion-QuickMac/TopoBasc-Nuage-Depth-IMG_0134.CR2-Zone2.xml" "MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml" "Fusion-QuickMac/Bascule/Basc-IMG_0134.CR2-Zone2.xml" InternalATopo=false
+/home/mpd/MMM/culture3d/bin/mm3d   "NuageBascule" "Fusion-QuickMac/TopoBasc-TopoBasc-Nuage-Depth-IMG_0206.CR2-Zone1-Zone1.xml" "MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml" "Fusion-QuickMac/Bascule/Basc-IMG_0206.CR2-Zone1-Zone1.xml" "Paral=0" InternalATopo=false
 
 
 
-
-mm3d TestLib TopoBasc Nuage-Depth-IMG_0217.CR2.xml  ../MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  Show=1
-
-mm3d NuageBascule Nuage-Depth-IMG_0257.CR2.xml ../MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml  Test.xml
-
+Com OK, mais cree nuage vide ??
 
 0217 => coupe en 2
 0257 => un seul bloc
