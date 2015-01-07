@@ -1,4 +1,16 @@
-Top Genere Bug :
+mm3d Malt Ortho TourEst.*ARW Ori-TourEst/ Repere=TheCyl.xml  DoMEC=0 
+
+mm3d Malt UrbanMNE ./%NKS-Set-OfFile@./PIMs-QuickMac/PimsFile.xml  Ori-TourEst/ Repere=TheCyl.xml  DoMEC=0  InternalNoIncid=true Purge=true ZoomI=4 ZoomF=2 DirMEC=TmpPMI2Mnt
+
+
+====================================================================================
+mm3d TestKey ./Deroule_Cour/%NKS-Set-OfFile@Deroule_Cour/PIMs-QuickMac/PimsFile.xml
+
+mm3d TestLib  MergeCloud   "./%NKS-Set-OfFile@./PIMs-QuickMac/PimsFile.xml" TourEst ModeMerge=QuickMac DownScale=1.000000
+
+
+
+p Genere Bug :
 
 
 /home/mpd/MMM/culture3d/bin/mm3d NuageBascule  Fusion-QuickMac/Nuage-Depth-IMG_0206.CR2.xml MEC-Malt/NuageImProf_STD-MALT_Etape_8.xml Fusion-QuickMac/Bascule/IMG_0206.CR2.xml
