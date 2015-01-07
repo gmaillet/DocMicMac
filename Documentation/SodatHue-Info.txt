@@ -4,6 +4,11 @@ mm3d Malt UrbanMNE ./%NKS-Set-OfFile@./PIMs-QuickMac/PimsFile.xml  Ori-TourEst/ 
 
 
 ====================================================================================
+Denderrah :
+
+mm3d PIms QuickMac ./%NKS-Set-OfPatternAndFoc@.*CR2@20@30 Ori-CalPerIm/ Masq3D=AperiCloud_CalPerIm_selectionInfo.xml Tuning=0
+
+====================================================================================
 mm3d TestKey ./Deroule_Cour/%NKS-Set-OfFile@Deroule_Cour/PIMs-QuickMac/PimsFile.xml
 
 mm3d TestLib  MergeCloud   "./%NKS-Set-OfFile@./PIMs-QuickMac/PimsFile.xml" TourEst ModeMerge=QuickMac DownScale=1.000000
