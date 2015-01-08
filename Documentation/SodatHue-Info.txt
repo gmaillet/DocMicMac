@@ -1,3 +1,7 @@
+
+mm3d TestKey "./%NKS-Set-OfPatternAndFoc@[[NKS-Set-OfFile@./PIMs-QuickMac/PimsFile.xml]]@0@1000000"
+
+
 mm3d Malt Ortho TourEst.*ARW Ori-TourEst/ Repere=TheCyl.xml  DoMEC=0 
 
 mm3d Malt UrbanMNE ./%NKS-Set-OfFile@./PIMs-QuickMac/PimsFile.xml  Ori-TourEst/ Repere=TheCyl.xml  DoMEC=0  InternalNoIncid=true Purge=true ZoomI=4 ZoomF=2 DirMEC=TmpPMI2Mnt
