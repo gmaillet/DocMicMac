@@ -1,4 +1,9 @@
 
+A priori intervention dans cAppli_SaisiePts::AddOnePGInImage
+
+
+===================
+
 mm3d TestKey "./%NKS-Set-OfPatternAndFoc@[[NKS-Set-OfFile@./PIMs-QuickMac/PimsFile.xml]]@0@1000000"
 
 
