@@ -7,11 +7,11 @@ eLiSe .
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
 
-\section{Utilisation des foncteur compil\'es}
+\section{Utilisation des foncteurs compil\'es}
 
 On retrace ici le (long \dots) chemin qui conduit de l'utilisation
 finale d'un foncteur jusqu'\`a la modification d'un syst\`eme (L2 ou L1).
-Il s'agit d'extrait de code avec plein de coupure.
+Il s'agit d'extrait de code avec plein de coupures.
 
 \subsection {Fili\`ere non indexee}
 
@@ -83,12 +83,12 @@ void SystLinSurResolu::V_GSSR_AddNewEquation(REAL aPds,REAL * aCoeff,REAL aB)
 
 
 Cette fili\`ere est tr\`es lourde, cependant elle est indispensable en $L_1$, puisque
-chaque \'equation doit \^etre repr\'ent\'ee explicitement et de mani\`ere compl\`ete.
+chaque \'equation doit \^etre repr\'esent\'ee explicitement et de mani\`ere compl\`ete.
 
 
 \subsection {Fili\`ere indexee}
 
-Elle est utilisée par les foncteurs ayant un tres grand nombre d'inconnue
+Elle est utilisée par les foncteurs ayant un tres grand nombre d'inconnues
 et (par consequent) des matrices creuses. Par exemple dans
 {\tt src/photogram/phgr\_cGridIncImageMnt.cpp}?
 
@@ -297,45 +297,45 @@ Ply=result_poisson.ply Out=FileOut.tif Max=80
 PoissonRecon
 Usage: PoissonRecon
         --in  <input points>
-	[--out <ouput triangle mesh>]
-	[--voxel <ouput voxel grid>]
-	[--depth <maximum reconstruction depth>=8]
-		 Running at depth d corresponds to solving on a 2^d x 2^d x 2^d
-		 voxel grid.
-	[--fullDepth <full depth>=5]
-		 This flag specifies the depth up to which the octree should be complete.
-	[--voxelDepth <depth at which to extract the voxel grid>=<depth>]
-	[--cgDepth <conjugate-gradients depth>=0]
-		 The depth up to which a conjugate-gradients solver should be used.
-	[--scale <scale factor>=1.100000]
-		 Specifies the factor of the bounding cube that the input
-		 samples should fit into.
-	[--samplesPerNode <minimum number of samples per node>=1.000000]
-		 This parameter specifies the minimum number of points that
-		 should fall within an octree node.
-	[--pointWeight <interpolation weight>=4.000000]
-		 This value specifies the weight that point interpolation constraints are
-		 given when defining the (screened) Poisson system.
-	[--iters <iterations>=8]
-		 This flag specifies the (maximum if CG) number of solver iterations.
-		 This parameter specifies the number of threads across which
-		 the solver should be parallelized.
-	[--confidence]
-		 If this flag is enabled, the size of a sample's normals is
-		 used as a confidence value, affecting the sample's
-		 constribution to the reconstruction process.
-	[--nWeights]
-		 If this flag is enabled, the size of a sample's normals is
-		 used as to modulate the interpolation weight.
-	[--polygonMesh]
-		 If this flag is enabled, the isosurface extraction returns polygons
-		 rather than triangles.
-	[--density]
-		 If this flag is enabled, the sampling density is written out with the vertices.
-	[--double]
-		 If this flag is enabled, the reconstruction will be performed with double-precision floats.
-	[--verbose]
-		 If this flag is enabled, the progress of the reconstructor will be output to STDOUT.
+        [--out <ouput triangle mesh>]
+        [--voxel <ouput voxel grid>]
+        [--depth <maximum reconstruction depth>=8]
+                 Running at depth d corresponds to solving on a 2^d x 2^d x 2^d
+                 voxel grid.
+        [--fullDepth <full depth>=5]
+                 This flag specifies the depth up to which the octree should be complete.
+        [--voxelDepth <depth at which to extract the voxel grid>=<depth>]
+        [--cgDepth <conjugate-gradients depth>=0]
+                 The depth up to which a conjugate-gradients solver should be used.
+        [--scale <scale factor>=1.100000]
+                 Specifies the factor of the bounding cube that the input
+                 samples should fit into.
+        [--samplesPerNode <minimum number of samples per node>=1.000000]
+                 This parameter specifies the minimum number of points that
+                 should fall within an octree node.
+        [--pointWeight <interpolation weight>=4.000000]
+                 This value specifies the weight that point interpolation constraints are
+                 given when defining the (screened) Poisson system.
+        [--iters <iterations>=8]
+                 This flag specifies the (maximum if CG) number of solver iterations.
+                 This parameter specifies the number of threads across which
+                 the solver should be parallelized.
+        [--confidence]
+                 If this flag is enabled, the size of a sample's normals is
+                 used as a confidence value, affecting the sample's
+                 constribution to the reconstruction process.
+        [--nWeights]
+                 If this flag is enabled, the size of a sample's normals is
+                 used as to modulate the interpolation weight.
+        [--polygonMesh]
+                 If this flag is enabled, the isosurface extraction returns polygons
+                 rather than triangles.
+        [--density]
+                 If this flag is enabled, the sampling density is written out with the vertices.
+        [--double]
+                 If this flag is enabled, the reconstruction will be performed with double-precision floats.
+        [--verbose]
+                 If this flag is enabled, the progress of the reconstructor will be output to STDOUT.
 \end{verbatim}
 For more information on Misha Khazdan's code: http://www.cs.jhu.edu/~misha/Code/PoissonRecon/
 
