@@ -1,22 +1,11 @@
-mm3d AperoChImSecMM ".*JPG" CalPerIm   Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml 
+==== EXEMPLE DE Tour Sud Chamb ==============
 
-MMByPairCAWSI.xml
-
-mm3d MMByP   QuickMac ".*JPG" CalPerIm  Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml  Do=AMP  Zoom0=8 ZoomF=8
-
-
-mm3d TestLib MMEnvlop   "./%NKS-Set-OfFile@Ori-CalPerIm/FileImSel.xml"  CalPerIm  16 8  Masq3D=AperiCloud_Ori-CalPerIm_selectionInfo.xml  AutoPurge=1 Out=QuickMac DownScale=1.000000
-
-
-mm3d TestLib  MergeCloud   "./%NKS-Set-OfFile@Ori-CalPerIm/FileImSel.xml" CalPerIm  ModeMerge=QuickMac DownScale=1.000000 SzNorm=5 PlyCoul=1
-
-mm3d TestLib  MergeCloud   ".*JPG" CalPerIm  ModeMerge=QuickMac DownScale=1.000000 SzNorm=5 PlyCoul=1
+mm3d PIMs MicMac TS_35_.*CR2 Ori-MEP_TS_35Figee_100_Tronquee/ Masq3D=AperiCloud_MEP_TS_35Figee_100_Tronquee_selectionInfo.xml Tuning=0
 
 
 
 
-
-# Fusion simplifiee 
+==== EXEMPLE DE RAMASSEUM ==============
 
 ==== EXEMPLE DE DENDERAH ==============
 # Analyse chantier 
