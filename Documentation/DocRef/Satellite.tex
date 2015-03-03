@@ -1,6 +1,6 @@
 \chapter{Using satellite images}
 
-This chapter presents some tools for using satellite images in the {\tt MicMac} workflow.
+This chapter presents some tools for using satellite images in the {\tt MicMac} workflow. A sub-library for importing satellite meta-data from diverse data providers is being developed and is accessible through {\tt mm3d SateLib}.
 
 \section{Pleiades-Spot images}
 
@@ -28,10 +28,10 @@ The way to get grids from a Pleiades image couple is as following:
 
 The command to use for this workflow are:
 \begin{verbatim}
-mm3d TestLib Dimap2Grid dimapFile imageFile altitudeMin altitudeMax nbLayers
+mm3d SateLib Dimap2Grid dimapFile imageFile altitudeMin altitudeMax nbLayers
 mm3d Tapioca All imagesPattern -1
-mm3d TestLib RefineModel image_1.GRI image_2.GRI pts_1_2.dat meanAltitude
-mm3d TestLib Dimap2Grid dimapFile imageFile altMin altMax nbLay refineCoef=refine/refineCoef.txt
+mm3d SateLib RefineModel image_1.GRI image_2.GRI pts_1_2.dat meanAltitude
+mm3d SateLib Dimap2Grid dimapFile imageFile altMin altMax nbLay refineCoef=refine/refineCoef.txt
 \end{verbatim}
 
 To know the syntax of {\tt Dimap2Grid}:
@@ -40,13 +40,13 @@ To know the syntax of {\tt Dimap2Grid}:
 *  Help for Elise Arg main  *
 *****************************
 Mandatory unnamed args :
-  * string :: {Dimap file}
+  * string :: {RPC Dimap file}
   * string :: {Image name}
-  * REAL :: {altitude min}
-  * REAL :: {altitude max}
-  * INT :: {number of layers}
+  * REAL :: {min altitude (ellipsoidal)}
+  * REAL :: {max altitude (ellipsoidal)}
+  * INT :: {number of layers (min 4)}
 Named args :
-  * [Name=targetSyst] string :: {target system Proj4 +init=IGNF:LAMB93+datum}
+  * [Name=targetSyst] string :: {target system in Proj4 format}
   * [Name=stepPixel] REAL :: {Step in pixel}
   * [Name=stepCarto] REAL :: {Step in m (carto)}
   * [Name=sampCrop] INT :: {upper left samp - crop}
@@ -58,7 +58,7 @@ Named args :
 First two mandatory arguments should be quite obvious. Other arguments are:
 \begin{itemize}
 \item min and max altitude: ground min and max altitude
-\item number of layers: number of altitudes layers for the grid
+\item number of layers: number of altitudes layers for the grid - 4 are a minimum to have good accuracy, over 10 is not profitable an increase computing time and file size
 \item targetSyst: target coordinate system, in the proj4 syntax
 \item stepPixel: grid step in image coordinates (default = 100 pixels)
 \item stepCarto: grid step in cartographic coordinates (default = 50m)
