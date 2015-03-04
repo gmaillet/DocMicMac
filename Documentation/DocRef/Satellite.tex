@@ -2,22 +2,22 @@
 
 This chapter presents some tools for using satellite images in the {\tt MicMac} workflow. A sub-library for importing satellite meta-data from diverse data providers is being developed and is accessible through {\tt mm3d SateLib}.
 
-\section{Pleiades-Spot images}
+\section{Pleiades-Spot or DigitalGlobe very high resolution optical satellite images}
 
-A tool to convert Pleiades files into localization grids called {\tt Dimap2Grid} allows using Pleiades images with {\tt Malt}.\\*
+Tools to convert RPC files into localization grids called {\tt Dimap2Grid} and {\tt DigitalGlobe2Grid} allows using VHR optical satellite images with {\tt Malt}.\\*
 
 User has to provide:
 \begin{itemize}
-\item a RPC\footnote{Rational Polynomial Coefficient}/DIMAP file for each image
+\item a RPC\footnote{Rational Polynomial Coefficient} file for each image
 \item cartographic step (pixels)
 \item projection system
 \end{itemize}
 
-As initial localization is not enough to run a good correlation process, a refine step has been added to improve the grid.
+As initial localization is not always good enough to run a good correlation process, a refine step has been added to improve the grid.
 
 \subsection{Image couple}
 
-The way to get grids from a Pleiades image couple is as following:
+The way to get grids from an image couple is as following (example given with {\tt Dimap2Grid}, valid for {\tt DigitalGlobe2Grid}) :
 
 \begin{itemize}
 \item Dimap2Grid for each image (produces a rough grid)
@@ -28,10 +28,11 @@ The way to get grids from a Pleiades image couple is as following:
 
 The command to use for this workflow are:
 \begin{verbatim}
-mm3d SateLib Dimap2Grid dimapFile imageFile altitudeMin altitudeMax nbLayers
+mm3d SateLib Dimap2Grid dimapFile1 imageFile1 altMin altMax nbLay  nbLayers targetSyst
+mm3d SateLib Dimap2Grid dimapFile2 imageFile2 altMin altMax nbLay  nbLayers targetSyst
 mm3d Tapioca All imagesPattern -1
 mm3d SateLib RefineModel image_1.GRI image_2.GRI pts_1_2.dat meanAltitude
-mm3d SateLib Dimap2Grid dimapFile imageFile altMin altMax nbLay refineCoef=refine/refineCoef.txt
+mm3d SateLib Dimap2Grid dimapFile2 imageFile2 altMin altMax nbLay targetSyst refineCoef=refine/refineCoef.txt
 \end{verbatim}
 
 To know the syntax of {\tt Dimap2Grid}:
@@ -41,32 +42,55 @@ To know the syntax of {\tt Dimap2Grid}:
 *****************************
 Mandatory unnamed args :
   * string :: {RPC Dimap file}
-  * string :: {Image name}
+  * string :: {Name of image (to generate appropriatelly named GRID file)}
   * REAL :: {min altitude (ellipsoidal)}
   * REAL :: {max altitude (ellipsoidal)}
   * INT :: {number of layers (min 4)}
+  * string :: {targetSyst - target system in Proj4 format}
 Named args :
-  * [Name=targetSyst] string :: {target system in Proj4 format}
-  * [Name=stepPixel] REAL :: {Step in pixel}
-  * [Name=stepCarto] REAL :: {Step in m (carto)}
-  * [Name=sampCrop] INT :: {upper left samp - crop}
-  * [Name=rowCrop] INT :: {upper left row - crop}
+  * [Name=stepPixel] REAL :: {Step in pixel (Def=100pix)}
+  * [Name=stepCarto] REAL :: {Step in m (carto) (Def=50m)}
   * [Name=refineCoef] string :: {File of Coef to refine Grid}
+  * [Name=Bin] bool :: {Export Grid in binaries (Def=True)}
+
 \end{verbatim}
 
-{\tt Dimap2Grid} generates a .GRI file whose name is set after image name.
-First two mandatory arguments should be quite obvious. Other arguments are:
+
+{\tt DigitalGlobe2Grid} is extremelly similar :
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args :
+  * string :: {RPB from DigitalGlobe file}
+  * REAL :: {min altitude (ellipsoidal)}
+  * REAL :: {max altitude (ellipsoidal)}
+  * INT :: {number of layers (min 4)}
+  * string :: {targetSyst - target system in Proj4 format (ex : "+proj=utm +zone=32 +north +datum=WGS84 +units=m +no_defs"}
+Named args :
+  * [Name=stepPixel] REAL :: {Step in pixel (Def=100pix)}
+  * [Name=stepCarto] REAL :: {Step in m (carto) (Def=50m)}
+  * [Name=refineCoef] string :: {File of Coef to refine Grid}
+  * [Name=Bin] bool :: {Export Grid in binaries (Def=True)}
+ \end{verbatim}
+ 
+{\tt Dimap2Grid} and {\tt DigitalGlobe2Grid} generates a .GRI (and.GRIBin) file whose name is set after the image name.
+The first (two for Dimap2Grid) mandatory argument(s) should be quite obvious. Other arguments are:
 \begin{itemize}
 \item min and max altitude: ground min and max altitude
 \item number of layers: number of altitudes layers for the grid - 4 are a minimum to have good accuracy, over 10 is not profitable an increase computing time and file size
 \item targetSyst: target coordinate system, in the proj4 syntax
 \item stepPixel: grid step in image coordinates (default = 100 pixels)
 \item stepCarto: grid step in cartographic coordinates (default = 50m)
-\item sampCrop: line of the upper left corner (for image cropping)
-\item rowCrop: row of the upper left corner (for image cropping)
 \item refineCoef: file produced by RefineModel command to refine Grid
+\item Bin : if true (default), automatically calls Gri2Bin to create a GRIBin file
 \end{itemize}
 
+
+For example, {\tt UTM - zone 32N} in the Proj4 format looks like (including the quotation marks!!) :
+\begin{verbatim}
+"+proj=utm +zone=32 +north +datum=WGS84 +units=m +no_defs"
+ \end{verbatim}
 {\tt RefineModel} syntax is:
 
 \begin{verbatim}
@@ -82,7 +106,7 @@ Mandatory unnamed args :
 
 Tie-points string is the tie-point file (.dat) computed by Tapioca and available in the {\tt Homol} directory.\\*
 
-Once GRI files have been computed, they have to be converted to binary files:
+Once GRI files have been computed, they have to be converted to binary files (speeds up the process dramatically):
 \begin{verbatim}
 mm3d Gri2Bin path/file.GRI path/file.GRIBin
 \end{verbatim}
@@ -106,7 +130,7 @@ ZoomI=32 ZoomF=1 ZMoy=100 ZInc=500 NbVI=2
 
 \subsection{Set of Images}
 
-The way to get grids from a set of Pleiades images is the same as for an image couple, except for the refine stage, for which the command is (right now) slightly different:
+The way to get grids from a set of satellite images is the same as for an image couple, except for the refine stage, for which the command is (right now) slightly different:
 
 {\tt Refine} syntax is:
 
@@ -123,7 +147,7 @@ Named args :
 
 So the command to use for this workflow looks like:
 \begin{verbatim}
-mm3d TestLib Refine .*GRI
+mm3d SateLib Refine .*GRI
 \end{verbatim}
 
 First mandatory argument is the pattern for GRID files. Optional arguments are:
