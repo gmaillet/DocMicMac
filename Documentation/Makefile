@@ -15,6 +15,7 @@ FTEX=   DocMicMac.tex\
 	Generalites/UseCase2D.tex\
 	DocRef/ConvTool.tex\
 	DocRef/GeoLocalisation.tex\
+	DocRef/Advanced-TieP.tex\
 	DocRef/Advanced-Apero1.tex\
 	DocRef/Advanced-MicMac1.tex\
 	DocRef/Advanced-MicMac2.tex\
