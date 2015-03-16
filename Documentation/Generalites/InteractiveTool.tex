@@ -36,7 +36,7 @@ Meaning of args is:
    \item optional {\tt Post}, def = "Masq" , postfix to add to output filename;
    \item optional {\tt Name}, name of result;
    \item optional {\tt Gama}, def = $1.0$ , gama applied to images, it can help with dark images, or wide dynamics;
-   \item optional {\tt Attr}, text to add to postfix;
+   \item optional {\tt Attr}, text to add to postfix;\\*
 \end{itemize}
 
 
@@ -52,9 +52,13 @@ Processing is as follow:
 \subsection{SaisieMasqQT}
 
 {\tt SaisieMasqQT} is the same tool as {\tt SaisieMasq}, available on all platforms (Linux, Windows, MacOS).
-{\tt SaisieMasqQT} should be run with command: mm3d SaisieMasqQT + arguments.\\*
+{\tt SaisieMasqQT} can be run several ways. You can run command {\tt mm3d SaisieMasqQT} and drag-and-drop files in the application window, or open files from File menu, or you can run command {\tt mm3d SaisieMasqQT + arguments}\\*
 
 Example: {\tt mm3d SaisieMasqQT IMG.tif SzW=[1200,800] Name=PLAN Gama=1.5}\\*
+
+You can also run command {\\ mm3d SaisieMasqQT -l} to load last edited file.
+A visual interface for argument edition is also available with command: {\tt mm3d vSaisieMasqQT}
+As usual, type {\tt mm3d SaisieMasqQT -help}, to get help message.\\*
 
 {\tt SaisieMasqQT} has the same arguments as SaisieMasq. Some light differences with {\tt SaisieMasq} processing workflow should be noticed:
 you need to draw a polygon first, and then apply an action (add to mask, remove from mask, etc.).
@@ -62,6 +66,7 @@ You can get a complete list of possibles actions typing F1.\\*
 
 Main actions are:
 \begin{itemize}
+\item F2: display image in full screen
 \item Left click: add a point to polygon
 \item Right click: close polygon
 \item Space: Add to mask
@@ -73,43 +78,46 @@ Main actions are:
 \item Ctrl+Q: quit\\*
 \end{itemize}
 
-NB:
-\begin{itemize}
-\item 1: {\tt SaisieMasqQT} can run without any argument (open files from File menu, or drag \& drop them)
-\item 2: visual interface for argument edition available with command: {\tt mm3d vSaisieMasqQT}
-\item 3: Type {\tt mm3d SaisieMasqQT -help}, to get help message.
-\item 4: {\tt SaisieMasqQT} can display ply files (see below) and camera orientation files (open {\tt Xml} files)
-\end{itemize}
+Undo/redo last actions with Ctrl+Z/Shift+Ctrl+Z
+
+Some parameters for the application can be edited in the {\tt Settings} menu: image gama, application language, display settings, etc.
+These parameters are stored, and are used at next application launch, so set them once to fit your own purpose.
+As SaisieMasqQT can edit both images and 3d point clouds, application has different behaviour, depending on which data you deal with. As a result, {\tt settings} menu, and help window dialog (F1), will change depending on the loaded data. Be careful about this!
 
 \section{Entering 3D mask with {\tt SaisieMasqQT} }
 
 {\tt SaisieMasqQT} can also be used to measure 3D mask from a point cloud. This 3D mask is useful to restrict computation to the main object.
 {\tt SaisieMasqQT} allows to open ply files in a 3D view and to do a manual segmentation with a polygonal selection tool.
 {\tt SaisieMasqQT} can open one or several ply files (provided that ply files have been computed in the same reference frame).
-The 3D mask selection with SaisieMasqQT is designed to work with some specific functions, such as C3DC: the idea is to do a manual segmentation,
+The 3D mask selection with {\tt SaisieMasqQT} is designed to work with some specific functions, such as C3DC: the idea is to do a manual segmentation,
 by rotating around the objet, and by drawing a polygon.
 Each rotation (or translation) and polygonal selection is stored into a {\tt Xml} file which can be used with other MicMac commands.\\*
 
 Calling SaisieMasqQT can be performed in a command shell with: {\tt mm3d SaisieMasqQT}\\*
 
-To open a ply file, there are 3 possibilities:
+To open a ply file, there are 4 possibilities:
 \begin{itemize}
 \item run command with filename or pattern: {\tt mm3d SaisieMasqQT filename.ply}
 \item run command {\tt mm3d SaisieMasqQT} and drag-and-drop ply file(s) in interface
-\item run command {\tt mm3d SaisieMasqQT} and use standard open file menu\\*
+\item run command {\tt mm3d SaisieMasqQT} and use standard open file menu
+\item run command {\tt mm3d SaisieMasqQT -l} will open last edited file\\*
 \end{itemize}
 
-If input ply filename is {\tt cloud.ply}, resulting {\tt Xml} file is named {\tt cloud\_selectionInfo.xml}, and is saved in the ply file directory.\\*
+If input ply filename is {\tt cloud.ply}, resulting {\tt Xml} files are named {\tt cloud\_selectionInfo.xml} and {\tt cloud\_polyg3d.xml}, and are saved in the ply file directory.
+The file to be used for parameter {\tt Masq3D} of {\tt C3DC} command is {\tt cloud\_polyg3d.xml}.\\*
 
 User can mainly perform 2 actions:
 \begin{itemize}
-\item move camera around point cloud (rotate and/or translate)
+\item move camera around point cloud (rotate and/or translate and/or zoom)
 \item draw a polygon and select/deselect points inside polygon\\*
 \end{itemize}
 
 To switch between move mode and selection mode, use F9 key.\\*
 
 To select a part of the point cloud, you have to draw a polygon by clicking in the 3D view. To add a point to the polygon, use left-click, to close the polygon, use righ-click. To select points inside polygon, use space bar.
+To change point size, use +/- keys. You can hide or show axis, ball, point cloud bounding box, display point cloud in full screen (F2).
+Center point cloud on a vertex by double click on it: next move actions will be done around this point.
+Undo/redo last actions with Ctrl+Z/Shift+Ctrl+Z.
 You can also modify a selection, with various actions (see help: F1).\\*
 
 For advanced users, {\tt Xml} file format is detailed in \ref{Conv:selection}.
@@ -241,7 +249,7 @@ When running this command, the interface shows data set's first images, where on
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=150mm]{FIGS/Saisie/interface.jpg}
+\includegraphics[width=160mm]{FIGS/Saisie/interface.jpg}
 \end{center}
 \caption{SaisieAppuis interface for ground control point selection}
 \label{FIG:SaisieAppuis:interface}
@@ -262,13 +270,28 @@ Points that have already been stored will be displayed, and the same process can
 
 {\tt SaisieAppuisInit} is available on Linux and MacOS.
 An equivalent tool is available on Windows, Linux and MacOS and is called with command: \begin{verbatim} mm3d SaisieAppuisInitQT + arguments \end{verbatim}
-It runs with the same arguments as {\tt SaisieAppuisInit}. For example :
+It runs with the same arguments as {\tt SaisieAppuisInit}. For example:
 \begin{verbatim}
 mm3d SaisieAppuisInitQT  "IMG_(023[3456]).jpg" All NamePoint.txt  Mesure.xml
 \end{verbatim}
 
-Same equivalent tools exist for {\tt SaisieAppuisPredic} and {\tt SaisieBasc} (ie. \begin{verbatim}mm3d SaisieAppuisPredicQT\end{verbatim} and \begin{verbatim}mm3d SaisieBascQT\end{verbatim}).
+Same equivalent tools exist for {\tt SaisieAppuisPredic} and {\tt SaisieBasc} (ie. \begin{verbatim}mm3d SaisieAppuisPredicQT and mm3d SaisieBascQT\end{verbatim} ).
 
+A visual interface for argument edition is also available with command: \begin{verbatim} mm3d vSaisieAppuisInitQT} or  mm3d vSaisieAppuisPredicQT \end{verbatim}
+
+{\tt SaisieAppuisInitQT} displays two lists on the right side: the points list, and the images list. Points list can be clicked to choose which point to measure. You can also remove a point by clicking it in the list and press {\tt Suppr}.
+The image lists show all available images. When a point has been measured in at least two images, the image list is displayed.
+Images currently displayed in the windows are highlighted in blue. The image where the cursor is moving is displayed in light orange.
+A 3D window shows the images location, and the point measured. By default point are displayed in red ; when a point is selected, it is displayed in blue.
+You can drag-and-drop a ply file in this window (such as AperiCloud.ply) to check if GCP are good.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=160mm]{FIGS/Saisie/SaisieAppuisInitQT.jpg}
+\end{center}
+\caption{QT interface SaisieAppuisInitQT}
+\label{FIG:SaisieAppuis:QT}
+\end{figure}
 
 \subsection{For fast predictive entering GCP with {\tt SaisieAppuisPredic}}
 
