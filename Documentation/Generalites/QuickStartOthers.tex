@@ -27,7 +27,7 @@ still be useful for several applications.
 To generate the tool:
 
 \begin{center}
-     make -f MakeOrtho 
+     make -f MakeOrtho
 \end{center}
 
 {\tt Porto} expects a parameter file like {\tt MicMac} and {\tt Apero}. It
@@ -66,7 +66,7 @@ The input to {\tt Porto} consists of:
 Figure~\ref{Indiv:Ortho} presents some individual ortho-images computed by MicMac on the
 Buddha data set. The figure~\ref{Pb:Indiv:Ortho} presents some details of
 the problems of each individual ortho-images. Figure~\ref{Incid:Ortho}
-presents the incidence images. 
+presents the incidence images.
 
 
 
@@ -170,7 +170,7 @@ The important tags are:
 
    \item {\tt <SsResolIncH>} is the resolution of incidence images ({\tt Incid\_IMG\_5588.tif} \dots)
          in fact as these images are very regular, it would be useless to store them at full resolution.
-         
+
 \end{itemize}
 
 
@@ -208,7 +208,7 @@ The parameters specifying the output are:
 }
 
 {\tt NameOrtho} specifies the name of the ortho mosaic. {\tt NameLabels} is an optional
-argument, when specified, {\tt Porto} creates a label image indicating for each pixel which 
+argument, when specified, {\tt Porto} creates a label image indicating for each pixel which
 individual  image is to be used for \UNCLEAR{filling the geometry}.  \UNCLEAR{Figure~\ref{Resul:Ortho}} %pas bon le nr de la fig
 presents the main results.
 
@@ -247,8 +247,8 @@ Different vignetting effect
 
 Read more about vignetting :
 \begin{itemize}
-   \item http://en.wikipedia.org/wiki/Vignetting
-   \item http://fr.wikipedia.org/wiki/Vignettage
+   \item \url{http://en.wikipedia.org/wiki/Vignetting}
+   \item \url{http://fr.wikipedia.org/wiki/Vignettage}
 \end{itemize}
 
 \subsection{Name and function}
@@ -257,7 +257,7 @@ Vodka stands for "\textit{Vignette Of Digital Kamera Analysis}".
 This command estimates the vignetting effect for a set of images with the same aperture and focal length without the need of a laboratory setup (classically an integrating sphere). The vignette model that is used is an even 6th degree polynomial function centered on the middle of the image. With r the distance to the center of the image and $\alpha$, $\beta$ and $\gamma$ the polynomial coefficients, we have : \[V(r)=1+ \alpha r^2 + \beta r^4 + \gamma r^6\]
 
 
-The computation of the model uses a RANSAC based algorithm to solve the sets of equation of the following type (where $G_{i}$ is the grey value of a tie point for the image i and r the distance to the center of the image) : \[ G_{1}-G_{2}=\alpha(G_{2}*r_{2}^2-G_{1}*r_{1}^2)+\beta(G_{2}*r_{2}^4-G_{1}*r_{1}^4)+\gamma(G_{2}*r_{2}^6-G_{1}*r_{1}^6) \] 
+The computation of the model uses a RANSAC based algorithm to solve the sets of equation of the following type (where $G_{i}$ is the grey value of a tie point for the image i and r the distance to the center of the image) : \[ G_{1}-G_{2}=\alpha(G_{2}*r_{2}^2-G_{1}*r_{1}^2)+\beta(G_{2}*r_{2}^4-G_{1}*r_{1}^4)+\gamma(G_{2}*r_{2}^6-G_{1}*r_{1}^6) \]
 
 Between 9 and 30 points are randomly selected from the tie points and a solution is computed using least square matching. The solution is then awarded a score : \[Score=\frac{P_{inliers}}{EMP}\].
 
@@ -273,7 +273,7 @@ Where:
 To use this command, a set of images with the same aperture and focal length, taken in a stable illumination setting is necessary. The command also requires the computation of tie points (through Tapioca).
 
 
-Calling the command is done with the following command line (where ImagesPattern is the regular expression describing the set of images ) : \[mm3d\;Vodka\;ImagesPattern\] 
+Calling the command is done with the following command line (where ImagesPattern is the regular expression describing the set of images ) : \[mm3d\;Vodka\;ImagesPattern\]
 
 Multiple datasets can be processed at once, the program would then sort the images in subsets with the same aperture and focal length and give a solution for each subset.
 
@@ -304,7 +304,7 @@ The output files should then be placed in a folder with other images taken with 
 ARSENIC stands for \textit{Automated Radiometric Shift Equalization and Normalization for Inter-image Correction}.
 
 
-This function corrects the key images used for coloring point clouds in order to have a smooth transition between sub-clouds of the same scene. It is designed to be used with the "GeomImage" correlation geometry. 
+This function corrects the key images used for coloring point clouds in order to have a smooth transition between sub-clouds of the same scene. It is designed to be used with the "GeomImage" correlation geometry.
 
 
 \textcolor{red}{ This function is not designed for the equalization of images prior to image mosaicing}
@@ -313,7 +313,7 @@ This function corrects the key images used for coloring point clouds in order to
 \label{inputArsenic}
 
 ARSENIC require a depth map for each image that will be equalized, computed with MICMAC/Malt. The dense radiometric tie point algorithm used in this program requires very well co-registered depth maps (or point clouds).
-Calling the command is done with the following command line (where ImagesPattern is the regular expression describing the set of images ) :\[mm3d\;Arsenic\;ImagesPattern\] 
+Calling the command is done with the following command line (where ImagesPattern is the regular expression describing the set of images ) :\[mm3d\;Arsenic\;ImagesPattern\]
 
 \subsection{Output data}
 The output of this command is the corrected images, by default in a folder called Arsenic. These images can then be used to color a point cloud through Nuage2Ply.
@@ -340,7 +340,7 @@ In order to have a more accurate, denser and more interest-zone focused set of t
 
 \subsubsection{Equalization}
 
-In a first step, a correction factor is computed for each tie point with an inverse distance weighting and a self weighting value (the image is self influencing). For each radiometric channel of each point, $j$, we have the following formula ($i$ is the tie point currently used in the interpolation): 
+In a first step, a correction factor is computed for each tie point with an inverse distance weighting and a self weighting value (the image is self influencing). For each radiometric channel of each point, $j$, we have the following formula ($i$ is the tie point currently used in the interpolation):
 \[Cor(TiePointj)=\sum_{i=1}^{n} \frac{(K_{i})/2}{\sqrt{(X_{i}-X_{j})^2+(Y_{i}-Y_{j})^2}}\]
 
 This process is then iterated. A filtering system is yet to be developed to prevent radiometric outliers to push the model after too many iterations. An outlier is a point where Kr, Kg or Kb is more than \textit{ThreshDisp}\% different than the average value for the image considered.
