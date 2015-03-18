@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
- 
+
 \usepackage{minted}
 
 \usepackage{tikz}
@@ -18,46 +18,46 @@
 \begin{document}
 
 \section{Introduction}
-Ce document a été réalisé durant la formation MICMAC développeur réalisé à l'ENSG du 08 au 12 décembre.
-Durant ces 5 jours de formation,  plusieurs exercices ont été réalisés.
-Le premier concerne la conversion de calibration de caméra d'un format dans un autre en utilisant des points d'appuis fictifs.
-Le second concerne l'ajout d'équations d'observations concernant une paire de caméra rigidement liée et synchronisée.
+Ce document a \'et\'e r\'ealis\'e durant la formation MICMAC d\'eveloppeur r\'ealis\'e �  l'ENSG du 08 au 12 d\'ecembre.
+Durant ces 5 jours de formation,  plusieurs exercices ont \'et\'e r\'ealis\'es.
+Le premier concerne la conversion de calibration de cam\'era d'un format dans un autre en utilisant des points d'appuis fictifs.
+Le second concerne l'ajout d'\'equations d'observations concernant une paire de cam\'era rigidement li\'ee et synchronis\'ee.
 
-Avant d'expliquer les différents exercices, voici deux rappels succincts concernant la mise à jour des sources depuis mercurial ainsi que la compilation des sources.
+Avant d'expliquer les diff\'erents exercices, voici deux rappels succincts concernant la mise �  jour des sources depuis mercurial ainsi que la compilation des sources.
 
 \subsection{Rappel Mercurial}
 \begin{itemize}
-\item \commande{hg push} permet de mettre à jour le dépôt local (dossier micmac) en récupérant les sources du dépôt distant (ign.fr)
-\item \commande{hg update} permet de mettre à jour les sources depuis le dépôt local  (dossier micmac)
+\item \commande{hg push} permet de mettre �  jour le d\'epôt local (dossier micmac) en r\'ecup\'erant les sources du d\'epôt distant (ign.fr)
+\item \commande{hg update} permet de mettre �  jour les sources depuis le d\'epôt local  (dossier micmac)
 \end{itemize}
 \subsection{Rappel Compilation}
 \begin{itemize}
-\item \commande{make -j X} compile les sources et créer les binaires
+\item \commande{make -j X} compile les sources et cr\'eer les binaires
 \item \commande{make install} copie les binaires dans le dossier .../micmac/bin
 \end{itemize}
 
 \section{Jour 1 :  Conversion de calibration}
-Le but de cet exercice est de créer un programme permettant de transformer un format de camera en un autre format.
+Le but de cet exercice est de cr\'eer un programme permettant de transformer un format de camera en un autre format.
 Notre programme va:
 \begin{itemize}
-\item Lire le fichier caméra
-\item Générer une série de points en géométrie image $(c,l)$
-\item Calculer des points terrain $(X,Y,Z)$ à partir des coordonnées images $(c,l)$
-\item Généré les fichiers de mesures et de points d'appuis nécessaires à Apero (qui effectuera le calcul de la nouvelle calibration à partir des données générées)
+\item Lire le fichier cam\'era
+\item G\'en\'erer une s\'erie de points en g\'eom\'etrie image $(c,l)$
+\item Calculer des points terrain $(X,Y,Z)$ �  partir des coordonn\'ees images $(c,l)$
+\item G\'en\'er\'e les fichiers de mesures et de points d'appuis n\'ecessaires �  Apero (qui effectuera le calcul de la nouvelle calibration �  partir des donn\'ees g\'en\'er\'ees)
 \end{itemize}
-	
+
 \subsection{Objets utiles}
 
 \subsubsection{Parseurs d'arguments}
-MicMac possède son propre parseur d'argument qui permet de spécifier les paramètres obligatoires et facultatifs. 
-Ce parseur permet de vérifier le bon type de données ainsi que le bon nombre d'argument.
+MicMac possède son propre parseur d'argument qui permet de sp\'ecifier les paramètres obligatoires et facultatifs.
+Ce parseur permet de v\'erifier le bon type de donn\'ees ainsi que le bon nombre d'argument.
 
 \begin{minted}{cpp}
 int main(int argc, char** argv)
-	double a;
-	std::string b;
-	int c;
-	bool d;
+        double a;
+        std::string b;
+        int c;
+        bool d;
 ElInitArgMain
 (
 //nb d'arguments
@@ -65,36 +65,36 @@ ElInitArgMain
 //chaines de caracteres contenants tous les arguments
    argv,
 //arg obligatoires
-   LArgMain() << EAMC(a, "Param a",eSAM_IsExistFile) << EAMC(b,"Param b",eSAM_IsExistFile), 
+   LArgMain() << EAMC(a, "Param a",eSAM_IsExistFile) << EAMC(b,"Param b",eSAM_IsExistFile),
 //arg facultatifs
    LArgMain() << EAM(c,"C",true,"Param C") << EAM(d,"D",true,"Param D")
 );
    return EXIT_SUCCESS;
 }
- \end{minted}   
+ \end{minted}
 
-\subsubsection{Caméras}
-La lecture d'un fichier XML de caméra se fait par la fonction \emph{Std\_Cal\_From\_File} qui retourne un pointeur sur un objet de type caméra.
+\subsubsection{Cam\'eras}
+La lecture d'un fichier XML de cam\'era se fait par la fonction \emph{Std\_Cal\_From\_File} qui retourne un pointeur sur un objet de type cam\'era.
 \begin{minted}{cpp}
 CamStenope * aCamera =  Std_Cal_From_File("camera.xml");
 \end{minted}
 
 
-Fonction permettant de passer d'un point image (coordonnées exprimées en $(c,l)$) et une distance à un point 3D ($(X,Y,Z)$)
+Fonction permettant de passer d'un point image (coordonn\'ees exprim\'ees en $(c,l)$) et une distance �  un point 3D ($(X,Y,Z)$)
 \begin{minted}{cpp}
 Pt2dr PtIm (123.4,567.8);
 double distance=12.4;
 Pt3dr aPGround = aCamera->ImEtProf2Terrain(PtIm,distance);
 \end{minted}
 
-\subsection{Génération des fichiers}
+\subsection{G\'en\'eration des fichiers}
 \subsubsection{Fichiers XML}
-MicMac utilise plusieurs fichiers xml pour fonctionner. 
-Il existe des classes cpp permettant de les écrire automatiquement.
+MicMac utilise plusieurs fichiers xml pour fonctionner.
+Il existe des classes cpp permettant de les \'ecrire automatiquement.
 Pour chaque balise XML, il existe une classe permettant de la lire.
 Par exemple pour la balise \emph{DicoAppuisFlottant}, il existe une classe \emph{cDicoAppuisFlottant}.
-Les balises filles sont des données membres de la classe issue du nom de la balise mère.
-Voici le code cpp ainsi que le fichier xml généré pour le fichier appui et le fichier mesure.
+Les balises filles sont des donn\'ees membres de la classe issue du nom de la balise mère.
+Voici le code cpp ainsi que le fichier xml g\'en\'er\'e pour le fichier appui et le fichier mesure.
 
 \subsubsection{Fichier appui}
 
@@ -122,7 +122,7 @@ MakeFileXML(aDAF, "Mes3D.xml");
 
 \end{minted}
 
-Fichier XML généré :
+Fichier XML g\'en\'er\'e :
 
 
 \begin{minted}{xml}
@@ -147,7 +147,7 @@ Code cpp :
 
 \begin{minted}{cpp}
 cSetOfMesureAppuisFlottants XMLMesuresImages;
-  
+
 
 cMesureAppuiFlottant1Im XMLImageA;
 XMLImageA.NameIm()="T0-_MG_0001.JPG";
@@ -161,7 +161,7 @@ cOneMesureAF1I XMLMesureB;
 XMLMesureB.NamePt()="Carroz1002";
 XMLMesureB.PtIm()=Pt2dr(11395.38751581008842,862.673280912829);
 XMLImageA.OneMesureAF1I().push_back(XMLMesureB);
-			
+
 
 cMesureAppuiFlottant1Im XMLImageB;
 XMLImageB.NameIm()="T0-_MG_0002.JPG";
@@ -181,7 +181,7 @@ MakeFileXML(XMLImage, "Mesure2D.xml");
 \end{minted}
 
 
-Fichier XML généré :
+Fichier XML g\'en\'er\'e :
 
 \begin{minted}{xml}
 <?xml version="1.0" ?>
@@ -212,8 +212,8 @@ Fichier XML généré :
 \end{minted}
 
 \subsubsection{Utilisation de programmes MicMac}
-On peut également faire appel à un programme de la suite MicMac à partir d'un autre.
-Il suffit d'utiliser la fonction \emph{MM3dBinFile} avec le nom du programme à utiliser ainsi que les arguments nécessaires au programme puis de faire appel à la commande  \emph{System}
+On peut \'egalement faire appel �  un programme de la suite MicMac �  partir d'un autre.
+Il suffit d'utiliser la fonction \emph{MM3dBinFile} avec le nom du programme �  utiliser ainsi que les arguments n\'ecessaires au programme puis de faire appel �  la commande  \emph{System}
 \begin{minted}{cpp}
 std::string aCom =    MM3dBinFile("Apero")
                     + XML_MM_File("Apero-ConvCal.xml")
@@ -231,72 +231,72 @@ std::string aCom =    MM3dBinFile("Apero")
 
 System(aCom);
 \end{minted}
-   
-\subsubsection{Intégration dans la chaîne MicMac}
+
+\subsubsection{Int\'egration dans la chaîne MicMac}
 Pour integrer son programme dans la chaîne MicMac et l'appeler avec la syntaxe \emph{mm3d MonProgramme}, il faut ajouter dans le fichier \file{src/CBinaires/mm3d.cpp} :
 \begin{itemize}
-\item \emph{extern int MonProgramme (int argc, char **argv)} : déclaration de la fonction
-\item \emph{aRes.push\_back(cMMCom("MonProgramme",MonProgramme,"Explication de mon programme"));} : intégration dans la suite mm3d avec le nom du programme "MonProgramme" ainsi que son explication "Explication de mon programme"
+\item \emph{extern int MonProgramme (int argc, char **argv)} : d\'eclaration de la fonction
+\item \emph{aRes.push\_back(cMMCom("MonProgramme",MonProgramme,"Explication de mon programme"));} : int\'egration dans la suite mm3d avec le nom du programme "MonProgramme" ainsi que son explication "Explication de mon programme"
 \end{itemize}
 
-\section{Jour 2 et 3 : Implémentation d'un bloc rigide de 2 caméras}
+\section{Jour 2 et 3 : Impl\'ementation d'un bloc rigide de 2 cam\'eras}
 
-\subsection{Données utilisées}
-La caméra utilisé pour ce jeux de données genere des images au format MPO.
-Ce format permet de stocker dans un même fichier les deux images prises par la caméra.
-Un outil de MicMac permet de séparer le fichier MPO en 2 fichiers images.
+\subsection{Donn\'ees utilis\'ees}
+La cam\'era utilis\'e pour ce jeux de donn\'ees genere des images au format MPO.
+Ce format permet de stocker dans un même fichier les deux images prises par la cam\'era.
+Un outil de MicMac permet de s\'eparer le fichier MPO en 2 fichiers images.
 Voici la commande
-\emph{mm3d SplitMPO ".MPO" pour récupérer les paires d'images.}
+\emph{mm3d SplitMPO ".MPO" pour r\'ecup\'erer les paires d'images.}
 
-\subsection{Description des différents processus}
+\subsection{Description des diff\'erents processus}
 %Utilisation du logiciel :
 
-% \begin{tikzpicture}[node distance=1cm, auto]  
+% \begin{tikzpicture}[node distance=1cm, auto]
 % \tikzset{
 %     mynode/.style={rectangle,rounded corners,draw=black, top color=white, bottom color=lightgray,very thick, inner sep=1em, minimum size=3em, text centered},
 %     myarrow/.style={->, >=latex', shorten >=1pt, thick},
-%     mylabel/.style={text width=7em, text centered} 
-% }  
-% \node[mynode] (xml) {Fichier XML de paramètres};  
-% \node[mynode,below=of xml] (donnees) {\begin{tabular}{c}Donnees Annexes \\ (images,pts homologues...)\end{tabular}};  
-% \node[mynode,right=of xml] (apero) {Apero};  
-% 
-% \draw[myarrow] (xml.east) --  (apero.west);	
-% \draw[myarrow] (donnees.east) -- ++(0.5,0)  |-  (apero.west);	
-% \end{tikzpicture} 
+%     mylabel/.style={text width=7em, text centered}
+% }
+% \node[mynode] (xml) {Fichier XML de paramètres};
+% \node[mynode,below=of xml] (donnees) {\begin{tabular}{c}Donnees Annexes \\ (images,pts homologues...)\end{tabular}};
+% \node[mynode,right=of xml] (apero) {Apero};
+%
+% \draw[myarrow] (xml.east) --  (apero.west);
+% \draw[myarrow] (donnees.east) -- ++(0.5,0)  |-  (apero.west);
+% \end{tikzpicture}
 
-Plusieurs étapes sont nécessaires pour ajouter des observations dans le système de compensation de MicMac :
+Plusieurs \'etapes sont n\'ecessaires pour ajouter des observations dans le système de compensation de MicMac :
 \begin{enumerate}
-\item Écriture mathématique des équations dans le système de calcul formel distribué par MicMac
-\item Génération des fichiers cpp contenant les classes avec entre autre la différentielle et le calcul de résidus
+\item Écriture math\'ematique des \'equations dans le système de calcul formel distribu\'e par MicMac
+\item G\'en\'eration des fichiers cpp contenant les classes avec entre autre la diff\'erentielle et le calcul de r\'esidus
 \item Ajout dans le système de compilation MicMac
 \item Modification du fichier de paramètres
-\item Création des fichiers cpp pour la lecture du fichier de paramètres
+\item Cr\'eation des fichiers cpp pour la lecture du fichier de paramètres
 \item Interaction entre tout ça
 \end{enumerate}
 
 
-La plupart du code décrit ci-après provient du fichier 
+La plupart du code d\'ecrit ci-après provient du fichier
 
 \noindent \file{micmac/src/uti\_phgrm/Apero/cImplemBlockCam.cpp}
 
-\subsubsection{Écriture mathématique des équations}
+\subsubsection{Écriture math\'ematique des \'equations}
 
 On appelle $i$ l'instant ou des images sont prises en même temps.
-On appelle $a$ et $b$ les deux caméras de la paire stéréo.
-Considerer un block rigide de 2 caméras $a$ et $b$ signifie  que la transformation $T$ comportant rotation $R$ et translation $T$ entre 2 instants est constant.
+On appelle $a$ et $b$ les deux cam\'eras de la paire st\'er\'eo.
+Considerer un block rigide de 2 cam\'eras $a$ et $b$ signifie  que la transformation $T$ comportant rotation $R$ et translation $T$ entre 2 instants est constant.
 
 \begin{equation}
 T_{a,b,i}=T_{a,b,i+1}
 \end{equation}
 
 MicMac possède son sytème de calculs formels.
-Cela permet de calculer automatiquement la dérivée des observations par rapport aux paramètres mais également d'optimiser le code généré (minimisation du nombre de calculs élémentaires).
+Cela permet de calculer automatiquement la d\'eriv\'ee des observations par rapport aux paramètres mais \'egalement d'optimiser le code g\'en\'er\'e (minimisation du nombre de calculs \'el\'ementaires).
 
-Quelques éléments se trouvent dans les fichiers \file{/micmac/include/general/phgr\_formel.h} et dans \file{/micmac/src/uti\_phgrm/Apero/Conventions.txt} 
+Quelques \'el\'ements se trouvent dans les fichiers \file{/micmac/include/general/phgr\_formel.h} et dans \file{/micmac/src/uti\_phgrm/Apero/Conventions.txt}
 
 
-Voici les 2 fonctions concernées par le calcul formel
+Voici les 2 fonctions concern\'ees par le calcul formel
 
 \begin{minted}{cpp}
 
@@ -310,8 +310,8 @@ void GenerateCode()
           cIncListInterv      mLInterv;
           cElCompiledFonc*    mFoncEqResidu;
 
-// permet de donner un nom aux inconnues 
-// sert a la localisation dans le systeme d'equation 
+// permet de donner un nom aux inconnues
+// sert a la localisation dans le systeme d'equation
 
    mRotRT0->IncInterv().SetName("OriR0");
    mRotLT0->IncInterv().SetName("OriL0");
@@ -347,7 +347,7 @@ void GenerateCode()
 // generation des classes cpp a partir du code precedent
     cElCompileFN::DoEverything
     (
-        DIRECTORY_GENCODE_FORMEL,  // Directory ou est localise le code genere 
+        DIRECTORY_GENCODE_FORMEL,  // Directory ou est localise le code genere
         "cCodeBlockCam",  // donne les noms de fichier .cpp et .h ainsi que les nom de classe
         aVF,  // expressions formelles utilisees pour les observations
         mLInterv  // intervalle de reference
@@ -373,16 +373,16 @@ void GenerateCodeBlockCam()
 \end{minted}
 
 
-\subsubsection{Génération du code CPP}
-Un fois la fonction permettant l'équation formelle écrite, il faut appeler l'utilitaire qui permet de générer la classe effectuant le calcul.
+\subsubsection{G\'en\'eration du code CPP}
+Un fois la fonction permettant l'\'equation formelle \'ecrite, il faut appeler l'utilitaire qui permet de g\'en\'erer la classe effectuant le calcul.
 Il s'agit de \emph{GenCode} fichier : \file{src/uti\_files/CPP\_GenCode.cpp} et d'appeler la fonction \emph{GenerateCodeBlockCam()}.
 
-Deux fichiers sont alors créés \file{cCodeBlockCam.h} et  \file{cCodeBlockCam.cpp} dans le dossier \file{/micmac/CodeGenere/photogram/} .
+Deux fichiers sont alors cr\'e\'es \file{cCodeBlockCam.h} et  \file{cCodeBlockCam.cpp} dans le dossier \file{/micmac/CodeGenere/photogram/} .
 Ces fichiers contiennent plusieurs fonctions dont :
 
 \begin{itemize}
-\item ComputeVal() : calculs les résidus
-\item ComputeValDeriv() : calcul la dérivée par rapport aux inconnues
+\item ComputeVal() : calculs les r\'esidus
+\item ComputeValDeriv() : calcul la d\'eriv\'ee par rapport aux inconnues
 \end{itemize}
 
 \subsubsection{Ajout du code dans MicMac}
@@ -390,7 +390,7 @@ Ces fichiers contiennent plusieurs fonctions dont :
 Ensuite, il faut ajouter ces fichiers dans le code de MicMac.
 Pour cela il faut ajouter
 \begin{itemize}
-\item dans \emph{src/photogram/phgr\_or\_code\_gen00.cpp} 
+\item dans \emph{src/photogram/phgr\_or\_code\_gen00.cpp}
 \end{itemize}
 \begin{minted}{cpp}
 #include "../../CodeGenere/photogram/cCodeBlockCam.h"
@@ -405,17 +405,17 @@ AddEntry("cCodeBlockCam",cCodeBlockCam::Alloc);
 \end{minted}
 
 
-\footnote{MicMac possède un mécanisme de rangement des inconnues afin de minimiser le nombre de coefficients non nul de la matrice à inverser (gain de place et gain de temps de calcul). Ce mécanisme n'est pas présenté dans ce document mais est présent dans les sources. Il s'agit de toutes les fonctions et objets contenant AMD.}
+\footnote{MicMac possède un m\'ecanisme de rangement des inconnues afin de minimiser le nombre de coefficients non nul de la matrice �  inverser (gain de place et gain de temps de calcul). Ce m\'ecanisme n'est pas pr\'esent\'e dans ce document mais est pr\'esent dans les sources. Il s'agit de toutes les fonctions et objets contenant AMD.}
 
 
 
 \subsubsection{Modification du fichier de paramètres}
-Lorsqu'on veut écrire de nouvelles observations, il faut pouvoir indiquer au programme via les fichiers xmls traditionnels, les différents paramètres qui sont nécessaires.
-Il s'agit du fichier 
+Lorsqu'on veut \'ecrire de nouvelles observations, il faut pouvoir indiquer au programme via les fichiers xmls traditionnels, les diff\'erents paramètres qui sont n\'ecessaires.
+Il s'agit du fichier
 \file{include/XML\_GEN/ParamApero.xml}
 
-Cette partie a été ajouté afin de tenir compte des pondérations sur un bloc rigide.
-La pondération sur la translation et la rotation a été différenciée.
+Cette partie a \'et\'e ajout\'e afin de tenir compte des pond\'erations sur un bloc rigide.
+La pond\'eration sur la translation et la rotation a \'et\'e diff\'erenci\'ee.
 
 \begin{minted}{xml}
 <RigidBlockWeighting Nb="1" Class="true" ToReference="true">
@@ -431,8 +431,8 @@ La pondération sur la translation et la rotation a été différenciée.
 </UseForBundle>
 \end{minted}
 
-Lien vers la pondération déclaré précédemment.
-\emph{GlobalBundle} correspond à un bloc rigide pour toute une acuqisition tandis que \emph{RelTimePond} correspond à un bloc rigide de proche en proche (on tolère une variation de la rigidité pour toute une acuqisition)
+Lien vers la pond\'eration d\'eclar\'e pr\'ec\'edemment.
+\emph{GlobalBundle} correspond �  un bloc rigide pour toute une acuqisition tandis que \emph{RelTimePond} correspond �  un bloc rigide de proche en proche (on tolère une variation de la rigidit\'e pour toute une acuqisition)
 
 
 \begin{minted}{xml}
@@ -442,14 +442,14 @@ Lien vers la pondération déclaré précédemment.
 
 
 
-\subsubsection{Intégration complète dans MicMac}
+\subsubsection{Int\'egration complète dans MicMac}
 
 Dans la fonction \emph{void cAppliApero::AddObservations} du fichier \file{micmac/src/uti\_phgrm/Apero/cAA\_Compensation.cpp} on doit ajouter :
 \begin{minted}{cpp}
           AddObservationsRigidBlockCam(anSO.ObsBlockCamRig(),IsLastIter,aSO);
 \end{minted}
 
-Avec dans le même fichier son implémentation :
+Avec dans le même fichier son impl\'ementation :
 \begin{minted}{cpp}
 void cAppliApero::AddObservationsRigidBlockCam
      (
@@ -458,15 +458,15 @@ void cAppliApero::AddObservationsRigidBlockCam
          cStatObs & aSO
      )
 {
-    for 
+    for
     (
        std::list<cObsBlockCamRig>::const_iterator itO=anOBCR.begin();
        itO !=anOBCR.end();
        itO++
     )
     {
-		//cette fonction renvoie a l'implementation dans 
-		// cImplemBlockCam.cpp
+                //cette fonction renvoie a l'implementation dans
+                // cImplemBlockCam.cpp
          AddObservationsRigidBlockCam(*itO,IsLastIter,aSO);
     }
 
@@ -474,8 +474,8 @@ void cAppliApero::AddObservationsRigidBlockCam
 \end{minted}
 
 La classe cImplemBlockCam du fichier \file{micmac/src/uti\_phgrm/Apero/cImplemBlockCam.cpp} effectue tout le travail.
-Le constructeur permet d'initialiser toutes les données (lecture de la transformation initiale, tri des caméras...).
-La fonction \emph{DoCompensation} pose les équations d'observations dans la matrice normale
+Le constructeur permet d'initialiser toutes les donn\'ees (lecture de la transformation initiale, tri des cam\'eras...).
+La fonction \emph{DoCompensation} pose les \'equations d'observations dans la matrice normale
 
 \end{document}
 
@@ -484,22 +484,22 @@ La fonction \emph{DoCompensation} pose les équations d'observations dans la mat
 
 EXO-PAIRE-RIGID
  Ori-UnScaledLR = orientation avec tapas
- 
+
  Fraser model
   X = (1+b1)x +...
   Y = (1+b2)y +...
-  
-  
-  
-Apero Apero-EstimBlock.xml 
+
+
+
+Apero Apero-EstimBlock.xml
 Estimation de la solution initiale du block
 
 R i camera par rappor au terrain
 R' camera A vers B
-R'i -1 = Rj-1 Rj 
+R'i -1 = Rj-1 Rj
 
 
-mm3d GenCode => generation des fichiers 
+mm3d GenCode => generation des fichiers
 
 Ajouter le code generer dans les fichiers
 /home/ecg/Bureau/micmac/src/photogram/phgr_or_code_gen00.cpp
@@ -507,17 +507,17 @@ Ajouter le code generer dans les fichiers
 
 
 Exercice :
-toutes les poses sont exprimés
-on rajoute juste un observation de rigidité :
-	cas 1 une observation pour tous les couples
-	cas 2 un observation pour chaque couple avec lien avec la rigidité precedente.
+toutes les poses sont exprim\'es
+on rajoute juste un observation de rigidit\'e :
+        cas 1 une observation pour tous les couples
+        cas 2 un observation pour chaque couple avec lien avec la rigidit\'e precedente.
 
-modification du XML de APERO.xml afin de prendre en compte les nouvelles inconnues 
+modification du XML de APERO.xml afin de prendre en compte les nouvelles inconnues
 
                     <UseForBundle Nb="?" >
-						<GlobalBundle      Nb="1" Type="bool"> </GlobalBundle>
-						<RelTemporalBundle Nb="1" Type="bool"> </RelTemporalBundle>
-					</UseForBundle>
+                                                <GlobalBundle      Nb="1" Type="bool"> </GlobalBundle>
+                                                <RelTemporalBundle Nb="1" Type="bool"> </RelTemporalBundle>
+                                        </UseForBundle>
 
 
 Compilation du fichier XML en CPP
@@ -527,7 +527,7 @@ Compilation Global...
 Modification de implment block cam pour prendre en compte la lecture du fichier xml
 
 
-Ajout d'équations
+Ajout d'\'equations
 
 
 \end{document}

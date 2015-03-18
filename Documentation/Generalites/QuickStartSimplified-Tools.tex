@@ -50,15 +50,12 @@ The main modification on the distribution are :
 \begin{itemize}
    \item  the versionning tool is now {\tt mercurial}
    \item  the tools are working on {\tt Linux}, {\tt MacOs} and  {\tt Windows};
-   \item  the tools are also distributed on binary  version (however, it  remains of course
+   \item  the tools are also distributed on binary version (however, it remains of course
           an open source project and it is still possible to download the source code).
 \end{itemize}
 
-To get the binary version, go on the following link :
+To get the binary version, go to : \url{http://logiciels.ign.fr/?Telechargement,20}
 
-\begin{verbatim}
-          http://logiciels.ign.fr/?Telechargement,20
-\end{verbatim}
 
 To get the source (you will need to install the mercurial versionning system) type :
 
@@ -1384,20 +1381,20 @@ For a detailed example on how to use {\tt Campari} in a typical aerial
 surveying workflow, see \ref{Cuxa:DataSet}.
 
 \subsubsection{Estimate lever-arm with the tool {\tt Campari}}
-As seen, the tool {\tt Campari} deals with compensation of heterogeneous measures. Not only tie points 
+As seen, the tool {\tt Campari} deals with compensation of heterogeneous measures. Not only tie points
 and ground control points but also GPS data. In direct georeferencing case for example, specially for UAV
-acquisitions, one gets a GPS antenna on the top of the UAV and camera embedded on back side. The vector which separates 
-the phase center of the GPS antenna and the optical center of the camera is called : lever-arm vector. The value of 
+acquisitions, one gets a GPS antenna on the top of the UAV and camera embedded on back side. The vector which separates
+the phase center of the GPS antenna and the optical center of the camera is called : lever-arm vector. The value of
 this vector expressed in the camera frame must be constant (in practice, very slight variations).
 To include GPS data in the compensation and estimate lever-arm, for example :
 
 \begin{verbatim}
-mm3d Campari "MyDir\IMG_.*.jpg" OriIn OriOut GCP=[GroundMeasures.xml,0.1,ImgMeasures.xml,0.5] 
+mm3d Campari "MyDir\IMG_.*.jpg" OriIn OriOut GCP=[GroundMeasures.xml,0.1,ImgMeasures.xml,0.5]
  EmGPS=[Ori-Nav-Brut/,0.02,0.05] GpsLa=[0,0,0]
 \end{verbatim}
 
 The directory {\tt OriIn} must contain orientations in the same frame as the directory {\tt Ori-Nav-Brut/}. This
-can be done with a relative orientation and ground control points using the tool {\tt GCPBascule} described 
+can be done with a relative orientation and ground control points using the tool {\tt GCPBascule} described
 in \ref{Sec:GCPBascule} or even with the tool {\tt CenterBascule} described in \ref{Sec:CenterBascule}.
 
 \vspace{\baselineskip}
@@ -1420,8 +1417,8 @@ Meaning of optional args is:
 
 \begin{itemize}
    \item {\tt EmGPS}, specifying the directory where orientations generated from GPS data are located; this directory
-   can be generated from a file using the tool {\tt OriConvert} described in \ref{OriConvert}. The uncertainty for the height component, 
-   for GPS coordinates, must be different from the uncertainty of the horizontal components. These values ​​depend on 
+   can be generated from a file using the tool {\tt OriConvert} described in \ref{OriConvert}. The uncertainty for the height component,
+   for GPS coordinates, must be different from the uncertainty of the horizontal components. These values ​​depend on
    if GPS coordinates are derived from a processing based on pseudo-range (2-5 m) or carrier-phase measurements (1-5 cm). Also, these
    values are the same for all GPS coordinates
    \item {\tt GpsLa}, the initial value of the lever arm vector expressed in the camera frame

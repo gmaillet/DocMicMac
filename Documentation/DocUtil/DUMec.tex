@@ -12,9 +12,9 @@
 
 \label{ORG:MEC}
 
-La section {\tt <Section\_MEC>} est constitu\'ee de quelques 
-tags globaux \`a la mise en correspondance puis d'une liste 
-de descripteurs d'\'etapes {\tt <EtapeMEC>}. 
+La section {\tt <Section\_MEC>} est constitu\'ee de quelques
+tags globaux \`a la mise en correspondance puis d'une liste
+de descripteurs d'\'etapes {\tt <EtapeMEC>}.
 
 Afin de conserver un maximum de souplesse,
 MicMac \'etant aussi un outil de R\&D , la grande
@@ -28,7 +28,7 @@ descendants de {\tt <EtapeMEC>}.
 \subsection{Mode diff\'erentiel, valeurs par d\'efaut}
 
 La liste {\tt <EtapeMEC  Nb="+" DeltaPrec="1">} est en mode
-diff\'erentiel (voir~\ref{DUG:Mode:Dif}), ce qui permet 
+diff\'erentiel (voir~\ref{DUG:Mode:Dif}), ce qui permet
 de concilier un fonctionnement simple dans le cas g\'en\'eral
 avec un r\'eglage fin pour des utilisations plus pointues.
 Le premier \'el\'ement de cette liste d'\'etapes de mise
@@ -48,9 +48,9 @@ ce qui peut en fait correspondre \`a plusieurs r\'ealit\'e diff\'erentes :
     \item les tags qui sont logiquement obligatoires mais qui, du fait
           du mode diff\'erentiel, peuvent n'\^etre sp\'ecifi\'es qu`\`a
           la premi\`ere \'etape;
-          
-    \item les tags qui sont logiquement facultatifs, pour des raisons 
-          internes de programmation il n'est pas possible d'utiliser 
+
+    \item les tags qui sont logiquement facultatifs, pour des raisons
+          internes de programmation il n'est pas possible d'utiliser
           le m\'ecanisme de sp\'ecification par l'attribut {\tt Def}
           (voir~\ref{Val:Def}) ; la valeur par d\'efaut est g\'er\'ee
           dans le code MicMac; sauf oubli, elle est sp\'ecifi\'ee dans
@@ -112,7 +112,7 @@ Le tableau~\ref{TAB:EQUIV:Mec} r\'esume les \'equivalences.
 \end{verbatim}
 
 Cette valeur permet de restreindre la zone sur laquelle est
-r\'eellement effectu\'ee la mise en correspondance . Cette 
+r\'eellement effectu\'ee la mise en correspondance . Cette
 restriction ne porte que sur le calcul et ne
 modifie pas l'emprise terrain du chantier; par exemple, si on lance
 plusieurs fois MicMac  avec  le m\^eme fichier de
@@ -122,7 +122,7 @@ diff\'erents morceaux calcul\'es.
 
 Comme son nom l'indique, il s'agit d'une proportion; la bo\^ite
 {\tt [0.0 0.0 1.0 1.0]} correspond \`a l'ensemble du chantier;
-lorsque  {\tt <ProportionClipMEC>} est omis (arit\'e={\tt ?}), 
+lorsque  {\tt <ProportionClipMEC>} est omis (arit\'e={\tt ?}),
 la valeur par d\'efaut est naturellement {\tt [0.0 0.0 1.0 1.0]}.
 
 {\tt <ProportionClipMEC>} est utile en phase mise au point
@@ -136,7 +136,7 @@ sans cr\'eer un chantier \emph{ad hoc}.
 
 \label{MEC:Masq}
 
-La section planim\'etrie(\ref{Autresec:Planimetrie}) permet 
+La section planim\'etrie(\ref{Autresec:Planimetrie}) permet
 de sp\'ecifier l'emprise (bo\^ite englobante) terrain  et un
 \'eventuel masque utilisateur (~\ref{Masq:Ter:Util}).
 Les tags de cette section permettent de param\'etrer le
@@ -189,7 +189,7 @@ Dans ces cas MicMac renvoye la valeur de {\tt <DefCorrelation>}.
        <EpsilonCorrelation Nb="?" Type="double" Def="1e-10"> </EpsilonCorrelation>
 \end{verbatim}
 
-L'estimation du coefficient de corr\'elation  est d'autant 
+L'estimation du coefficient de corr\'elation  est d'autant
 plus bruit\'ee  que l'ecart-type est faible (et ind\'efini
 quand il est nul).  Pour \'eviter tout probl\`eme d'exception
 arithm\'etique, MicMac utilise  {\tt Max(Variance,<EpsilonCorrelation>)}
@@ -211,10 +211,10 @@ dans le calcul du coefficient de corr\'elation.
     <DeZoom  Nb="1" Type="int">                    </DeZoom>
 \end{verbatim}
 
-Cette valeur fixe le ratio de r\'esolution terrain de l'\'etape; 
+Cette valeur fixe le ratio de r\'esolution terrain de l'\'etape;
 il s'agit du seul param\`etre obligatoire \`a chaque \'etape .
-Le pas de r\'esolution terrain de l'\'etape, le $\Delta^{xy}$ 
- d\'efini en~\ref{Disc:Quant},
+Le pas de r\'esolution terrain de l'\'etape, le $\Delta^{xy}$
+ d\'efini en~\ref{Disc:Quant:fr},
 sera \'egal \`a {\tt DeZoom * ResolutionTerrain} (o\`u
 {\tt ResolutionTerrain} est la valeur d\'efinie en \ref{Autresec:Resol:Terr}).
  Les contraintes sont les suivantes :
@@ -242,19 +242,19 @@ sera \'egal \`a {\tt DeZoom * ResolutionTerrain} (o\`u
 \end{verbatim}
 
 En g\'en\'eral, pour des questions de coh\'erence d'\'echantillonage,
-on souhaite avoir des r\'esolutions comparables pour 
-le terrain et l'image. 
+on souhaite avoir des r\'esolutions comparables pour
+le terrain et l'image.
 C'est ainsi que pour les g\'eom\'etries
-terrain, la r\'esolution terrain propos\'ee par d\'efaut par 
+terrain, la r\'esolution terrain propos\'ee par d\'efaut par
 MicMac est \'egale \`a la r\'esolution estim\'ee
  de la prise de vue (voir~\ref{Autresec:Resol:Terr}).
 En cons\'equence,  pour maintenir cette coh\'erence \`a chaque \'etape,
-le ratio de r\'esolution image  de l'\'etape 
-(le \DeltaI de~\ref{Disc:Quant} ) est  lui aussi, en g\'en\'eral,
+le ratio de r\'esolution image  de l'\'etape
+(le \DeltaI de~\ref{Disc:Quant:fr} ) est  lui aussi, en g\'en\'eral,
 \'egal  au ratio Terrain.
 
 Cependant cette \'egalit\'e des ratio, n'est pas impos\'ee et
-MicMac permet de le contr\^oler avec le param\'etre 
+MicMac permet de le contr\^oler avec le param\'etre
 {\tt RatioDeZoomImage} de la mani\`ere suivante :
 
 
@@ -271,25 +271,25 @@ correspond au contexte suivant :
    \item  on dispose d'un prise de vue \`a une r\'esolution donn\'ee,
           disons $20 cm$ pour fixer les choses;
 
-    \item on esp\`ere (peut \^etre \`a cause du multi-vues) pouvoir 
+    \item on esp\`ere (peut \^etre \`a cause du multi-vues) pouvoir
           corr\'eler les images avec un pas terrain de $10 cm$;
 
      \item si on laissait les options par d\'efaut de MicMac on
            aurait  :
-     \begin{itemize} 
-           \item  \`a {\tt DeZoom=1}, des images \`a $20 cm$ 
+     \begin{itemize}
+           \item  \`a {\tt DeZoom=1}, des images \`a $20 cm$
               pour $10 cm$ terrain (\c{c}a c'est in\'evitable);
 
-           \item  \`a {\tt DeZoom=2}, des images \`a $40 cm$ 
+           \item  \`a {\tt DeZoom=2}, des images \`a $40 cm$
               pour $20 cm$ terrain ;
 
-           \item  \`a {\tt DeZoom=4}, des images \`a $80 cm$ 
+           \item  \`a {\tt DeZoom=4}, des images \`a $80 cm$
               pour $40 cm$ terrain ;
-           \item  \dots 
+           \item  \dots
      \end{itemize}
 
 \end{itemize}
- 
+
 Or, tant que  {\tt DeZoom$\geq2$}, on dispose d'images ayant une r\'esolution
 adapt\'ee au terrain, et on n'a pas int\'er\^et \`a utiliser des images
 moins bien r\'esolues.  Pour utiliser les images \`a la bonne
@@ -313,10 +313,10 @@ de r\'etablir {\tt <RatioDeZoomImage>}  \`a $1$  lorsque {\tt DeZoom=1}.
 \end{verbatim}
 
 Ces param\`etres  permettent de fixer les $\Delta^{px}_k$
-d\'ecrits en~\ref{Disc:Quant}. Ils expriment un ratio;
+d\'ecrits en~\ref{Disc:Quant:fr}. Ils expriment un ratio;
 soit $r_k$ leur valeur, la formule utilis\'ee pour calculer
 $\Delta^{px}_k$ est la suivante :
- 
+
 
 \begin{equation}
    \Delta^{px}_k = r_k * \Delta^{xy} * \rho^G_k
@@ -327,7 +327,7 @@ Commentons :
 
 \begin{itemize}
    \item $\rho^G_k$ est un coefficient , calcul\'e par MicMac,
-         qui ne d\'epend que de la g\'eom\'etrie et 
+         qui ne d\'epend que de la g\'eom\'etrie et
          sur lequel nous allons revenir (il vaut souvent $1$);
 
    \item  couramment, les valeurs fix\'ees \`a la premi\`ere \'etape
@@ -340,8 +340,8 @@ Commentons :
          tatonnement.
 \end{itemize}
 
-Le coefficient $\rho^G_k$ est calcul\'e 
-en fonction de la g\'eom\'etrie de restistution 
+Le coefficient $\rho^G_k$ est calcul\'e
+en fonction de la g\'eom\'etrie de restistution
 de la mani\`ere suivante :
 
 
@@ -352,10 +352,10 @@ de la mani\`ere suivante :
    \item  pour {\tt eGeomMNTFaisceauIm1ZTerrain\_Px?D}, $\rho^G_1$ est la r\'esolution
           terrain  de la g\'eom\'etrie intrins\`eque ; $\rho^G_2=1$ (si utile);
 
-   \item  pour {\tt eGeomMNTFaisceauIm1PrCh\_Px?D}, s'il y a deux images $\rho^G_1$ 
-          est calcul\'e \`a partir du $\frac{B}{H}$ pour qu'un 
+   \item  pour {\tt eGeomMNTFaisceauIm1PrCh\_Px?D}, s'il y a deux images $\rho^G_1$
+          est calcul\'e \`a partir du $\frac{B}{H}$ pour qu'un
           \'ecart de $1$ en parallaxe corresponde \`a peu pr\`es \`a un \'ecart de
-           $1$ pixel sur les images (la correspondance \'etant exacte, en cas de vues 
+           $1$ pixel sur les images (la correspondance \'etant exacte, en cas de vues
            parall\`eles, gr\^ace \`a la dynamique en $\frac{1}{Z}$);
            avec $N$ image, c'est une moyenne de cette formule qui est utilis\'ee;
            $\rho^G_2=1$ (si utile);
@@ -402,7 +402,7 @@ dilatation, il faut adapter le  $\delta_{A}^k$}.
 \end{verbatim}
 
 Pour limiter le volume de calcul, fait l'hypoth\`ese que les
-fonctions de projections sont d\'erivables et localement 
+fonctions de projections sont d\'erivables et localement
 approximable par leur diff\'erentielle (d\'eriv\'ees secondes
 "faible" \`a l'echelle des variations consid\'er\'ees). Typiquement, \'etant
 donn\'ee une parallaxe quantifi\'ee $u_0,v_0$ et un point
@@ -422,14 +422,14 @@ fait les calculs \`a partir des estimations de $\pi_k$ sur les
 \end{equation}
 \begin{equation}
       \Delta_x = \frac{P_0(1,0)-P_0(-1,0)}{2} \;
-      \Delta_y = \frac{P_0(0,1)-P_0(0,-1)}{2} 
+      \Delta_y = \frac{P_0(0,1)-P_0(0,-1)}{2}
 \end{equation}
 
 \begin{equation}
         P_0(i,j) \approx  V_0 + i *\Delta_x + j*\Delta_y
 \end{equation}
 
-En toute rigueur, il est possible que  ce mode de calcul conduise  \`a 
+En toute rigueur, il est possible que  ce mode de calcul conduise  \`a
 des approximations  inacceptables. {\tt SzGeomDerivable} permet d'indiquer
 \`a MicMac la taille du voisinage $N^b$ sur lequel l'approximation
 est licite.
@@ -475,9 +475,9 @@ expressions r\'eguli\`eres (voir~\ref{DU:Regex})  de la liste  {\tt PatternSel}.
 
 Les $\pi_k$ des  points quantifi\'es sont \`a coordonn\'ees r\'eelles;
 pour acc\'eder aux radiom\'etries des images en ces points, avec
-un minimum de perte d'information, il convient de se donner un 
+un minimum de perte d'information, il convient de se donner un
 sch\'ema d'interpolation. Le param\`etre {\tt ModeInterpolation}
-permet de sp\'ecifier l'interpolateur \`a utiliser ; il est 
+permet de sp\'ecifier l'interpolateur \`a utiliser ; il est
 \`a valeur dans l'\'enum\'eration {\tt eModeInterpolation}:
 
 \begin{itemize}
@@ -485,13 +485,13 @@ permet de sp\'ecifier l'interpolateur \`a utiliser ; il est
     \item{\tt eInterpolBiLin}  : bi-lin\'eaire;
     \item{\tt eInterpolBiCub}  : bi-cubique , il existe une famille
          d'interpolateur bicubique d\'efinie par un param\`etre
-	 (d\'eriv\'ee en $1$ ?), ce param\`etre est control\'e par
-	 le tag {\tt CoefInterpolationBicubique} (celui utilis\'e par d\'efaut 
-	 est celui qui est restore correctement les signaux  affines);
+         (d\'eriv\'ee en $1$ ?), ce param\`etre est control\'e par
+         le tag {\tt CoefInterpolationBicubique} (celui utilis\'e par d\'efaut
+         est celui qui est restore correctement les signaux  affines);
     \item{\tt eInterpolSinCard}  : sinus cardinal,  l'interpolateur
          \'etant en th\'eorie \`a support infini , le tag
-	 {\tt TailleFenetreSinusCardinal} permet de choisir sur
-	 quelle taille de fen\^etre on "l'appodise"; 
+         {\tt TailleFenetreSinusCardinal} permet de choisir sur
+         quelle taille de fen\^etre on "l'appodise";
          par TailleFenetreSinusCardinal (par d\'efaut 3);
 \end{itemize}
 
@@ -544,7 +544,7 @@ d'\'echelle : MicMac choisit le param\`etre qui donne \`a la largeur
 moyenne du filtre la m\^eme valeur que la fen\^etre classique de taille {\tt SzW}.
 Pour les fen\^etre exponentielles, il est tout \`a fait coh\'erent
 de lui assigner des valeurs r\'eelles et est donc,  pour  rester g\'en\'eral
-de type  {\tt double}. 
+de type  {\tt double}.
 
 Les tailles en x et en y de la fen\^etre n'ont pas de raison d'\^etre \'egales:
 le  tag {\tt SzWy} permet  d'assigner une valeur diff\'erente \`a la taille en y
@@ -554,7 +554,7 @@ Comme d\'efini en~\ref{Vign:Taille:Un}, pour les fen\^etres classiques,
 le param\`etre {\tt SzWInt}, permet \'eventuellement d'avoir une taille
 diff\'erente pour la  mesure d'\'ecart (fen\^etre de taille
 {\tt SzWInt}) et la normalisation en homoth\'etie-translation
-des radiom\'etries (fen\^etre de taille {\tt SzW}). 
+des radiom\'etries (fen\^etre de taille {\tt SzW}).
 
     % - - - - - - - - - - - - - - - - -
 \subsubsection{Multi-corr\'elation}
@@ -566,7 +566,7 @@ des radiom\'etries (fen\^etre de taille {\tt SzW}).
 \end{verbatim}
 
 Ce tag permet de sp\'ecifier comment aggr\'eger les coefficients
-de corr\'elation lorsqu'il y a plus de deux images 
+de corr\'elation lorsqu'il y a plus de deux images
 (voir~\ref{MecaGen:Multi:Correl}). Les valeurs possibles sont :
 
 \begin{itemize}
@@ -587,7 +587,7 @@ de corr\'elation lorsqu'il y a plus de deux images
     <DynamiqueCorrel Nb="?" Type="eModeDynamiqueCorrel"> </DynamiqueCorrel>
 \end{verbatim}
 
-Comme vu avec l'\'equation~\ref{Corr:As:Norme}, le coefficient 
+Comme vu avec l'\'equation~\ref{Corr:As:Norme}, le coefficient
 de corr\'elation est directement fonction de la distance au carr\'e
 entre des vignettes normalis\'ees. Ce tag permet de sp\'ecifier
 comment convertir le coefficient de corr\'elation en un co\^ut
@@ -597,10 +597,10 @@ sont~:
 
 
 \begin{itemize}
-   \item {\tt eCoeffCorrelStd} le co\^ut est  donn\'e par 
+   \item {\tt eCoeffCorrelStd} le co\^ut est  donn\'e par
          $Cost=1-Corr$, ce co\^ut est donc un \'ecart quadratique
          entre les vignettes normalis\'es;
-         
+
 
    \item {\tt eCoeffAngle} le co\^ut est  donn\'e par
          $Cost=acos(Corr)$; lorsque l'on a deux images,
@@ -640,7 +640,7 @@ quelle fonction rajouter la possibilit\'e d'avoir une dynamique "tabul\'ee".
 \end{verbatim}
 
 
-Ces valeurs correspondent aux termes de r\'egularisation 
+Ces valeurs correspondent aux termes de r\'egularisation
 $\alpha_k$  d\'efinis en~\ref{DUMG:Appr:Energ};  il permettent
 de pond\'erer l'attache aux donn\'ees par rapport \`a l'\emph{a priori}
 de r\'egularit\'e (plus ils sont fort, plus on impose un r\'esultat
@@ -652,8 +652,8 @@ qui peut \^etre faite, est qu'il n'est en g\'en\'eral pas
 n\'ecessaire de modifer leur valeur en fonction du niveau
 de {\tt DeZoom}; d'un part, en premi\`ere approximation il
 peuvent \^etre consid\'er\'es comme invariant \`a l'\'echelle et,
-d'autre part, leur r\'eglage pour les basses r\'esolution n'est 
-pas critique. A d\'efaut de r\`egles rationnelles, on peut 
+d'autre part, leur r\'eglage pour les basses r\'esolution n'est
+pas critique. A d\'efaut de r\`egles rationnelles, on peut
 donner quelques plages de valeurs empiriques sur les principaux
 cas d'utilisation de MicMac :
 
@@ -663,14 +663,14 @@ cas d'utilisation de MicMac :
           $\alpha_1$ est typiquement dans l'intervalle $[0.01 \; 0.05]$;
           la valeur est faible car, d'une part le multi-vues rend plus
           fiable l'attache aux donn\'ees et d'autre part l'{\tt a priori}
-          de r\'egularit\'e est faible sur 
+          de r\'egularit\'e est faible sur
           le relief urbain et  ses fortes discontinuit\'es;
 
-    \item pour les MNT spot-5, en st\'er\'eo classique, 
+    \item pour les MNT spot-5, en st\'er\'eo classique,
            $\alpha_1$ est typiquement dans l'intervalle $[0.1 \; 0.2]$;
-          
+
     \item pour la superposition des cannaux de la cam\'era num\'erique,
-           $\alpha_1$ et  $\alpha_2$ sont typiquement dans l'intervalle 
+           $\alpha_1$ et  $\alpha_2$ sont typiquement dans l'intervalle
            $[0.5 \; 2.0]$; ici le champ recherch\'e est tr\`es
            r\'egulier (fonction basse fr\'equence, faible amplitude);
 
@@ -680,7 +680,7 @@ cas d'utilisation de MicMac :
           tr\`es diff\'erents puisque  $\alpha_1$ est d\'etermin\'e par
           l'incertitude sur le relief alors que $\alpha_2$ est d\'etermin\'e
           par l'incertitude sur la mise en place initiale; le ratio
-          de variation possible de $\alpha_2$ est tr\`es grand car 
+          de variation possible de $\alpha_2$ est tr\`es grand car
           l'\emph{a priori} sur les orientation peut \^etre tr\`es
           variable (typiquement quelques pixels \`a quelques centaines
           suivant les contextes);
@@ -692,7 +692,7 @@ tatonnement, il ne faut surtout pas h\'esiter \`a les remettre en cause
 \`a la premi\`ere occasion.
 
 Les trois derniers param\`etres permettent de rajouter un terme
-quadratique dans le crit\`ere de co\^ut (comme par 
+quadratique dans le crit\`ere de co\^ut (comme par
 exemple~\ref{CostPrgDyn:Quad}). Ces param\`etres ne sont accessibles
 qu'avec un optimisation de type programmation dynamique.
 Ils peuvent \^etre utilis\'es par exemple pour de la production
@@ -721,7 +721,7 @@ de mod\`eles num\'eriques de terrain.
 \end{verbatim}
 
 
-Si {\tt CoxRoy8Cnx} vaut {\tt true} le voisinage d\'efini 
+Si {\tt CoxRoy8Cnx} vaut {\tt true} le voisinage d\'efini
 dans~\ref{CostGrad:MaxFlot} est le $8$-voisinage, sinon c'est
 le $4$-voisinage.  L'utilisation du  $8$-voisinage permet
 de diminuer sensiblement les artefacts directionnels qui
@@ -737,13 +737,13 @@ m\'emoire / dynamique"~:
 \begin{itemize}
    \item si {\tt CoxRoyUChar} vaut {\tt true}, les valeurs num\'erique sont
          stock\'ees sur un octet; cela a pour cons\'equence que
-	 les coefficient de corr\'elation et les terme de r\'egularisation
-	 sont arrondies au $\frac{1}{100}$; cette option est donc
-	 d\'econseill\'ee avec des r\'egularisations  tr\`es faibles;
+         les coefficient de corr\'elation et les terme de r\'egularisation
+         sont arrondies au $\frac{1}{100}$; cette option est donc
+         d\'econseill\'ee avec des r\'egularisations  tr\`es faibles;
 
    \item si {\tt CoxRoyUChar} vaut false, les valeurs num\'erique sont
-         stock\'ees sur deux octets; les valeurs 
-	 sont arrondies au $\frac{1}{10000}$;
+         stock\'ees sur deux octets; les valeurs
+         sont arrondies au $\frac{1}{10000}$;
 \end{itemize}
 
     %---------------------------------------------
@@ -766,9 +766,9 @@ m\'emoire / dynamique"~:
   </ModulationProgDyn>
 \end{verbatim}
 
-MicMac utilise le m\'ecanisme de 
+MicMac utilise le m\'ecanisme de
 "programmation dynamique multi-directionnelle"
-d\'ecrit en~\ref{ProgDyn:MulDir} auquel on pourra se r\'eferrer.  
+d\'ecrit en~\ref{ProgDyn:MulDir} auquel on pourra se r\'eferrer.
 L'image est balay\'ee selon les
 angles $Teta0 + k \frac{\pi}{NbDir}$. Les mesures obtenues pour
 chaque direction sont
@@ -782,11 +782,11 @@ une des valeurs \'enum\'er\'ees :
             de chaque balayage est utilis\'e comme entr\'ee pour le prochain;
 \end{itemize}
 
-{\tt Px1PenteMax} et {\tt Px2PenteMax} permettent d 'imposer une contrainte 
+{\tt Px1PenteMax} et {\tt Px2PenteMax} permettent d 'imposer une contrainte
 de pente maximale. On a tout int\'eret \`a imposer cette contrainte lorsque
-cela est pertinent pour le probl\`eme pos\'e. En plus de l'avantage 
-\'evident d'ajouter une connaissance \emph{a priori}, cela permet 
-de limiter la combinatoire (en \'evitant d'explorer tous les couples 
+cela est pertinent pour le probl\`eme pos\'e. En plus de l'avantage
+\'evident d'ajouter une connaissance \emph{a priori}, cela permet
+de limiter la combinatoire (en \'evitant d'explorer tous les couples
 de paralaxe de pixels voisins).
 
 Lorsqu'il y a plusieurs \'etape {\tt EtapeProgDyn} elle sont

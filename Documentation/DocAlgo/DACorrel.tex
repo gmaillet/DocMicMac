@@ -6,11 +6,11 @@
 
 \section{G\'en\'eralit\'e}
 
-MicMac utilise essentiellement le coefficient de corr\'elation 
+MicMac utilise essentiellement le coefficient de corr\'elation
 normalis\'e centr\'e comme crit\`ere d'attache aux donn\'ees.
 
 Le cadre g\'en\'eral est la comparaison de vecteur de r\'eels
-pond\'er\'ees \footnote{on pourrait g\'en\'eraliser 
+pond\'er\'ees \footnote{on pourrait g\'en\'eraliser
 \`a des fonction r\'eelles sur un espace probabilis\'e}, typiquement
 ce vecteur est constitu\'e de l'ensemble des valeur de la vignette
 de corr\'elation et le poids vaut souvent uniform\'ement $1$.
@@ -25,21 +25,21 @@ Pour chaque  vecteur $U$ de valeurs $U_k, k \in [1 \, n]$ on pose :
    E(U) =  \frac{\sum^n_{k=1} p^{ds}_k U_k}{\sum^n_{k=1}  p^{ds}_k}
 \end{equation}
 
-Etant donn\'e deux  vecteur $u_k$ et $v_k$, une d\'efinition classique du 
+Etant donn\'e deux  vecteur $u_k$ et $v_k$, une d\'efinition classique du
 coefficient normalis\'e centr\'e est :
 
 \begin{equation}
    Cor(u,v) =  \frac{E(uv)-E(u)E(v)}{\sqrt{(E(u^2)-E(u)^2)*(E(v^2)-E(v)^2)}}
 \end{equation}
 
-Cette d\'efinition est proche de celle utilis\'ee pour le calcul 
+Cette d\'efinition est proche de celle utilis\'ee pour le calcul
 (notamment pour les algorithmes de calculs rapides), mais pas forc\'ement intuitive
-\`a interpr\'eter. Pour b\^atir une interpr\'etation 
+\`a interpr\'eter. Pour b\^atir une interpr\'etation
 g\'eom\'etrique, on remarque d'abord que $E(u,v)$ est un produit scalaire et
 on munit $\Echant$  de la norme associ\'ee :
 
 \begin{equation}
-   \| X \|^2 =  E(X^2)  
+   \| X \|^2 =  E(X^2)
 \end{equation}
 
 On note $\PZero$ l'hyperplan des vecteur de moyenne nulle :
@@ -91,7 +91,7 @@ au choix comme :
 \begin{itemize}
   \item  le produit scalaire entre $\tilde{u}$ et $\tilde{v}$;
 
-  \item  le \emph{cosinus} de l'angle entre $\bar{u}$ et $\bar{v}$; 
+  \item  le \emph{cosinus} de l'angle entre $\bar{u}$ et $\bar{v}$;
 
   \item  le \emph{cosinus} de l'angle entre les projection orthogonale
          de $u$ et $v$ sur \PZero.
@@ -121,7 +121,7 @@ de distance entre des \'echantillons normalis\'es de mani\`ere
 Soit $I_k$ des images, $p=(i,j)$ un point de l'espace terrain
 discr\'etis\'e, $p_{x_0}$ une parallaxe fix\'ee.
 On consid\`ere $U^N_k(l,m)$ le vecteur  de $\RR^{(2N+1)^2}$ correspondant  \`a  la
-"vignette" de taille $N$ centr\'ee en $p$ : 
+"vignette" de taille $N$ centr\'ee en $p$ :
 
 
 \begin{equation}
@@ -211,7 +211,7 @@ soit par exemple avec des fen\^etres de taille $N$ :
    p^{ds}_{(x,y)} = |N-x||N-y|
 \end{equation}
 
-On peu aussi envisager des fen\^etres gaussienne, de support 
+On peut aussi envisager des fen\^etres gaussiennes, de support
 infini:
 
 \begin{equation}
@@ -233,34 +233,34 @@ arbitraire) tout en pouvant \^etre  calcul\'ees rapidement :
 
 \subsection{Equivalence des tailles de fen\^etre}
 
-En vrac pour l'instant. 
+En vrac pour l'instant.
 
 Comment choisir un param\^etre d'att\'enuation exponentiel pour avoir des
-fen\^etres , plus ou moins, \'equivalente \`a des fen\^etres carr\'ees d'une
+fen\^etres, plus ou moins, \'equivalentes \`a des fen\^etres carr\'ees d'une
 certaine taille.
 L'id\'ee est de d\'efinir la taille "g\'en\'eralis\'ee"
 comme l'esp\'erance de $|X|$ (ou l'\'ecart type $\sqrt{E(X^2})$).
 On peut faire le calcul sur des s\'eries discr\`etes ou continues.
 
-Avec des fenetres carres :
+Avec des fen\^etres carr\'ees :
 
 \begin{equation}
     C_2(N) = \frac{\sum_{k=-N}^{k=N} k^2}{\sum_{k=-N}^{k=N}1} = \frac{N*(N+1)}{3}
 \end{equation}
 \begin{equation}
-    C'_2(N)  
+    C'_2(N)
       = \frac{\int_{-N-\frac{1}{2}}^{N+\frac{1}{2}} X^2}{\int_{-N-\frac{1}{2}}^{N+\frac{1}{2} 1}}
       = \frac{(n+1)^2} {3}
 \end{equation}
 
 \begin{equation}
-    E_2(a) 
+    E_2(a)
        = \frac{\sum_{k=-\infty}^{k=+\infty} a^{-|k|}k^2}{\sum_{k=-\infty}^{k=+\infty} a^{-|k|}}
        = \frac{2}{log(a)^2}
 \end{equation}
 
 Si on it\`ere $K$ le filtre exponentiel, on obtient un filtre \'equivalent dont l'\'ecart
-type est $K$ fois plus grand.  Donc finalement :
+type est $K$ fois plus grand. Donc finalement :
 
 
 
@@ -281,7 +281,7 @@ Avec des fen\^etres exp :
 
 \label{MecaGen:Multi:Correl}
 Lorsque l'on a plus de $2$ image, on souhaite d\'efinir un coefficient
-de corr\'elation multi-images qui soit un prolongement naturel du 
+de corr\'elation multi-images qui soit un prolongement naturel du
 coefficient \`a $2$ images.
 
 Soit $N$ le nombre d'images, on note $U_1\dots U_N$ les vecteurs
@@ -291,7 +291,7 @@ un r\^ole privil\'egi\'e, dite image ma\^itresse. Supposons
 que ce soit l'image $1$, on pose :
 
 \begin{equation}
-   Corr^M(U_1)(U_2,\dots,U_N) =  
+   Corr^M(U_1)(U_2,\dots,U_N) =
     \frac{1}{N-1} \sum_{k=2}^N Corr(U_1,U_k)
    \label{Cor:Im:Maitre}
 \end{equation}
@@ -301,7 +301,7 @@ un r\^ole sym\'etrique. Une d\'efinition naturelle du coefficient de
 corr\'elation est de faire une moyenne sur tous les couples possible:
 
 \begin{equation}
-   Corr^S(U_1,\dots,U_N) =  
+   Corr^S(U_1,\dots,U_N) =
     \frac{2}{N*(N-1)} \sum_{1\leq i < j \leq N} Corr(U_i,U_j)
    \label{Cor:Im:Sym}
 \end{equation}
@@ -313,7 +313,7 @@ que, d'apr\`es la formule~\ref{Corr:As:Norme}, il est \'equivalent
 de calculer :
 
 \begin{equation}
-    \sum_{1\leq i < j \leq N} \|\tilde{U}_i-\tilde{U}_j\|^2 
+    \sum_{1\leq i < j \leq N} \|\tilde{U}_i-\tilde{U}_j\|^2
 \end{equation}
 
 
@@ -321,7 +321,7 @@ En sym\'etrisant et rajoutant les termes nuls  $\|\tilde{U}_i-\tilde{U}_i\|$,
 il est toujours \'equivalent de calculer :
 
 \begin{equation}
-    S=\sum_{i=1}^N \sum_{j=1}^N  \|\tilde{U}_i-\tilde{U}_j\|^2 
+    S=\sum_{i=1}^N \sum_{j=1}^N  \|\tilde{U}_i-\tilde{U}_j\|^2
 \end{equation}
 
 On d\'efinit le centre de gravit\'e $\Omega$ des $\tilde{U}_i$
@@ -334,7 +334,7 @@ On d\'efinit le centre de gravit\'e $\Omega$ des $\tilde{U}_i$
 On d\'eveloppe ensuite :
 
 \begin{equation}
-    S=\sum_{i=1}^N \sum_{j=1}^N  \|(\tilde{U}_i-\Omega) +(\Omega-\tilde{U}_j)\|^2 
+    S=\sum_{i=1}^N \sum_{j=1}^N  \|(\tilde{U}_i-\Omega) +(\Omega-\tilde{U}_j)\|^2
 \end{equation}
 
 \begin{equation}
@@ -343,7 +343,7 @@ On d\'eveloppe ensuite :
 \end{equation}
 
 \begin{equation}
-    S= 2N * \sum_{i=1}^N  \|(\tilde{U}_i-\Omega) \|^2 
+    S= 2N * \sum_{i=1}^N  \|(\tilde{U}_i-\Omega) \|^2
 \end{equation}
 
     % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
