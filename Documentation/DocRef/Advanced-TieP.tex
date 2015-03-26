@@ -3,21 +3,21 @@
 
 
 %=======================================================================================================
-\section{Tie points with low contrast images}
+\section{Tie points on low contrast images}
 
 
-The current imlementation of SIFT++ used in MicMac is not fully invariant to scaling/translation in radiometry. This can create a problem with some acquisition having a good SNR but with low contrast  in the scene; in this case, due to good SNR there is potential information to get tie point, but as this information is assimilated to noise, it cannnot be exatracted.
+The current implementation of SIFT++ used in MicMac is not fully invariant to scaling/translation in radiometry. This may be a problem in case of acquisitions having a good SNR but with low contrast in the scene; in this case, thanks to good SNR there is potential information to get tie points, but as this information is assimilated to noise, it cannnot be extracted.
 
-To overcome this problem, it is possible to require that MicMac compute somme contrast enhancement on images before computing SIFT point. Also this method is not optimal (it would be better to modifiy the SIFT++ Kernel), it has the advantage of existing \dots
-
-
-
-The figure~\ref{FIG:SF:Det} present an original image and the image after enhancement. The figure~\ref{FIG:SF:TieP} present the detected tie points; it can be seen that the spatial density is much higher.
-
-Of course, the enhanced images are fairly articial, as can be seen on figire ~\ref{FIG:SF:Glob} that present a full image before and after enhancement. So if this option is activated, the enhanced images are used only for the tie points steps (which are developped as specfic "hidden files" in folder {\tt Tmp-MM-Dir}).
+To overcome this problem, it is possible to require that MicMac computes somme contrast enhancement on images before computing SIFT points. Although this method is not optimal (it would be better to modify the SIFT++ Kernel), it has the advantage of existing \dots
 
 
-To activate this option, the {\tt NKS-Assoc-SFS} must be changed in the {\tt MicMac-LocalChantierDescripteur.xml}. It must return {\tt SFS} instead of the default value {\tt NONE}. For example :
+
+The figure~\ref{FIG:SF:Det} presents an original image and the image after enhancement. The figure~\ref{FIG:SF:TieP} presents the detected tie points; we notice that the spatial density of tie points is much higher on enhanced image.
+
+Of course, the enhanced images are fairly artificial, as it can be seen on figure ~\ref{FIG:SF:Img} that presents a full image before and after enhancement. So if this option is activated, the enhanced images are used only for the tie points steps (which are developed as specific "hidden files" in folder {\tt Tmp-MM-Dir}).
+
+
+To activate this option, the {\tt NKS-Assoc-SFS} must be changed in the {\tt MicMac-LocalChantierDescripteur.xml}. It must return {\tt SFS} instead of the default value {\tt NONE}. For example:
 
 \begin{verbatim}
     <KeyedNamesAssociations>

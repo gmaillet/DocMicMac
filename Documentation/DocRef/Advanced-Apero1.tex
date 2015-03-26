@@ -3,7 +3,7 @@
 
 
 %=======================================================================================================
-\section{Creating a calibration unknown by images}
+\section{Creating a calibration unknown by image}
 
   % - - - - - - - - - - - - - - - - - - - - -
 \subsection{When is it necessary?}
@@ -13,7 +13,7 @@ has been acquired with a different set of internal parameters. Here
 are possible cases:
 
 \begin{itemize}
-    \item when the images were acquired with autofocus, which creates variation
+    \item when images were acquired with autofocus, which creates variation
           of the focal length (in macro photo, the focal length when focus is
           at $\infty$ is half the focal length when the focus is at image ratio of $1:1$),
 
@@ -21,22 +21,22 @@ are possible cases:
     \item when  the image stabibilizer is free, this creates (at least)
           variation of principal point;
 
-    \item when  image were acquired with variable  zooming.
+    \item when  images were acquired with variable zoom.
 \end{itemize}
 
 
-From a photogrammetric point of view, these case must be avoided
-as much as possible; however there are case where the user has no
+From a photogrammetric point of view, these cases must be avoided
+as much as possible; however there are times when the user has no
 choice.
 
   % - - - - - - - - - - - - - - - - - - - - -
 \subsection{Examples}
 
 The directory {\tt applis/XML-Pattron/Oiseau-Margot/} contains XML
-files that where used to process images acquired with macro lenses.
+files that were used to process images acquired with macro lenses.
 The files {\tt New-Apero1.xml} to {\tt New-Apero6-ExportDirPlanMM.xml}
-contains example on real case of the different mechanisms exposed
-here. By the way, these example may be a bit complex because they
+contain examples on real cases of the different mechanisms shown
+here. By the way, these examples may be a bit complex because they
 were made before key standardisation.
 
 See especially the examples {\tt Apero-ExCalibPerIm-1.xml} and
@@ -49,18 +49,18 @@ sufficient.
 \subsection{How to create unknowns}
 
 The optional section {\tt <CalibPerPose>}, under {\tt <CalibrationCameraInc>},
-allow to handle these cases. It contains a mandatory args {\tt   <KeyPose2Cal>}:
+allows to handle these cases. It contains a mandatory args {\tt   <KeyPose2Cal>}:
 
 
 \begin{itemize}
-    \item it must constain a string $K$ which describe  a key association,
+    \item it must constain a string $K$ which describes  a key association,
           (see~\ref{Ref:Key:Map}  for {\tt <KeyedNamesAssociations>});
     \item  two images  $I_1$ and $I_2$ will share the same internal parameters,
            if and only if $K(I_1) = K(I_2)$;
-     \item for example  if $K$ is the identity key, a new calibration will
-           be create for each new image;
+     \item for example,  if $K$ is the identity key, a new calibration will
+           be created for each new image;
 
-     \item  for each of these calibration, the identifier will be $K(I)$ and not,
+     \item  for each of these calibrations, the identifier will be $K(I)$ and not,
             as usual, the tag {\tt <Name>}; this is necessary because elsewhere
              different internal calibration would have the same identifier;
 
@@ -73,15 +73,15 @@ allow to handle these cases. It contains a mandatory args {\tt   <KeyPose2Cal>}:
   % - - - - - - - - - - - - - - - - - - - - -
 \subsection{Saving  results with  variable calibrations}
 
-The most current case for using these mecanisms is when there is one calibration
-per image. In this case, the easiest way for handling the results, is  to
+The most current case for using these mechanisms is when there is one calibration
+per image. In this case, the easiest way for handling the results is  to
 simply  save the internal calibration  with the external calibration;
 this is, by default, what Apero does  in {\tt <ExportPose>}, see
 {\tt Apero-0.xml} in~\ref{Result:Apero0}.
 
 
-For more complicated case,  an {\tt <ExportCalib>} section  will have to be
-used with the following tags :
+For more complicated cases,  an {\tt <ExportCalib>} section  will have to be
+used with the following tags:
 
 \begin{itemize}
     \item {\tt <PatternSel>}  to specify to which calib it applies; the selection
@@ -102,46 +102,46 @@ the different calibration can be initialized with the same
 value.  This value can be read as usual in the {\tt <NameFile> } of {\tt <CalValueInit>}.
 See an example in {\tt  applis/XML-Pattron/Oiseau-Margot/New-Apero1.xml},
 
-There is other cases, where it will be needed to initialize these  calibration
-from variable values; for example values  that have been computed and saved by a
-previous runing of Apero. In this case, a {\tt KeyedNamesAssociations} will be used
-to specify the association between \emph{the  name of the pose} and file where
+There is other cases where it will be needed to initialize these  calibrations
+from variable values; for example, values  that have been computed and saved by a
+previous running of Apero. In this case, a {\tt KeyedNamesAssociations} will be used
+to specify the association between \emph{the  name of the pose} and the file where
 the initial value is to be read; this key is specified in the optional
 {\tt <KeyInitFromPose>}; see example in {\tt  applis/XML-Pattron/Oiseau-Margot/New-Apero3.xml}.
 
 
-\subsection{Examples with group of pose}
+\subsection{Examples with group of poses}
 
-Sometime we do not want to create a calibration for each image,
-but a calibration for each group of image. This can occure
-when we know that that the parameters influencing the calibration
-(zoom, focus) have changed, but only a few time, and we are able
-to specify which group of image share the same parameters.
-This can occure also when we have used several version of the
-same camera with the same focal lenght (so not distinguable
-with the procedure used in Tapas).
+Sometimes we do not want to create a calibration for each image,
+but a calibration for each group of images. This can occur
+when we know that the parameters affecting the calibration
+(zoom, focus) have changed, but only a few times, and we are able
+to specify which groups of images share the same parameters.
+This can also occur when we have used several versions of the
+same camera with the same focal length (so not distinguishable
+with the procedure used in {\tt Tapas}).
 
 See {\tt Apero-ExCalibPerGROUPIM-1.xml} and
 {\tt Apero-ExCalibPerGROUPIM-2.xml}  on  {\tt MurSaintMartin} data
-set, it illustrate how this can be done. The file contains
+set, it illustrates how this can be done. The file contains
 some comments.
 
 
-The file {\tt Apero-ExCalibPerIm-1.xml} and {\tt Apero-ExCalibPerIm-2.xml}
+The files {\tt Apero-ExCalibPerIm-1.xml} and {\tt Apero-ExCalibPerIm-2.xml}
 on  {\tt MurSaintMartin} have been added and contain also
-example for calibration per images that are probably easier to understand
+examples for calibration per images which are probably easier to understand
 than {\tt  applis/XML-Pattron/Oiseau-Margot/}.
 
 %=======================================================================================================
 
-\section{Data base of existing calibration}
+\section{Database of existing calibration}
 
 \label{DB:Calib}
-\subsection{Generalities}
+\subsection{General points}
 
 
 %=======================================================================================================
-\section{Auxilary exports}
+\section{Auxiliary exports}
 
   % - - - - - - - - - - - - - - - - - - - - -
 
@@ -152,23 +152,23 @@ than {\tt  applis/XML-Pattron/Oiseau-Margot/}.
 
 %=======================================================================================================
 
-\section{Using scanned Analog images}
+\section{Using scanned analog images}
 
 \label{Analog:Image}
-Scanned analog images, are important in many application because  they are
-a valuable source of information for studying phenomens on long periods.
+Scanned analog images are important in many applications, as they represent
+a valuable source of information for studying phenomena on long periods of time.
 From the photogrammetric point of view, the main difference between
-scanned images and numerical camera is that for each images, there
-is a speccific  tranformation between the photo and the scanner.
+scanned images and digital camera is that for each images there
+is a specific  tranformation between the photo and the scanner.
 This tranformation can be computed when there exist fiducial marks
-on the camera. This section study how this can be done in {\tt Apero/MicMac}.
+on the camera. This section presents how this can be done with {\tt Apero/MicMac}.
 
 
-The directory {\tt DemoScanned/} contains a data-set that illustrates the
-functionnalities. It contains $5$ images that are a simulation of scanned
-iamges : the image have been randomly rotated and scaled, simulating the
-interior orientation of the scanner, before the rotation $8$  fiducial marks have
-been added. Figure~\ref{ImFid} illusrate this data set.
+The directory {\tt DemoScanned/} contains a data set that illustrates these
+features. It contains $5$ images that are a simulation of scanned
+iamges: the images have been randomly rotated and scaled, simulating the
+interior orientation of the scanner; before the rotation, $8$  fiducial marks have
+been added. Figure~\ref{ImFid} illustrates this data set.
 
 
 \begin{figure}
@@ -178,69 +178,69 @@ been added. Figure~\ref{ImFid} illusrate this data set.
    \includegraphics[width=40mm]{FIGS/Niche/Cible1.jpg} &
    \includegraphics[width=40mm]{FIGS/Niche/Cible2.jpg}
 \end{tabular}
-\caption{Simulation of fiducial marks : an image and two marks }
+\caption{Simulation of fiducial marks: an image and two marks }
 \label{ImFid}
 \end{figure}
 
 
-For process Processing such  data set, compared to "classical" numerical images,
-there is two slight differences :
+There are two slight differences in data processing between such data sets and "classical" digital images:
+
 
 \begin{itemize}
    \item the position of fiducial mark on images and on the camera has to be indicated;
    \item the calibration will not be expressed in pixel, but in the same unit
-         that the position of the reference fiducial marks (generally $mm$).
+         as the position of the reference fiducial marks (generally $mm$).
 \end{itemize}
 
-On {\tt DemoScanned/}, the directory {\tt Ori-InterneScan/}, contains all the information
-about the fiducial marks. It functions this way :
+On {\tt DemoScanned/}, the directory {\tt Ori-InterneScan/} contains all the information
+about the fiducial marks. It works like this:
 
 \begin{itemize}
-    \item each file contains a structure a type {\tt <MesureAppuiFlottant1Im>} which describe a list
-          of named points (here the names are {\tt P0, P1, \dots}; this is the same structure used
+    \item each file contains a structure, a type {\tt <MesureAppuiFlottant1Im>} which describes a list
+          of named points (here the names are {\tt P0, P1, \dots}; this is the same structure as the one used
           for image measurement of GCP, as seen in~\ref{GCP:Org};
 
      \item there is a file {\tt MeasuresCamera.xml} that contains the position of the fiducial marks
           on the camera;
 
-     \item for each image {\tt XXX}, there is a file {\tt MeasuresIm-XXX.xml} that contain the position
-           of the marks in the image; when this file do not exist, the image is considered to be a "classical"
-           numerical image, that will be processed as usual;
+     \item for each image {\tt XXX}, there is a file {\tt MeasuresIm-XXX.xml} that contains the position
+           of the marks on the image; when this file does not exist, the image is considered to be a "classical"
+           digital image that will be processed as usual;
 
-     \item if required \footnote{for example if several analog camera are used in the same bundle}
-           it is possible to change the association between an image and the two file :position in  camera
-           and image; for this change the  value of {\tt Key-Assoc-STD-Orientation-Interne}
+     \item if required\footnote{for example if several analog camera are used in the same bundle},
+           it is possible to change the association between an image and the two files: position in camera
+           and image; for this, you must change the  value of {\tt Key-Assoc-STD-Orientation-Interne}
            \footnote{see in include/XML\_GEN/DefautChantierDescripteur.xml the default value}
            in your {\tt MicMac-LocalChantierDescripteur.xml}
 \end{itemize}
 
-Here, the file {\tt MeasuresCamera.xml} contains the position of fiducial marks in $mm$,
-all the calibration  must then given with the same unit and in the same repair that these
-marks. For technicall reason, this repair must be the uper left corner and not the center.
+Here, the file {\tt MeasuresCamera.xml} contains the positions of fiducial marks in $mm$,
+all the calibration  must then be have the same unit and be in the same frame than these
+marks. For technical reasons, this point of reference must be the upper left corner and not the center.
 As {\tt Apero/MicMac} cannot deal correctly with default calibration in $mm$, we
-have to give an initial value in file {\tt Ori-CalibInit}. Some comments on this file ;
+have to give an initial value in file {\tt Ori-CalibInit}. Some comments on this file:
 
 \begin{itemize}
-    \item  the sz of image {\tt <SzIm>} is also in $mm$ (as the normalization focale
+    \item  the size of image {\tt <SzIm>} is also in $mm$ (as the normalization focal
             {\tt <Etats>}  and all parameters).
-     \item  the optional {\tt  <ScannedAnalogik> } is set to true, this is required because
-            it will indicate to {\tt Apero} to be "tolerant" is tie points are detected out
+     \item  the optional {\tt  <ScannedAnalogik> } is set to true, required because
+            it will indicate to {\tt Apero} to be "tolerant" if tie points are detected out
             of the bounding box $[0,0]x[24,36]$;
 \end{itemize}
 
-The file {\tt ExCmd.txt} contains a possible processing of the data :
+The file {\tt ExCmd.txt} contains a possible processing of the data:
 
 
 \begin{itemize}
-    \item {\tt Tapioca  All ".*jpg"  1200}  , as usual \dots
+    \item {\tt Tapioca  All ".*jpg"  1200}, as usual \dots
     \item {\tt Tapas  FishEyeBasic  ".*jpg"  Out=Ori1 InCal=CalibInit PropDiag=0.68}
 
      \begin{itemize}
           \item  it is necessary to indicate the calibration in {\tt CalibInit} in $mm$ because {\tt Apero}
                  would not built it correctly;
           \item no need to indicate situation of fiducial mark, the def value of {\tt Key-Assoc-STD-Orientation-Interne}
-                will make {\tt Apero} look for them at the wright place;
-           \item {\tt PropDiag=0.68} , because it is a hemi-spherik fisheye;
+                will force {\tt Apero} to look for them at the right place;
+           \item {\tt PropDiag=0.68} , because it is a hemispheric fisheye;
       \end{itemize}
 
     \item {\tt Tapas FishEyeBasic ".*jpg" InOri=Ori1  Out=Ori2 PropDiag=0.68}
@@ -250,14 +250,14 @@ The file {\tt ExCmd.txt} contains a possible processing of the data :
     \item {\tt Malt GeomImage ".*jpg" Ori2 Master=IMG\_5693\_Out.jpg Spherik=true SzW=2}
     \begin{itemize}
              \item the {\tt Spherik=true} is well adapted  to the scene, in this geometry
-                   {\tt MicMac} compute the depth  $R=f(i,j)$ where $R$ is the distance
+                   {\tt MicMac} computes the depth  $R=f(i,j)$ where $R$ is the distance
                    to the master image center \footnote{i.e. rectification is made on sphere};
     \end{itemize}
 
     \item {\tt Nuage2Ply MM-Malt-Img-IMG\_5693\_Out/NuageImProf\_STD-MALT\_Etape\_8.xml Attr=IMG\_5693\_Out.jpg Scale=2}
 
     \begin{itemize}
-             \item usual generation of point cloud in ply format, figure~\ref{ImNiche} illustrates;
+             \item usual generation of point cloud in ply format (figure~\ref{ImNiche});
     \end{itemize}
 
 \end{itemize}
@@ -273,9 +273,8 @@ The file {\tt ExCmd.txt} contains a possible processing of the data :
 
 
 If you take a look at orientation files, you will see that they are self sufficient for
-matching : the {\tt <OrIntImaM2C>}  section contains the affinity from scanner to image computed
-from the fiducial marks from scanner to image computed
-from the fiducial marks :
+matching: the {\tt <OrIntImaM2C>}  section contains the affinity betwwen scanner and image computed
+from the fiducial marks:
 
 \begin{verbatim}
      <OrientationConique>
@@ -297,11 +296,11 @@ from the fiducial marks :
 
         % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-\subsection{introduction}
+\subsection{Introduction}
 
-This section describes the case where user want to adjust orientation using correspondance between $3d$ point
-and image line. It's rather specific, and was added in the context of  georeferencing aerial photograh with a $3d$
-data base of roads \footnote{I am not sure to see if there exist other example of application}. Formally we have :
+This section describes the case where user wants to adjust orientation using correspondence between $3d$ points
+and image lines. It's rather specific, and was added in the context of  georeferencing aerial photographs with a $3d$
+data base of roads \footnote{I am not sure to see if there exist other examples of application}. Formally we have:
 
 \begin{itemize}
     \item a set of $2d$ line $L_k$ in images. Let $I_k$ be the corresponding image and $\pi_k$ be the projection
@@ -310,7 +309,7 @@ data base of roads \footnote{I am not sure to see if there exist other example o
     \item let $D(p,L)$ be the distance between point $p$ and line $L$.
 \end{itemize}
 
-Mathematically we want to add to the global minimization, the cost :
+Mathematically we want to add the cost to the global minimization:
 
 \begin{equation}
     \sum_{k,i} D^2 ( \pi_k(p_{k,i}),L_k) \label{EQU:LINE:POINT}
@@ -319,21 +318,21 @@ Mathematically we want to add to the global minimization, the cost :
 
         % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-\subsection{data set}
+\subsection{Data set}
 
 The folder {\tt Documentation/NEW-DATA/CompensOnLine/} contains  data that illustrates how this can be done in
-{\tt Apero}. These are completely artificial (simulated data) which were generated for developping and testing this functionnality : in this example it will be possible to cancel completely equation~\ref{EQU:LINE:POINT} which will obviously not
+{\tt Apero}. These are completely artificial (simulated) data which were generated for developing and testing this feature: in this example it will be possible to cancel completely the equation~\ref{EQU:LINE:POINT} which will obviously not
 be the case with real data.
 
-To run the data set extracted from the mercurial server, one first need to compute the tie points with:
+To run the data set extracted from the mercurial server, one first needs to compute the tie points with:
 
 \begin{itemize}
    \item {\tt mm3d Tapioca All Abbey-IMG\_020.*jpg 1200}
 \end{itemize}
 
-To test all the functionnality, this data set has been processed as if it was the scan of analog images
-(see {\tt Ori-InterneScan/}), but it works also with digital images. As can be seen in {\tt mm3d-LogFile.txt},
-the orientation has been computed with the command :
+To test all features, this data set has been processed as if it was the scans of analog images
+(see {\tt Ori-InterneScan/}), but it also works with digital images. As it can be seen in {\tt mm3d-LogFile.txt},
+the orientation has been computed with the command:
 
 \begin{itemize}
    \item {\tt mm3d Tapas AutoCal Abbey-IMG\_020.*jpg InCal=Ori-CalibInitAnalogik/ Out=Rel}
