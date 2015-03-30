@@ -1,0 +1,139 @@
+<?xml version="1.0" ?>
+<ParamApero>
+     <DicoLoc>
+          <Symb>Im0=DSCF2779</Symb>
+          <Symb>PattSec=DSCF2780</Symb>
+          <Symb>AeroOut=Test</Symb>
+
+          <Symb>Im0L=${Im0}_L.jpg </Symb>
+          <Symb>Im0R=${Im0}_R.jpg </Symb>
+     </DicoLoc>
+     <SectionBDD_Observation>
+
+          <BDD_PtsLiaisons>
+               <Id>Id_Pastis_Hom</Id>
+               <KeySet>NKS-Set-Homol@@dat</KeySet>
+               <KeyAssoc>NKS-Assoc-CplIm2Hom@@dat</KeyAssoc>
+          </BDD_PtsLiaisons>
+<!--
+-->
+          <BDD_Orient>
+               <Id>Or-Init</Id>
+               <KeySet>   Loc-Key-SetOri-LR  </KeySet>
+               <KeyAssoc> Loc-Key-OriInit-LR@${Im0} </KeyAssoc>
+          </BDD_Orient>
+     </SectionBDD_Observation>
+     <SectionInconnues>
+
+          <CalibrationCameraInc>
+               <Name>The-Key-Cal</Name>
+               <CalValueInit>
+                    <CalFromFileExtern>
+                         <NameFile>###</NameFile>
+                         <NameTag>CalibrationInternConique</NameTag>
+                    </CalFromFileExtern>
+               </CalValueInit>
+               <CalibPerPose>
+                    <KeyPose2Cal>     Loc-Key-CalInit-LR </KeyPose2Cal>
+                    <KeyInitFromPose> Loc-Key-CalInit-LR </KeyInitFromPose>
+               </CalibPerPose>
+          </CalibrationCameraInc>
+
+          <PoseCameraInc>
+               <PatternName>${Im0}.*jpg</PatternName>
+               <CalcNameCalib>The-Key-Cal</CalcNameCalib>
+               <PosValueInit>
+                    <PosFromBDOrient>Or-Init</PosFromBDOrient>
+               </PosValueInit>
+          </PoseCameraInc>
+
+          <PoseCameraInc>
+                   <PatternName>  ${PattSec}.*jpg     </PatternName>
+                   <CalcNameCalib>  The-Key-Cal  </CalcNameCalib>
+                   <InitNow> false </InitNow>
+                   <MEP_SPEC_MST>
+                           <Show> true </Show>
+                   </MEP_SPEC_MST>
+
+                   <PosValueInit>
+                        <PoseFromLiaisons>
+                             <LiaisonsInit>
+                                 <NameCam> ####  </NameCam>
+                                 <IdBD> Id_Pastis_Hom  </IdBD>
+                             </LiaisonsInit>
+                        </PoseFromLiaisons>
+                   </PosValueInit>
+              </PoseCameraInc>
+
+
+     </SectionInconnues>
+     <SectionChantier>
+          <DirectoryChantier>./</DirectoryChantier>
+     </SectionChantier>
+     <SectionSolveur>
+          <ModeResolution>eSysL2BlocSym</ModeResolution>
+     </SectionSolveur>
+     <SectionCompensation>
+          <EtapeCompensation>
+               <IterationsCompensation>
+                    <SectionContraintes>
+                         <ContraintesCamerasInc>
+                              <Val>eAllParamFiges</Val>
+                         </ContraintesCamerasInc>
+
+                         <ContraintesPoses>
+                              <NamePose>${Im0L}</NamePose>
+                              <ByPattern>true</ByPattern>
+                              <Val>ePoseFigee</Val>
+                         </ContraintesPoses>
+
+                         <ContraintesPoses>
+                              <NamePose>${Im0R}</NamePose>
+                              <ByPattern>true</ByPattern>
+                              <Val>eCentreFige</Val>
+                         </ContraintesPoses>
+                    </SectionContraintes>
+                    <Pose2Init>
+                             <ProfMin> [2,4] </ProfMin>
+                             <Show> true </Show>
+                     </Pose2Init>
+
+               </IterationsCompensation>
+
+               <IterationsCompensation>
+               </IterationsCompensation>
+
+               <IterationsCompensation>
+               </IterationsCompensation>
+
+               <SectionObservations>
+                      <ObsLiaisons>
+                              <NameRef> Id_Pastis_Hom </NameRef>
+                              <Pond>
+                                 <EcartMesureIndiv>  1.0 </EcartMesureIndiv>
+                                 <Show> eNSM_Paquet     </Show>
+                                 <NbMax>   100    </NbMax>
+                                  <EcartMax> 100 </EcartMax>
+                                  <SigmaPond> 5 </SigmaPond>
+                                  <ModePonderation> eL1Secured </ModePonderation>
+                              </Pond>
+                     </ObsLiaisons>
+               </SectionObservations>
+               <SectionExport>
+                    <ExportPose>
+                          <PatternSel> (.*) </PatternSel>
+                          <KeyAssoc> NKS-Assoc-Im2Orient@${AeroOut} </KeyAssoc>
+                          <AddCalib>  true </AddCalib>
+                          <NbVerif>  10 </NbVerif>
+                          <TolWhenVerif> 1e-3 </TolWhenVerif>
+                          <FileExtern> NKS-Assoc-FromFocMm@Ori${AeroOut}/AutoCal@.xml </FileExtern>
+                          <FileExternIsKey> true </FileExternIsKey>
+                    </ExportPose>
+                    <ExportCalib>
+                          <KeyAssoc>  NKS-Assoc-FromKeyCal@Ori${AeroOut}/AutoCal@.xml </KeyAssoc>
+                          <KeyIsName> false </KeyIsName>
+                    </ExportCalib>
+               </SectionExport>
+          </EtapeCompensation>
+     </SectionCompensation>
+</ParamApero>
