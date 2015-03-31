@@ -97,7 +97,10 @@ The result are presented on figure~\ref{FIG:Angel:Result}. Computation time was 
 
 \subsection{Mesh generation}
 
-To use this tool, if compiling from sources, run cmake with option BUILD_POISSON activated (-DBUILD_POISSON=1).\\*
+To use this tool, if compiling from sources, run {\tt cmake} with {\tt BUILD\_POISSON} option activated.
+\begin{verbatim}
+    cmake -DBUILD_POISSON=ON\\*
+\end{verbatim}
 
 {\tt TiPunch} command creates a mesh from a point cloud. The point cloud has to be in .ply format and has to store normal direction for each point.
 This commands performs two steps:

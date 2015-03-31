@@ -67,22 +67,32 @@ You can get a complete list of possibles actions typing F1.\\*
 Main actions are:
 \begin{itemize}
 \item F2: display image in full screen
+\item Wheel roll: zoom
+\item Wheel click: move image
+\item Shift+wheel click: zoom fast
 \item Left click: add a point to polygon
 \item Right click: close polygon
 \item Space: Add to mask
 \item Suppr: Remove from mask
 \item Right click (close to a point): delete point
 \item Echap: delete polygon
-\item Shift + click: insert point
+\item Shift + click \& drag: insert point
 \item Ctrl+S: save mask image and {\tt Xml} file
 \item Ctrl+Q: quit\\*
 \end{itemize}
 
-Undo/redo last actions with Ctrl+Z/Shift+Ctrl+Z
+Some parameters can be edited in the {\tt Settings} menu: image gamma, application language, display settings, etc. These parameters are stored, and are used at next application launch, so set them once to fit your own purpose. As SaisieMasqQT can edit both images and 3d point clouds, application has different behavior, depending on which data you deal with. As a result, {\tt Settings} menu, and help window dialog (F1), will change depending on the loaded data. Be careful about this!\\*
 
-Some parameters for the application can be edited in the {\tt Settings} menu: image gama, application language, display settings, etc.
-These parameters are stored, and are used at next application launch, so set them once to fit your own purpose.
-As SaisieMasqQT can edit both images and 3d point clouds, application has different behaviour, depending on which data you deal with. As a result, {\tt settings} menu, and help window dialog (F1), will change depending on the loaded data. Be careful about this!
+Some special features have been added to {\tt SaisieMasqQT}, which may differ from original {\tt SaisieMasq}: 
+\begin{itemize}
+\item modify current selection, with Shift+Click to insert a point, or Click+drag to move a point
+\item modify previous actions, with menu Windows/Show polygons list 
+\item measure image distances, with Rule tool\\*
+\end{itemize}
+
+To modify previous actions, you can undo/redo last actions with Ctrl+Z/Shift+Ctrl+Z, and you can edit list of previous actions, with menu {\tt Windows/Show polygons list}: click on the actions in the list in the right window, then edit polygon (by adding or moving points), or double-click on the action name (column {\tt Mode}) to change action. Apply changes clicking {\tt Return}, or go in the Menu {\tt Mask edition} and select {\tt Confirm changes}.\\*
+
+Note: if you want to change application language, go in the {\tt Settings} menu, apply changes and restart application.
 
 \section{Entering 3D mask with {\tt SaisieMasqQT} }
 
@@ -118,7 +128,7 @@ To select a part of the point cloud, you have to draw a polygon by clicking in t
 To change point size, use +/- keys. You can hide or show axis, ball, point cloud bounding box, display point cloud in full screen (F2).
 Center point cloud on a vertex by double click on it: next move actions will be done around this point.
 Undo/redo last actions with Ctrl+Z/Shift+Ctrl+Z.
-You can also modify a selection, with various actions (see help: F1).\\*
+You can also modify a selection, with various actions (see help: F1 or previous paragraph: 2D and 3D selection edition work the same way).\\*
 
 For advanced users, {\tt Xml} file format is detailed in \ref{Conv:selection}.
 
