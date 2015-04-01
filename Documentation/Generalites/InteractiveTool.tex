@@ -289,9 +289,14 @@ Same equivalent tools exist for {\tt SaisieAppuisPredic} and {\tt SaisieBasc} (i
 
 A visual interface for argument edition is also available with command: \begin{verbatim} mm3d vSaisieAppuisInitQT} or  mm3d vSaisieAppuisPredicQT \end{verbatim}
 
-{\tt SaisieAppuisInitQT} displays two lists on the right side: the points list, and the images list. Points list can be clicked to choose which point to measure. You can also remove a point by clicking it in the list and press {\tt Suppr}.
+{\tt SaisieAppuisInitQT} displays two lists on the right side: the points list, and the images list. Points list can be clicked to choose which point to measure. You can also remove a point by clicking it in the list and press {\tt Suppr}. You can also right-click and choose between following actions: 
+\begin{itemize}
+\item Change images for selected point
+\item Delete selected points (multiple selection allowed)
+\item Validate selected points (idem)
+\end{itemize}
 The image lists show all available images. When a point has been measured in at least two images, the image list is displayed.
-Images currently displayed in the windows are highlighted in blue. The image where the cursor is moving is displayed in light orange.
+Images currently displayed in the windows are highlighted in blue. The image where the cursor is moving is displayed in light orange. You can right-click and select {\tt View images} to load corresponding images.
 A 3D window shows the images location, and the point measured. By default point are displayed in red ; when a point is selected, it is displayed in blue.
 You can drag-and-drop a ply file in this window (such as AperiCloud.ply) to check if GCP are good.
 
