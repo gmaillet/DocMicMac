@@ -1,0 +1,70 @@
+ Voici votre nouveau mot de passe / Your new password: h36S3NTi8
+https://aap.agencerecherche.fr/_layouts/ANR/SIMLoginPage.aspx
+
+marc.pierrot-deseilligny@ensg.eu
+marc.pierrot-deseilligny@ensg.eu
+
+
+95 + 130 + 100 + 140
+
+
+Document budget :
+
+   * 27 Avril
+   * ANR 
+
+   * Cout permanent => 
+
+
+Ecrire Jonathan : lettre , OK verriere , question lui soumettre Doc ?
+
+=======================================
+Macro IGN.
+
+
+Raphaele Heno        + 5 mois
+Jacques Beilin       + 5 mois
+
+Christian Thom       +   5 mois : Mini CV
+Olivier Martin       +   10 mois
+Jean Michael Muller  +   10 mois
+
+Christian Thom is head of the LOEMI laboratory (optical, mechanic and electronic) . Under his direction , the LOEMI has developped several metrological instrument in geodesy topometry and photogrammetry. LOEMI has developped the first operational digital aerial  camera and is currently developping the 
+
+=======================================================================================
+=======================================================================================
+=======================================================================================
+
+
+
+2.3 et 2.4  2.5 +  puces sur contribution IGN. + valorisation economique.
+
+2.3
+  * concerning the metrology of deformation using photogrammetry, the targeted accuracy  (from 1/40000 up to 1/100 000) is extremely ambitious
+
+2.4
+   * the combinason of high precision mecanic,   bundle adjusment using model specialized for the camera pan base  and  image processing using dense tie points;
+
+2.5
+
+    * prototype of a  high precision pan head
+    * the photogrammetric work (algorithm and software) developped for processing the images acquired by the camera pan base
+    * two simplified 3D global models of the cathedral.
+
+
+
+2.8
+
+The high precision deformation  measurement system has potential appplication in a wide domain implying monitoring of natural and artificial objects : BARRAGE, BRIDGE, Landslide, industrial site ... in fact almost every application requiring high precision geometric monitoring where it is possible to let a fix camera.
+
+
+
+
+Dispatcher le 3 en sous tache, ou ettoffer ?
+
+
+3.3  =>  IGN :  relevé de cathédrale.
+         Outil de numerisation
+         LOEMI
+
+
