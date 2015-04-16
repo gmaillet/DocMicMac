@@ -55,7 +55,7 @@ http://www.sfpt.fr/index.php/evenements/actualites/88-journee-nationale-de-photo
 
     -  1.3)  Presentation of MicMac to "Word Meeting on Free Software".
 
-I have made a proposition to present photogrammetry and MicMac inside the "Journée Mondiale du Logiciel Libre" in jully 2015 in Beauvais. Still waiting for the acceptation but, if it is accepted , maybe it will be the opportunity to meet some of the MicMac's users. Here is my propo
+I will make a  presentation of photogrammetry and MicMac inside the "Journée Mondiale du Logiciel Libre" in jully 2015 in Beauvais. Maybe it will be the opportunity to meet some of the MicMac's users. Here is my proposal :
 
 Photogrammetry is the technic that allow to transform a set of photo to  a 3d model. Tremendous progress occured in the past few years and it is now fully automatic in many context which make it avalaible to people.  This conference will present MicMac a photogrammetric "suite" developped at IGN; it's free open source distributed under Cecill-B licence;  currently, its main target is professional, but effort are done to make it usuable by everybody.
 
@@ -162,7 +162,7 @@ http://www.sfpt.fr/index.php/evenements/actualites/88-journee-nationale-de-photo
 
     -  1.3)  Presentation de MicMac aux "Rencontres Mondiales du Logiciel Libre"
 
-J'ai fait une proposition pour présenter la photogrammétrie et MicMac lors des  "Rencontres Mondiales du Logiciel Libre" en Juillet 2015 à Beauvais.  J'attends encore la réponse, si elle est acceptée ce sera peut-être l'occasion de rencontrer des utilisateurs MicMac. Ci dessous ma proposition (l'intervention sera en anglais).
+Je ferai une  présentation de  la photogrammétrie et de MicMac lors des  "Rencontres Mondiales du Logiciel Libre" en Juillet 2015 à Beauvais.  Ce sera peut-être l'occasion de rencontrer des utilisateurs MicMac. Ci dessous ma proposition (l'intervention sera en anglais).
 
 Photogrammetry is the technic that allow to transform a set of photo to  a 3d model. Tremendous progress occured in the past few years and it is now fully automatic in many context which make it avalaible to people.  This conference will present MicMac a photogrammetric "suite" developped at IGN; it's free open source distributed under Cecill-B licence;  currently, its main target is professional, but effort are done to make it usuable by everybody.
 
