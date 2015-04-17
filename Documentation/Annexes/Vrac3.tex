@@ -109,11 +109,11 @@ const std::vector<REAL> & cSetEqFormelles::AddEqIndexeToSys
 
 void cElCompiledFonc::SVD_And_AddEqSysSurResol
      (
-           const std::vector<INT> & aVInd,
-           REAL aPds,
-           REAL *       Pts,
-           cGenSysSurResol & aSys,
-           bool EnPtsCur
+	   const std::vector<INT> & aVInd,
+	   REAL aPds,
+	   REAL *       Pts,
+	   cGenSysSurResol & aSys,
+	   bool EnPtsCur
       )
 {
    // Si oui le systeme aSys sait utiliser des directement des
@@ -123,14 +123,14 @@ void cElCompiledFonc::SVD_And_AddEqSysSurResol
     ...
       if (UseMat)
       {
-           double ** aDM = aMat.data();
-           double  * aDF = aFLin.data();
+	   double ** aDM = aMat.data();
+	   double  * aDF = aFLin.data();
 
-           aSys.GSSR_EqMatIndexee(aVInd,aPds,aDM,aDF,aCste);
+	   aSys.GSSR_EqMatIndexee(aVInd,aPds,aDM,aDF,aCste);
       }
       else
       {
-          aSys.GSSR_AddNewEquation_Indexe(aVInd,aPds,&(mCompDer[aD][0]),aB);;
+	  aSys.GSSR_AddNewEquation_Indexe(aVInd,aPds,&(mCompDer[aD][0]),aB);;
       }
 }
 
@@ -220,7 +220,7 @@ D'o\`u le code extrait de {\tt cElCompiledFonc::AddContrainteEqSSR} :
 \begin{verbatim}
    REAL aB = -mVal[aD];
     ...
-         aB +=  mCompDer[aD][aIC] * mCompCoord[aIC]
+	 aB +=  mCompDer[aD][aIC] * mCompCoord[aIC]
 \end{verbatim}
 
 
@@ -251,10 +251,6 @@ Commands are:
 \item {\tt PoissonRecon} {\it from Michael Kazhdan and Matthew Bolitho}, computes a mesh from the previous ply file (binary can be found in binaire-aux/)
 
 \end{itemize}
-
-\begin{comment}
-\item {\tt Mascarpone} computes a mask using normal directions and then runs a graph-cut to get smoother region
-\end{comment}
 
 \subsection{Command {\tt Nuage2Ply} :}
 
@@ -288,71 +284,52 @@ mm3d MergePly .*ply Out=merged.ply Normale=1
 PoissonRecon --in merged.ply --out result_poisson --depth 10
 \end{verbatim}
 
-\begin{comment}
-mm3d Mascarpone NuageImProf_Geom-Im-5564_Etape_5.xml#NuageImProf_Geom-Im-5581_Etape_5.xml#NuageImProf_Geom-Im-5588_Etape_5.xml
-Ply=result_poisson.ply Out=FileOut.tif Max=80
-\end{comment}
-
 \begin{verbatim}
 PoissonRecon
 Usage: PoissonRecon
-        --in  <input points>
-        [--out <ouput triangle mesh>]
-        [--voxel <ouput voxel grid>]
-        [--depth <maximum reconstruction depth>=8]
-                 Running at depth d corresponds to solving on a 2^d x 2^d x 2^d
-                 voxel grid.
-        [--fullDepth <full depth>=5]
-                 This flag specifies the depth up to which the octree should be complete.
-        [--voxelDepth <depth at which to extract the voxel grid>=<depth>]
-        [--cgDepth <conjugate-gradients depth>=0]
-                 The depth up to which a conjugate-gradients solver should be used.
-        [--scale <scale factor>=1.100000]
-                 Specifies the factor of the bounding cube that the input
-                 samples should fit into.
-        [--samplesPerNode <minimum number of samples per node>=1.000000]
-                 This parameter specifies the minimum number of points that
-                 should fall within an octree node.
-        [--pointWeight <interpolation weight>=4.000000]
-                 This value specifies the weight that point interpolation constraints are
-                 given when defining the (screened) Poisson system.
-        [--iters <iterations>=8]
-                 This flag specifies the (maximum if CG) number of solver iterations.
-                 This parameter specifies the number of threads across which
-                 the solver should be parallelized.
-        [--confidence]
-                 If this flag is enabled, the size of a sample's normals is
-                 used as a confidence value, affecting the sample's
-                 constribution to the reconstruction process.
-        [--nWeights]
-                 If this flag is enabled, the size of a sample's normals is
-                 used as to modulate the interpolation weight.
-        [--polygonMesh]
-                 If this flag is enabled, the isosurface extraction returns polygons
-                 rather than triangles.
-        [--density]
-                 If this flag is enabled, the sampling density is written out with the vertices.
-        [--double]
-                 If this flag is enabled, the reconstruction will be performed with double-precision floats.
-        [--verbose]
-                 If this flag is enabled, the progress of the reconstructor will be output to STDOUT.
+	--in  <input points>
+	[--out <ouput triangle mesh>]
+	[--voxel <ouput voxel grid>]
+	[--depth <maximum reconstruction depth>=8]
+		 Running at depth d corresponds to solving on a 2^d x 2^d x 2^d
+		 voxel grid.
+	[--fullDepth <full depth>=5]
+		 This flag specifies the depth up to which the octree should be complete.
+	[--voxelDepth <depth at which to extract the voxel grid>=<depth>]
+	[--cgDepth <conjugate-gradients depth>=0]
+		 The depth up to which a conjugate-gradients solver should be used.
+	[--scale <scale factor>=1.100000]
+		 Specifies the factor of the bounding cube that the input
+		 samples should fit into.
+	[--samplesPerNode <minimum number of samples per node>=1.000000]
+		 This parameter specifies the minimum number of points that
+		 should fall within an octree node.
+	[--pointWeight <interpolation weight>=4.000000]
+		 This value specifies the weight that point interpolation constraints are
+		 given when defining the (screened) Poisson system.
+	[--iters <iterations>=8]
+		 This flag specifies the (maximum if CG) number of solver iterations.
+		 This parameter specifies the number of threads across which
+		 the solver should be parallelized.
+	[--confidence]
+		 If this flag is enabled, the size of a sample's normals is
+		 used as a confidence value, affecting the sample's
+		 constribution to the reconstruction process.
+	[--nWeights]
+		 If this flag is enabled, the size of a sample's normals is
+		 used as to modulate the interpolation weight.
+	[--polygonMesh]
+		 If this flag is enabled, the isosurface extraction returns polygons
+		 rather than triangles.
+	[--density]
+		 If this flag is enabled, the sampling density is written out with the vertices.
+	[--double]
+		 If this flag is enabled, the reconstruction will be performed with double-precision floats.
+	[--verbose]
+		 If this flag is enabled, the progress of the reconstructor will be output to STDOUT.
 \end{verbatim}
 For more information on Misha Khazdan's code: \url{http://www.cs.jhu.edu/~misha/Code/PoissonRecon/}
 
-\begin{comment}
-\begin{verbatim}
-mm3d Mascarpone
-*****************************
-*  Help for Elise Arg main  *
-*****************************
-Unnamed args :
-  * string
-Named args :
-  * [Name=Ply] string
-  * [Name=Out] string
-  * [Name=Max] REAL :: {Max angle between surface and viewing direction (degree expected in ]0,90]) - default is 90}
-\end{verbatim}
-\end{comment}
 
 
 \chapter{Various formula}
