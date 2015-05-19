@@ -18,7 +18,7 @@ are possible cases:
           at $\infty$ is half the focal length when the focus is at image ratio of $1:1$),
 
 
-    \item when  the image stabibilizer is free, this creates (at least)
+    \item when  the image stabilizer is free, this creates (at least)
           variation of principal point;
 
     \item when  images were acquired with variable zoom.
@@ -37,12 +37,12 @@ files that were used to process images acquired with macro lenses.
 The files {\tt New-Apero1.xml} to {\tt New-Apero6-ExportDirPlanMM.xml}
 contain examples on real cases of the different mechanisms shown
 here. By the way, these examples may be a bit complex because they
-were made before key standardisation.
+were made before key standardization.
 
 See especially the examples {\tt Apero-ExCalibPerIm-1.xml} and
 {\tt Apero-ExCalibPerIm-2.xml} on {\tt MurSaintMartin}, that have
 been added after writing this section; they are more realistic
-and contain some comments at the begining that should be
+and contain some comments at the beginning that should be
 sufficient.
 
   % - - - - - - - - - - - - - - - - - - - - -
@@ -53,7 +53,7 @@ allows to handle these cases. It contains a mandatory args {\tt   <KeyPose2Cal>}
 
 
 \begin{itemize}
-    \item it must constain a string $K$ which describes  a key association,
+    \item it must contain a string $K$ which describes  a key association,
           (see~\ref{Ref:Key:Map}  for {\tt <KeyedNamesAssociations>});
     \item  two images  $I_1$ and $I_2$ will share the same internal parameters,
            if and only if $K(I_1) = K(I_2)$;
@@ -159,14 +159,14 @@ Scanned analog images are important in many applications, as they represent
 a valuable source of information for studying phenomena on long periods of time.
 From the photogrammetric point of view, the main difference between
 scanned images and digital camera is that for each images there
-is a specific  tranformation between the photo and the scanner.
-This tranformation can be computed when there exist fiducial marks
+is a specific  transformation between the photo and the scanner.
+This transformation can be computed when there exist fiducial marks
 on the camera. This section presents how this can be done with {\tt Apero/MicMac}.
 
 
 The directory {\tt DemoScanned/} contains a data set that illustrates these
 features. It contains $5$ images that are a simulation of scanned
-iamges: the images have been randomly rotated and scaled, simulating the
+images: the images have been randomly rotated and scaled, simulating the
 interior orientation of the scanner; before the rotation, $8$  fiducial marks have
 been added. Figure~\ref{ImFid} illustrates this data set.
 
@@ -267,13 +267,13 @@ The file {\tt ExCmd.txt} contains a possible processing of the data:
 
 \begin{figure}
    \includegraphics[width=120mm]{FIGS/Niche/snapshot00.jpg}
-\caption{Point cloud with simumlation of scanned images}
+\caption{Point cloud with simulation of scanned images}
 \label{ImNiche}
 \end{figure}
 
 
 If you take a look at orientation files, you will see that they are self sufficient for
-matching: the {\tt <OrIntImaM2C>}  section contains the affinity betwwen scanner and image computed
+matching: the {\tt <OrIntImaM2C>}  section contains the affinity between scanner and image computed
 from the fiducial marks:
 
 \begin{verbatim}
@@ -293,7 +293,7 @@ from the fiducial marks:
 
 \subsection{Semi-automatic fiducial mark input with Kugelhupf}
 
-Kugelhopf (Klics Ubuesques Grandement Evites, Lent, Hasardeux mais Utilisable pour Points Fiduciaux) is a tool for scanned images. It is used to automatically find fiducial marks on the images.
+Kugelhupf (Klics Ubuesques Grandement Evites, Lent, Hasardeux mais Utilisable pour Points Fiduciaux) is a tool for scanned images. It is used to automatically find fiducial marks on the images.
 
 If the fiducial marks are almost on the same position on each picture, it is necessary to point them on one image and Kugelhopf will find the fiducial marks on the others.
 
@@ -314,7 +314,7 @@ Named args :
 Call example:
 {\tt mm3d Kugelhupf ".*.tif" Ori-InterneScan/MeasuresIm-202.tif.xml SearchIncertitude=10 TargetHalfSize=32 }
 
-The output is xml files in {\tt Ori-InterneScan} for every picture where the automatic search was successfull.
+The output is xml files in {\tt Ori-InterneScan} for every picture where the automatic search was successful.
 
 
 \section{Adjustment with lines}
@@ -497,7 +497,7 @@ do not freeze the orientation.
 
 \end{verbatim}
 
-At the end, the orientation are exported in {\tt Ori-Check3/}, and it can be seen that they are almost identic to {\tt Ori-Rel}
+At the end, the orientation are exported in {\tt Ori-Check3/}, and it can be seen that they are almost identical to {\tt Ori-Rel}
 
 
         % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -508,14 +508,14 @@ In this example, we check that, as we would do in real case, it is possible to a
 other measurement. Also we use a reduced set of line-point (with {\tt MesureLineImageIncompl.xml}), in this set
 there is lines only for the two central images.
 
-In {\tt Apero-4-CompensMixte.xml} we check that using simultaneaously tie point and "GCP-line", we can recover the orientation
-of the extremal images (where there is no GCP-line).
+In {\tt Apero-4-CompensMixte.xml} we check that using simultaneously tie point and "GCP-line", we can recover the orientation
+of the extreme images (where there is no GCP-line).
 
 {\tt  Apero-5-CompensAll.xml} had a minor modification, we see that in {\tt <BDD\_ObsAppuisFlottant >} we have
 
 \begin{itemize}
-   \item  {\tt <KeySetSegDroite> } as before , to make adjusment on line;
-   \item an additional {\tt  <KeySetOrPat>} to make adjusment of $2d$ points like in  ~\ref{GCP:Org};
+   \item  {\tt <KeySetSegDroite> } as before , to make adjustment on line;
+   \item an additional {\tt  <KeySetOrPat>} to make adjustment of $2d$ points like in  ~\ref{GCP:Org};
 
 \end{itemize}
 
@@ -532,7 +532,7 @@ So in this example, the $3d$ point {\tt P\_1\_A} will be adjusted simultaneously
 
 The evolution described here, are now integrated in the "standard" {\tt Tapas} command.
 When necessary \footnote{for example because "new"  {\tt Tapas} has slower convergence}, it is possible
-to get back to the previous behaviour by using the {\tt OldTapas} command.
+to get back to the previous behavior by using the {\tt OldTapas} command.
 
 
 
@@ -540,28 +540,28 @@ to get back to the previous behaviour by using the {\tt OldTapas} command.
 
 \subsection{Viscosity \& Levenberg Marquardt stuff}
 
-Adding viscosity, also named more pedentically using   Levenberg Marquardt algorithm,
-is a classical way to avoid problem due to ill conditionning system in energy minimization algorithm.
+Adding viscosity, also named more pedantically using Levenberg Marquardt algorithm,
+is a classical way to avoid problem due to ill conditioning system in energy minimization algorithm.
 In theory the only drawback is that it slow down the speed of convergence.
 
 However, in Tapas, the default value of viscosity was badly dosed, and it  some configuration ,
-particulary UAV acquisition \footnote{because it's big data set and the "loop is not closed}
-lead to stop the bundle adjustment before the convergence . This is illstrated in figure~\ref{ImOldNewTapas}.
- To change this fact, the comporment of Tapas/NewTapas has evolved this way :
+particularly UAV acquisition \footnote{because it's big data set and the "loop is not closed}
+lead to stop the bundle adjustment before the convergence . This is illustrated in figure~\ref{ImOldNewTapas}.
+ To change this fact, the comportment of Tapas/NewTapas has evolved this way :
 
 \begin{itemize}
-    \item  the initial default value of viscosity  on centre and rotation has been divided by $10$;
-    \item  conversely the constraint to solve the arbitray ambiguity has bee reactivated (i.e the firt image is
+    \item  the initial default value of viscosity  on center and rotation has been divided by $10$;
+    \item  conversely the constraint to solve the arbitrary ambiguity has bee reactivated (i.e the first image is
            frozen, and the length of the base between two first images is frozen)
     \item  a small initial viscosity has been added on internal parameters;
     \item  in the third {\tt <EtapeCompensation>} the viscosity is continuously decreasing;
-    \item  in the fouth step of  {\tt <EtapeCompensation>} the viscosity is highly stronly decreasing and
-           the bundle doesn not stop before a test of convergence is satisfied (the test verifiy that with an
-           accuracy of $1E-10$ the $3d$ point are identic after two consecutive steps).
+    \item  in the fourth step of  {\tt <EtapeCompensation>} the viscosity is highly strongly decreasing and
+           the bundle does not stop before a test of convergence is satisfied (the test verify that with an
+           accuracy of $1E-10$ the $3d$ point are identical after two consecutive steps).
 \end{itemize}
 
-As this new version can increase significatively the computation, the option {\tt RefineAll=false}
-allox to limit the number of iteration (by a factor arround $2$), of course it has a risk of non convergence \dots
+As this new version can increase significantly the computation, the option {\tt RefineAll=false}
+allow to limit the number of iteration (by a factor around $2$), of course it has a risk of non convergence \dots
 
 
 \begin{figure}
@@ -578,37 +578,36 @@ allox to limit the number of iteration (by a factor arround $2$), of course it h
 
 \subsection{Additional distortion}
 
-The kernel of Apero has two option that can be usefull when attempting to modelize finely the distorsion of a camera:
+The kernel of Apero has two option that can be useful when attempting to modelize finely camera distortion:
 
 \begin{itemize}
    \item model with high degree of freedom
-   \item possibility to define a distorsion as composition of several distorstion (as described in~\ref{ComposDist}).
+   \item possibility to define a distortion as composition of several distortion (as described in~\ref{ComposDist}).
 \end{itemize}
 
 These option are now partly accessible in Tapas.
 
-There is two familly of distorsion with high degree of freedom :
+There is two family of distortion with high degree of freedom :
 
 
 \begin{itemize}
-   \item high radial distorstion made from a polynomial radial distorstion and $6$ parameters for degree $2$
-         general poynoms; these polynoms are avalaible in Tapas via the {\tt Four7x2, Four11x2, Four15x2, Four19x2}
+   \item high radial distortion made from a polynomial radial distortion and $6$ parameters for degree $2$
+         general polynoms; these polynoms are available in Tapas via the {\tt Four7x2, Four11x2, Four15x2, Four19x2}
          and in Apero with {\tt eModeleRadFour7x2, ..., eModeleRadFour19x2}, the {\tt Four19x2} modelize the radial
-         distorsion with a polynom $r_3 \rho^3 +\dots + r_{19} \rho^{19}$; also I am not sure it maybe necessary to
+         distortion with a polynom $r_3 \rho^3 +\dots + r_{19} \rho^{19}$; also I am not sure it maybe necessary to
          use until $ \rho^{19}$, I observe that with modern camera using sophisticated aspherical lenses, it may be
-         unsufficient to use the so called $r_3 r_5 r_7$ model;
+         insufficient to use the so called $r_3 r_5 r_7$ model;
 
 
-   \item general polynial model, i.e $D_N(X,Y) \sum (A_{i,j} x^iy^j,B_{i,j} x^iy^j)$  where $i+j\leq N$,
+   \item general polynomial model, i.e $D_N(X,Y) \sum (A_{i,j} x^iy^j,B_{i,j} x^iy^j)$  where $i+j\leq N$,
          there accessible in {\tt Apero} a a unified model {\tt eModelePolyDeg2, \dots eModelePolyDeg7},
          for example,{\tt eModelePolyDeg7} has $66$ parameters, because $66=8*9-6$, the $-6$ comes because
          there $6$ polynoms already modelized by focal, principal point and rotations;
 \end{itemize}
 
-The firts one is accessible directly in {\tt Tapas}, not the second. Buth both are accessible as additional distortion.
-In fact, it would be generaly a bad idea to try to estimate directly the $66$ parameters of a {\tt eModelePolyDeg7}, it's
-preferable to estimate first a model with physical meaning and few parameters, and then to estimate the high degree polynom
-as a modification to this physical model. This can be done with :
+The first one is accessible directly in {\tt Tapas}, not the second. But both are accessible as additional distortion.
+In fact, it would be generally a bad idea to try to estimate directly the $66$ parameters of a {\tt eModelePolyDeg7}, it's
+preferable to estimate first a model with physical meaning and few parameters, and then to estimate the high degree polynom as a modification to this physical model. This can be done with :
 
 \begin{itemize}
     \item  {\tt AddFour7x2,  \dots AddFour15x2} for high degree radial models;
@@ -623,11 +622,11 @@ A possible example of use :
 \end{verbatim}
 
 The first call is classical, just remark the {\tt DegGen=2} because by default only $1$ degree
-general parameter od {\tt Four15x2} is free.  In the second call we start from the first orienation/calibration
+general parameter od {\tt Four15x2} is free.  In the second call we start from the first orientation/calibration
 and add a $7$ degree general polynom. Note that, as with {\tt AutoCal} et {\tt Figee} all the calibration must have
-an initial value when using the additionnal mode.
+an initial value when using the additional mode.
 
-Also note that only the additionnal distorsion will be optimized (else the problem would be far over parametrized).
+Also note that only the additional distortion will be optimized (else the problem would be far over parameterized).
 The result in {\tt Ori-AddPolyDeg7/AutoCal60.xml} looks like :
 
 {\tiny
@@ -675,56 +674,56 @@ The result in {\tt Ori-AddPolyDeg7/AutoCal60.xml} looks like :
 \label{NonLin:GCPBascule}
 
 The {\tt GCPBascule} tool, described in~\ref{Sec:GCPBascule}, transforms a relative orientation
-into an absolute one, using at leats $3$ ground control point (GCP). The default use make
+into an absolute one, using at least $3$ ground control point (GCP). The default use make
 the assumption that the relative orientation is "perfect" and it computes the minimum number
-of parameters, i.e. the seven parameter corresponding to the arbirtrary $3d$ similitude
+of parameters, i.e. the seven parameter corresponding to the arbitrary $3d$ similitude
  that can be computed from tie points :
 
 \begin{itemize}
-   \item $3$ paramater for rotation;
-   \item $3$ paramater for translation;
-   \item $1$ paramater for scale.
+   \item $3$ parameter for rotation;
+   \item $3$ parameter for translation;
+   \item $1$ parameter for scale.
 \end{itemize}
 
 
 When {\tt MicMac} tools is used for metrology, this geo-referencing by {\tt GCPBascule}
-can be insuficient because there appears non linear distorsion in the relative orientation. The discussion about the
+can be insufficient because there appears non linear distortion in the relative orientation. The discussion about the
 origin and the quantification of these effect,  is quite complex and cannot be discussed here;
 however,  to solve it we have to input more GCP that the minimum required and to use these
-excedent GCP for correcting this distortion. In {\tt MicMac} tools, there is two way to do it :
+surplus GCP for correcting this distortion. In {\tt MicMac} tools, there is two way to do it :
 
 
 \begin{itemize}
-   \item the "classical" way is to do a compensation with high weigthing on the CGP, this can be done
+   \item the "classical" way is to do a compensation with high weighting on the GCP, this can be done
         with the simplified tool   {\tt Campari}  (\ref{CAMPARI} and \ref{Bundle:CAMPARI});
 
-   \item a non standard way is to use the redundacy of the GCP to directly estimate the non linear distorsion
+   \item a non standard way is to use the redundancy of the GCP to directly estimate the non linear distortion
         existing between the result of "Bascule" (swing) ans the ground truth; this is what is described here;
 
 \end{itemize}
 
 At the time of writing these documentation, it's not clear which method is "better". The first one is more
-standard and seems more correct from theoreticall point of view, however from experimental point of view, the
+standard and seems more correct from theoretical point of view, however from experimental point of view, the
 second one seems more accurate.
 
 
-\subsubsection{Mathematicall model}
+\subsubsection{Mathematical model}
 
 Let :
 
 \begin{itemize}
-   \item let $G_k$ be the ground coodinate of the GCP;
+   \item let $G_k$ be the ground coordinate of the GCP;
    \item let $I_k$ be the coordinate of the GCP in relative initial model (estimate by bundle intersection);
    \item let $T$ be the transformation from relative to absolute we want to estimate similitude, such that  $G_k \approx T(I_k)$ ;
-   \item let $S$ be the inital similitude estimation of $T$;
+   \item let $S$ be the initial similitude estimation of $T$;
    \item let $C$ be the "small" correction we want to do compute $T= (Id+C) \circ S$
 \end{itemize}
 
 
 Also, it is current that the acquisition is "linear" and that the coordinate must not be treated
-symetrically. For example if the acquisitiion is made from a single strip, let $O'X'Y'Z$ be a
+symmetrically. For example if the acquisition is made from a single strip, let $O'X'Y'Z$ be a
 coordinate system ,  centered on the acquisition, such that the image center are aligned on the $O'X'$ axes.
-Concretely $O'X'Y'Z$ can be estimated automatically from initial $OXYZ$ by elementary computation of inertials axes of the
+Concretely $O'X'Y'Z$ can be estimated automatically from initial $OXYZ$ by elementary computation of inertial axes of the
 image center (i.e. computation of order $2$ moments) \footnote{this is exactly what is done in MicMac}.
 
 
@@ -750,13 +749,13 @@ that the errors is only on $Z^c$,  and that this error depends only on  the
 \end{itemize}
 
 Also if we have a sufficient number of tie points \footnote{$6$ is the minimum, but $12$ would be more
-reasonnable} and have high distorsion we can select the full model.
+reasonable} and have high distortion we can select the full model.
 
 
 \subsubsection{Using it in MicMac}
 
-The command {\tt GCPBascule} hase several parameters to compute a non linear
-correction. Of course by defaut, the swing-bascule if made with the standard $7$ paramaters
+The command {\tt GCPBascule} has several parameters to compute a non linear
+correction. Of course by default, the swing-bascule if made with the standard $7$ parameters
 with no correction. The non linear correction is activated if the optional {\tt PatNLD} is
 used. The meaning of the different parameters is then :
 
@@ -764,7 +763,7 @@ used. The meaning of the different parameters is then :
 \begin{itemize}
   \item  {\tt PatNLD} :  define the pattern of the GGP name that will be used to estimate  $C(X',Y',Z')$;
          in the final application probably one will use {\tt "PatNLD=.*"} to specify that all GCP; however,
-         if one want to esitmate the accuracy with GCP that are not used for the estimation, it can be
+         if one want to estimate the accuracy with GCP that are not used for the estimation, it can be
          convenient to specify a subset:
    \item  {\tt NLDegX}, {\tt NLDegY} and  {\tt NLDegZ} specify the monoms that be used for  $X'^c,Y'^c,Z'^c$,
           it a vector of strings  which elements must belongs to {\tt \{1,X,Y,X2,XY,Y2\}};
@@ -779,11 +778,11 @@ used. The meaning of the different parameters is then :
              no longer usable compensation (but usable in matching);
 
      \item   {\tt NLFR} is true, {\tt MicMac} will export for each image the closest rotation that fit
-             the new system; of course the price to pay for having true rotatuon is that the error will be bigger;
+             the new system; of course the price to pay for having true rotation is that the error will be bigger;
 
 \end{itemize}
 
-   \item  {\tt NLShow}  : give detailled information;
+   \item  {\tt NLShow}  : give detailed information;
 \end{itemize}
 
 
@@ -855,7 +854,7 @@ Let detail the message for point {\tt  14a} :
 
         % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-\subsection{A detailled example}
+\subsection{A detailed example}
 
 
 
