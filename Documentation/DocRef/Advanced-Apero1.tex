@@ -291,6 +291,32 @@ from the fiducial marks:
 
 %=======================================================================================================
 
+\subsection{Semi-automatic fiducial mark input with Kugelhupf}
+
+Kugelhopf (Klics Ubuesques Grandement Evites, Lent, Hasardeux mais Utilisable pour Points Fiduciaux) is a tool for scanned images. It is used to automatically find fiducial marks on the images.
+
+If the fiducial marks are almost on the same position on each picture, it is necessary to point them on one image and Kugelhopf will find the fiducial marks on the others.
+
+Syntax of {\tt Kugelhupf}:
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Pattern of scanned images}
+  * string :: {2d fiducial points of an image}
+Named args : 
+  * [Name=TargetHalfSize] INT :: {Target half size in pixels (Def=64)}
+  * [Name=SearchIncertitude] INT :: {Search incertitude in pixels (Def=5)}
+  * [Name=SearchStep] REAL :: {Search step in pixels (Def=0.5)}
+\end{verbatim}
+
+Call example:
+{\tt mm3d Kugelhupf ".*.tif" Ori-InterneScan/MeasuresIm-202.tif.xml SearchIncertitude=10 TargetHalfSize=32 }
+
+The output is xml files in {\tt Ori-InterneScan} for every picture where the automatic search was successfull.
+
+
 \section{Adjustment with lines}
 
 
@@ -299,7 +325,7 @@ from the fiducial marks:
 \subsection{Introduction}
 
 This section describes the case where user wants to adjust orientation using correspondence between $3d$ points
-and image lines. It's rather specific, and was added in the context of  georeferencing aerial photographs with a $3d$
+and image lines. It's rather specific, and was added in the context of georeferencing aerial photographs with a $3d$
 data base of roads \footnote{I am not sure to see if there exist other examples of application}. Formally we have:
 
 \begin{itemize}
