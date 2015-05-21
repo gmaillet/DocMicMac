@@ -1888,6 +1888,42 @@ The command line {\tt grep Centre All-RTL/*} enable you to quickly check the res
 
 %-------------------------------------------------------------------
 
+\subsubsection{Merging Orientation with {\tt Morito}}\label{Sec:Morito}
+
+When one has $2$ sets of orientation, with at least $2$ images common to the two sets, the  {\tt Morito} command
+can be used to merge the two orientation.
+
+An example with the Cuxha Data set, first we create (a bit artificially here) two set of images :
+
+\begin{verbatim}
+Tapas RadialBasic  "Abbey-IMG_02[4-8].*.jpg" Out=48
+Tapas Figee  "Abbey-IMG_02[0-4].*.jpg" Out=04 InCal=Ori-48/
+\end{verbatim}
+
+Note that for obvious coherence reason, we have force the two set of images to have the same internal orientation.
+Now we want to merge this two orientation, taking benefit that images {\tt IMG\_0240.jpg \dots IMG\_0249.jpg} are common to the two subset. We use :
+
+\begin{verbatim}
+mm3d Morito Ori-48/Orientation-Abbey-IMG_02.*xml  Ori-04/Orientation-Abbey-IMG_02.*xml 08
+\end{verbatim}
+
+The merged orientation are in {\tt Ori-48/}, the programm has estimated a $3d$ similitude ($7$ parameter) to do the merging. The merging is done in the system of the first set of images.  As the system is redundant, the residual can be used as estimation of the accuracy. They are printed by {\tt Morito} , the {\tt DMatr} represent the residual in rotation and {\tt DPt} the residual in center :
+
+
+\begin{verbatim}
+...
+Orientation-Abbey-IMG_0240.jpg.xml DMatr 0.000457438 DPt 0.000962311
+Orientation-Abbey-IMG_0247.jpg.xml DMatr 0.000374341 DPt 0.000914102
+Orientation-Abbey-IMG_0248.jpg.xml DMatr 0.00018792 DPt 0.000749945
+Orientation-Abbey-IMG_0249.jpg.xml DMatr 0.000361987 DPt 0.000892905
+\end{verbatim}
+
+
+
+
+
+%-------------------------------------------------------------------
+
 \subsection{MakeGrid}
 \label{MAKEGRID}
 
