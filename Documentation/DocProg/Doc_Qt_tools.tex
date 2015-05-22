@@ -84,7 +84,7 @@ Visual interfaces are available with option {\tt WITH\_QT4} or {\tt WITH\_QT5} a
 
 If necessary, see {\tt CMakeLists.txt}.\\*
 
-At revision 5510, code is located in:
+At revision 5520, code is located in:
 \begin{verbatim}
 include/general/visual_mainwindow.h
 include/general/visual_buttons.h
@@ -179,7 +179,7 @@ The arguments types can be:\\*
 
 Type has not to be specified for an integer, a float, a point ({\tt Pt2di}, {\tt Pt2dr}), a box terrain ({\tt Box2dr}).\\*
 
-To check if a visual interface has to be launched a global variable {\tt MMVisualMode} is set to {\tt true} in {\tt GenMain} in {\tt src/CBinaires/mm3d.cpp}. When calling {\tt mm3d} for a visual interface, we first run the {\tt Function\_main} with its {\tt ElInitArgMain} to fill the visual interface, then we run a second time mm3d with {\tt MMVisualMode} set to {\tt false}, to take into account modifications done in the visual interface, and to run the actual process.\\*
+To check if a visual interface has to be launched a global variable {\tt MMVisualMode} is set to {\tt true} in {\tt GenMain} in {\tt src/CBinaires/mm3d.cpp}. When calling {\tt mm3d} for a visual interface, we first run the {\tt Function\_main} with its {\tt ElInitArgMain} to fill the visual interface, then we run a second time {\tt mm3d} with {\tt MMVisualMode} set to {\tt false}, to take into account modifications done in the visual interface, and to run the actual process.\\*
 
 At the first call to {\tt Function\_main}, we just want to go through {\tt ElInitArgMain}, to show the visual interface, so we need to exit this function without doing the main process. This is why we have to add after {\tt ElInitArgMain}:
 
@@ -229,7 +229,7 @@ Normalization is specified using {\tt eSAM\_Normalize}. Difference between box i
 \subsection{Introduction}
 
 {\tt SaisieQT} is a Qt application gathering a set of commands designed to mimic and extend the {\tt SaisiePts} X11 tool originally used for measuring data in images for {\tt MicMac}. It is cross-platform.
-At revision 5510, there is 6 Qt tools: {\tt SaisieMasqQT}, {\tt SaisieAppuisInitQT}, {\tt SaisieAppuisPredicQT}, {\tt SaisieCylQT}, {\tt SaisieBascQT} and {\tt SaisieBoxQT}.\\*
+At revision 5520, there is 6 Qt tools: {\tt SaisieMasqQT}, {\tt SaisieAppuisInitQT}, {\tt SaisieAppuisPredicQT}, {\tt SaisieCylQT}, {\tt SaisieBascQT} and {\tt SaisieBoxQT}.\\*
 
 {\tt SaisieMasqQT}, {\tt SaisieAppuisInitQT}, {\tt SaisieAppuisPredicQT}, {\tt SaisieCylQT} and {\tt SaisieBascQT} are designed as independent applications, while {\tt SaisieBoxQT} is, for now, only called through the visual interfaces (it does not output measures in a {\tt xml} file, it only sends data through \textit{slot/signal} connections.
 
@@ -247,7 +247,7 @@ SaisieQT tools are available with option {\tt WITH\_QT4} or {\tt WITH\_QT5} acti
 
 If necessary, see {\tt CMakeLists.txt} and {\tt src/SaisieQT/CMakeLists.txt}.\\*
 
-At revision 5510, code is located in:
+At revision 5520, code is located in:
 \begin{verbatim}
 src/uti_phgrm/CPP_SaisieQT.cpp
 src/SaisieQT/
@@ -278,21 +278,15 @@ Each application has its own settings (stored depending on the OS). Most of the 
 
 Switching between each application in code is managed with private member {\tt \_appMode} of {\tt SaisieQtWindow} class. Corresponding enum is defined in {\tt include\_QT/Settings.h}.\\*
 
-Some of the Saisie Qt tools make use of Elise library, and use the same core as {\tt SaisiePts} to compute 3D points from image measures, epipolar lines, etc. To mimic the way {\tt SaisiePts} works, a class {\tt cVirtualInterface} has been created in {\tt include/SaisiePts/SaisiePts.h}. This class owns all methods that are shared both by {\tt SaisiePts} and {\tt SaisieQT}. Two classes derive from this mostly virtual class: {\tt cX11\_Interface} in {\tt SaisiePts}, and {\tt cQT\_Interface} in {\tt SaisieQT}.\\*
-
-{\tt SaisieQtWindow} main functions are: 
-\begin{itemize}
-\item addFiles to load files.
-\item
-\end{itemize}
+Some of the Saisie Qt tools make use of Elise library, and use the same core as {\tt SaisiePts} to compute 3D points from image measures, epipolar lines, etc. To mimic the way {\tt SaisiePts} works, a class {\tt cVirtualInterface} has been created in {\tt include/SaisiePts/SaisiePts.h}. This class owns all methods that are shared both by {\tt SaisiePts} and {\tt SaisieQT}. Two classes derive from this mostly virtual class: {\tt cX11\_Interface} in {\tt SaisiePts}, and {\tt cQT\_Interface} in {\tt SaisieQT}. {\tt cQT\_Interface} needs {\tt cAppli\_SaisiePts} and a {\tt SaisieQtWindow} to be instantiated.
 
 \subsection{SaisieMasqQT}
 
-{\tt SaisieMasqQT} has 2 modes: a 2D mask selection mode, like X11 {\tt SaisieMasq}, and a 3D mask selection mode, useful for C3DC command. {\tt SaisieMasqQT} uses the same command line arguments as {\tt SaisieMasq} which are read in {\tt saisieMasq\_ElInitArgMain}, function common to both. Theses arguments are provided to {\tt SaisieQtWindow} afterward.\\*
+{\tt SaisieMasqQT} has 2 modes: a 2D mask selection mode, like X11 {\tt SaisieMasq}, and a 3D mask selection mode, useful for {\tt C3DC} command. {\tt SaisieMasqQT} uses the same command line arguments as {\tt SaisieMasq} which are read in {\tt saisieMasq\_ElInitArgMain}, function common to both. Theses arguments are provided to {\tt SaisieQtWindow} afterward.\\*
 
-All the data in {\tt SaisieMasqQT} is rendered in an OpenGL context. We use an ortho projection (see {\tt cImageGL::drawGradientBackground, glOrtho). The main container, after {\tt SaisieQtWindow}, is {\tt GLWidget} (derived from {\tt QGLWidget}).
+All the data in {\tt SaisieMasqQT} are rendered in an OpenGL context. These data are stored in {\tt cGLData} class. We use an ortho projection to render them (see {\tt MatrixManager::mglOrtho}). The main container, after {\tt SaisieQtWindow}, is {\tt GLWidget} (derived from {\tt QGLWidget}). Projection matrix and projection functions (from image to window, and back) can be found in {\tt MatrixManager} class.
 
-\subsubsection{2D Mode}
+\subsubsection{2D mode}
 
 In 2D mode, {\tt SaisieMasqQT} loads one image, and displays it in the center of the viewport.\\*
 
@@ -304,17 +298,30 @@ An image is drawn as a {\tt GL\_QUAD} (see {\tt cImageGL::drawQuad}). When a mas
 
 Drawing vector data (polygons, points, text) is done in {\tt GLWidget::overlay()}.\\*
 
-Editing a mask, is done in {\tt cGLData::editImageMask} ({\tt cGLData.cpp}).
+Editing a mask is done in {\tt cGLData::editImageMask} ({\tt cGLData.cpp}) by drawing a polygon (class {\tt cPolygon}). 
 
-\subsubsection{3D Mode}
+\subsubsection{3D mode}
 
-Editing a mask, is done in {\tt cGLData::editCloudMask} ({\tt cGLData.cpp}).
+3D mode allows loading a ply file (only point clouds, for now). 6 ply formats are currently managed (xyz, xyzrgb, xyz nx ny nz, xyzrgba, xyz nx ny nz rgb, xyz nx ny nz rgba) (see {\tt GlCloud::loadPly}).\\*
+
+There is two interaction modes: selection (one can draw a polygon, as in 2D mode), and move (rotate or translate camera). In {\tt GLWidget} switching between the two modes is done with {\tt getInteractionMode()} and {\tt m\_interactionMode}. In the \textit{gui}, {\tt F9} shortcut switches between the 2 modes.\\*
+
+Editing a mask is done in {\tt cGLData::editCloudMask} ({\tt cGLData.cpp}). Editing a mask consists of two different operations: for each 3d point, decide if it is inside or outside the mask, and also store the mask selection information (to be able to recover the mask from other {\tt mm3d} commands, such as {\tt C3DC}). A mask consists of the intersection of several 3D cones, each 3D cone being defined by a 3D polygon (the cone section) and a direction. 3D polygon is built from the 2D polygon drawn in viewport and its camera and matrix information. Cone direction is known from camera orientation. So for each couple (polygonal selection-openGL camera), a virtual 3D cone has to be stored (see \textit{"Conventions for 3D selection tool"} paragraph in {\tt DocMicMac.pdf}). These information are stored in a vector of {\tt selectInfos}, in {\tt HistoryManager}. This allows to undo/redo actions, and also to edit actions through a {\tt QAbstractTableModel} (QTableView {\tt tableView\_Objects}).
+
 
 \subsection{SaisieAppuisInitQT and SaisieAppuisPredicQT}
 
+In {\tt SaisieAppuisInitQT} and {\tt SaisieAppuisPredicQT}, we use the same {\tt cPolygon} object to draw a set of points, but we don't draw lines between points. This is done with boolean \_bShowLines in {\tt cPolygon}, which can be checked with method {\tt cPolygon::isLinear()}.\\*
+
 \subsection{SaisieBascQT}
-Mode=0 in {\tt src/uti\_phgrm/CPP\_SaisieQT.cpp} 
+Mode=0 in {\tt src/uti\_phgrm/CPP\_SaisieQT.cpp} \\*
+
+At this point, {\tt SaisieBascQT} has exactly the same behavior as {\tt SaisieBasc}: lines are drawn as two points, while it may be useful to display the complete line.
+
 \subsection{SaisieCylQT}
 Mode=1 in {\tt src/uti\_phgrm/CPP\_SaisieQT.cpp} 
 \subsection{SaisieBoxQT}
+
+{\tt SaisieBoxQT} is a very simple use of {\tt SaisieQtWindow}: it shows an image, allow to draw a {\tt cRectangle}, which is a {\tt cPolygon} with 4 points defined in {\tt cObject.h}. At this point, {\tt SaisieBoxQT} is only meant to communicate with a visual interface (such as {\tt vMalt}) and we only send a \textit{signal} with\\ {\tt void newRectanglePosition(QVector <QPointF> points)} in {\tt GLWidget::mouseMoveEvent}. This \textit{signal} is connected to {\tt onRectanglePositionChanged} in {\tt visual\_MainWindow::onSaisieButtonPressed} in {\tt visual\_mainWindow.cpp}.
+{\tt SaisieBoxQT} is instantiated in {\tt visual\_mainWindow} constructor ({\tt visual\_mainWindow.cpp}).
 \end{document}
