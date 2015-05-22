@@ -1,6 +1,3 @@
-
-%\selectlanguage{english}
-
 \section{Conventions for 3D selection tool}
 \label{Conv:selection}
 
@@ -28,9 +25,7 @@ Two camera pose matrix are stored using openGL conventions:
 \item projection matrix (16 parameters)\\*
 \end{itemize}
 
-For more information on these matrix:
-
-\url{http://www.glprogramming.com/red/chapter03.html}
+For more information on these matrix: \url{http://www.glprogramming.com/red/chapter03.html}\\*
 
 How to transform polygon viewport coordinates (as stored) into world coordinates:
 
@@ -78,7 +73,7 @@ And final point in world coordinates is:
 
 These operations are performed in function {\tt getInverseProjection} from {\tt saisieQT/MatrixManager.cpp }
 
-a function to convert a polygon stored in selectInfo.xml (filename) into point cloud local frame looks like:
+a function to convert a polygon stored in {\tt selectInfo.xml} (filename) into point cloud local frame looks like:
 
 \begin{verbatim}
 
