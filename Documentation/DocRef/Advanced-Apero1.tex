@@ -312,9 +312,21 @@ Named args :
 \end{verbatim}
 
 Call example:
-{\tt mm3d Kugelhupf ".*.tif" Ori-InterneScan/MeasuresIm-202.tif.xml SearchIncertitude=10 TargetHalfSize=32 }
+{\tt mm3d Kugelhupf "1987\_FR4074.*.tif" Ori-InterneScan/MeasuresIm-202.tif.xml SearchIncertitude=10 }
 
 The output is xml files in {\tt Ori-InterneScan} for every picture where the automatic search was successful.
+If at least one point was not found for an image, the xml file is not created.
+Kugelhupf only works on picture that have no xml file.
+
+This is useful to make successive calls to Kugelhupf with different search incertitudes :
+
+{\tt mm3d Kugelhupf "1987\_.*.tif" Ori-InterneScan/MeasuresIm-202.tif.xml SearchIncertitude=10}
+
+{\tt mm3d Kugelhupf "1987\_.*.tif" Ori-InterneScan/MeasuresIm-202.tif.xml SearchIncertitude=25}
+
+
+The first call will be fast and will have a result only with pictures with close fiducial points, and the second call will
+be slower but only on the worst pictures.
 
 
 \section{Adjustment with lines}
