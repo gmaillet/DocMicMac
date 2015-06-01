@@ -2339,6 +2339,7 @@ Unnamed args :
 Named args :
   * [Name=Master] string :: { Master image must exist iff Mode=GeomImage}
   * [Name=SzW] INT :: {Correlation Window Size (1 means 3x3)}
+  * [Name=UseGpu] bool :: {Use Cuda acceleration, def=false}
   * [Name=Regul] REAL :: {Regularization factor}
   * [Name=DirMEC] string :: {Subdirectory where the results will be stored}
   * [Name=DirOF] string
@@ -2399,6 +2400,7 @@ Table~\ref{Tab:ArgMalt} presents a summary of meaning and default value of
 {\bf Name }  &   {\bf Meaning } & {\bf Ortho } &  {\bf UrbanMNE} &{\bf GeomImage } \\  \hline \hline
 {\bf SzW }  &   Sz correlation window & $2$ &  $ 1 $  &$1$ \\  \hline
 {\bf Regul }  &  Regularization factor & $0.05$ &  $0.02$  & $0.02$ \\  \hline
+{\bf UseGpu }  &  Use Cuda & false &  false  & false \\  \hline
 {\bf UseTA }  &  Masq with TA & true &  true  & true \\  \hline
 {\bf ZoomF }  &  Final resolution &  $2$ &  $1$   & $1$ \\  \hline
 {\bf ZoomI }  &  Initial resolution &  XXX &  XXX   & XXX\\  \hline
@@ -2424,8 +2426,8 @@ Some comments:
 	 in the simple case where there would be two images, with a constant base-to-height ratio $R=\frac{B}{H}$,
 	 the step in ground geometry would be $\frac{ZPas}{R}$,
 
-
-   \item the {\tt NbVI}
+   \item the {\tt NbVI}   
+   \item Warning : If you use {\tt UseGpu} and {\tt GeomImage}, it's not a matching in ground image geometry, but in geometry terrain.
 \end{itemize}
 
 \subsection{Image geometry with {\tt Malt}}
