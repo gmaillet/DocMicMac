@@ -706,6 +706,7 @@ result). Figure~\ref{FIG:DISP:REGUL} illustrates the effect of dequantification.
 The file {\tt Param-3-Epi.xml} is similar to {\tt Param-2-Epi.xml}, the
 main difference being the used regularization algorithm. It is specified
 {\tt eAlgo2PrgDyn} which is a $2D$ generalization of dynamic programming.
+It is specified {\tt eAlgoTestGPU} which is a $2D$ generalization of dynamic programming with using CUDA.
 This algorithm does not produce the exact minimum of the energy function,
 but a solution generally very close to the optimum. On the other hand,
 it is generally faster and more flexible. It has more parameters;
@@ -1042,6 +1043,37 @@ multiplied by {\tt ZPas}; this convention has the advantage that, for this point
 files are adaptable to a wide family of configurations.
 
        %  - - - - - - - - - - - - - - - - - - -
+
+\subsection{An Example in Ground Terrain with CUDA}
+
+If you built MicMac with CUDA (see install documentation), you can speed up calculations of the dense matching and regularization.
+
+{\scriptsize
+\begin{verbatim}
+<EtapeMEC>
+        <DeZoom >        -1        </DeZoom>
+        <CorrelAdHoc>
+                <SzBlocAH > 128 </SzBlocAH>
+                <TypeCAH>
+                        <GPU_CorrelBasik >  true   </GPU_CorrelBasik>
+                </TypeCAH>
+        </CorrelAdHoc>
+        <AlgoRegul>    eAlgoTestGPU    </AlgoRegul>
+        ....
+</EtapeMEC>
+\end{verbatim}
+
+\begin{itemize}
+
+   \item  {\tt SzBlocAH} Size of bloc for the matching;
+   
+   \item  {\tt GPU\_CorrelBasik } Use Cuda in dense matching if the value is true;
+   
+   \item  {\tt AlgoRegul} Use Cuda in regularization (with 2D generalization of dynamic programming) if the value is {\tt eAlgoTestGPU};
+   
+\end{itemize}
+
+}
 
 \subsection{An Example in "Ground-image" Geometry}
 
