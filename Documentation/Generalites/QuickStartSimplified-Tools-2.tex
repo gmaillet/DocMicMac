@@ -817,13 +817,13 @@ Figure \ref{fig:GL_MEC} illustrates how the DSM looks like.
 
 \subsection{Description of the data set}\label{GoProVideo:DataSet}
 
-The caracteristic of the acquisition are :
+The caracteristics of the acquisition are :
 
 \begin{itemize}
-   \item Data is a  video {\tt LM.mp4};
-   \item This video was acquired with a GoPro camera mounted on a paragliding;
-   \item The target is a climb as illustrated on figure ~\ref{fig:GoProIm1};
-   \item Part of the image contain sea with flooding wave;
+   \item Data is a video {\tt LM.mp4};
+   \item This video was acquired with a GoPro camera mounted on a paraglider;
+   \item The target is a cliff as illustrated on figure ~\ref{fig:GoProIm1};
+   \item Part of the images contains sea with flooding wave;
 \end{itemize}
 
 \begin{figure}
@@ -838,23 +838,23 @@ The issue we have to deal with are the following :
 
 \begin{itemize}
    \item MicMac can process still images and not video;
-   \item If we exctract all the images, we will have a much too redundant data, as can be seen
+   \item If we extract all the images, we will have too much redundant data, as can be seen
          on figure~\ref{fig:GoProCloseWave} with two consecutive images in superposition;
    \item The waves generate a lot of tie points (see figure~\ref{fig:GoProSIFT}) , which will be 
          a problem for photogrammetry as  they are 
-         obvioulsy not motionless relatively to the climb;
+         obviously not motionless relatively to the cliff;
           
-   \item Currently with video, a lot of image are blurred (also it's not too much the case here ...);
+   \item Currently with video, a lot of image are blurred (although it's not so much the case here ...);
    \item  There is no meta data embedded with video (at least, they disappear with the tool used to extract
           still images);
-   \item  With this camera, there is a rulling shutter, so potentially each images has its own deformation;
+   \item  With this camera, there is a rolling shutter, so potentially each images has its own deformation;
 \end{itemize}
 
 
 \begin{figure}
 \centering
 \includegraphics[width=0.80\linewidth]{FIGS/GoProVideo/Proches.jpg}
-\caption{Two consecutives images of the video in superposistion}
+\caption{Two consecutive images of the video in superposition}
 \label{fig:GoProCloseWave}
 \end{figure}
 
@@ -862,23 +862,23 @@ The issue we have to deal with are the following :
 \begin{figure}
 \centering
 \includegraphics[width=0.90\linewidth]{FIGS/GoProVideo/SIFT.jpg}
-\caption{Tie points from  two extracted images}
+\caption{Tie points from two extracted images}
 \label{fig:GoProSIFT}
 \end{figure}
 
 
-\subsection{The command}\label{GoProVideo:Commands}
+\subsection{The commands}\label{GoProVideo:Commands}
 
-The file {\tt Cmd.txt} in {\tt Documentation/FIGS/GoProVideo} contains the  command that have been used. They are :
+The file {\tt Cmd.txt} in {\tt Documentation/FIGS/GoProVideo} contains the commands that have been used. They are :
 
 \begin{verbatim}
-# Developp all  images
+# Develop all  images
 ffmpeg -i LM.mp4  Im_0000_%5d_Ok.png
 
 # Add missing xif
 mm3d SetExif .*png F35=20 F=4.52 Cam=GoProVideoLM
 
-# Select  approximatively 3 image / sec , privilegiate the sharpest one
+# Select  approximatively 3 image / sec , preferring the sharpest one
 mm3d DIV Im_0000_.*png Rate=3
 
 #  Put the unselected images in basket
@@ -888,19 +888,19 @@ mv *Nl.png POUB/
 #  Tie points adapted to  linear acquisition
 Tapioca Line .*png 1000 10
 
-# Compute a initial calibration; would disappear it we had already used this camera
+# Compute a initial calibration; would not be necessary if we had already used this camera
 mm3d Tapas  FishEyeBasic Im_0000_000.*png Out=Calib
 
-#  Orientare  all the images
+#  Orient all the images
 mm3d Tapas  FishEyeBasic Im_0000_.*png InCal=Calib Out=All0
 
-# Generate  a ply  to visualize the scene
+# Generate a ply to visualize the scene
 AperiCloud  .*png Ori-All0/
 
-# Seize  a 3D masq that remove the sea
+# Input a 2D mask that removes the sea
 mm3d SaisieMasqQT  AperiCloud_All0.ply
 
-#Filtre the homologous point
+#Filter the homologous point
 mm3d HomolFilterMasq .*png OriMasq3D=Ori-All0/
 
 # rename homologous points, the filtered one will be seen as the default
@@ -911,7 +911,7 @@ mv HomolMasqFiltered/ Homol
 # Compute orientation without the sea
 Tapas   FishEyeBasic .*png InOri=Ori-All0/ Out=All1
 
-# Libere les param de degre 1 / image
+# Free parameters
 Campari  .*png  All1 All2 CPI1=1 FocFree=1 PPFree=1 AffineFree=1
 
 # Generate the point cloud
@@ -922,17 +922,17 @@ mm3d C3DC BigMac .*png Ori-All2/ Tuning=0 Masq3D=AperiCloud_All2.ply ZoomF=1
 
 
 
-\subsection{Some commentaries}\label{GoProVideo:Comments}
+\subsection{Some comments}\label{GoProVideo:Comments}
 
 
-\subsubsection{Developping still images with  {\tt ffmpeg}}
+\subsubsection{Developing still images with  {\tt ffmpeg}}
 
 The software  {\tt ffmpeg} is a free open source package, we use it to extract the still images from video. Note :
 
 \begin{itemize}
-   \item We ask to extract \emph{all} the images, because we want to do  \emph{a posterioir} our own selection 
-         of un blurred images;
-   \item To do this selection it is  a requirement that the images use {\tt ffmpeg}  with the naming
+   \item We ask to extract \emph{all} the images, because we want to do  \emph{a posteriori} our own selection 
+         of non-blurry images;
+   \item To do this selection it is a requirement that the images use {\tt ffmpeg}  with the naming
           {\tt Im\_0000\_\%5d\_Ok.png}  (well the tool is still in very prototype state);
 
 \end{itemize}
@@ -941,31 +941,31 @@ The software  {\tt ffmpeg} is a free open source package, we use it to extract t
 \subsubsection{Adding missing xif with {\tt SetExif}}
 
 As there is no {\tt exif} information in the data set, we  add it to avoid the use of {\tt MicMac-LocalChantierDescripteur.xml}.
-Note that is important to do it at the very beging of the process, before using any other {\tt MicMac} tool, because after the xif 
+Note that is important to do it at the very beginning of the process, before using any other {\tt MicMac} tool, because after the xif 
 will memorized in the {\tt Tmp-MM-Dir/.*xml} files
 
 
 \subsubsection{Selecting sharpest images with  {\tt DIV}}
 
 The {\tt DIV} command, makes selection of video images.
-{\tt mm3d DIV Im\_0000\_.*png Rate=3} means : select approximatevely $3$ images per second 
-(in fact one image out of $8$, assuming an initial rate $24$ images par second).  As  some image have to be supressed,
+{\tt mm3d DIV Im\_0000\_.*png Rate=3} means : select approximately $3$ images per second 
+(in fact one image out of $8$, assuming an initial rate $24$ images per second).  As some image have to be deleted,
 this rate is only an approximation.
 
-It the image is selected, its name is unchanged, while "supressed" images are renommed by replacing {\tt Ok} by {\tt Nl}.
-As we dont want to see the supress images, we put them in a "basket" with the two lines 
+It the image is selected, its name is unchanged, while "deleted" images are renamed by replacing {\tt Ok} by {\tt Nl}.
+As we don't want to use the deleted images, we put them in a "trash can" with the two lines 
 {\tt mkdir POUB} and {\tt mv *Nl.png POUB/}.
 
 
 \subsubsection{Standard orientation}
 
-The three next line, are quite standard MicMac processing
+The three next line are quite standard MicMac processing :
 
 \begin{itemize}
-    \item {\tt  Tapioca Line .*png 1000 10} , compute tie point with command adapted to a travelling acquisition;
+    \item {\tt  Tapioca Line .*png 1000 10} , compute tie point with command adapted to a linear acquisition;
     \item {\tt  mm3d Tapas  FishEyeBasic Im\_0000\_000.*png Out=Calib}, compute a first value of calibration , we
-         use a fish-eye model adapted to this gopro camera;
-    \item {\tt  mm3d Tapas  FishEyeBasic Im\_0000\_.*png InCal=Calib Out=All0}, orientate all the images, starting from
+         use a fish-eye model adapted to this GoPro camera;
+    \item {\tt  mm3d Tapas  FishEyeBasic Im\_0000\_.*png InCal=Calib Out=All0}, orient all the images, starting from
          the calibration
     \item {\tt  AperiCloud  .*png Ori-All0/} generate a ply file to visualize the scene and position of camera (see~\ref{fig:GoProOri0});
 
@@ -995,10 +995,10 @@ see~\ref{Doc:SaisieMasqQT}.
 
 \subsubsection{Filtering homologous points}
 
-We can now use the  {\tt HomolFilterMasq} command for selecting the tie points that are inside the $3$d masq.
+We can now use the  {\tt HomolFilterMasq} command to select the tie points that are inside the $3$d masq.
 We use the {\tt OriMasq3D} option to indicate the orientation (necessary to compute by ray intersection the $3$d point
-associated to each tie point). By defaut, it assume that the masq has been seized on a {\tt AperiCloud} result, and
-the defalut name of the $3$d masq is  here {\tt AperiCloud\_All2\_polyg3d.xml} .
+associated to each tie point). By default, it assume that the mask has been seized on a {\tt AperiCloud} result, and
+the default name of the $3$d mask is  here {\tt AperiCloud\_All2\_polyg3d.xml} .
 
 
 \begin{figure}
@@ -1022,7 +1022,7 @@ Then we have two command to run to have the final orientation :
 
 
 \begin{itemize}
-   \item {\tt Tapas   FishEyeBasic .*png InOri=Ori-All0/ Out=All1} , here we run {\tt Tapas} takinh into account
+   \item {\tt Tapas   FishEyeBasic .*png InOri=Ori-All0/ Out=All1} , here we run {\tt Tapas} taking into account
          the set of tie points without the sea;
 
    \item {\tt Campari  .*png  All1 All2 CPI1=1 FocFree=1 PPFree=1 AffineFree=1} , here we run {\tt Campari} with the option
