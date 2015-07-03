@@ -959,6 +959,49 @@ the density of points.
 
 
 
+\subsection{{\tt Init11P}, space resection for un calibrated camera}
+
+The space resection compute the pose of a camera from a set of $3d$ point and their corresponding
+image projection. The {\tt Init11P} deals with the case where the calibration is unknown. In this case the
+following parameter are :
+
+
+\begin {itemize}
+    \item center of camera ($3$ parameters);
+    \item orientation of camera ($3$ parameters);
+    \item focal and principal point ($3$ parameters);
+    \item skew and ratio $\frac xy$ ($2$ parameters).
+\end {itemize}
+
+At least $6$ projection are required to compute these $11$ parameters. 
+
+
+
+\begin{verbatim}
+mm3d Init11P
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Name File for GCP}
+  * string :: {Name File for Image Measures}
+Named args : 
+  * [Name=FM] bool :: {Fraser Mode, use all affine parmeters (def=false)}
+  * [Name=Filter] string :: {Filter for Image (Def=.*)}
+\end{verbatim}
+
+The mandatory parameters are :
+
+\begin {itemize}
+  \item the file for {\tt GCP}, containing a {\tt DicoAppuisFlottant} structure ;
+  \item the file for image measurement containing a {\tt SetOfMesureAppuisFlottants} structure.
+\end {itemize}
+
+For all the images contained in the image file an orientation is created in the folder {\tt Ori-11Param/}.
+If the optional {\tt FM} is set to true, the $11$ parameters are exported as a Fraser camera. If it is
+set to false, the skew and xy ratio are forced to null, and the result is exported as a radial camera (with
+no distorsion); however, $6$ are required as forcing skew to $1$ and xy ratio to $1$ is done
+\emph{a posteriori}. 
 
 
 
