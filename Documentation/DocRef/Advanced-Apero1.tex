@@ -862,6 +862,9 @@ Let detail the message for point {\tt  14a} :
 \end{itemize}
 
 
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
 
 
         % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -870,10 +873,89 @@ Let detail the message for point {\tt  14a} :
 
 
 
+%=======================================================================================================
+
+\section{Miscellaneous  tools about calibration}
+
+  % - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{{\tt ConvertCalib} to Calibration conversion}
+
+Sometimes it may be necessary to export a given calibration from one model to another model. For example from Fraser terrestrial
+model to aerial model. Of course as the mathematicall modelisation of the camera is not the same, this conversion will 
+generally imlply some lost of accuracy.  The tool {\tt ConvertCalib} allow to do such conversion.
+
+\begin{verbatim}
+mm3d ConvertCalib
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Input Calibration}
+  * string :: {Output calibration}
+Named args : 
+  * [Name=NbXY] INT :: {Number of point of the Grid}
+  * [Name=NbProf] INT :: {Number of depth}
+  * [Name=DRMax] INT :: {Max degree of radial dist (def=depend Output calibration)}
+  * [Name=DegGen] INT :: {Max degree of generik polynom (def=depend Output calibration)}
+  * [Name=PPFree] bool :: {Principal point free (Def=true)}
+  * [Name=CDFree] bool :: {Distorsion center free (def=true)}
+  * [Name=FocFree] bool :: {Focal free (def=true)}
+  * [Name=DecFree] bool :: {Decentrik free (def=true when appliable)}
+\end{verbatim}
+
+
+The first argument is a file containg the calibration to be converted. The second is a file that contain a model of the
+targeted calibration. The folder {\tt Documentation/NEW-DATA/DocConvertCalib} contains data to test this tool :
+
+\begin{itemize}
+   \item  {\tt Aerial.xml} a calibration with aerial model ({\tt PPA} and {\tt PPS} separated);
+   \item  {\tt Fraser-Affine.xml} a calibration with fraser model ({\tt PPA} and {\tt PPS} merged, decentric distorsion);
+\end{itemize}
+
+For example , if we want to produce a convertion to fraser model, without affine distorsion and a one parameter of radial
+distorsion, we can run :
+
+\begin{verbatim}
+mm3d ConvertCalib Aerial.xml Fraser-Affine.xml  DRMax=1 DegGen=0
+....
+   ============================= ERRROR MAX PTS FL ======================
+   ||    Value=0.145258 for Cam=Fraser-Affine.xml and Pt=Pt_0_0_1 ; MoyErr=0.0623394
+   ======================================================================
+
+--- End Iter 16 ETAPE 0
+
+\end{verbatim}
+
+
+The average accuracy will be $0.063$ pixel, it is measured as the average error re-projection of  synthetic $3d$ points.
 
 
 
+\subsection{{\tt Genepi} to generate articficial perfect 2D-3D points}
 
+It generate a set of $3D$ points and their images projection for a given camera.
+
+This tools was used for internal checking. Not sure it will be used very often, maybe sometime to export 
+MicMac's orientation in other format when no better solution is avalaible or also usefull when preparing
+data sets for students.
+
+\begin{verbatim}
+   mm3d Genepi _MG_008.*.CR2 Ori-AllFix/ -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Image}
+  * string :: {Orientation}
+Named args : 
+  * [Name=NbXY] INT :: {Number of point of the Grid}
+  * [Name=NbProf] INT :: {Number of depth}
+
+\end{verbatim}
+
+The first parameters define the  pattern of images and the second the orientation. The optionall parameters control
+the density of points.
 
 
 
