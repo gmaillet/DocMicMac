@@ -959,7 +959,7 @@ the density of points.
 
 
 
-\subsection{{\tt Init11P}, space resection for un calibrated camera}
+\subsection{{\tt Init11P}, space resection for uncalibrated camera}
 
 The space resection compute the pose of a camera from a set of $3d$ point and their corresponding
 image projection. The {\tt Init11P} deals with the case where the calibration is unknown. In this case the
@@ -999,18 +999,42 @@ The mandatory parameters are :
 
 For all the images contained in the image file an orientation is created in the folder {\tt Ori-11Param/}.
 If the optional {\tt FM} is set to true, the $11$ parameters are exported as a Fraser camera. If it is
-set to false, the skew and xy ratio are forced to null, and the result is exported as a radial camera (with
-no distorsion); however, $6$ are required as forcing skew to $1$ and xy ratio to $1$ is done
+set to false, the skew and xy ratio are forced to $0$ and $1$, and the result is exported as a radial camera (with
+no distorsion); however, $6$ are required as forcing skew to $0$ and xy ratio to $1$ is done
 \emph{a posteriori}. 
 
+The folder {\tt Ori-11ParamComp/} also contains the result of a compensation done using the previous value.
+They may be sligthly different and theoretically more accurate, specifically when the {\tt FM=false} option.
 
 
+\subsection{{\tt Aspro}, space resection for calibrated camera}
 
 
+The tool {\tt Aspro} allows to orientate a set of images with known internal calibration
+ from existing $3d$ points and their corresponding image projection.
 
+\begin{verbatim}
+ mm3d Aspro -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Name File for images}
+  * string :: {Name File for input calibration}
+  * string :: {Name File for GCP}
+  * string :: {Name File for Image Measures}
+\end{verbatim}
 
+The parameters should be quite intutive, an example of use :
 
+\begin{verbatim}
+mm3d Aspro "_MG_008[0-3].CR2" Ori-AllFix/ TestOPA-S3D.xml TestOPA-S2D.xml 
+\end{verbatim}
 
+The resulting orientation are stored in {\tt Ori-Aspro/}. Note that {\tt MicMac} must be abble
+to find the internal calibration with name respecting its convention in the folder of calibration
+( {\tt Ori-AllFix/}  here). As the naming of {\tt MicMac} may be not obviuous, the tool 
+described in~\ref{TestNameCalib} can be useful.
 
 
 

@@ -159,6 +159,42 @@ This standard has two advantages:
 \subsection{Substitution}
 
 %=============================================================
+\section{Helps tools in names manipulation}
+
+
+\subsection{TestKey}
+
+The command {\tt mm3d TestKey aPat} will print on the console the set
+of name corresponding to a pattern  {\tt aPat}  (or more generally to key of subset). By
+default it is limited to $10$ Name, the {\tt Nb} optionale parameters can
+increase this default value.
+
+\subsection{TestMTD}
+
+The {\tt TestMTD} will print the meta data as understood by MicMac :
+
+\begin{verbatim}
+mm3d TestMTD _MG_0082.CR2 
+FocMm 35
+Foc35 34.2
+Cam   [Canon EOS 5D Mark II]
+\end{verbatim}
+
+
+\subsection{TestNameCalib}
+\label{TestNameCalib}
+
+The {\tt TestNameCalib} will print the computed name of internal calibration which by default associated
+an image :
+
+
+\begin{verbatim}
+mm3d TestNameCalib _MG_0082.CR2
+./Ori-TestNameCalib/AutoCal_Foc-35000_Cam-Canon_EOS_5D_Mark_II.xml
+\end{verbatim}
+
+
+
 %=============================================================
 %=============================================================
 
