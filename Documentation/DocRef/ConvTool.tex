@@ -570,13 +570,41 @@ Abbey-IMG_0342.jpg -3.849398 11.231276 137.533559 -6.707432 1.351133 0.224315
 Abbey-IMG_0343.jpg -3.921196 11.302498 137.899618 -7.334180 0.668316 0.362218
 \end{verbatim}
 
+Matrix R gives rotation terms to compute parameters in matrix encoding with respect to Omega-Phi-Kappa angles given by the tool {\tt OriExport}:
+\newline
+
+
+$R =
+\begin{bmatrix}
+    cos(\phi)*cos(\kappa) &  cos(\phi)*sin(\kappa) & -sin(\phi)\\
+    cos(\omega)*sin(\kappa)+sin(\omega)*sin(\phi)*cos(\kappa) &  -cos(\omega)*cos(\kappa)+sin(\omega)*sin(\phi)*sin(\kappa) & sin(\omega)*cos(\phi)\\
+    sin(\omega)*sin(\kappa)-cos(\omega)*sin(\phi)*cos(\kappa)  & -sin(\omega)*cos(\kappa)-cos(\omega)*sin(\phi)*sin(\kappa) & -cos(\omega)*cos(\phi)
+\end{bmatrix}$
+\newline
+
+
+For example {\tt OriExport} will give in degree:
+\newline
+
+
+\begin{itemize}
+\item $\omega=-5.819826$  
+\item $\phi=-7.058795$  
+\item $\kappa=-12.262634$\newline
+\end{itemize}
 
 
 
+The corresponding matrix encoding using $R$ is:
 
 
-
-
-
-
+\begin{verbatim}
+<ParamRotation>
+    <CodageMatr>
+        <L1>0.969777798578237427 -0.210783330505758815 0.122887790140630643</L1>
+        <L2>-0.199121821850641506 -0.974794184828703614 -0.100631989382226852</L2>
+        <L3>0.141001849092942777 0.0731210284736428379 -0.987305319416100224</L3>
+	</CodageMatr>
+</ParamRotation>
+\end{verbatim}
 
