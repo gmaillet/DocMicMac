@@ -1893,7 +1893,7 @@ The command line {\tt grep Centre All-RTL/*} enable you to quickly check the res
 When one has $2$ sets of orientation, with at least $2$ images common to the two sets, the  {\tt Morito} command
 can be used to merge the two orientations.
 
-An example with the Cuxha Data set, first we create (a bit artificially here) two set of images :
+An example with the Cuxha Data set, first we create (a bit artificially here) two set of images:
 
 \begin{verbatim}
 Tapas RadialBasic  "Abbey-IMG_02[4-8].*.jpg" Out=48
@@ -1901,7 +1901,7 @@ Tapas Figee  "Abbey-IMG_02[0-4].*.jpg" Out=04 InCal=Ori-48/
 \end{verbatim}
 
 Note that for obvious coherence reason, we have force the two set of images to have the same internal orientation.
-Now we want to merge this two orientations, taking benefit that images {\tt IMG\_0240.jpg \dots IMG\_0249.jpg} are common to the two subsets. We use :
+Now we want to merge this two orientations, taking benefit that images {\tt IMG\_0240.jpg \dots IMG\_0249.jpg} are common to the two subsets. We use:
 
 \begin{verbatim}
 mm3d Morito Ori-48/Orientation-Abbey-IMG_02.*xml  Ori-04/Orientation-Abbey-IMG_02.*xml 08
@@ -1919,9 +1919,50 @@ Orientation-Abbey-IMG_0249.jpg.xml DMatr 0.000361987 DPt 0.000892905
 \end{verbatim}
 
 
+\subsubsection{Accuracy Control with {\tt GCPCtrl}}\label{Sec:GCPCtrl}
+
+In photogrammetry, a standard method to control the accuracy of georeferencing result is to use couple of points called Check Points (CP). 
+Check points, unlike Ground Control Points (GCPs), are used either to estimate the $3d$ similarity ({\tt GCPBascule}) or for the compensation ({\tt Campari}) on ground measurements. Residuals on check points allow to qualify the accuracy of the georeferencing result.
 
 
+If for a dataset, several ground measurements are available, a part may serve to perform georeferencing step ({\tt GCPBascule}) while the rest of ground measurements can be used to qualify the accuracy and used as check points. An example of the use of {\tt GCPCtrl}:
 
+
+\begin{verbatim}
+mm3d GCPCtrl ".*JPG" Ori-RTL-Bascule CP.xml MesuresFinales-S2D.xml
+\end{verbatim}
+
+
+Where:
+
+
+\begin{itemize}
+\item Ori-RTL-Bascule : are sets of orientations computed using Ground Control Points with ({\tt GCPBascule})
+\item CP.xml : are Check Points coordinates (not used to compute orientations of Ori-RTL-Bascule)
+\item MesuresFinales-S2D.xml : $2d$ Check Points coordinates
+\end{itemize}
+
+
+Residuals are used to estimate the accuracy. It is printed by {\tt GCPCtrl} where {\tt D} is the 3d residual and {\tt P} is vector of deviations in axial components:
+
+
+\begin{verbatim}
+...
+Ctrl 1 GCP-Bundle, D=0.00711013 P=[0.00157584,0.00215343,0.0065904]
+Ctrl 2 GCP-Bundle, D=0.00213116 P=[-0.000812961,-7.10012e-05,0.00196873]
+Ctrl 3 GCP-Bundle, D=0.00503373 P=[-0.00225834,0.000504016,0.00447037]
+Ctrl 4 GCP-Bundle, D=0.013416   P=[-0.00209372,0.00171374,0.0131404]
+Ctrl 5 GCP-Bundle, D=0.00778608 P=[-0.00129931,-0.000609828,-0.00765265]
+Ctrl 6 GCP-Bundle, D=0.00432863 P=[-0.00166909,-0.00255773,-0.00306743]
+Ctrl 7 GCP-Bundle, D=0.00536168 P=[0.00157972,-0.0050588,0.000812824]
+Ctrl 8 GCP-Bundle, D=0.00493167 P=[-0.000829516,0.00146171,-0.00463645]
+Ctrl 9 GCP-Bundle, D=0.00217372 P=[-0.000790291,-0.00131989,0.0015357]
+
+   ============================= ERRROR MAX PTS FL ======================
+   ||    Value=0.80781 for Cam=DSC08643.JPG and Pt=7 ; MoyErr=0.698737
+   ======================================================================
+
+\end{verbatim}
 %-------------------------------------------------------------------
 
 \subsection{MakeGrid}
