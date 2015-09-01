@@ -1,23 +1,36 @@
 mm3d MapCmd mm3d Convert2GenBundle "P=IMGP.*.PEF" "C=Ori-All/Orientation-\$0.xml" AllBund
 
+mm3d MapCmd mm3d Convert2GenBundle "P=IMGP.*.PEF" "C=Ori-All/Orientation-\$0.xml" PertTestBundle  Degre=1
+
 
 mm3d TestLib TestBundleGen IMGP939.*PEF Ori-All Degre=1 PertAng=1e-3
 
 ##############################################################
 
-TEST avec 2 images GB :
+********* Classique :
+
+APPLI APERO, NbUnknown = 27
+ERRR [0.0172679,0.451971]PTS [3248.37,1662.95]
+ERRR [-0.0203801,-0.452226]PTS [2997.43,1543.97]
+AAAAAAAAAAAAAa [-2.5569,0.286694,-9.84329]
 
 
-mm3d TestLib TestBundleGen "IMGP939[8-9].*PEF" Ori-All Degre=1 PertAng=0 
-SOMD IMGP9398.PEF 0 0 T 0.000874043 Pds 21837
-SOMD IMGP9399.PEF 0 0 T 0.0008111 Pds 21837
-ERCPLE 0.631056
+********* Bundle Gen
+APPLI APERO, NbUnknown = 15
+ERRR [0.0172706,0.451971]PTS [3248.37,1662.95]
+ERRR [-0.0203801,-0.452226]PTS [2997.43,1543.97]
+AAAAAAAAAAAAAa [-2.5569,0.286694,-9.84329]
+
+********* Mixte
+APPLI APERO, NbUnknown = 27
+
+...
 
 
-mm3d TestLib TestBundleGen "IMGP939[8-9].*PEF" Ori-All Degre=1 PertAng=1e-3
-SOMD IMGP9398.PEF 0 0 T 0.000919104 Pds 21837
-SOMD IMGP9399.PEF 0 0 T 0.000911951 Pds 21837
-ERCPLE 6.63659
+
+
+
+
 
 
 
