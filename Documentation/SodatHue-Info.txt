@@ -1,6 +1,6 @@
 mm3d MapCmd mm3d Convert2GenBundle "P=IMGP.*.PEF" "C=Ori-All/Orientation-\$0.xml" AllBund
 
-mm3d MapCmd mm3d Convert2GenBundle "P=IMGP.*.PEF" "C=Ori-All/Orientation-\$0.xml" PertTestBundle  Degre=1
+mm3d MapCmd mm3d Convert2GenBundle "P=IMGP.*.PEF" "C=Ori-All/Orientation-\$0.xml" PertTestBundle  Degre=1 PertubAng]=1e-3
 
 
 mm3d TestLib TestBundleGen IMGP939.*PEF Ori-All Degre=1 PertAng=1e-3
