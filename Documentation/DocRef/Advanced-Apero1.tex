@@ -154,6 +154,8 @@ than {\tt  applis/XML-Pattron/Oiseau-Margot/}.
 
 \section{Using scanned analog images}
 
+\subsection{Dealing with internal orientation}
+
 \label{Analog:Image}
 Scanned analog images are important in many applications, as they represent
 a valuable source of information for studying phenomena on long periods of time.
@@ -329,10 +331,123 @@ The first call will be fast and will have a result only with pictures with close
 be slower but only on the worst pictures.
 
 
-\section{Adjustment with lines}
+\subsection{FFT variant with  FFTKugelhupf}
+
+The {\tt FFTKugelhupf} tool is a variant of {\tt Kugelhupf}; the "philosophy" and interface is
+the same than  {\tt Kugelhupf} : it assumes that the mark can be retrieved from a "master" image 
+that gives  the shape and approximate position of each mark. When the interval of research
+is important {\tt FFTKugelhupf} can be significativelly faster due its use of fast fourrier transform
+for initial guess and multi resolution for more accurate positionning. However the two tool
+are of interest as there is no much testing of   {\tt FFTKugelhupf} which may fail more frequently
+when the mark are very small.
+
+We can test it with the data set DemoScaned of~\ref{Analog:Image}.
+
+\begin{verbatim}
+mm3d FFTKugelhupf "IMG_569[4-7]_Out.jpg" Test-5963.xml  Masq=NONE 
+ESIDU = 94.3549 for IMG_5697_Out.jpg
+RESIDU = 0.269043 for IMG_5696_Out.jpg
+RESIDU = 300.811 for IMG_5694_Out.jpg
+RESIDU = 144.772 for IMG_5695_Out.jpg
+\end{verbatim}
+
+Note :
+
+\begin{itemize}
+    \item  {\tt RESIDU = 0.269043} is the value of the residual computed by adapting an affinity
+          between the initial mark and the detected mark; it is a good  indicator of the quality
+          of the match;
+    \item  here with this unreallistic data set, the resul are rather poor with only one image with all good matches;
+    \item with a data set more realistic as illustrated in figure~\ref{ImFidMark} , we obtain currently $100\%$ of images
+          with residual better than one pixel;
+    \item  the default interval are quite high $500$ pixel for the incertitude and $150$ for the target half size;
+\end{itemize}
+
+\begin{figure}
+   \includegraphics[width=60mm]{FIGS/Niche/Fid1.jpg}
+   \includegraphics[width=60mm]{FIGS/Niche/Fid2.jpg}
+\caption{Real Fiducial mark}
+\label{ImFidMark}
+\end{figure}
+
+
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Pattern of scanned images}
+  * string :: {2d fiducial points of an image}
+Named args : 
+  * [Name=TargetHalfSize] Pt2di :: {Target half size in pixels (Def=150)}
+  * [Name=Masq] string :: {Masq extension for ref image, Def=Fid, NONE if unused}
+  * [Name=SearchIncertitude] INT :: {Def=500}
+  * [Name=SzFFT] INT :: {Sz of initial fft research, power of recomanded, Def=256 or 128 depending other}
+\end{verbatim}
+
+Two paramaters are specific to {\tt FFTKugelhupf} :
+
+\begin{itemize}
+   \item {\tt Masq} , if it exist it must be a mask superposable to the master image , the correlation is then
+         restricted to this mask
+   \item {\tt SzFFT} size of the initial reduced image on which computation is made using fast fourrier transform; 
+         with all other parameters set to their default values, it is set to $128$ which makes a resolution decimation of $10$;
+\end{itemize}
+
+\subsection{Resampling images with {\tt ReSampFid}}
+
+This section describes an approach to analog image processing different from the one described in~\ref{Analog:Image}.
+In~\ref{Analog:Image} the image are unchanged and an intenal orientation is computed. Here conversely the image are
+resampled in a geometry where all the mark are superposable, then the resampled images can be used as "standard" 
+images acquired by difgital camera.
+
+On one hand, the approach of~\ref{Analog:Image} is theoretically slightly better as it avoid
+ one resampling of the image. On the other hand, the approach
+described here is simpler for the implementation as once the first resampling is done, 
+there no more special case to deal with.
+Practically the approach of~\ref{Analog:Image} has led to severally tricky bug and, and it is highly recommanded to use
+the approach described here as we probably will not have the man power to correct the next problem that may/will occur
+with the internal orientation approach.
+
+\begin{verbatim}
+mm3d ReSampFid -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Pattern image}
+  * REAL :: {Resolution}
+Named args : 
+  * [Name=BoxCh] Box2dr :: {Box in Chambre (generally in mm)}
+  * [Name=Kern] INT :: {Kernel of interpol,0 Bilin, 1 Bicub, other SinC (fix size of apodisation window), Def=5}
+\end{verbatim}
+
+Some comments :
+
+\begin{itemize}
+   \item  The value for fiducial mark position, on image and in the chambre, are searched in {\tt Ori-InterneScan/},
+          or more exactly on the file described by the key {\tt Key-Assoc-STD-Orientation-Interne};
+
+   \item the first parameter is the pattern of image to resample, if there is more than one, the process is done in parallel;
+
+   \item the second parameter is the resampling resolution; for example if the fiducial mark are expressed in mm , and the
+         image where scanned at $20$ micron, a reasonable value could be $0.02$;
+
+   \item if the {\tt BoxCh} is omitted, a default value will be computed using the englobing box of the fiducial marks;
+
+   \item the image are renamed using the rule {\tt toto.tif} $\rightarrow$  {\tt OIS-Reech\_toto.tif} , with
+         image name begining by {\tt OIS-Reech},  the  default rules ignorate the fiducial marks, so these images
+         can be used as is; if user want to rename the resampled images, then he will need to hide the
+         {\tt Ori-InterneScan/} folder;
+
+\end{itemize}
 
 
         % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\section{Adjustment with lines}
+
+
 
 \subsection{Introduction}
 
