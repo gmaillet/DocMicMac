@@ -658,9 +658,17 @@ Tawny Ortho-MEC-Malt/
 
 \subsection{Description of the data set}\label{Grand-Leez:DataSet}
 
-The directory {\tt UASGrandLeez/} in {\tt micmac\_data/ExempleDoc/}, contains UAS\footnote{Unmanned Aerial System or {\tt drone}} imagery which will be used for illustrating a complete workflow devoted to the the production of a canopy surface model. This aerial survey has been performed by the unit of forest and nature management\footnote{\url{http://www.gembloux.ulg.ac.be/gestion-des-ressources-forestieres-et-des-milieux-naturels/}}, university of Liege. This image block is composed in 200 low-oblique vantage jpeg images, acquired with a Ricoh GRIII (10 Mpixels, focal length of 28 mm 35 equivalent). Flight has been performed by means of a Gatewing X100\footnote{\url{http://www.gatewing.com/}} platform and the inertial measurement unit provide GPS position and attitude (omega, phi, kappa) of the UAS for each frame (stored in {\tt GPS\_WPK\_Grand-Leez.csv} file). In order to minimize this example data set size, initial images has been resampled to 800 pixels width. Processing of these images may although take a few hours. The file {\tt  Cmd\_UAS\_Grand-Leez.txt} contains all the command lines that will be run.
+The directory {\tt UASGrandLeez/} in {\tt micmac\_data/ExempleDoc/}, contains UAS\footnote{Unmanned Aerial System or {\tt drone}} imagery which will be used for illustrating a complete workflow devoted to the the production of a canopy surface model. 
+This aerial survey has been performed by the unit of forest and nature management\footnote{\url{http://www.gembloux.ulg.ac.be/gestion-des-ressources-forestieres-et-des-milieux-naturels/}}, university of Liege. 
+This image block is made up of 200 low-oblique vantage jpeg images, acquired with a Ricoh GRIII (10 Mpixels, focal length of 28 mm 35 equivalent). 
+The flight has been performed with a Gatewing X100\footnote{\url{http://www.gatewing.com/}} platform.
+The inertial measurement unit provides GPS position and attitude (omega, phi, kappa) of the UAS for each image frame (stored in {\tt GPS\_WPK\_Grand-Leez.csv} file). 
+In order to reduce the size of this example dataset, raw images has been resampled to 800 pixels width. 
+The processing of these images may although take a few hours. 
+The file {\tt  Cmd\_UAS\_Grand-Leez.txt} contains all the command lines related to this processing workflow.
 
-Let's take a look at the images. A convenient tools for visualizing multiple images in a panel is the tools {\tt PanelIm} that have been used for producing figure \ref{FIG:panel-GL} and other images panels in this manual:
+First, let's take a look at the images. 
+A convenient tools for visualizing multiple images in a panel is the tools {\tt PanelIm} that have been used for producing figure \ref{FIG:panel-GL} and other images panels in this manual:
 
 \begin{figure}[H]
 \centering
@@ -673,141 +681,163 @@ Let's take a look at the images. A convenient tools for visualizing multiple ima
 mm3d PanelIm ./ "R00405[0-5][0:2:4:6:8].JPG" Scale=3
 \end{verbatim}
 
+In this example, we deal with direct georeferencing, that is the act of using camera positions for georeferencing the model. 
+At first, the tools {\tt OriConvert} (section \ref{OriConvert})  is used for converting telemetry data into MicMac format. 
+Telemetry data aren't exclusively utilized for georeferencing, but also for determining potential image pairs.
+The list of image pairs is then utilized for the computation of tie points ({\tt Tapioca File \dots}). 
+In addition, embedded GPS data are utilized in a constrained bundle block adjustment in order to avoid non-linear distortions which can hinder photogrammetric measurements.
 
-
-In this example, we deal with direct georeferencing, that is the act of using camera positions for georeferencing the model. The tools {\tt OriConvert} (section \ref{OriConvert}) will be extensively used for converting telemetry data into MicMac format and even further, for correcting the delay (bias) that may be present in these GPS positions (section \ref{OriConvert:GPSdelay}). This offset between the GPS/IMU data from the drone at the moment of the image shoot is due to the lag of the electronic shutter and to the position and orientation offset between the camera and the GPS/IMU units (refered to as the lever-arm and the boresight) . We implement here a correction  in order to adjust GPS positions. Telemetry data aren't exclusively utilized for georeferencing, but also for generating a file image pairs, as input to {\tt Tapioca File \dots }.
-
-
+The pipeline presented here to process UAS imagery with embedded GPS data with {\tt MicMac} is organized as following:
 \vspace{\baselineskip}
-The pipeline presented here to process UAS imagery with embedded GPS data with {\tt MicMac} is:
 \begin{enumerate}
-\item transform initial external orientation file (embedded GPS data) into a local euclidean coordinate system and generate image pairs file with {\tt OriConvert}. Additionally, select an images sub-data set that will be used for camera calibration;
-\item compute images tie points with {\tt Tapioca File};
-\item determine camera calibration, with {\tt Tapas};
-\item compute images relative orientations, with {\tt Tapas};
-\item determine the GPS ``delay'' which enable the correction of raw GPS data, with {\tt CenterBascule};
-\item correct GPS data taking into consideration the delay and transform adjusted GPS position into a local euclidean coordinate system, with {\tt OriConvert};
-%\item run the bundle adjustment, with {\tt Campari};
-\item transform image relative orientations into absolute orientation in the local coordinate system, with {\tt CenterBascule};
-\item transform orientations in the local coordinate system into an appropriate coordinate system, with {\tt ChgSysCo};
-\item make the dense-matching with {\tt Malt}.
+ \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+\item Transform initial external orientation file (embedded GPS data) into the micmac format and generate image pairs file with {\tt OriConvert}. 
+In addition, latitude and longitude GPS information are projected in the Belgian Lambert 72 coordinate system;
+\item Compute images tie points with {\tt Tapioca File};
+\item Initialize the image block orientation with {\tt Martini};
+\item Determine images relative orientation, with {\tt Tapas};
+\item Transform images relative orientation into absolute orientation, e.g. performing direct georeferencing, with {\tt CenterBascule};
+\item Improve the aerotriangulated model by adding GPS information in the bundle block adjustement, with {\tt Campari};
 \end{enumerate}
-\vspace{\baselineskip}
+\vspace{-0.8\topsep}
+It results in the image orientation ({\tt Ori-BL72-Campari}), which is used for performing the image dense matching and subsequently the image orthorectification and mosaicking.
+The canopy surface is characterized by many abrupt vertical changes, which are difficult to model by image matching. 
+The dense matching is performed in \textit{image geometry} with the \textit{Per Image Matchings} tools {\tt PIMs}. 
+Thus, one depth map is computed for each image. 
+These depth maps are then georeferenced and merged in one single digital surface model covering the entire area.
+The canopy surface model is then used of orthorectification and individual orthoimages then are mosaicked.
+The remaining of the workflow is thus as following;
+\vspace{-0.8\topsep}
+\begin{enumerate}\addtocounter{enumi}{6}
+ \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+\item Compute depth map for each image with \textit{Per Image Matching} Tools ({\tt PIMs});
+\item Merge individual depth map in a global Digital Surface Model  and compute orthoimage with {\tt PIMs2Mnt};
+\item Merge the individual orthoimage in an orthophotomosaick with {\tt Tawny}.
+\end{enumerate}
+\vspace{-0.8\topsep}
+
+\subsection{Computing tie points and absolute orientation}
+
+Figure \ref{FIG:workflowGLOri} illustrates the determination of the orientation for the image block.
+The final orientation database which is used for the dense matching process and for orthophoto generation is the folder \textit{Ori-BL72-Campari}.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{FIGS/UASGrandLeez/workflow_UASGL.png}
-\caption{The processing chain for this use case. Processing steps are numbered in red. The workflow is split in 3 parts. One is devoted to the camera calibration, which is achieved by using a small block of convergent images. One is devoted to the conversion and correction of the  external orientation delivered by the GPS of the unmanned aerial vehicle. The last part is devoted to the computation of the absolute orientation of the whole image block (aerotriangulation). }
-\label{FIG:workflowGL}
+\includegraphics[width=0.9\linewidth]{FIGS/UASGrandLeez/workflowGLOri.jpg}
+\caption{The processing chain for computing the image orientation (\textit{Ori-BL72-Campari}). Processing steps are numbered in red.}
+\label{FIG:workflowGLOri}
 \end{figure}
 
-\vspace{\baselineskip}
-The tool { \tt OriConvert} will produce diverse information:
-\begin{itemize}
-\item Conversion of the embedded GPS data into the MicMac format and compute the relative speed of each camera;
-\item Generate the image pairs file {\tt FileImagesNeighbour.xml};
-\item Select a sample of the image block ({\tt PATC}) for camera calibration.
-\end{itemize}
-\vspace{\baselineskip}
-Notice that distance between camera and have to be computed in an euclidean coordinate system, so the use of {\tt ChgSysCo} is required when using latitude and longitude position. Here is the command to use:
+\subsubsection{Conversion of GPS data in micmac format}
 
 \begin{verbatim}
-mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-Brut-RTL ChSys=DegreeWGS84@SysCoRTL.xml \
-        MTD1=1 NameCple=FileImagesNeighbour.xml CalcV=1 ImC=R0040536.JPG NbImC=25
+mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv GPS-BL72  MTD1=1\
+       ChSys=DegreeWGS84@SysCoBL72_EPSG31370.xml  NameCple=FileImagesNeighbour.xml 
 \end{verbatim}
+Note that micmac uses the proj4 library to change the coordinate systems. 
+The Belgian Lambert 72 coordinate system is defined using its "proj4 code" written in an xml file (see {\tt SysCoBL72\_EPSG31370.xml})
 
-In the terminal, the pattern of 25 images centered on R0040536.JPG is displayed after {\tt PATC=}. Copy this pattern and use it instead of the symbol {\tt PATC} appearing in the following command line.
+\subsubsection{Tie points}
 The file {\tt FileImagesNeighbour.xml} is used for computing tie points with {\tt Tapioca}.
 
 \begin{verbatim}
 Tapioca File ``FileImagesNeighbour.xml'' -1
 \end{verbatim}
 
-Tie points are then used as observation in the bundle adjustment ({\tt Tapas}) for determining the element of image orientation (external orientation and camera calibration) in a relative system. It is crucial to use correct initial camera calibration estimates in order to avoid non-linear distortion in the model. This explain why calibration camera is first determine on a sub-block with {\tt Tapas}:
+Tie points are used as observation in the bundle adjustment ({\tt Tapas} and {\tt Campari}) for determining the element of image orientation (external orientation and camera calibration). 
+
+\subsubsection{Relative orientation}
+
+Initialization of the orientation for large image block (hundreds of image) can be carried out with the tools {\tt Martini}:
 
 \begin{verbatim}
-Tapas RadialBasic PATC Out=Sample4Calib-Rel
+mm3d Martini "R.*.JPG"
+AperiCloud "R.*.JPG" Martini Out=Martini-cam.ply WithPoints=0
+\end{verbatim}
+As {\tt Martini} do not account for any radial distortion of the lens, the visual inspection of the image orientation with AperiCloud show large non-linear distortions.
+Initialization of the image orientation can also be performed successfully directly with {Tapas}, but for large image block, the use of {\tt Martini} is faster.
+The complete dataset is then aligned in a relative orientation {\tt Rel}:
+
+\begin{verbatim}
+Tapas RadialBasic "R.*.JPG" Out=Rel InCal=Martini
 \end{verbatim}
 
-This calibration is more suited than a calibration obtained with a self-calibrating bundle block adjustment on the complete image block. Figure \ref{fig:GLori} illustrates non-linear distortion that would occur if no pre-calibration were performed. The complete data set is then aligned in a relative orientation {\tt All-Rel}:
+\subsubsection{Georeferencing}
+
+The center database {\tt Ori-GPS-BL72} is employed for georeferencing the aerotriangulated model with { \tt CenterBascule}:
 
 \begin{verbatim}
-Tapas RadialBasic "R.*.JPG" Out=All-Rel InCal=Sample4Calib-Rel
+CenterBascule "R.*.JPG" Rel GPS-BL72 BL72
 \end{verbatim}
 
-Then, a modified bascule algorithm (see section \ref{OriConvert:GPSdelay}) using center data compute the GPS offset (lever-arm) in terms of delay:
+\subsubsection{Bundle adjustment with embedded GPS data}
 
+Adding GPS information in the bundle adjustment has a positive impact on the refinement of the camera orientation, in particular in the camera calibration.
 \begin{verbatim}
-CenterBascule "R.*.JPG" All-Rel Nav-Brut-RTL tmp CalcV=1
+Campari "R.*.JPG" BL72 BL72-Campari EmGPS=[GPS-BL72,2] FocFree=1 PPFree=1
 \end{verbatim}
 
-The resulting orientation is not interesting, so it is named {\tt tmp} and is subsequently send to the bin. The result of {\tt CenterBascule} with the argument {\tt CalcV} set to {\tt true} is located among the terminal messages:
+\subsection{Dense matching and orthorectification}
+
+The digital surface model of the canopy is created with {\tt PIMs} and {\tt PIMs2Mnt}.
 
 \begin{verbatim}
-delay init :::    -0.0807731
+mm3d PIMs Forest "R00.*.JPG" BL72-Campari  ZoomF=2
 \end{verbatim}
 
-This delay value is used for adjusting GPS data as follow:
-
+The mode {\tt Forest} of the {\tt PIMs} tools is appropriate for aerial image of forested zone. 
+In this mode, a dense matching is performed independently for every pairs of successive images.
+In the terminal, a message display the pairs that will be used of stereo image matching:
 \begin{verbatim}
-mm3d OriConvert OriTxtInFile GPS_WPK_Grand-Leez.csv Nav-adjusted-RTL \
-        ChSys=DegreeWGS84@SysCoRTL.xml 	MTD1=1 Delay=-0.0807731
+Adding the following image pair: R0040571.JPG and R0040570.JPG 
+Adding the following image pair: R0040572.JPG and R0040571.JPG 
+Adding the following image pair: R0040573.JPG and R0040572.JPG 
+...
 \end{verbatim}
 
-The resulting center database {\tt Nav-adjusted-RTL} is the one employed for georeferencing the aero model with { \tt CenterBascule}:
+Dense matching is time consuming and generates a lot of intermediate results.
+Stereo depth maps are merged together with {\tt PIM2Mnt}. 
+Subsequently, orthorectification is performed for each image and orthoimage are stored in the directory { \tt PIMs-ORTHO/}.
 
 \begin{verbatim}
-CenterBascule "R.*.JPG" All-Rel Nav-adjusted-RTL All-RTL
+mm3d PIMs2Mnt Forest DoOrtho=1
 \end{verbatim}
 
-As the goal is to use the canopy surface model in an appropriate coordinate system, the orientation is projected in the Belgian Lambert 72 coordinate system. This coordinate system is define using the proj4 string written in an xml file (see {\tt SysCoBL72\_EPSG31370.xml}):
+The global digital surface model resulting from the merging of every single depth maps is the raster file named {\tt PIMs-TmpBasc/PIMs-Merged\_Prof.tif}.
+It can be visualized and analysed in any GIS software. 
+Eventually, orthoimage are mosaicked together with {\tt Tawny}.
+Because the radiometry of the different images are quite similar (no important luminosity changes during the image acquisition), no radiometric equalization are performed ({\tt RadiomEgal=0}).
 
 \begin{verbatim}
-mm3d ChgSysCo  "R.*JPG" All-RTL  SysCoRTL.xml@SysCoBL72_EPSG31370.xml   All-BL72
+Tawny PIMs-ORTHO/ RadiomEgal=0 Out=Orthophotomosaic.tif
 \end{verbatim}
 
-Eventually, dense matching is performed with {\tt Malt} in the mode {\tt Ortho}. As normalized cross-correlation score is low in forested scene, {\tt DefCor} is set to $0$ in order to force the matching on the complete area. Regularization parameter ({\tt Regul}) is set to a low value because canopy structure is highly irregular and complex (presence of abrupt vertical changes). Rectified Images aren't required here so parameters {\tt HrOr} and {\tt LrOr} are set to {\tt false}. Results of dense-matching process are stored in {\tt MEC} (Mise En Correspondance):
-\begin{verbatim}
-Malt Ortho "R.*JPG" All-BL72 DirMEC=MEC DefCor=0 AffineLast=1 \
-        Regul=0.005 HrOr=0 LrOr=0 ZoomF=1
-\end{verbatim}
-
-Results may be visualized with {\tt Nuage2Ply },  {\tt to8Bits} and {\tt GrShade}:
+The digital surface model and the orthophotomosaic can be combined in a colored 3D point cloud with  {\tt Nuage2Ply } (see figure \ref{fig:GL_nuage}).
 
 \begin{verbatim}
-# Convert the Digital surface model in 8bits:
-to8Bits MEC/Z_Num8_DeZoom1_STD-MALT.tif
 
-# Create a shaded view of the surface model:
-GrShade MEC/Z_Num8_DeZoom1_STD-MALT.tif
-
-# export the dense point cloud and colourise it with Nuage2Ply:
-Nuage2Ply "MEC/NuageImProf_STD-MALT_Etape_8.xml" Scale=8 \
-        Attr="MEC/Z_Num8_DeZoom1_STD-MALT_8Bits.tif" Out=CanopySurfaceModel.ply
-
+# export the dense point cloud and colorise it with Nuage2Ply:
+Nuage2Ply "PIMs-TmpBasc/PIMs-Merged.xml" Scale=1 /
+	Attr="PIMs-Ortho/Orthophotomosaic.tif" RatioAttrCarte=2 Out=CanopySurfaceModel.ply
+       
 # Optionally, if meshlab is installed:
 meshlab CanopySurfaceModel.ply
 \end{verbatim}
 
-Figure \ref{fig:GL_MEC} illustrates how the DSM looks like.
-
-
 \begin{figure}
 \centering
-\includegraphics[width=0.45\linewidth]{FIGS/UASGrandLeez/Sample4calib.png}
-\includegraphics[width=0.45\linewidth]{FIGS/UASGrandLeez/GLori.png}
-\includegraphics[width=0.8\linewidth]{FIGS/UASGrandLeez/OriGL-precal.png}
-\includegraphics[width=0.8\linewidth]{FIGS/UASGrandLeez/OriGL-autocal.png}
-\caption{Snapshots of the sparse point cloud. Top Left: Orientation of the sub-block used for camera calibration. Top Right: Orientation of the complete Grand-Leez data set. Middle: Another vantage of the block orientation. Bottom: result of bundle block adjustment if no initial camera calibration (arg {\tt InCal}) data is used (non-linear distortion).}
-\label{fig:GLori}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.35\linewidth]{FIGS/UASGrandLeez/MNS_GL.jpg}
-\includegraphics[width=0.48\linewidth]{FIGS/UASGrandLeez/MNS_GL_zoomin.jpg}
-\caption{The canopy surface model of Grand-Leez.}
-\label{fig:GL_MEC}
+\includegraphics[width=\linewidth]{FIGS/UASGrandLeez/GL_ori.jpg}
+\includegraphics[width=0.45\linewidth]{FIGS/UASGrandLeez/GL_zoomDSM.jpeg}
+\includegraphics[width=0.45\linewidth]{FIGS/UASGrandLeez/GL_zoomOrtho.jpeg}
+\includegraphics[width=\linewidth]{FIGS/UASGrandLeez/GL_denseCloud.jpg}
+\caption{Illustration of the different results for the Grand-Leez dataset. 
+Top: the orientation (camera poses and tie points). 
+Middle left: zoom-in on the canopy relief. 
+Middle rigth: zoom-in on the orthophotomosaic.
+Bottom: the colored dense 3D point cloud.}
+\label{fig:GL_nuage}
 \end{figure}
 
 
@@ -989,7 +1019,7 @@ see~\ref{Doc:SaisieMasqQT}.
 \begin{figure}
 \centering
 \includegraphics[width=0.80\linewidth]{FIGS/GoProVideo/Masq3D.jpg}
-\caption{Seizing 3D masq  of the climb}
+\caption{Seizing 3D masq  of the cliff}
 \label{fig:GoProOri0}
 \end{figure}
 
