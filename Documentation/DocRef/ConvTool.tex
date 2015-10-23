@@ -375,6 +375,56 @@ The two optional arguments are:
     \item second arg, a boolean to allow or avoid commentaries
 \end{itemize}
 
+\subsection{Apero2NVM}
+
+Orientations convertion for Computer Vision Based software : Apero2NVM
+
+Apero2NVM is a tool which takes in input the orientations generated with Apero accompanied with its dataset. The Output is a file .nvm which is directly usable in input of the dense-matching part of four photogrammetric tool : VisualSFM, MVE, SURE, MeshRecon. This file .nvm includes mainly a bloc of orientation data and a sparse cloud. The sparse cloud understands not only its 3 D coordinate but also its feature measurements on the picture, which is also associated with an image index.
+Are also exported the dataset removed from the distortion and the shift among the image centre and the principal point.
+
+Here is an example for calling the Apero2NVM command:
+{\tt mm3d Apero2NVM ".*.jpg" RadialStd ExpTxt=1 ExpApeCloud=1}
+
+In order to display the help type :
+
+\begin{verbatim}
+mm3d Apero2NVM -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Images Pattern}
+  * string :: {Orientation name}
+Named args : 
+  * [Name=Nom] string :: {NVM file name}
+  * [Name=Out] string :: {Output folder (end with /)}
+  * [Name=ExpTxt] bool :: {Point in txt format ? (Def=false)}
+  * [Name=ExpApeCloud] bool :: {Exporte Ply? (Def=false)}
+  * [Name=ExpTiePt] bool :: {Export list of Tie Points uncorrected of the distortion ?(Def=false)}
+  * [Name=KpImCen] bool :: {Dont add a little rotation for pass from Image Centre to PP ?(To be right fix LibPP=0 in tapas before)(Def=false)}
+\end{verbatim}
+
+The two mandatory arguments are:
+\begin{itemize}
+ \item  first arg, the pattern for images’ name for which orientation has to be converted;
+ \item  second arg, the orientation name (where orientation xml files are stored, for example Ori-RadialStd).
+\end{itemize}
+
+Six optional argument can be used which allow the user to get more results in the desirated folder.
+\begin{itemize}
+ \item first argument, name of the .nvm file of Output, by default is Ori.nvm;
+ \item second argument is the name of the folder of Output, a char is expected with a «/» to the end, by default it's data/ ;
+ \item third argument regard the extention of the list of tie point measurement located in every Homol/PastisImageName.. folder, this extension has to be chosen in the Tapioca step. Here it's a simple boolean, 0 for .dat file and 1 for .txt.
+
+ \item  fourth arguments let the user obtain the sparse cloud in .ply, for the colour a medium gey is settle. In comparison the classic AperiCloud, the camera are not represented but all the redundancy of the tie points has been removed;
+ \item  fith argument is for getting the list of tie point measurement and associated image index in the original image coordinate system;
+ \item  sixth argument allows the user to get the result of the conversion keeping in consideration only the distorsion, the shift between image centre and principal point is simply ignored, in this case the final image are only undistorted.
+\end{itemize}
+
+	In the file .nvm the coordinate of the feature are substracted from the image centre, based on the final corrected dataset. By default the list based on the undistorted image system is exported. Nota bene that the user can obtain undistorted images directly using the «DRUNK» module. Is also exported a list of straight line (3 coordinates for the optical center and 3 coordinates for the director vector) of every feature and the list of its 3D coordinate.
+
+
+
 \subsection{Embedded GPS Conversion: {\tt OriConvert}}\label{OriConvert}
 
 The tool {\tt OriConvert} is a versatile command used to:
@@ -607,4 +657,7 @@ The corresponding matrix encoding using $R$ is:
 	</CodageMatr>
 </ParamRotation>
 \end{verbatim}
+
+
+
 
