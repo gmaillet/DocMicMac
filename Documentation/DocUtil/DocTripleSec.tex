@@ -103,14 +103,19 @@ en premi\`ere lecture.}}}
 \chapter{Outil TripleSec : Test de non RegressIon Pour Les nouvElles verSions dE miCmac}
 
 \section{Description}
-The TripleSec allows you to test new micmac implementations and to identify bugs and errors. The tool process a dataset and compare files, directories, calibrations, orientations or images with a reference repertory processed with a stable version of micmac.
+The TripleSec allows you to test new micmac implementations and to identify bugs and errors. The tool process a dataset and compare files, directories, calibrations, orientations or images with a reference repertory processed with a stable version of micmac. The command TripleSec take a XML file with specific tags as argument, and it returns two files : one report and one errors report.
 
 \section{Prerequisites}
-Before using micmac, you have to specify a dataset and process it with some classical micmac commands : Tapioca, Tapas, etc...
+Before using TripleSec, you have to run micmac tools (Tapioca, Tapas, Malt, etc...) with a dataset. This gonna be your reference directory. Then you have to write a XML file as it's specified bellow, which specify the dataset, the commands and the file to compare. So to resume, in your working directory, you should have :
+\begin{itemize}
+\item Reference directory (Def = TNR-Ref-Project\_Name).
+\item The XML file.
+\end{itemize}
 
-Now we will use the shorcut "Ref" for the reference directory usually named "TNR-Ref-\#Name\#" and "Exe" for the execution directory where we are processing with a new micmac version, usually named "TNR-Exe-\#Name\#".
+NB : Now we will use the shorcut "Ref" for the reference directory usually named "TNR-Ref-\#Name\#" and "Exe" for the execution directory where we are processing with a new micmac version, usually named "TNR-Exe-\#Name\#".
 
 \section{Test structure}
+Now we will explain how to write the XML test file.
 The dataset, the commands, and the particular test you wish to evaluate must be specified in a XML file at the same level as the work directory named "TNR-Exe-\#Name\#".
 To initialize this file, you must use a $<XmlTNR\_GlobTest>$ tag and specify the project name (\#Name\#) with a $<Name>$ tag as the following example :
 
@@ -122,7 +127,7 @@ To initialize this file, you must use a $<XmlTNR\_GlobTest>$ tag and specify the
 \end{lstlisting}
 
 \subsection{Dataset}
-First you have to specify the necessary data for processing (images, mask, calibration, GCP, etc.) via a $<PatFileInit>$ tag with the pattern of each files. Then you can make a purge of the execution directory with the $<PurgeExe>$ tag (use true for yes). For example :
+First you have to specify the necessary data for processing (images, mask, calibration, GCP, etc.) via a $<PatFileInit>$ tag with the pattern of each files. Then you can make a purge of the execution directory with the $<PurgeExe>$ tag (use true for yes) for instance if you have a tools error, it's good to start again from this command, and not from the beginning. So, For example :
 
 \lstset{language=XML, tagstyle=\color{blue}, commentstyle=\color{red}, linewidth = \linewidth ,breaklines= true, basicstyle=\footnotesize}
 \begin{lstlisting}
@@ -137,10 +142,10 @@ First you have to specify the necessary data for processing (images, mask, calib
 
 NB : You can also copy a complete directory with a $<DirInit>$ tag.
 
-First TripleSec will create a repertory named "TNR-Exe-\#Name\#" and copy files and directories specified by tags inside.
+First TripleSec will create a repertory named "TNR-Exe-\#Name\#" and copy files and directories specified by tags, inside.
 
 \subsection{Single test}
-The TripleSec tools process global tests, but inside the XML file, you can specify as many single test as you want. Each single test can contain a command, and type test (file, directory, etc...). So it provide to test files between each command. To initialize a single test yo can use the $<Tests>$ tag and add several arguments.
+The TripleSec tools process global test, but inside the XML file, you can specify as many single test as you want. Each single test can contain a command, and type test (file, directory, etc...). So it provide to test files between each command. To initialize a single test yo can use the $<Tests>$ tag and add several arguments.
 
 \subsubsection{Commands tests}
 To test command, you can specify in a $<Cmd>$ tag. However, you must use one unique tag per single test. The command are those you are usually running with micmac. For example :
@@ -151,6 +156,7 @@ To test command, you can specify in a $<Cmd>$ tag. However, you must use one uni
 \end{lstlisting}
 
 Tips : To choose your commands, you can use the file mm3d-logfile.txt in the Ref directory.
+NB : for the most of the command, don't forget to add the path of the Exe like in the example. Once you have specified this path in the pattern, you don't have to use it again for the other arguments as Orientation or input file.
 
 \subsubsection{Files tests}
 This test provide you to check for files in Ref and Exe and compare it bit to bit. This is the syntax for a file test :
@@ -317,13 +323,13 @@ You must specify a minima, the pattern of the XML file and if you are not using 
 \subsection{Mandatory named arguments}
 This is the different options :
 \begin{itemize}
-\item OutXml : XML out file.
-\item InRefDir : Input Reference Directory.
-\item InExeDir : Input Execution Directory.
+\item OutReportXml : XML report file (Def=GlobTest.xml)
+\item OutErrorsXml : XML errors file (Def=ErrorsReport.xml)
+\item InRefDir : Input Reference Directory (Def=TNR-Ref-Name)
 \end{itemize}
 
 \section{Outfile}
-If you are not using the option OutXml, the file will be named « GlobTest.xml ». It contains several types of tags disposed like the entry XML file.
+If you are not using the option OutReportXml or OutErrorsXml, the files will be named « GlobTest.xml » and "ErrorsReport.xml" . It contains several types of tags disposed like the entry XML file. The first one will contain, all the information, all single tests etc... The second one will contain only the single test which failed. Both files have the same structure described bellow.
 
 \subsection{GlobTestReport}
 This is the first test level, you can get easy informations about the results of the test via the $<Bilan>$ tag. If everything happened correctly it would contains \textbf{true} otherwise it would contains \textbf{false} .
@@ -453,6 +459,8 @@ Example :
 	</rEcartsPlani>
 </XmlTNR_TestDirReport>
 \end{lstlisting}
+
+NB : A $<XmlTNR_CalibReport>$ contain $<EcartsRadiaux>$ or $<rEcartsPlani>$ only if the offset is different from 0.
 
 \subsubsection{Orientation report tag}
 \begin{itemize}
