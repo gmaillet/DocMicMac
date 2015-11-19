@@ -360,5 +360,77 @@ The corrected tie points are then applied to a grid also through inverse distanc
 
 Once the appropriate input data (see~\ref{inputArsenic}) is computed, the command can be run. The images produced in the output folder are to be used as "Attr" arguments in the "Nuage2Ply" command to produce equalized sub-point clouds.
 
+\section{Miscellaneous tools}
+
+\subsection{InitOriLinear}
+
+
+
+\subsection{ReprojImg}
+
+With {\tt ReprojImg}, you can project an image into the orientation of an other.
+
+Inputs:
+\begin{itemize}
+\item Ori of all images
+\item correlation directory with reference image DEM
+\item reference image name
+\item name of image to reproject
+\end{itemize}
+
+The output is the image reprojected into reference orientation.
+
+\begin{verbatim}
+mm3d ReprojImg -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Directory of input orientation}
+  * string :: {Reference DEM filename}
+  * string :: {Reference image name}
+  * string :: {Name of image to reproject}
+Named args : 
+  * [Name=AutoMask] string :: {AutoMask filename}
+\end{verbatim}
+
+As an example, when we have many pictures of first epoch (epoque1.*), we create a DEM,
+then we can compute the orientation of an image of an other epoch (epoque2\_a.JPG) in the same reference,
+and finally we reproject it in the (epoque1\_f.JPG) geometry :
+\begin{verbatim}
+mm3d Tapioca All "epoque1_..JPG" -1
+mm3d Tapas RadialBasic "epoque1_..JPG"
+mm3d Malt GeomImage "epoque1_..JPG" RadialBasic Master="epoque1_f.JPG" EZA=1
+
+mm3d Tapioca All "epoque._..JPG" -1
+mm3d Tapas RadialBasic "epoque._..JPG" InOri=RadialBasic  Out=Tout
+
+mm3d ReprojImg Ori-Tout/ MM-Malt-Img-epoque1_f/Z_Num8_DeZoom1_STD-MALT.tif \
+               epoque1_f.JPG epoque2_a.JPG
+\end{verbatim}
+
+
+\subsection{ExtractMesure2D}
+The {\tt ExtractMesure2D} command extracts only a selection of targets in a 2D measures file.
+
+Its main purpose is to split images measures into used and check targets.
+
+\begin{verbatim}
+mm3d ExtractMesure2D -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Input mes2D file}
+  * string :: {Output mes2D file}
+  * vector<std::string> :: {List of selected targets. Ex: [target1,target2])}
+Named args : 
+\end{verbatim}
+
+Example:
+\begin{verbatim}
+mm3d ExtractMesure2D 21pts_Mesure-S2D.xml out.xml [3,203]
+\end{verbatim}
+Will save in out.xml only the 2D measures for targets 3 and 203.
 
 
