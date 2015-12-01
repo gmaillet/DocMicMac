@@ -152,11 +152,11 @@ To test command, you can specify in a $<Cmd>$ tag. However, you must use one uni
 
 \lstset{language=XML, tagstyle=\color{blue}, commentstyle=\color{red}, linewidth = \linewidth ,breaklines= true, basicstyle=\footnotesize}
 \begin{lstlisting}
-<Cmd>mm3d Tapioca All "TNR-Exe-Fontaine/.*JPG" 1000</Cmd> < !--Tapioca command -->
+<Cmd>mm3d Tapioca All ".*JPG" 1000</Cmd> < !--Tapioca command -->
 \end{lstlisting}
 
 Tips : To choose your commands, you can use the file mm3d-logfile.txt in the Ref directory.
-NB : for the most of the command, don't forget to add the path of the Exe like in the example. Once you have specified this path in the pattern, you don't have to use it again for the other arguments as Orientation or input file.
+NB : the tools change the working directory to the Exe directory for each Cmd tag.
 
 \subsubsection{Files tests}
 This test provide you to check for files in Ref and Exe and compare it bit to bit. This is the syntax for a file test :
@@ -241,7 +241,7 @@ So this is a example for a global test :
      
 <!-- Test de la commande Tapioca + existence des fichiers Pastis -->
 	<Tests>
-		<Cmd>mm3d Tapioca All "TNR-Exe-Fontaine/.*JPG" 1000</Cmd>
+		<Cmd>mm3d Tapioca All ".*JPG" 1000</Cmd>
 		<TestDir>
 			<NameDir>Homol</NameDir>
 		</TestDir>
@@ -249,7 +249,7 @@ So this is a example for a global test :
      
 <!-- Test de la commande Tapas-->
 	<Tests>
-		<Cmd>mm3d Tapas RadialStd  "TNR-Exe-Fontaine/.*JPG" Out=MEP</Cmd>
+		<Cmd>mm3d Tapas RadialStd  ".*JPG" Out=MEP</Cmd>
 		<TestDir>
 			<NameDir>Ori-MEP</NameDir>
 		</TestDir>
@@ -264,7 +264,7 @@ So this is a example for a global test :
 
 <!-- Test de la commande AperiCloud-->
 	<Tests>
-		<Cmd>cd TNR-Exe-Fontaine/ mm3d AperiCloud ".*JPG" MEP</Cmd>
+		<Cmd>mm3d AperiCloud ".*JPG" MEP</Cmd>
 		<TestFiles>
 			<NameFile>AperiCloud_MEP.ply</NameFile>
 		</TestFiles>
@@ -272,7 +272,7 @@ So this is a example for a global test :
      
 <!-- Test de la commande Malt GeomImage-->
 	 <Tests>
-		<Cmd>mm3d Malt GeomImage "TNR-Exe-Fontaine/.*JPG" Ori-MEP Master=AIMG_2470.JPG ZoomF=8</Cmd>
+		<Cmd>mm3d Malt GeomImage ".*JPG" Ori-MEP Master=AIMG_2470.JPG ZoomF=8</Cmd>
 		<TestDir>
 			<NameDir>MM-Malt-Img-AIMG_2470/</NameDir>
 		</TestDir>
@@ -280,7 +280,7 @@ So this is a example for a global test :
      
 <!-- Test de la commande to8Bits-->
      <Tests>
-	<Cmd>mm3d to8Bits TNR-Exe-Fontaine/MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT.tif Circ=1 Coul=1</Cmd>
+	<Cmd>mm3d to8Bits MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT.tif Circ=1 Coul=1</Cmd>
 	<TestImg>
 		<NameTestImg>MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT_8Bits.tif</NameTestImg>
 	</TestImg>
@@ -288,7 +288,7 @@ So this is a example for a global test :
 
 <!-- Test de la commande GrShade-->
      <Tests>
-           <Cmd>mm3d GrShade TNR-Exe-Fontaine/MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT.tif ModeOmbre=IgnE</Cmd>
+           <Cmd>mm3d GrShade MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT.tif ModeOmbre=IgnE</Cmd>
      		<TestImg>
 			<NameTestImg>MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALTShade.tif</NameTestImg>
            	</TestImg>
@@ -296,7 +296,7 @@ So this is a example for a global test :
 
 <!-- Test de la commande Nuage2Ply-->  
 	<Tests>
-		<Cmd>mm3d Nuage2Ply TNR-Exe-Fontaine/MM-Malt-Img-AIMG_2470/NuageImProf_STD-MALT_Etape_5.xml Attr=TNR-Exe-Fontaine/AIMG_2470.JPG  RatioAttrCarte=8 Out=TNR-Exe-Fontaine/fontaine.ply</Cmd>
+		<Cmd>mm3d Nuage2Ply MM-Malt-Img-AIMG_2470/NuageImProf_STD-MALT_Etape_5.xml Attr=TNR-Exe-Fontaine/AIMG_2470.JPG  RatioAttrCarte=8 Out=TNR-Exe-Fontaine/fontaine.ply</Cmd>
 		<TestFiles>
 			<NameFile>fontaine.ply</NameFile>
 		</TestFiles>
@@ -329,7 +329,7 @@ This is the different options :
 \end{itemize}
 
 \section{Outfile}
-If you are not using the option OutReportXml or OutErrorsXml, the files will be named « GlobTest.xml » and "ErrorsReport.xml" . It contains several types of tags disposed like the entry XML file. The first one will contain, all the information, all single tests etc... The second one will contain only the single test which failed. Both files have the same structure described bellow.
+If you are not using the option OutReportXml or OutErrorsXml, the files will be named « GlobTest.xml » and "ErrorsReport.xml" . It contains several types of tags disposed like the entry XML file. The first file will contain, all the information and all single tests reporting. The second one will contain only the single test which failed. Both files have the same structure described bellow.
 
 \subsection{GlobTestReport}
 This is the first test level, you can get easy informations about the results of the test via the $<Bilan>$ tag. If everything happened correctly it would contains \textbf{true} otherwise it would contains \textbf{false} .
@@ -346,7 +346,7 @@ Example :
 
 The tag $<XmlTNR\_GlobTestReport>$ contain several tags $<XmlTNR\_OneTestReport>$ corresponding to each test you have specified in the XML file.
  
-\subsection{La balise OneTestReport}
+\subsection{The tag OneTestReport}
 This tags correspond to the single tests, they contains all types of tests discribe in the part one. You can check individually each single test, if it fail (\textbf{true}) or not (\textbf{false}) with the tag $<TestOK>$.
 Exemple :
 \lstset{language=XML, tagstyle=\color{blue}, commentstyle=\color{red}, linewidth = \linewidth ,breaklines= true, basicstyle=\footnotesize}
@@ -377,7 +377,7 @@ Example :
 \lstset{language=XML, tagstyle=\color{blue}, commentstyle=\color{red}, linewidth = \linewidth ,breaklines= true, basicstyle=\footnotesize}
 \begin{lstlisting}
 <XmlTNR_TestCmdReport>
-	<CmdName>mm3d AperiCloud "TNR-Exe-Fontaine/.*JPG" MEP</CmdName>
+	<CmdName>mm3d AperiCloud ".*JPG" MEP</CmdName>
 	<TestCmd>true</TestCmd>
 </XmlTNR_TestCmdReport>
 \end{lstlisting}
@@ -450,7 +450,7 @@ Example :
 \lstset{language=XML, tagstyle=\color{blue}, commentstyle=\color{red}, linewidth = \linewidth ,breaklines= true, basicstyle=\footnotesize}
 \begin{lstlisting}
 <XmlTNR_CalibReport>
-	<CalibName>./TNR-Exe-Fontaine/Ori-MEP/AutoCal_Foc-18000_Cam-Canon_EOS_70D.xml</CalibName>
+	<CalibName>Ori-MEP/AutoCal_Foc-18000_Cam-Canon_EOS_70D.xml</CalibName>
 	<TestCalibDiff>true</TestCalibDiff>
 	<EcartsRadiaux>3278.26276322315834 0</EcartsRadiaux>
 	<rEcartsPlani>
@@ -516,7 +516,7 @@ A example of a GlobTest.xml file :
      <XmlTNR_OneTestReport>
           <TestOK>true</TestOK>
           <XmlTNR_TestCmdReport>
-               <CmdName>mm3d Tapioca All "TNR-Exe-Fontaine/.*JPG" 1000</CmdName>
+               <CmdName>mm3d Tapioca All ".*JPG" 1000</CmdName>
                <TestCmd>true</TestCmd>
           </XmlTNR_TestCmdReport>
           <XmlTNR_TestDirReport>
@@ -531,7 +531,7 @@ A example of a GlobTest.xml file :
      <XmlTNR_OneTestReport>
           <TestOK>true</TestOK>
           <XmlTNR_TestCmdReport>
-               <CmdName>mm3d Tapas RadialStd  "TNR-Exe-Fontaine/.*JPG" Out=MEP</CmdName>
+               <CmdName>mm3d Tapas RadialStd  ".*JPG" Out=MEP</CmdName>
                <TestCmd>true</TestCmd>
           </XmlTNR_TestCmdReport>
           <XmlTNR_TestDirReport>
@@ -543,7 +543,7 @@ A example of a GlobTest.xml file :
                <RefDirSize>88440</RefDirSize>
           </XmlTNR_TestDirReport>
           <XmlTNR_CalibReport>
-               <CalibName>./TNR-Exe-Fontaine/Ori-MEP/AutoCal_Foc-18000_Cam-Canon_EOS_70D.xml</CalibName>
+               <CalibName>Ori-MEP/AutoCal_Foc-18000_Cam-Canon_EOS_70D.xml</CalibName>
                <TestCalibDiff>true</TestCalibDiff>
           </XmlTNR_CalibReport>
           <XmlTNR_OriReport>
@@ -556,7 +556,7 @@ A example of a GlobTest.xml file :
      <XmlTNR_OneTestReport>
           <TestOK>true</TestOK>
           <XmlTNR_TestCmdReport>
-               <CmdName>cd TNR-Exe-Fontaine/ mm3d AperiCloud ".*JPG" MEP</CmdName>
+               <CmdName>mm3d AperiCloud ".*JPG" MEP</CmdName>
                <TestCmd>true</TestCmd>
           </XmlTNR_TestCmdReport>
           <XmlTNR_TestFileReport>
@@ -571,7 +571,7 @@ A example of a GlobTest.xml file :
      <XmlTNR_OneTestReport>
           <TestOK>false</TestOK>
           <XmlTNR_TestCmdReport>
-               <CmdName>mm3d Malt GeomImage "TNR-Exe-Fontaine/.*JPG" Ori-MEP Master=AIMG_2470.JPG ZoomF=8</CmdName>
+               <CmdName>mm3d Malt GeomImage ".*JPG" Ori-MEP Master=AIMG_2470.JPG ZoomF=8</CmdName>
                <TestCmd>true</TestCmd>
           </XmlTNR_TestCmdReport>
           <XmlTNR_TestDirReport>
@@ -599,11 +599,11 @@ A example of a GlobTest.xml file :
      <XmlTNR_OneTestReport>
           <TestOK>false</TestOK>
           <XmlTNR_TestCmdReport>
-               <CmdName>mm3d to8Bits TNR-Exe-Fontaine/MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT.tif Circ=1 Coul=1</CmdName>
+               <CmdName>mm3d to8Bits MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT.tif Circ=1 Coul=1</CmdName>
                <TestCmd>true</TestCmd>
           </XmlTNR_TestCmdReport>
           <XmlTNR_ImgReport>
-               <ImgName>./TNR-Exe-Fontaine/MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT_8Bits.tif</ImgName>
+               <ImgName>MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT_8Bits.tif</ImgName>
                <TestImgDiff>false</TestImgDiff>
                <NbPxDiff>311904</NbPxDiff>
                <SumDiff>43303016</SumDiff>
@@ -614,11 +614,11 @@ A example of a GlobTest.xml file :
      <XmlTNR_OneTestReport>
           <TestOK>false</TestOK>
           <XmlTNR_TestCmdReport>
-               <CmdName>mm3d GrShade TNR-Exe-Fontaine/MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT.tif ModeOmbre=IgnE</CmdName>
+               <CmdName>mm3d GrShade MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT.tif ModeOmbre=IgnE</CmdName>
                <TestCmd>true</TestCmd>
           </XmlTNR_TestCmdReport>
           <XmlTNR_ImgReport>
-               <ImgName>./TNR-Exe-Fontaine/MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT_8Bits.tif</ImgName>
+               <ImgName>MM-Malt-Img-AIMG_2470/Z_Num5_DeZoom8_STD-MALT_8Bits.tif</ImgName>
                <TestImgDiff>false</TestImgDiff>
                <NbPxDiff>311904</NbPxDiff>
                <SumDiff>43303016</SumDiff>
@@ -629,7 +629,7 @@ A example of a GlobTest.xml file :
      <XmlTNR_OneTestReport>
           <TestOK>true</TestOK>
           <XmlTNR_TestCmdReport>
-               <CmdName>mm3d Nuage2Ply TNR-Exe-Fontaine/MM-Malt-Img-AIMG_2470/NuageImProf_STD-MALT_Etape_5.xml Attr=TNR-Exe-Fontaine/AIMG_2470.JPG  RatioAttrCarte=8 Out=TNR-Exe-Fontaine/fontaine.ply</CmdName>
+               <CmdName>mm3d Nuage2Ply MM-Malt-Img-AIMG_2470/NuageImProf_STD-MALT_Etape_5.xml Attr=AIMG_2470.JPG  RatioAttrCarte=8 Out=fontaine.ply</CmdName>
                <TestCmd>true</TestCmd>
           </XmlTNR_TestCmdReport>
           <XmlTNR_TestFileReport>
