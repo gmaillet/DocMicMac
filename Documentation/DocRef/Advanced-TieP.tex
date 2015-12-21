@@ -1,5 +1,91 @@
 \chapter{Advanced Tie Points}
 
+%=======================================================================================================
+\section{Changing default detector}
+
+
+There exist different implemantation of Sift detector and Ann matchor. The newest one offer
+more option, while the oldest have been more tested \dots 
+
+To change, this default you must edit your {\tt MM-Environment.xml} in the folder {\tt include/XML\_User/}.
+For example :
+
+
+
+\begin{verbatim}
+<MMUserEnvironment>
+    <TiePDetect> mm3d:Digeo </TiePDetect>
+    <TiePMatch > mm3d:Ann </TiePMatch>
+</MMUserEnvironment>
+\end{verbatim}
+
+Note that the {\tt mm3d:Digeo} implementation of SIFT detector offers several advantages :
+
+\begin{enumerate}
+   \item faster, specially in the gaussian computation;
+
+   \item option {\tt NoMax} and {\tt NoMin}, to supress the Min (or Max) in sift detection,
+         this allow to divide by $2$ the number of tie points, while conserving the same ratio
+         of multiple tie point (as at $99.99\dots \%$ a max is never a good homolog of a min).
+\end{enumerate}
+
+
+
+%=======================================================================================================
+\section{Filtering tie points}
+
+
+The commande {\tt HomolFilterMasq} can do some filtering on tie points. The masqing
+processe can be purerly in image geometry or can be done in some ground geometry.
+
+\begin{verbatim}
+ mm3d HomolFilterMasq
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full name (Dir+Pat)}
+Named args : 
+  * [Name=PostPlan] string :: {Post to plan, Def : toto ->toto_Masq.tif like with SaisieMasq}
+  * [Name=GlobalMasq] string :: {Global Masq to add to all image}
+  * [Name=KeyCalculMasq] string :: {For tuning masq per image}
+  * [Name=KeyEquivNoMasq] string :: {When given if KENM(i1)==KENM(i2), don't masq}
+  * [Name=Resol] REAL :: {Sub Resolution for masq storing, Def=10}
+  * [Name=ANM] bool :: {Accept no mask, def = true if MasqGlob and false else}
+  * [Name=ExpTxt] bool :: {Ascii format for in and out, def=false}
+  * [Name=PostIn] string :: {Post for Input dir Hom, Def=}
+  * [Name=PostOut] string :: {Post for Output dir Hom, Def=MasqFiltered}
+  * [Name=OriMasq3D] string :: {Orientation for Masq 3D}
+  * [Name=Masq3D] string :: {File of Masq3D, Def=AperiCloud_${OriMasq3D}.ply}
+  * [Name=SelecTer] Pt2dr :: {[Per,Prop] Period of tiling on ground selection, Prop=proporion of selected}
+\end{verbatim}
+
+The main option are :
+
+\begin{enumerate}
+    \item {\tt PostPlan} for example set {\tt PostPlan=titi} if there is masq per image and for each image 
+          {\tt Image.tif} the masq if {\tt Image\_Masqtiti.tif}, by default will generate an error if this
+          image does not exist, set {\tt ANM=true} if you know that non existing images are normal;
+
+    \item {\tt GlobalMasq} if masq common to all images exist (for example with fiducial marqs);
+
+    \item {\tt KeyCalculMasq} , sometime you may have many images and a few masq, each masq being applyable
+          for a group of images; use this option with much be a computation key desrcibed in
+          {\tt MicMac-LocalChantierDescripteur.xml}
+
+    \item {\tt Masq3D} , a file for 3D masq as seized by {\tt SaisieMasqQT}, the orientation {\tt OriMasq3D} 
+          must be initialized;
+
+    \item {\tt SelecTer} , can be used to decrease the number of tie points while maintaining the proportion
+          of multiplicity;  if {\tt SelecTer=[Per,Prop]}, then in each tile of size $S=Per*Resol$  in the ground coordinate
+          \footnote{$Resol$ being the average ground resolution} the point are selected in the subtile of 
+          size $S * \sqrt{Prop}$
+    
+    
+\end{enumerate}
+
+
+
 
 
 %=======================================================================================================
@@ -60,6 +146,12 @@ To activate this option, the {\tt NKS-Assoc-SFS} must be changed in the {\tt Mic
 \caption{Global images before and after enhancement}
 \label{FIG:SF:Img}
 \end{figure}
+
+
+
+
+
+
 
 
 
