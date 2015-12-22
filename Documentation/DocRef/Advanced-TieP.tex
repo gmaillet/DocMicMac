@@ -1,13 +1,13 @@
 \chapter{Advanced Tie Points}
 
 %=======================================================================================================
-\section{Changing default detector}
+\section{Changing default detector in {\tt  XML\_User/}}
 
 
-There exist different implemantation of Sift detector and Ann matchor. The newest one offer
+There exist different implemantation of Sift detector and Ann matchor in MicMac. The newest one offer
 more option, while the oldest have been more tested \dots 
 
-To change, this default you must edit your {\tt MM-Environment.xml} in the folder {\tt include/XML\_User/}.
+To change the default behaviour you must edit your {\tt MM-Environment.xml} in the folder {\tt include/XML\_User/}.
 For example :
 
 
@@ -32,10 +32,13 @@ Note that the {\tt mm3d:Digeo} implementation of SIFT detector offers several ad
 
 
 %=======================================================================================================
-\section{Filtering tie points}
+\section{Filtering tie points in {\tt HomolFilterMasq}}
 
 
-The commande {\tt HomolFilterMasq} can do some filtering on tie points. The masqing
+This command can be used when you have the necessary spatial information to retrieve false
+tie points.
+
+The command {\tt HomolFilterMasq} can do some filtering on tie points. The masqing
 processe can be purerly in image geometry or can be done in some ground geometry.
 
 \begin{verbatim}
@@ -86,10 +89,46 @@ The main option are :
 
 
 
+%=======================================================================================================
+
+\section{Merging Tie point from multiple view with {\tt HomolMergePDVUnik}}
+
+This command correspond to rather special case, when you have a set of camera that do not move (or form a rigid block) and the scene is moving.
+For example :
+
+\begin{itemize}
+    \item there is three fixed camera $A,B,C$;
+    \item at time $1,2,3,4$ someone is moving in fornt of the camera and the images $A_1,A_2, \dots C_3,C_4$ were acquired ;
+\end{itemize}
+
+It is not possible to make some standard photogrammetric processing on $A_1,A_2, \dots C_3,C_4$ as the scene is not static.
+By the way if we knew the pose  $P_A,P_B,P_C$ of the camera, then  all the homologous points $(A_1,B_1), (A_2,B_2) \dots (A_4,B_4)$ 
+would be compatible witj $P_A$ and $P_B$, which means that we can merge this tie points in a unique file that can be used
+to estimate $P_A$ and $P_B$; and the same with $A,C$ and $B,C$. 
+
+
+The command  {\tt HomolMergePDVUnik} does this merging, in fact you can consider that the tie-points 
+obtained are more or less resulting are some kind of merging from the different scene. 
+
+\begin{verbatim}
+mm3d HomolMergePDVUnik
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full name (Dir+Pat)}
+  * string :: {Dir of external point}
+Named args : 
+  * [Name=PostIn] string :: {Post for Input dir Hom, Def=}
+  * [Name=PostOut] string :: {Post for Output dir Hom, Def=MasqFusion}
+  * [Name=ExpTxt] bool :: {Ascii format for in and out, def=false}
+  * [Name=DirN] vector<std::string> :: {Supplementary dirs 2 merge}
+\end{verbatim}
+
 
 
 %=======================================================================================================
-\section{Tie points on low contrast images}
+\section{Tie points on low contrast images usign {\tt SFS} in {\tt MicMac-LocalChantierDescripteur.xml}}
 
 
 The current implementation of SIFT++ used in MicMac is not fully invariant to scaling/translation in radiometry. This may be a problem in case of acquisitions having a good SNR but with low contrast in the scene; in this case, thanks to good SNR there is potential information to get tie points, but as this information is assimilated to noise, it cannnot be extracted.
