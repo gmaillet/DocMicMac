@@ -24,11 +24,12 @@ Note that the {\tt mm3d:Digeo} implementation of SIFT detector offers several ad
 \begin{enumerate}
    \item faster, specially in the gaussian computation;
 
-   \item option {\tt NoMax} and {\tt NoMin}, to supress the Min (or Max) in sift detection,
-         this allow to divide by $2$ the number of tie points, while conserving the same ratio
-         of multiple tie point (as at $99.99\dots \%$ a max is never a good homolog of a min).
+   \item you can use the {\tt NoMax} and {\tt NoMin} options in {\tt Tapioca}, to supress the Min (or Max) in sift detection.
+         This divides by $2$ the number of tie points, while conserving the same
+         multiple tie point ratio (as at $99.99\dots \%$ a max is never a good homolog of a min).
 \end{enumerate}
 
+The default tie point detector is {\tt mm3d:Sift}.
 
 
 %=======================================================================================================
@@ -38,8 +39,8 @@ Note that the {\tt mm3d:Digeo} implementation of SIFT detector offers several ad
 This command can be used when you have the necessary spatial information to retrieve false
 tie points.
 
-The command {\tt HomolFilterMasq} can do some filtering on tie points. The masqing
-processe can be purerly in image geometry or can be done in some ground geometry.
+The command {\tt HomolFilterMasq} can do some filtering on tie points. The masking
+process can be purerly in image geometry or can be done in some ground geometry.
 
 \begin{verbatim}
  mm3d HomolFilterMasq
