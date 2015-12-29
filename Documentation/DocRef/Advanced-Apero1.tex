@@ -443,8 +443,8 @@ Some comments :
 \end{itemize}
 
 
-        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+%=======================================================================================================
 \section{Adjustment with lines}
 
 
@@ -986,6 +986,98 @@ Let detail the message for point {\tt  14a} :
 
 \subsection{A detailed example}
 
+%=======================================================================================================
+\section{GCP : accuracy and optimal weighting}
+
+When using GCP mixed with tie points may rise the following difficulties :
+
+
+\begin{itemize}
+
+ \item what is the accuracy of the geo-referencing ?
+ \item What is the optimal weighting of the GCP ?
+
+\end{itemize}
+
+Obviously, the same GCP can be used in the optmisation process and in the accuracy measurement, else
+the result would be obviously biased and the "optimal" weighting would be $\infty$.  The safe alternative
+is to separate the GPC used for optimisation and those used for measuring accuracy. When one has
+as many GCP as wanted this work perfectly well, but the the problems appear when there is few GCP.
+
+For a given weighting, the classical alternative is to proceed for estimating accuracy is to proceed this way :
+
+\begin{itemize}
+
+ \item parse the GCP and alternatively each GCP is considerer ejected;
+ \item run the bundle without the ejected GCP and memorize the accuracy on this ejected GGP;
+ \item the global accuracy of you bundle can be estimated as the average of the accuracy of the ejected 
+       GCP.
+\end{itemize}
+
+The question remain of what is the optimal weighting ? Also there is many theoreticall consideration,
+my personnal opinion is that the safest way is to do it purely empirically by testing different
+weighting with the previous method (which I consider as safe).  Of course the cost to pay, is
+computation time \dots
+
+This testing can be done by the {\tt MulRTA} option of {\tt Campari}. When used,  {\tt MulRTA}
+is a vector of double it used this way ,
+ let $P_T$ and $P_I$ be the ground and image accuracy (set by  secong and fourth value of
+optionnal parameter {\tt GCP}) , for each value $M$ of $MulRTA$
+
+\begin{itemize}
+       \item set the Ground and image accuracy to $M*P_T$ and  $M*P_I$
+       \item for each GGP $G$ :
+       \begin{itemize}
+             \item run the bundle without using $G$ in the measurement;
+             \item compute the distance ${D^M}_G$ between ground measurment and bundel measurment;
+       \end{itemize}
+       \item memorise the value $Ac(M)=\sum_G {D^M}_G$ as an estimator of the accuracy with $M$ weighting.
+\end{itemize}
+
+The results are stored in a file {\tt SauvRTA.xml}. For example :
+
+\begin{verbatim}
+<XmlResultRTA>
+     <BestMult>0.3 </BestMult>
+     <BestMoyErr>0.036148</BestMoyErr>
+     <RTA>
+          <Mult>3</Mult>
+          <MoyErr>0.07951</MoyErr>
+          <OneAppui>
+               <Name>P123</Name>
+               <EcartFaiscTerrain>-0.1311860 -0.073748 -0.03087</EcartFaiscTerrain>
+               <DistFaiscTerrain>0.1536285</DistFaiscTerrain>
+               <EcartImMoy>0.473698</EcartImMoy>
+               <EcartImMax>0.79826</EcartImMax>
+               <NameImMax>OIS-023.tif</NameImMax>
+          </OneAppui>
+   ....
+     </RTA>
+     <RTA>
+          <Mult>1</Mult>
+          <MoyErr>0.04443</MoyErr>
+   ....
+     </RTA>
+   ....
+<XmlResultRTA>
+\end{verbatim}
+
+Also the interpretation should be quite obvious, a brief comment :
+
+\begin{itemize}
+   \item  the best accuracy was reached for $M=0.3$, its value was $0.036148$;
+
+   \item for  $M=3$ , the estimated accuracy estimated was $0.07951$;
+
+   \item For $M=3$ , and  $G={\tt P123}$, some detail are memorized :
+   \begin{itemize}
+       \item the  difference bewteen bundle estimation and ground is in {\tt <EcartFaiscTerrain>}
+       \item the  norm of  {\tt <EcartFaiscTerrain>} is {\tt <DistFaiscTerrain>}
+       \item the   image accuracy  is  {\tt  <EcartImMoy>} ;
+       \item the   worst image seizing of {\tt P123} was done on image {\tt OIS-023.tif}.
+   \end{itemize}
+  
+\end{itemize}
 
 
 %=======================================================================================================
