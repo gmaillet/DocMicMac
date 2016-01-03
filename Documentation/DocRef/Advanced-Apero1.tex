@@ -986,6 +986,30 @@ Let detail the message for point {\tt  14a} :
 
 \subsection{A detailed example}
 
+        % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Miscellaneous options to Tapas}
+
+\subsubsection{FreeCalibInit}
+
+Impose that all calibration parameters are freed at the begining. Rarely usefull \dots 
+
+\subsubsection{FrozenCalibs}
+
+Same role as {\tt FrozenPoses} but for internal calibration.
+
+
+
+\subsubsection{SinglePos}
+
+A pattern (generaly one) of pose and calibs in the form {\tt [PatPose,PatCalib]}. When specified :
+
+\begin{itemize}
+   \item the RefineAll is set to false;
+   \item only this pose and calbration will be saved;
+\end{itemize}
+
+
+
 %=======================================================================================================
 \section{GCP : accuracy and optimal weighting}
 
