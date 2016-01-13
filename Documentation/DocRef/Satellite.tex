@@ -1,21 +1,96 @@
-\chapter{Using satellite images}
+\chapter{Using satellite images}\label{ch:useSat}
+%
+The following chapter overviews the processing of satellite images data using \texttt{MicMac} tool. The content is structured into several sections, 
+\begin{itemize}
+\item Section~\ref{sec:rpcBundle} regarding the processing of images delivered with the the rational polynomial coefficients (RPCs),
+\item Section~\ref{sec:gridProc} regarding images that hold the GRID/RTO orientation data,
+\item Section~\ref{sec:epiSatel} regarding the resampling of satellite imagery to epipolar geometry, and
+\item Section~\ref{sec:sake} regarding correlation of satellite images for the purpose of change detection.
+\end{itemize}
+ 
+%
+\section{With approximate sensor orientation -- RPC bundle adjustment (recommended)}\label{sec:rpcBundle}
+%{\tt MicMac}
+This section presents the processing chain on pushbroom sensor images when input orientation is provided in form of the RPCs. Figure~\ref{FIG:sat:func} depicts the DSM generation processing workflow. The input format of the RPCs should comply with the following: Dimap v2 (tested), DigitalGlobe (tested), IKONOS/ASCII (not fully tested). Bundle adjustment observations must include tie points and optionally may include GCP data.\par  
+%
+Having converted the RPC files to the {\tt MicMac}-format files (see Subsection~\ref{subsec:rpcConv}), the refinement of the orientation parameters is done within the {\tt Campari} tool (2a in Figure~\ref{FIG:sat:func}; see also Subsection~\ref{subsub:rpcCampari}). In order to validate the internal accuracy of the retrieved new orientation parameters, the user can conduct matching in the direction perpendicular to the epipolar curve with {\tt MMTestOrient}.\par 
+%
+If the image pair epipolar geometry is of interest, be it for external uses or to perform the matching on, the {\tt CreateEpip} tool will resample the images so that their corresponding image points are found in the same image rows.\par 
+%
+The dense matching is launched through the simplified {\tt Malt} tool. If matching in epipolar geometry shall be performed, use {\tt mm3d MICMAC} with a suitable XML file (see a template XML file in {\tt include/XML\_MicMac/MM-Epip.xml}).\par 
+%
+The reader is encouraged to follow a use case example included in Section~ \ref{sec:usecase:satel}. 
 
-This chapter presents some tools for using satellite images in the {\tt MicMac} workflow. A sub-library for importing satellite meta-data from diverse data providers is being developed and is accessible through {\tt mm3d SateLib}.
+\begin{figure}[h!]
+\centering 
+{\includegraphics[width=0.88\linewidth]{FIGS/Satellites/usingSatellites.pdf}\label{FIG:sat:func}}
+\caption{ Satellite images processing workflow for DSM generation. The {\tt MMTestOrient} is a supplementary operation aiming at evaluating the goodness of the orientation parameters. The {\tt CreateEpip} is obligatory only in case the user wants to perform dense matching in this geometry.}
+\end{figure}
 
-\section{Pleiades-Spot or DigitalGlobe very high resolution optical satellite images}
+\subsection{ The RPC convertion to {\tt MicMac}-format files}\label{subsec:rpcConv}
+The RPC orientation parameters provided by different vendors have different file formats. Due do that, prior to the actual processing {\tt MicMac} requires executing a data conversion step -- {\tt Convert2GenBundle}. As {\tt MicMac} works in uniform units, the initial RPCs defined in geodetic coordinates are recomputed in a metric coordinate system specified by the user.
+
+\vspace{\baselineskip}
+Typing {\tt mm3d Convert2GenBundle}, one gets:
+
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Name of Image}
+  * string :: {Name of input Orientation File}
+  * string :: {Directory of output Orientation (MyDir -> Oi-MyDir)}
+Named args : 
+  * [Name=ChSys] string :: {Change coordinate file (MicMac XML convention)}
+  * [Name=Degre] INT :: {Degre of polynomial correction (Def=2)}
+\end{verbatim}
+
+The meaning of optional args is:
+
+\begin{itemize}
+   \item {\tt ChSys}, indicates the coordinate system for the processing; the files must be edited according to the {\tt SystemeCoord} type, and contain a single {\tt BSC} (see below),
+   \item {\tt Degre}, indicates the degree of the 2D polynomial adopted for orientation refinement,
+\end{itemize}
+
+Below is an example of the coordinate system file. It uses the UTM coordinate system defined over the 31. zone of the northern hemisphere, in the WGS84 datum:
+
+\begin{verbatim}
+<SystemeCoord>
+     <BSC>
+          <TypeCoord>eTC_Proj4</TypeCoord>
+          <AuxStr>+proj=utm +zone=31 +ellps=WGS84 +datum=WGS84 +units=m +no_defs</AuxStr>
+     </BSC>
+</SystemeCoord>
+\end{verbatim}
+
+%* adjustment
+%Campari
+%MMTestOrient
+%digression to Apero and parameters (cite the paper for equations)
+
+%* matching & CO
+%Malt
+%CreateEpip
+
+
+\section{With approximate or refined sensor orientation \\-- the GRID/RTO processing}\label{sec:gridProc}
+This section presents some tools for processing satellite images that are adapted to work on the localization GRIDs. Hence, if the input orientation is known in form of rational polynomial functions, the library will need to convert it to a localization GRID, or better, switch to Section~\ref{sec:rpcBundle} to work directly on the RPCs. A sub-library for importing satellite meta-data from diverse data providers is being developed and is accessible through {\tt mm3d SateLib}.
+
+\subsection{Pleiades-Spot or DigitalGlobe very high resolution optical satellite images}
 
 Tools to convert RPC files into localization grids called {\tt Dimap2Grid} and {\tt DigitalGlobe2Grid} allows using VHR optical satellite images with {\tt Malt}.\\*
 
 User has to provide:
 \begin{itemize}
-\item a RPC\footnote{Rational Polynomial Coefficient} file for each image
+\item a RPC file for each image
 \item cartographic step (pixels)
 \item projection system
 \end{itemize}
 
 As initial localization is not always good enough to run a good correlation process, a refine step has been added to improve the grid.
 
-\subsection{Image couple}
+\subsubsection{Image couple}
 
 The way to get grids from an image couple is as following (example given with {\tt Dimap2Grid}, valid for {\tt DigitalGlobe2Grid}) :
 
@@ -128,7 +203,7 @@ ZoomI=32 ZoomF=1 ZMoy=100 ZInc=500 NbVI=2
  \item   NbVI=2 minimal number of visible images  (by default 3 for UrbanMNE)
 \end{itemize}
 
-\subsection{Set of Images}
+\subsubsection{Set of Images}
 
 The way to get grids from a set of satellite images is the same as for an image couple, except for the refine stage, for which the command is (right now) slightly different:
 
@@ -156,7 +231,11 @@ First mandatory argument is the pattern for GRID files. Optional arguments are:
 \item ExpRes: export residuals to refine/residus.txt (image coordinates and image residuals) and refine/residusGlob.txt (ground coordinates and rms error) (default = false)
 \end{itemize}
 
-\section{SAKE - Simplified tool for satellite images correlation}
+%
+\section{Epipolar geometry of a satellite image pair}\label{sec:epiSatel}
+to be updated
+%
+\section{SAKE - Simplified tool for satellite images correlation}\label{sec:sake}
 
 {\tt SAKE} stands for ``SAtellite Kit for Elevation'', it is a simplified tool to generate DEMs and ortho-images from sets of satellite images, developed by Ana-Maria Rosu. Like {\tt MM2DPosSism} and {\tt FDSC}, it is also part of the collaboration between IPGP and IGN/ENSG, and funded by CNES through the TOSCA program.
 
@@ -246,6 +325,7 @@ Now you can launch the Qt graphical interface for {\tt Sake}:
 \begin{verbatim}
     $ mm3d vSake
 \end{verbatim}
+
 
 
 

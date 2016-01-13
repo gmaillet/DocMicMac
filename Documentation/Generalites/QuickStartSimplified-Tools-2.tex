@@ -1083,6 +1083,113 @@ mm3d C3DC BigMac .*png Ori-All2/ Tuning=0 Masq3D=AperiCloud_All2.ply ZoomF=1
 \caption{Tie points from  two extracted images after selection by $3$d masq}
 \label{fig:GoProPlyFin}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The satellite data set}\label{sec:usecase:satel}
+%
+\subsection{Description of the data}
+%
+A Pleiades tristereo is processed in the following. The images are part of a sample dataset disseminated by the Airbus Defence and Space and can be downloaded from http://www.geo-airbusds.com/en/23-sample-imagery 
+\subsection{From 2D images to 3D objects -- the processing commands}
+%
+Unless you work with MicMac and the Kakadu license, the orignal JPEG2000 images must be  converted to tiff. The otb library\footnote{https://www.orfeo-toolbox.org/} allows for the conversion using the command below: 
+\begin{verbatim}
+otbcli_Convert -in image.jp2 -out image.tif uint16
+\end{verbatim}
+%
+The tie points can now be extracted from the images:
+\begin{verbatim}
+mm3d Tapioca All .*.tif 10000  
+\end{verbatim}
+%
+Next, as mentioned in Section~\ref{sec:rpcBundle}, the input files with rational polynomial coefficients ought to be converted to a MicMac readable format, and the processing coordinate system defined:
+\begin{verbatim}
+mm3d Convert2GenBundle IMG_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001_R1C1.tif
+RPC_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001.XML RPC-deg1 ChSys=WGS84toUTM.xml Degre=1
+mm3d Convert2GenBundle IMG_PHR1A_P_201202250025599_SEN_PRG_FC_5108-001_R1C1.tif
+RPC_PHR1A_P_201202250025599_SEN_PRG_FC_5108-001.XML RPC-deg1 ChSys=WGS84toUTM.xml Degre=1
+mm3d Convert2GenBundle IMG_PHR1A_P_201202250026276_SEN_PRG_FC_5109-001_R1C1.tif
+RPC_PHR1A_P_201202250026276_SEN_PRG_FC_5109-001.XML RPC-deg1 ChSys=WGS84toUTM.xml Degre=1
+\end{verbatim}
+%
+where the content of the coordinate system file renders:
+\begin{verbatim}
+<SystemeCoord>
+  <BSC>
+     <TypeCoord>eTC_Proj4</TypeCoord>
+     <AuxStr>+proj=utm +zone=55 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs</AuxStr>
+  </BSC>
+</SystemeCoord> 
+\end{verbatim}
+%
+Given the extracted tie points, the RPC bundle adjustment can proceed with the simplified tool {\tt Campari} (see Subsection~\ref{CAMPARI}):
+\begin{verbatim}
+mm3d Campari .*.tif RPC-deg1 RPC-deg1_adj
+\end{verbatim}
+%
+Provided the results deliver satisfying residuals (in the presented case reflecting only the reprojection errors of the tie points, but more generally also determining the adherence of the data to some control information), the dense matching can be carried out. Nevertheless, it is worthwhile to verify the refined orientation between pairs of images using the {\tt mm3d MMTestOrient} (see Subsection~\ref{CheckOri}):
+\begin{verbatim}
+mm3d MMTestOrient IMG_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001_R1C1.tif 
+IMG_PHR1A_P_201202250025599_SEN_PRG_FC_5108-001_R1C1.tif Ori-RPC-deg1_adj GB=1 ZMoy=0 ZInc=500
+\end{verbatim}
+%
+The DSM generation is handled, again, by the simplified tool {\tt Malt} (see Subsection~\ref{subsec:Malt}): 
+\begin{verbatim}
+mm3d Malt UrbanMNE .*.tif Ori-RPC-deg1_adj ZMoy=0 ZInc=500
+\end{verbatim}
+%
 
-
-
+\subsection{Understanding the bundle adjustment output ({\tt Campari})} 
+%
+The adjustment result is stored inside the {\texttt{Ori-RPC-deg1\_adj}} directory. Understanding the bundle adjustment message printed to the screen (and additionally stored inside a {\tt Residus.xml} file) is already explained in subsection~\ref{subsec:Apero:msg}. The output directory contains files with the original RPCs (all files with the prefix {\tt UnCorExtern-}), and the corresponding files with adjusted orientation parameters (all files with the prefix {\tt GB-}). The {\tt GB-} files contain:
+\begin{itemize}
+\item {\tt NameCamSsCor}, the filepath to the original RPCs;
+\item {\tt NameIma}, the name of the image that the file corresponds to;
+\item {\tt SysCible}, the definition of the coordinate system used in the processing (proj4 format);
+\item {\tt DegreTot}, the degree of the adjustable 2D polynomial correction function;
+\item {\tt Center}, the polynomial's normalizing shift (in pixels);
+\item {\tt Ampl}, the polynomial's normalizing amplitude;
+\item {\tt CorX}, the polynomial's normalized x-coefficients;
+\item {\tt CorY}, the polynomial's normalized y-coefficients;
+\item {\tt Monomes}, three values corresponding to respective polynomial terms (e.g. \texttt{<Monomes>-0.94 0 1</Monomes>} interprets as $-0.94 \cdot x^0 \cdot y^1 $). 
+\end{itemize}
+The avoid numerical instabilities of the polynomial functions, the {\tt Center} and {\tt Ampl} parameters normalize the image space such that all observations are contained within the range $<-1,1>$. The user can visualize the correction polynomial functions with 
+\begin{verbatim}
+mm3d SateLib SATD2D Ori-RPC-deg1_adj/GB-Orientation-
+                    IMG_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001_R1C1.tif.xml
+\end{verbatim}
+%
+The tool produces images of displacements separately in x, y and combined xy directions (see Fig.~\ref{fig:satPoly2d}}), and prints to the screen the minimum/maximum values in pixels:
+\begin{verbatim}
+displacement in x:  GMin,Gax -0.96187676315564 -0.919344454426481
+displacement in y:  GMin,Gax -0.542404322159884 0.234261700467604
+displacement in xy:  GMin,Gax 0.919404732429707 1.06767206091774
+\end{verbatim}
+%   
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.95\linewidth]{FIGS/Satellites/SATD2D.png}
+\caption{Displacements in image space caused by the correcting polynomial functions in image \texttt{IMG\_PHR1A\_P\_201202250025329\_SEN\_PRG\_FC\_5110-001\_R1C1.tif}. Displacement magnitude (a) along the x-coordinate, (b) along the y-coordinate, (c) combined along both coordinate directions.}
+\label{fig:satPoly2d}
+\end{figure}
+%
+\subsection{Understanding the bundle adjustment validation output ({\tt MMTestOrient})}
+% 
+The output of the {\tt MMTestOrient} tool described in Section~\ref{sec:MMTestOri} is shown in Fig.~\ref{fig:satMMTestOri}. Using the tool {\tt mm3d StatIm}, some basic image statistics can be obtained allowing the interpretation of the outcome:
+\begin{verbatim}
+mm3d StatIm GeoI-Px/Px2_Num16_DeZoom2_Geom-Im.tif [1000,1000] Sz=[8000,4000]
+\end{verbatim}
+%
+The command above calculates the mean, the standard deviation, as well as min/max parallax values over the bounding box anchored at [1000,1000], of size [8000,4000]. Because the input parallax image is at the \texttt{DeZoom=2}, rather than the full resolution, all values must be multiplied by two. The image statistics over the selected bounding box in pixels are then:
+\begin{verbatim}
+ZMoy=0.064 ; Sigma=0.122
+ZMinMax=[-2.70 , 2.03]
+\end{verbatim}
+%   
+The two most relevant statistics are: the mean transverse parallax which is very close to zero, and the sigma equal to $\approx 0.1$ pixel. The min/max values are relief-related and occur in places of low correlation, e.g. on vegetation, water surfaces, or in places of shadows and occlusions. The magnitude of systematic pattern visible in Fig.~\ref{fig:satMMTestOri} remains at the level of the sigma value, hence well below the adjustment precision ($~0.6$ pixel). The user is encouraged to use \texttt{mm3d Vino} tool to display very big image files.
+%
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.95\linewidth]{FIGS/Satellites/IMG_Px1_Px2_Num16.png}
+\caption{(a) A satellite image, (b) the epipolar parallax (\texttt{Px1\_Num16\_DeZoom2\_Geom-Im.tif}), (c) the transverse parallax (\texttt{Px2\_Num16\_DeZoom2\_Geom-Im.tif}).}
+\label{fig:satMMTestOri}
+\end{figure}

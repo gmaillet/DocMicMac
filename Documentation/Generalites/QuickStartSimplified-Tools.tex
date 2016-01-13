@@ -1495,6 +1495,26 @@ for all images.
 To estimate the delay between the GPS data recording and the triggering camera,
 please refere to the tool {\tt OriConvert} described in \ref{OriConvert}.
 
+\subsubsection{Bundle adjustment with pushbroom sensor}\label{subsub:rpcCampari}
+This section describes how to utilize the Campari simplified tool to refine the orientation parameters provided in form of the rational polynomial coefficients (RPCs). 
+
+\vspace{\baselineskip}
+Typing {\tt Campari -help}, one gets:
+
+\begin{verbatim}
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Unamed args :
+  * string :: {Full Directory (Dir+Pattern)}
+  * string :: {Input Orientation}
+  * string :: {Output Orientation}
+Named args :
+  * [Name=AcceptGB] bool :: {Accepte new Generik Bundle image, 
+                             Def=true, set false for perfect backward compatibility} 
+\end{verbatim}
+
+The optional arg \texttt{AcceptGB} indicates a generic input camera geometry (central perspective, RPCs, GRIDs). If cameras defined by RPCs are handled (which \texttt{MicMac} will automatically find out given the convention of the input orientation files), the trajectory of the satellite platform is fixed within the adjustment, and only small camera rotations are estimated. The rotations are forced to cause pixel displacements in the sensor's plane being equal to a 2D polynomial function. The coefficients of the functions likewise act as observed unknowns in the adjustment (see Rupnik \& Pierrot-Deseilligny, (2016)). 
 
 \subsection{Convention for Orientation name}
 
@@ -2303,7 +2323,7 @@ Example using local repair, have be done in~\ref{Sec:RepLocBascule}.
 
 
 
-\subsection{Simplified matching in ground geometry with {\tt Malt}}
+\subsection{Simplified matching in ground geometry with {\tt Malt}}\label{subsec:Malt}
 
 \subsubsection{General characteristics}
 
