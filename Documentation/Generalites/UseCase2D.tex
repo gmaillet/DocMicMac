@@ -22,7 +22,7 @@ a $2$ dimensionnal one. This can occure in the following situation:
 %-------------------------------------------------------------------
 %-------------------------------------------------------------------
 
-\section{Checking orientation}
+\section{Checking orientation}\label{sec:MMTestOri}
 
 \subsection{For Conik Orientation}
 \label{CheckOri}
@@ -113,7 +113,8 @@ Named args :
   * [Name=Dir] string :: {Directory, Def=./}
   * [Name=Zoom0] INT :: {Zoom init, pow of 2  in [128,8], Def depend of size}
   * [Name=ZoomF] INT :: {Zoom init,  pow of 2  in [4,1], Def=2}
-  * [Name=PB] bool :: {Push broom sensor}
+  * [Name=PB] bool :: {Push broom sensor (GRID)}
+  * [Name=GB] bool :: {Gen Bundle Mode}
   * [Name=MOri] string :: {Mode Orientation (GRID or RTO) , Mandatory in PB}
   * [Name=ZMoy] REAL :: {Average Z,  Mandatory in PB}
   * [Name=ZInc] REAL :: {Incertitude on Z,  Mandatory in PB}
@@ -160,10 +161,10 @@ the result.  The {\tt MMTestOrient} is illustrated on three examples (in each ca
 \subsection{For Push-Broom Orientation}
 \label{TestOri:PB}
 
-This tool can be used also with satellite image :
+This tool can also be used with satellite images. Depending whether the orientation is provided in {\tt GRID/RTO} or by RPCs (see Chapter~\ref{ch:useSat}), different input parameters are used. See the use case presented in Section~\ref{sec:usecase:satel} to learn how to handle the RPC input, and below find an example using the {\tt GRID/RTO}:
 \begin{itemize}
-  \item in this case the third argument is interpreted as the postfix of the orientation file;
-  \item the {\tt PB} argument must be set to true, indicating a push-broom sensor;
+  \item the third argument is interpreted as the postfix of the orientation file;
+  \item the {\tt PB} argument must be set to true;
   \item the {\tt MOri} must indicate the way the orientation file is stored ({\tt GRID} for grid format,
        {\tt RTO} for  {\tt XML} encoded {\tt RPC} file;
   \item the {\tt ZMoy} must indicate the average value of $Z$;
