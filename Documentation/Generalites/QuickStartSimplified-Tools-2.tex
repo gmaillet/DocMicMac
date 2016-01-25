@@ -656,24 +656,24 @@ Tawny Ortho-MEC-Malt/
 \section{The Grand-Leez dataset}
 %-------------------------------------------------------------------
 
-\subsection{Description of the dataset}\label{Grand-Leez:DataSet}
+\subsection{Dataset description}\label{Grand-Leez:DataSet}
 
-The directory {\tt UASGrandLeez/} in {\tt micmac\_data/ExempleDoc/}, contains UAS\footnote{Unmanned Aerial System or {\tt drone}} imagery which will be used for illustrating a complete workflow devoted to the the production of a canopy surface model. 
-This aerial survey has been performed by the unit of forest and nature management\footnote{\url{http://www.gembloux.ulg.ac.be/gestion-des-ressources-forestieres-et-des-milieux-naturels/}}, university of Liege (Belgium). 
-This image block is made up of 200 low-oblique vantage jpeg images, acquired with a Ricoh GRIII (10 Mpixels, focal length of 28 mm 35 equivalent). 
-The flight has been performed with a Gatewing X100\footnote{\url{http://www.gatewing.com/}} platform.
+The directory {\tt UASGrandLeez/} in {\tt micmac\_data/ExempleDoc/}, contains UAS\footnote{Unmanned Aerial System or {\tt drone}} imagery which are used to illustrate a complete workflow devoted to the the production of a canopy surface model. 
+The aerial survey was performed by the lab of Forest and Nature Management\footnote{\url{http://www.gembloux.ulg.ac.be/gestion-des-ressources-forestieres-et-des-milieux-naturels/}} of the University of Liege (Belgium). 
+The image block is made up of 200 low-oblique vantage jpeg images, acquired with a Ricoh GRIII (10 Mpixels, focal length of 28 mm 35 equivalent). 
+The flight was performed with a Gatewing X100 platform.
 The inertial measurement unit provides GPS position and attitude (omega, phi, kappa) of the UAS for each image frame (stored in {\tt GPS\_WPK\_Grand-Leez.csv} file). 
-In order to reduce the size of this example dataset, raw images has been resampled to 800 pixels width. 
-The processing of these images may although take a few hours. 
-The file {\tt  Cmd\_UAS\_Grand-Leez.txt} contains all the command lines related to this processing workflow.
+In order to reduce the size of this dataset, raw images were resampled to 800 pixels width. 
+The processing of these images can however take a few hours. 
+The file {\tt  Documentation/FIGS/UASGrandLeez/Cmd\_UAS\_Grand-Leez.txt} contains all the command lines related to this processing workflow.
 
 First, let's take a look at the images. 
-A convenient tools for visualizing multiple images in a panel is the tools {\tt PanelIm} that have been used for producing figure \ref{FIG:panel-GL} and other images panels in this manual:
+A convenient tool to visualize multiple images in a panel is the {\tt PanelIm} tool which was used to produce figure \ref{FIG:panel-GL} and other image panels in this manual:
 
 \begin{figure}[H]
 \centering
 \includegraphics[height=0.5\linewidth]{FIGS/UASGrandLeez/PanelGL.JPG}
-\caption{The dataset of Grand-Leez}
+\caption{The Grand-Leez dataset}
 \label{FIG:panel-GL}
 \end{figure}
 
@@ -681,33 +681,33 @@ A convenient tools for visualizing multiple images in a panel is the tools {\tt 
 mm3d PanelIm ./ "R00405[0-5][0:2:4:6:8].JPG" Scale=3
 \end{verbatim}
 
-In this example, we deal with direct georeferencing, that is the act of using camera positions for georeferencing the model. 
-At first, the tools {\tt OriConvert} (section \ref{OriConvert})  is used for converting telemetry data into {\tt MicMac} format. 
-Telemetry data aren't exclusively utilized for georeferencing, but also for determining potential image pairs.
-The list of image pairs is then utilized for the computation of tie points ({\tt Tapioca File \dots}). 
-In addition, embedded GPS data are utilized in a constrained bundle block adjustment in order to avoid non-linear distortions which can hinder photogrammetric measurements.
+In this example, we deal with direct georeferencing, which consist of using camera positions (or camera center) to georeference the photogrammetric model. 
+At first, the tool {\tt OriConvert} (section \ref{OriConvert})  is used to convert telemetry data into {\tt MicMac} format. 
+Telemetry data aren't exclusively used for georeferencing, but also to determine potential image pairs.
+The list of image pairs is then used for the computation of tie points ({\tt Tapioca File \dots}). 
+In addition, embedded GPS data are used in a constrained bundle block adjustment in order to avoid non-linear distortions which can hinder photogrammetric measurements.
 
-The pipeline presented here to process UAS imagery with embedded GPS data with {\tt MicMac} is organized as following:
+The pipeline presented here to process UAS imagery with embedded GPS data with {\tt MicMac} is organized as follows:
 \vspace{\baselineskip}
 \begin{enumerate}
  \setlength{\itemsep}{0pt}
   \setlength{\parskip}{0pt}
-\item Transform initial external orientation file (embedded GPS data) into the {\tt MicMac} format and generate image pairs file with {\tt OriConvert}. 
+\item Transform initial external orientation file (embedded GPS data) into the {\tt MicMac} format and generate an image pairs file with {\tt OriConvert}. 
 In addition, latitude and longitude GPS information are projected in the Belgian Lambert 72 coordinate system;
-\item Compute images tie points with {\tt Tapioca File};
+\item Compute image tie points with {\tt Tapioca File};
 \item Initialize the image block orientation with {\tt Martini};
-\item Determine images relative orientation, with {\tt Tapas};
-\item Transform images relative orientation into absolute orientation, e.g. performing direct georeferencing, with {\tt CenterBascule};
+\item Determine image relative orientation, with {\tt Tapas};
+\item Transform image relative orientation into absolute orientation, e.g. performing direct georeferencing, with {\tt CenterBascule};
 \item Improve the aerotriangulated model by adding GPS information in the bundle block adjustment, with {\tt Campari};
 \end{enumerate}
 \vspace{-0.8\topsep}
-It results in the image orientation ({\tt Ori-BL72-Campari}), which is used for performing the image dense matching and subsequently the image orthorectification and mosaicking.
+It results in the image orientation ({\tt Ori-BL72-Campari}), which is used to perform the image dense matching and subsequently the image orthorectification and mosaicking.
 The canopy surface is characterized by many abrupt vertical changes, which are difficult to model by image matching. 
-The dense matching is performed in \textit{image geometry} with the \textit{Per Image Matchings} tools {\tt PIMs}. 
+The dense matching is performed in \textit{image geometry} with the \textit{Per Image Matchings} tool {\tt PIMs}. 
 Thus, one depth map is computed for each image. 
 These depth maps are then georeferenced and merged in one single digital surface model covering the entire area.
 The canopy surface model is then used of orthorectification and individual orthoimages are then mosaicked.
-The remaining of the workflow is thus as following;
+The remaining of the workflow is thus as follows;
 \vspace{-0.8\topsep}
 \begin{enumerate}\addtocounter{enumi}{6}
  \setlength{\itemsep}{0pt}
@@ -746,19 +746,19 @@ The file {\tt FileImagePairs.xml} is used for computing tie points with {\tt Tap
 Tapioca File ``FileImagePairs.xml'' -1
 \end{verbatim}
 
-Tie points are used as observation in the bundle adjustment ({\tt Tapas} and {\tt Campari}) for determining the element of image orientation (external orientation and camera calibration). 
+Tie points are used as observations in the bundle adjustment ({\tt Tapas} and {\tt Campari}) to determine the element of image orientation (external orientation and camera calibration). 
 
 \subsubsection{Relative orientation}
 
-Initialization of the orientation for large image block (hundreds of image) can be carried out with the tools {\tt Martini}:
+Initialization of the orientation for a large image block (hundreds of image) can be carried out with the {\tt Martini} tool:
 
 \begin{verbatim}
 mm3d Martini "R.*.JPG"
 AperiCloud "R.*.JPG" Martini Out=Martini-cam.ply WithPoints=0
 \end{verbatim}
-As {\tt Martini} do not account for any radial distortion of the lens, the visual inspection of the image orientation with {\tt AperiCloud} show large non-linear distortions.
-Initialization of the image orientation can also be performed successfully directly with {Tapas}, but for large image block, the use of {\tt Martini} is faster.
-The complete dataset is then aligned in a relative orientation {\tt Rel} with the folling command line:
+As {\tt Martini} does not account for any radial distortion of the lens, the visual inspection of the image orientation with {\tt AperiCloud} shows large non-linear distortions.
+Initialization of the image orientation can also be performed successfully directly with {Tapas}, but for a large image block, the use of {\tt Martini} is faster.
+The complete dataset is then aligned in a relative orientation {\tt Rel} with the following command line:
 
 \begin{verbatim}
 Tapas RadialBasic "R.*.JPG" Out=Rel InOri=Martini
@@ -766,7 +766,7 @@ Tapas RadialBasic "R.*.JPG" Out=Rel InOri=Martini
 
 \subsubsection{Georeferencing}
 
-The center database {\tt Ori-GPS-BL72} is employed for georeferencing the aerotriangulated model with { \tt CenterBascule}:
+The center database {\tt Ori-GPS-BL72} is employed to georeference the aerotriangulated model with { \tt CenterBascule}:
 
 \begin{verbatim}
 CenterBascule "R.*.JPG" Rel GPS-BL72 BL72
@@ -787,8 +787,8 @@ The digital surface model of the canopy is created with {\tt PIMs} and {\tt PIMs
 mm3d PIMs Forest "R00.*.JPG" BL72-Campari  ZoomF=2
 \end{verbatim}
 
-The mode {\tt Forest} of the {\tt PIMs} tools is appropriate for aerial images of forested zone. 
-In this mode, a dense matching is performed independently for every pairs of successive images.
+The mode {\tt Forest} of the {\tt PIMs} tool is appropriate for aerial images of forested zones. 
+In this mode, a dense matching is performed independently for every pair of successive images.
 In the terminal, a message display the pairs that will be used for stereo image matching (in epipolar geometry):
 \begin{verbatim}
 Adding the following image pair: R0040571.JPG and R0040570.JPG 
@@ -803,7 +803,7 @@ Figure \ref{FIG:pimsGL} illustrates the functioning of the  \textit{Per Image Ma
 \begin{figure}
 \centering
 \includegraphics[width=0.8\linewidth]{FIGS/UASGrandLeez/PIMsGL.jpg}
-\caption{Simplified representation of the functioning of the \textit{Per Image Matchings} approach implemented in the {\tt PIMs Forest} tools.
+\caption{Simplified representation of the functioning of the \textit{Per Image Matchings} approach implemented in the {\tt PIMs Forest} tool.
 Image dense matching is performed for a list of image pairs, resulting in one (or more) depth map per image.
 These depth maps are georeferenced and merged together with the tools {\tt PIMs2Mnt}. }
 \label{FIG:pimsGL}
@@ -816,10 +816,10 @@ Subsequently, orthorectification is performed for each image and orthoimages are
 mm3d PIMs2Mnt Forest DoOrtho=1
 \end{verbatim}
 
-The global digital surface model resulting from the merging of every single depth maps is the raster file named {\tt PIMs-TmpBasc/PIMs-Merged\_Prof.tif}.
+The global digital surface model resulting from the merging of every single depth map is the raster file named {\tt PIMs-TmpBasc/PIMs-Merged\_Prof.tif}.
 It can be visualized and analysed in any GIS software. 
 Eventually, orthoimages are mosaicked together with {\tt Tawny}.
-Because the radiometry of the different images are quite similar (no important illumination changes during the image acquisition), no radiometric equalization are performed ({\tt RadiomEgal=0}).
+Because the radiometry of the different images are quite similar (no important illumination changes during the image acquisition), no radiometric equalization is performed ({\tt RadiomEgal=0}).
 
 \begin{verbatim}
 Tawny PIMs-ORTHO/ RadiomEgal=0 Out=Orthophotomosaic.tif
@@ -829,7 +829,7 @@ The digital surface model and the orthophotomosaic can be combined in a colored 
 
 \begin{verbatim}
 
-# export the dense point cloud and colorise it with Nuage2Ply:
+# export the dense point cloud and colorize it with Nuage2Ply:
 Nuage2Ply "PIMs-TmpBasc/PIMs-Merged.xml" Scale=1 /
 	Attr="PIMs-Ortho/Orthophotomosaic.tif" RatioAttrCarte=2 Out=CanopySurfaceModel.ply
        
