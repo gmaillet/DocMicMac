@@ -34,7 +34,7 @@
                </PosValueInit>
           </PoseCameraInc>
           <BlockCamera>
-              <NameFile>  Bloc_LR.xml </NameFile>
+              <NameFile>  Stereo-Bloc_LR.xml </NameFile>
               <Id> TheBlock </Id> 
           </BlockCamera>
 
