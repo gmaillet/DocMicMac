@@ -1132,6 +1132,11 @@ mm3d MMTestOrient IMG_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001_R1C1.tif
 IMG_PHR1A_P_201202250025599_SEN_PRG_FC_5108-001_R1C1.tif Ori-RPC-deg1_adj GB=1 ZMoy=0 ZInc=500
 \end{verbatim}
 %
+In case one would want to use the adjusted orientation in some external software, it is possible to recompute the RPCs with the command:
+\begin{verbatim}
+mm3d SateLib RecalRPC Ori-RPC-deg1_adj/
+GB-Orientation-IMG_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001_R1C1.tif.xml
+\end{verbatim}
 The DSM generation is handled, again, by the simplified tool {\tt Malt} (see Subsection~\ref{subsec:Malt}): 
 \begin{verbatim}
 mm3d Malt UrbanMNE .*.tif Ori-RPC-deg1_adj ZMoy=0 ZInc=500

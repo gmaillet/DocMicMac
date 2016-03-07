@@ -24,7 +24,7 @@ The reader is encouraged to follow a use case example included in Section~ \ref{
 \begin{figure}[h!]
 \centering 
 {\includegraphics[width=0.88\linewidth]{FIGS/Satellites/usingSatellites.pdf}\label{FIG:sat:func}}
-\caption{ Satellite images processing workflow for DSM generation. The {\tt MMTestOrient} is a supplementary operation aiming at evaluating the goodness of the orientation parameters. The {\tt CreateEpip} is obligatory only in case the user wants to perform dense matching in this geometry.}
+\caption{ Satellite images processing workflow for DSM generation. The {\tt MMTestOrient} is a supplementary operation aiming at evaluating the goodness of the orientation parameters. The {\tt CreateEpip} is obligatory only in case the user wants to perform dense matching in this geometry. {\tt{SateLib RecalRPC}} recalculates the original RPCs to include the adjusted corrections.}
 \end{figure}
 
 \subsection{ The RPC convertion to {\tt MicMac}-format files}\label{subsec:rpcConv}
