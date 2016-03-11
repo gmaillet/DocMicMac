@@ -1,0 +1,18 @@
+=> Objectifs :
+
+   * plus maintenable : utilisable comme librairie
+   * documente , test de non regression
+   * s'appuyer des le depart sur qq outils standard (boost ?)
+
+   * Interface ? Pas en premier but, mais peut etre indirectement => facilite le de developpement d'une interface. Autre option le faire des le depart pour prendre en compte les contraites que cela impose.
+
+
+=> Gestion des Identifiants pour tous les objets crees sur disque
+
+=> Liste des volontaires
+
+=> Liste des outils a mettre
+
+=> Quel manpower :  1MPD + CR + ? 
+
+
