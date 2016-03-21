@@ -1267,6 +1267,433 @@ to find the internal calibration with name respecting its convention in the fold
 ( {\tt Ori-AllFix/}  here). As the naming of {\tt MicMac} may be not obviuous, the tool 
 described in~\ref{TestNameCalib} can be useful.
 
+%=======================================================================================================
+\section{Rigid Block Compensation}
+
+  % - - - - - - - - - - - - - - - - - - - - -
+\subsection{Introduction}
+
+\subsubsection{Mathematics}
+
+These functionnalities are used when the camera form a rigid block, which mean that the relative position
+of a set of camera do not change during time (or changes are small, whatever it means).
+
+Supose we have a sets of camera $Cam_A,Cam_B,Cam_C \dots $ . Let $P_{A,k}$ be the pose of image acquired by camera $A$
+at time $k$ (idem $P_{B,k} \dots$).  The rigidity hypothesis means that :
+
+
+\begin{equation}
+     \forall k,k',\alpha,\beta  : \;
+     P_{\alpha,k}^{-1} P_{\beta,k} =  P_{\alpha,k'}^{-1} P_{\beta,k'}
+     \label{EQ:RIG1}
+\end{equation}
+
+If we decompose the pose  $P_{A,k} = (C_{A,k},R_{A,k})$ , $C_{A,k}$ being the center 
+and $R_{A,k}$ the rotation matrix, equation \ref{EQ:RIG1}  writes :
+
+\begin{equation}
+     0 = R_{\alpha,k}^{-1} R_{\beta,k} -  R_{\alpha,k'}^{-1} R_{\beta,k'}
+      = \Delta_{\omega}(\alpha,\beta,k,k')
+     \label{EQ:RIG2}
+\end{equation}
+
+\begin{equation}
+     0 = (- C_{\alpha,k}  + R_{\alpha,k}^{-1} * C_{\beta,k}) -(- C_{\alpha,k'}  + R_{\alpha,k'}^{-1} * C_{\beta,k'})
+      = \Delta_{Tr}(\alpha,\beta,k,k')
+     \label{EQ:RIG3}
+\end{equation}
+
+Sometime it may be convenient to introduce the, may it be known or unknown, 
+the global pose calibration of the block $Q_A,Q_B \dots$; the
+equations \ref{EQ:RIG2}, \ref{EQ:RIG3} become  with  $Q_A=(c_A,r_A), Q_B= \dots $:
+
+\begin{equation}
+     0 = R_{\alpha,k}^{-1} R_{\beta,k} -  r_{\alpha}^{-1} r_{\beta}
+      = \Delta^g_{\omega}(\alpha,\beta,k)
+     \label{EQ:RIG4}
+\end{equation}
+
+\begin{equation}
+     0 = (- C_{\alpha,k}  + R_{\alpha,k}^{-1} * C_{\beta,k}) -(- c_{\alpha}  + r_{\alpha}^{-1} * c_{\beta})
+      = \Delta^g_{Tr}(\alpha,\beta,k)
+     \label{EQ:RIG5}
+\end{equation}
+
+
+\subsubsection{Data set}
+
+\begin{figure}
+\begin{center}
+   \includegraphics[width=60mm]{NEW-DATA/Rigid-Block/Fuji.jpg}
+\end{center}
+\caption{The amateur Fuji stereo camera used for  creating the rigid data set}
+\label{ImFuji}
+\end{figure}
+
+The data set to illustrate are located in the folder {\tt Documentation/NEW-DATA/Rigid-Block} it was acquired using
+a Fuji stereo camera as the one shown on figure~\ref{ImFuji}. The data set contains :
+
+\begin{itemize}
+    \item three files to {\tt MPO}  format, this the format used by Fuji to store pair of images of the stereo camera;
+    \item the two files containing measurement of GCP ({\tt AllGCP-RTL.xml} and {\tt MesuresFinales-S2D.xml})
+    \item the folder {\tt Ori-Calib/} containing calibration of the images; in fact to limit the size, the dataset
+          is limited to three images and it would not have been possible to do any valuable self calibration;
+
+    \item the "classical" file {\tt MicMac-LocalChantierDescripteur.xml} which contain will be detailled later;
+    \item a file {\tt Cmd.txt} containg the command that can be bacthed.
+\end{itemize}
+
+
+\subsubsection{Preprocessing and camera naming}
+
+Each {\tt MPO} files contains $2$ jpg images, the first  command extract these images : 
+
+\begin{verbatim}
+mm3d SplitMPO DSCF329.*MPO
+
+ls DSCF329*jpg
+DSCF3297_L.jpg	DSCF3298_L.jpg	DSCF3299_L.jpg
+DSCF3297_R.jpg	DSCF3298_R.jpg	DSCF3299_R.jpg
+\end{verbatim}
+
+All the images {\tt DSCF\dots\_L.jpg} correspond the left camera and {\tt DSCF\dots\_R.jpg} to the right.
+As left and right images correspond to different  camera, it is important that {\tt MicMac} create
+and recognize different calibration files. By default, the images having the same focal and same camera
+model indicated in the {\tt xif}, there may be some conflict. To avoid this, it is possible to define
+a user specific identifier that will be added to the camera name, this is done by redifing the key
+{\tt NKS-Assoc-StdIdAdditionnelCam}:
+
+\begin{verbatim}
+ <KeyedNamesAssociations>
+        <Calcs>
+            <Arrite> 1 1 </Arrite>
+            <Direct>
+                <PatternTransform>  DSCF([0-9]{4})_(.)\.jpg </PatternTransform>
+                <CalcName> Fuji-$2 </CalcName>
+                </Direct>
+        </Calcs>
+        <Key> NKS-Assoc-StdIdAdditionnelCam </Key>
+    </KeyedNamesAssociations>
+\end{verbatim}
+
+With this key, we assure that right and left camera will have a different identifier (and also, conversely, that 
+this identifier do not depend  of image number). We can test this by using the command  {\tt TestNameCalib} :
+
+
+\begin{verbatim}
+mm3d TestNameCalib DSCF3297_L.jpg
+./Ori-TestNameCalib/AutoCal_Foc-6300_Cam-FinePix_REAL_3D_W1Fuji-L.xml
+
+mm3d TestNameCalib DSCF3297_R.jpg
+./Ori-TestNameCalib/AutoCal_Foc-6300_Cam-FinePix_REAL_3D_W1Fuji-R.xml
+\end{verbatim}
+
+\subsubsection{Standard MicMac Processing}
+
+The first three command are standard micmac processing :
+
+\begin{verbatim}
+Tapioca All D.*jpg 1500
+
+Tapas Figee D.*jpg InCal=Calib Out=AllRel
+
+GCPBascule D.*jpg  AllRel Basc AllGCP-RTL.xml MesuresFinales-S2D.xml
+\end{verbatim}
+
+As usual :
+
+\begin{itemize}
+    \item {\tt Tapioca} to compute tie point;
+    \item {\tt Tapas} to compute the relative orientation, as said before with only $3$ images we use an existing internal
+          calibration ({\tt InCal=Calib}) and maintain it frozen to its initial value ({\tt Figee});
+    \item then we transfer to an absolute geo reference system with {\tt GCPBascule};
+\end{itemize}
+
+  % - - - - - - - - - - - - - - - - - - - - -
+\subsection{Indicating block structure}
+
+To understand the block structure and use equations like  \ref{EQ:RIG1} \dots \ref{EQ:RIG5}, 
+{\tt MicMac} will need to compute from the name of images to which camera it belongs to and 
+what were the images aquired during the same time. This is done by creating a single reversible key
+that will return $2$ values, here :
+
+\begin{verbatim}
+   <KeyedNamesAssociations>
+        <IsParametrized>  true </IsParametrized>
+        <Calcs>
+            <Arrite>  2 1 </Arrite>
+             <Direct>
+                <PatternTransform> DSCF([0-9]{4})_(.)\.jpg   </PatternTransform>
+                <CalcName> $1  </CalcName>
+                <CalcName> $2  </CalcName>
+             </Direct>
+             <Inverse>
+                <PatternTransform> (.*)%(.*) </PatternTransform>
+                <CalcName> DSCF$1_$2.jpg  </CalcName>
+                <Separateur > % </Separateur>
+             </Inverse>
+        </Calcs>
+        <Key>  Loc-Assoc-Im2Block </Key>
+    </KeyedNamesAssociations>
+\end{verbatim}
+
+The first values correspond to $k,k'$ of equation   \ref{EQ:RIG1} \dots while the second correspond
+to the $A,B \dots$.  Also it shoul be pretty obvious, here are some example of result of this key :
+
+\begin{itemize}
+    \item {\tt DSCF3297\_R.jpg}  $\Rightarrow$   {\tt 3297}  $\times$    {R};
+    \item {\tt DSCF3297\_L.jpg}  $\Rightarrow$   {\tt 3297}  $\times$    {L};
+    \item {\tt DSCF3298\_R.jpg}  $\Rightarrow$   {\tt 3298}  $\times$    {R};
+    \item \dots
+\end{itemize}
+
+
+  % - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Block estimation}
+
+The first step is to estimate the, supposed fixe, position of camera relatively to each others. For this
+we need to estimate the pose  $Q_A,Q_B \dots$ . As obviously,  everything is undeterminade up to a global
+roto-translation, we have to fix an arbirtray constraint, for example $Q_A=Id$, where $A$ is the first
+camera ({\tt MicMac} use alphabetic order to select this arbitray reference).  Then with this constraint,
+using equation \ref{EQ:RIG4}  and \ref{EQ:RIG5} , for any camera $\beta$, knowing the pose at one time 
+$k$ is sufficient to estimate  $r_{\beta}$ and $c_{\beta}$. Generally we have several $k$, and we can
+estimate a more accurate valure by simply averaging the estimation.
+
+The command {\tt Blinis} does this computation :
+
+\begin{verbatim}
+mm3d Blinis 
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full name (Dir+Pat)}
+  * string :: {Orientation in}
+  * string :: {Key for computing bloc structure}
+  * string :: {File for destination}
+\end{verbatim}
+
+
+The meaning shoud be quite obvious, and an example of use :
+
+\begin{verbatim}
+mm3d Blinis DSCF329.*jpg Ori-Basc/ Loc-Assoc-Im2Block Blinis.xml
+
+....
+=================================================
+  EstimCurOri DSCF3297_L.jpg DSCF3297_L.jpg
+    [0,0,0] -6.93889e-18 6.67869e-17 9.26854e-34
+  EstimCurOri DSCF3298_L.jpg DSCF3298_L.jpg
+    [0,0,0] 9.54098e-18 -1.06685e-16 3.19245e-33
+  EstimCurOri DSCF3299_L.jpg DSCF3299_L.jpg
+    [0,0,0] 1.38778e-17 -2.77556e-17 -5.55112e-17
+  ==========  AVERAGE =========== 
+    [0,0,0] tetas 5.49329e-18  -2.25514e-17  -1.85037e-17
+    DispTr=0 DispMat=6.21513e-17
+=================================================
+  EstimCurOri DSCF3297_L.jpg DSCF3297_R.jpg
+    [0.0772782,0.00105963,4.59993e-05] 0.00587422 0.041968 0.00953594
+  EstimCurOri DSCF3298_L.jpg DSCF3298_R.jpg
+    [0.0775943,0.00110819,0.000728747] 0.00590563 0.04163 0.00881231
+  EstimCurOri DSCF3299_L.jpg DSCF3299_R.jpg
+    [0.0775121,0.00141723,-0.00103102] 0.00589855 0.0417358 0.00904956
+  ==========  AVERAGE =========== 
+    [0.0774615,0.00119502,-8.54263e-05] tetas 0.00589282  0.041778  0.0091326
+    DispTr=0.000688418 DispMat=0.000271402
+--- End Iter 1 ETAPE 0
+\end{verbatim}
+
+{\tt MicMac} print for each time $k$ and each camera $\beta$ the value estimated of 
+$r_\beta$ and $c_\beta$.  These value will be rarely usefull, also we can observe that
+for the first camera we have almost $c_A=[0,0,0]$ and $r_A=Id$ (the angle are 
+in fact printed). The average value is also computed. In fact the only value printed
+of real insterest will generally be the dispertion :  {\tt  DispTr} and {\tt DispMat}.
+
+The interesting result of this command rely in the file created , here {\tt Blinis.xml}.
+In contains in a {\tt xml} specification, that should be pretty obvious, the value
+of the estimated block calibration.
+In our example the file contains :
+
+
+\begin{verbatim}
+<StructBlockCam>
+     <KeyIm2TimeCam>Loc-Assoc-Im2Block</KeyIm2TimeCam>
+     <LiaisonsSHC>
+          <ParamOrientSHC>
+               <IdGrp>L</IdGrp>
+               <Vecteur>0 0 0</Vecteur>
+               <Rot>
+                    <L1>1 -5.49329100725988965e-18 2.25514051876984922e-17</L1>
+                    <L2>5.49329100725988888e-18 1 1.85037170770859382e-17</L2>
+                    <L3>-2.25514051876984922e-17 -1.85037170770859382e-17 1</L3>
+                    <TrueRot>true</TrueRot>
+               </Rot>
+          </ParamOrientSHC>
+          <ParamOrientSHC>
+               <IdGrp>R</IdGrp>
+               <Vecteur>0.0774615118759180987 0.00119501688228340619 -8.54262594655412071e-05</Vecteur>
+               <Rot>
+                    <L1>0.999110080792062982 -0.00627395825477376507 -0.0417095181882368854</L1>
+                    <L2>0.00588764369540181742 0.999938688556114119 -0.0093784209968844328</L2>
+                    <L3>0.0417658007392831265 0.00912450417809996389 0.999085762741172445</L3>
+                    <TrueRot>true</TrueRot>
+               </Rot>
+          </ParamOrientSHC>
+     </LiaisonsSHC>
+</StructBlockCam>
+
+\end{verbatim}
+
+These value are coherent with the specification of the fuji camera; the $L$ camera being arbitrary
+set in identity position, we  analyse the $R$ camera :
+
+\begin{itemize}
+    \item the base is parallel to the $X$ axes:
+    \item the lenght of the base is $7.7 cm$ (approximatively the spacing between eyes of adult human);
+    \item the two camera are approximatively parralel, with a slight convergence such that the maximal overlap
+          occurs at $2 meters$.
+\end{itemize}
+
+
+  % - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Block compensation}
+
+The {\tt Blinis} command does an \emph{a posteriori} estimation of the rigid calibration,
+that is usefull to compute a reasonnable initial value, but it does not do any compensation.
+The compensation can be do in {\tt Campari} using several optional parameters.
+
+\subsubsection{Global with no attachment to known value }
+
+The first case correspond to the following hypothesis :
+
+\begin{itemize}
+    \item each block of camera is closed to the same value $Q_A, Q_B \dots $;
+    \item we don't have any good estimation of these value;
+    \item how close the camera are equals to these common value is given by the a priori
+          variance that we have to indicate  $\sigma^g_{Tr} $ and $\sigma^g_{\omega} $
+\end{itemize}
+
+Then we will add to global minimization of the bundle, the term $E(\sigma^g_{Tr},\sigma^g_{\omega})$
+given by the following equation :
+
+\begin{equation}
+      E^g(\sigma^g_{Tr},\sigma^g_{\omega}) =
+      \sum _{k,\beta}
+      (\frac{\Delta^g_{\omega}(A,\beta,k)}{\sigma^g_{\omega}}) ^2
+      +(\frac{\Delta^g_{Tr}(A,\beta,k)}{\sigma^g_{Tr}})^2
+\end{equation}
+
+Note that the term is  dissymetric as the first camera play a special role. 
+This may evolve in future versions (at least optionnaly).
+The option  {\tt BlocGlob} of Campari allow to add such term to the bundle. 
+
+\begin{verbatim}
+mm3d Campari -help
+...
+  * [Name=BlocGlob] vector<std::string> :: {Param for Glob bloc compute [File,SigmaCenter,SigmaRot,?MulFinal,?Export]}
+  * [Name=OptBlocG] vector<std::string> :: {[SigmaTr,SigmaRot]}
+  * [Name=BlocTimeRel] vector<std::string> :: {Param for Time Reliative bloc compute [File,SigmaCenter,SigmaRot,?MulFinal,?Export]}
+
+\end{verbatim}
+
+The parameter {\tt BlocGlob} is a vector that  contain $3$ mandatory values  and $2$ optionnal :
+
+\begin{itemize}
+    \item parameter $P_1$ is the name of calibration as created by the {\tt Blinis} command (or also by 
+          {\tt Campari});
+    \item parameter $P_2$ and $P_3$ correspond respectively to  $\sigma_{Tr}$ and $\sigma_{\omega}$
+    \item  parameter $P_4$ will be explained just after (default value is $1.0$);
+    \item  parameter $P_5$ is the file containing the output of new estimaded value of block calibration,
+           its defaut value is {\tt Out-}$P_1$;
+\end{itemize}
+
+The role of the parameter $P_4$ is to allow the  $\sigma_{Tr}$ and $\sigma_{\omega}$ to evolve during
+the different iteration of the bundle. It may happen that we know that "at the end" the rigidity block
+is very strict, but as we are not so well initialized, we can impose it strictly at the first iteration.
+So the value of $\sigma_{Tr}$ and $\sigma_{\omega}$ will be :
+
+\begin{itemize}
+    \item $P_2$ and $P_3$ for the first iteration;
+    \item $P_2*P_4$ and $P_3*P_4$ for the last iteration;
+    \item in between they will evolve folowing a geometric law.
+    \item note that if we want to slow down the evolution we can increase the number of iteration
+          with the {\tt NbIterEnd} parameter;
+\end{itemize}
+
+Here is an example with the data set:
+
+\begin{verbatim}
+Campari "DSCF32.*jpg" Basc Cmp GCP=[AllGCP-RTL.xml,0.3,MesuresFinales-S2D.xml,0.3] BlocGlob=[Blinis.xml,1e-3,1e-2,1e-4]
+| |  Residual = 0.721748
+
+....
+
+| |  Residual = 1.0723 ;; Evol, Moy=0.00715547 ,Max=9.87406
+...
+================================================
+  ==========  AVERAGE =========== 
+    [0,0,0] tetas 5.49329e-18  -2.25514e-17  -1.85037e-17
+    DispTr=2.09346e-16 DispMat=5.38957e-17
+=================================================
+  ==========  AVERAGE =========== 
+    [0.0765272,0.00148802,-0.00165705] tetas 0.00583192  0.0416507  0.00916005
+    DispTr=7.49798e-10 DispMat=1.22368e-07
+\end{verbatim}
+
+Note that here we have imposed a very stric constraint on the rigidity, the final sigma being
+$1e-7$ for translation and $1e-6$ for rotation. As probably this amateur camera is not completely
+rigid, this explain why the residual have grown from $0.72$ tp $1.07$.
+
+
+\subsubsection{Global with attachment to known value }
+
+Sometime we want to impose that the value $r_\beta$ and $c_\beta$ stay close
+to their initial values  $r^0_\beta$ and $c^0_\beta$ .
+How close the camera are equals to these common value is given by the a priori
+variance that we have to indicate  $\sigma^0_{Tr} $ and $\sigma^0_{\omega} $.
+We the add to the bundle minimization the term :
+
+\begin{equation}
+      E^0(\sigma^0_{Tr},\sigma^0_{\omega}) =
+      \sum _{\beta}
+      (\frac{(r^0_\beta-r_\beta)}{\sigma^0_{\omega}}) ^2
+       +(\frac{(c^0_\beta-c_\beta)}{\sigma^0 _{Tr}})^2
+\end{equation}
+
+The attachment to inial values can be specified by the {\tt OptBlocG} parameter :
+
+\begin{itemize}
+    \item  it contains to value ;
+    \item  $P_1$ is $\sigma^0 _{Tr}$ and $P_2$ is $\sigma^0 _{\omega}$
+    \item  if these parameter both value $-1$, then  $r_\beta$ and $c_\beta$ are
+           strictly contraints to be equal to $\sigma^0_{Tr} $ and $\sigma^0_{\omega} $;
+    \item  if these parameter both value $-2$,  then they are not used (may seem stupid, prepare new options).
+\end{itemize}
+
+\subsubsection{Time relative }
+
+Some time, it may happen that the block is rigid, but with a shape that evolve smoothly accross time :
+the block $k$ is close to block $k+1$ even if the final blocks can be very far from the initial one.
+How close the consecutive block are is given by the a priori variance $\sigma^t_{\omega}$ and $\sigma^t_{Tr}$ 
+This can be modelized mathematically by adding a term
+
+\begin{equation}
+      E^{t}(\sigma^t_{Tr},\sigma^t_{\omega}) =
+      \sum _{k,\beta}
+      (\frac{\Delta_{\omega}(A,\beta,k,k+1)}{\sigma^t_{\omega}}) ^2
+      +(\frac{\Delta_{Tr}(A,\beta,k,k+1)}{\sigma^t_{Tr}})^2
+\end{equation}
+
+This term can be add with the {\tt BlocTimeRel} parameter, the syntax being exactly the same that 
+with {\tt BlocGlob}.
+
+\subsubsection{Combination}
+
+When pertinent the option  {\tt BlocTimeRel} and {\tt BlocGlob} can be used 
+simultaneously, for example to modelize a global evolution linked to stay close
+to an initial known value.
 
 
 
