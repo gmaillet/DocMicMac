@@ -292,4 +292,52 @@ git checkout devel
 pip install .
 \end{verbatim}
 
+%=======================================================================================================
+
+\section{Tie point reduction , sub-vertical case with {\tt OriRedTieP}}
+
+The command {\tt OriRedTieP} treats the problem of tie points reduction in the particular case
+were the acquisition is sub-vertical (generally applyable with UAV acquisition). In this
+case, the problem of tie points reduction is easier if a global approximate orientation is known.
+As tie-points reduction aims at solving memory issue in {\tt Tapas},
+obviously this global orientation cannot come from {\tt Tapas}.
+
+But this approximate orientation can come from {\tt Martini} (\ref{Ori:Martini})
+ which is memory efficient.
+A pre-requisite to run {\tt OriRedTieP} is then to run Martini before.
+
+\begin{verbatim}
+mm3d OriRedTieP
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Pattern of images}
+Named args : 
+  * [Name=OriCalib] string :: {Calibration folder if any}
+  * [Name=Prec2P] REAL :: {Threshold of precision for 2 Points}
+  * [Name=KBox] INT :: {Internal use}
+  * [Name=SzTile] INT :: {Size of Tiles in Pixel Def=2000}
+  * [Name=DistPMul] REAL :: {Typical dist between pmult Def=200.000000}
+  * [Name=MVG] REAL :: {Multiplier VonGruber}
+  * [Name=Paral] bool :: {Do it paral, def=true}
+  * [Name=VerifNM] bool :: {(Internal) Verification of Virtual Name Manager}
+\end{verbatim}
+
+The signification of the main parameters is :
+
+\begin{itemize}
+   \item mandatory parameter the pattern of images (must be a subset of the one used with {\tt Martini};
+   \item  {\tt OriCalib} must be coherent with the parameter of same name used in {\tt Martini};
+   \item  {\tt DistPMul} control the density of points per image, it's the average distance between 
+          tie points, there is a waranty that for each images and each initial tie points, it exist
+          a selected tie point at a distance inferioir to  {\tt DistPMul}
+   \item  {\tt MVG} control the density of points per pair, for a given pair $I_1,I_2$
+          {\tt DistPMul} that $I_1$ and $I_2$ have a given density, but it does not give any warantee
+          on the point belonging to $I_1,I_2$, which may be a problem for the robustness;
+          let $D'=MVG*DistPMul$, for each pair $I_1,I_2$   there is a waranty 
+          that for each tie points of $I_1,I_2$ , it exist
+          a selected tie point of $I_1,I_2$ at a distance inferioir to  $D'$;
+\end{itemize}
+
 

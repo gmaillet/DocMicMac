@@ -1103,6 +1103,55 @@ Also the interpretation should be quite obvious, a brief comment :
   
 \end{itemize}
 
+%=======================================================================================================
+
+\section{Initial Orientation with Martini}
+
+\label{Ori:Martini}
+
+The command {\tt Martini} \footnote{MARTingale d'INItialisation} computes
+ initial values of orientation while
+aiming to solve some ressource issues of {\tt Tapas} on memory and computation time. The principle 
+of {\tt Martini} is :
+
+\begin{itemize}
+   \item  compute the relative orientation of pairs and triplet;
+   \item  build a global orientation coherent with the constraints given
+          by pairs and triplets;
+\end{itemize}
+
+Althouh the second part is still not fully satisfying, {\tt Martini} can 
+already be used now as it solve sometimes some
+orientation problem that were not solved correctly by Tapas 
+(and generally faster).  Also preliminar execution of  {\tt Martini} 
+is necessary for some commands as {\tt OriRedTieP}
+
+\begin{verbatim}
+mm3d Martini
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Image Pat}
+Named args : 
+  * [Name=OriCalib] string :: {Orientation for calibration }
+  * [Name=Exe] bool :: {Execute commands, def=true (if false, only print)}
+  * [Name=SH] string :: {Prefix Homologue , Def=""}
+\end{verbatim}
+
+
+The signification of parameters 
+
+\begin{itemize}
+   \item  first one : standard pattern of images to orientate;
+   \item  {\tt OriCalib} when given specify the folders were internal calibration can be found; as {\tt Martini} will
+          not do any adjustment of internal calibration, it is highly recommanded to use this option with a 
+          relatively good internal calibration;
+   \item  {\tt SH} if Martini must be used with a folder of homologous point different from the standard {\tt Homol/}.
+\end{itemize}
+
+The result of martini are stored in an orientation folder {\tt Ori-Martini/} when no {\tt OriCalib]} was set and
+,for example, {\tt Ori-MartiniTOTO/} if Martini was used with {\tt OriCalib=TOTO}.
 
 %=======================================================================================================
 
