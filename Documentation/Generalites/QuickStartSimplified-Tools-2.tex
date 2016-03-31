@@ -1198,3 +1198,553 @@ The two most relevant statistics are: the mean transverse parallax which is very
 \caption{(a) A satellite image, (b) the epipolar parallax (\texttt{Px1\_Num16\_DeZoom2\_Geom-Im.tif}), (c) the transverse parallax (\texttt{Px2\_Num16\_DeZoom2\_Geom-Im.tif}).}
 \label{fig:satMMTestOri}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The Viabon dataset}
+The directory {\tt Viabon/} in {\tt /micmac\_data/ExempleDoc/} contains a set of data which will allow us to perform a direct-georeferencing of images based on embedded GPS data. Below we will detail all the necessary steps to achieve maximum ground accuracy, here, in the range of {\tt 1-2 cm}. First, we will compute different GPS trajectories in order to make comparisons and in a second time we will be interested in the fusion of these results with the photogrammetric processing part.\newline
+
+This UAS acquisition has been performed by the surveying service of {\tt Vinci-Construction-Terrassement}\footnote{\url{http://www.vinci-construction-terrassement.com/}}. A {\tt DJI-F550}\footnote{\url{http://dl.djicdn.com/downloads/flamewheel/en/F550_User_Manual_v2.0_en.pdf}} hexa-copter has been used to achieve the flight. The images were acquired by the {\tt IGN} panchromatic light camera developed at the {\tt LOEMI}\footnote{Opto-Electronics, Instrumentation and Metrology Laboratory} laboratory. The GPS on-board raw measurements were acquired by the {\tt GeoCube}, a multi-sensor geo-monitoring system developed at the same laboratory.\newline
+
+The file {\tt Viabon/Pipeline-Viabon.txt} contains all command lines related to this work-flow. The data in {\tt Viabon/} directory consist of:
+\newline
+\begin{itemize}
+\item 73 nadir images in {\tt .tif} raw format
+\item {\tt 15073106.obs} rinex file of rover receiver
+\item {\tt 00012120.15O} rinex file of pivot/base station
+\item {\tt ct19212z.15o} rinex file of closest {\tt RGP}\footnote{GNSS Permanent Network: \url{http://rgp.ign.fr/}} network station
+\item {\tt ct19212z.15n} GPS satellites navigation file
+\item {\tt ct19212z.15g} Glonass satellites navigation file
+\item {\tt igs08.atx} satellites and receiver antennas calibration values
+\item {\tt CpleImgs.xml} images couples for tie points computation
+\item {\tt Pts\_GeoC.txt} ground points coordinates
+\item {\tt MesImages.xml} image measurements of ground points
+\item {\tt GCP\_LA\_Calib-RTL.xml} 1 ground control point for lever-arm calibration 
+\item {\tt CPs\_LA\_Calib-RTL.xml} check points to estimate lever-arm calibration accuracy
+\item {\tt Reduced\_GCPs-RTL.xml} reduced number of ground control points for classical georeferencing
+\item {\tt Reduced\_CPs-RTL.xml} reduced check points to estimate GCPs based georeferencing accuracy
+\item {\tt SysCoRTL.xml} file for system coordinates transformation 
+\end{itemize}
+
+\begin{figure}[H]
+    \begin{center}
+    \setlength{\unitlength}{0.5cm}
+    \includegraphics[width=0.5\linewidth]{FIGS/Viabon/panel.jpg}
+    \end{center}
+    \caption{The Viabon dataset}
+    \label{fig:iris}
+\end{figure}
+
+\subsection{Processing GPS data}
+For GPS data processing we will use {\tt RTKLIB}\footnote{\url{http://www.rtklib.com/}} an open-source software. {\tt RTKLIB} consists of several modules ({\tt convbin}, {\tt rnx2rtkp}, {\tt rtkrcv}, ...etc). We will only use {\tt rnx2rtkp} which will allow us to do post-processing of our data based on different positioning modes.
+
+\subsubsection{Compile {\tt MicMac} with {\tt RTKlib}}
+To use {\tt rnx2rtkp}, if compiling {\tt MicMac} from sources, run {\tt cmake} with {\tt -DBUILD\_RNX2RTKP} option activated as follows:
+
+\begin{verbatim}
+cmake ../ -DBUILD_RNX2RTKP=ON
+\end{verbatim}
+
+\subsubsection{Base station processing}\label{proc_pivot}
+First we use {\tt GpsProc} command to compute the position of the base station which will be used to process the UAV trajectory. The data recorded by the on-board GPS receiver are single-frequency data. This implies, for optimal accuracy, having a base station within a radius of $\sim$ 10 km. A pivot station has been installed near the acquisition area (file {\tt 00012120.15O}) . This station is a multi-constellation dual-frequency {\tt Novatel GNSS} receiver. The position of this pivot station is estimated relatively to a reference station of the French permanent {\tt GNSS} network (file {\tt ct19212z.15o}).\newline
+
+First we estimate the position of the pivot station:
+
+\begin{verbatim}
+mm3d TestLib GpsProc './' static 00012120.15O ct19212z.15o ct19212z.15n NavSys=5 
+     GloNavFile=ct19212z.15g Freq=l1_l2 AntFileRCV=igs08.atx AntFileSATs=igs08.atx 
+     AntBType=TRM55971.00
+\end{verbatim}
+
+First mandatory argument is the current directory. Second mandatory argument is the processing mode. Here we tell the software that we want to estimate a position of {\tt static} measurements. Third mandatory argument is rinex file of known station, here {\tt CT19}\footnote{\url{http://rgp.ign.fr/STATIONS/\#CT19}} of French Permanent GNSS Network. Last mandatory argument contains GPS constellation satellites navigation parameters. For optional arguments, {\tt NavSys=5} means that we use both constellations {\tt GPS} and {\tt Glonass} with respect to {\tt RTKlib} conventions\footnote{\url{http://www.rtklib.com/rtklib_document.htm}}. In this case, we need then to give the navigation file for Glonass constellation too using the optional argument {\tt GloNavFile=ct19212z.15g}. Once both receivers are dual-frequency receivers, we perform the processing in both frequencies, this is specified with the optional argument {\tt Freq=l1\_l2}. Finally, we use optional arguments to perform antennas corrections, and we specify the antenna model for {\tt CT19} as the antenna is listed in {\tt igs08.atx} file. Here, 3 files are created:\newline
+\begin{itemize}
+\item {\tt ./rtkParamsConfigs.txt} a summary of the options used by {\tt rnx2rtkp}
+\item {\tt ./Output\_static.txt} the result in {\tt RTKLIB} format
+\item {\tt ./Output\_static.xml} the result in an XML format for {\tt MicMac} internal using
+\end{itemize}
+
+\subsubsection{UAV trajectories processing}
+All UAVs board at least a single-frequency GPS chip\footnote{For example u-blox NEO-7N} that receives the L1\footnote{1575.42 MHz} C/A\footnote{Coarse/Acquisition} code signal. First, we process a trajectory based solely on this data in order to evaluate its accuracy in the case our system delivers only available code positions:
+
+\begin{verbatim}
+mm3d TestLib GpsProc './' single 15073106.obs NONE ct19212z.15n
+\end{verbatim}
+
+Here the second mandatory argument, corresponding to positioning mode, value is {\tt single}. This means that we process only rover code measurements. Next mandatory argument is the rinex file of raw measurements of rover receiver ({\tt 15073106.obs}). Any differential processing is done here, we give the value {\tt NONE}. Last mandatory argument correspond to GPS constellation satellites navigations parameters. The trajectory is saved in {\tt RTKlib} and {\tt MicMac} respectively in file {\tt Output\_single.txt} and {\tt Output\_single.xml}.\newline
+
+Assume that the GPS module of the UAV autopilot allow us to record L1 C/A code raw data. Then, it is possible to process a trajectory in differential mode based on code data (the same data used for navigation of the UAV) to improve the accuracy of the estimated trajectory:
+
+\begin{verbatim}
+mm3d TestLib GpsProc './' dgps 15073106.obs 00012120.15O ct19212z.15n 
+     AntBPosType=XYZ StaPosFile=Output_static.xml
+\end{verbatim}
+
+The positioning mode is {\tt dgps}. Here we give as input file rinex raw measurements of pivot station ({\tt 00012120.15O}). As the position has been estimated in \ref{proc_pivot}, optional arguments {\tt StaPosFile=Output\_static.xml} is used to give reference position of the pivot and {\tt  AntBPosType=XYZ} specifies the format of the given position.\newline
+
+The GPS chip embedded in the {\tt GeoCube} is a {\tt u-blox LEA-6T-0-001}\footnote{\url{https://www.u-blox.com/en/product/neolea-6t}} model. This GPS module allows recording carrier-phase raw data. As noise measurement on carrier-phase is much less important than on code measurements, we perform a differential processing based on raw phase data:
+
+\begin{verbatim}
+mm3d TestLib GpsProc './' kinematic 15073106.obs 00012120.15O ct19212z.15n 
+     AntBPosType=XYZ StaPosFile=Output_static.xml
+\end{verbatim}
+
+The positioning mode value is {\tt kinematic}. As for previous command, we give reference position of pivot station using optional arguments. Carrier-phase trajectory is stored in the files {\tt Output\_kinematic.xml} and {\tt Output\_kinematic.txt}.
+
+
+\subsection{Computing tie points}
+{\tt CpleImgs.xml} file is used with the {\tt mm3d Tapioca} command to accelerate tie points extraction. This file contains all pairs of overlapping images. We perform tie points extraction based on images sub-sampled by a factor of 3:
+
+\begin{verbatim}
+mm3d Tapioca File CpleImgs.xml 1300
+\end{verbatim}
+
+Visualize tie points between 2 images using {\tt mm3d SEL} command:
+
+\begin{verbatim}
+mm3d SEL './' image_002_00069.tif image_002_00070.tif KH=NB
+\end{verbatim}
+
+\begin{figure}[H]
+    \begin{center}
+    \setlength{\unitlength}{0.5cm}
+    \includegraphics[width=0.5\linewidth]{FIGS/Viabon/sel.png}
+    \end{center}
+    \caption{Tie points visualization}
+    \label{fig:sel}
+\end{figure}
+
+\subsubsection{Computing exterior orientation}
+
+To speed up the relative orientation computation, the images bloc is initialized using {\tt mm3d Martini} command used for large bloc. {\tt mm3d AperiCloud} command is used to export images estimated exterior parameters in a {\tt .ply} file format and one can visualize it using the free and open-source software {\tt meshlab}:
+
+\begin{verbatim}
+mm3d Martini "image_002_00*.*tif"
+mm3d AperiCloud "image_002_00*.*tif" Martini
+meshlab AperiCloud_Martini.ply
+\end{verbatim}
+
+\begin{figure}[H]
+    \begin{center}
+    \setlength{\unitlength}{0.5cm}
+    \includegraphics[width=0.5\linewidth]{FIGS/Viabon/apericloud.png}
+    \end{center}
+    \caption{Bloc visualization}
+    \label{fig:sel}
+\end{figure}
+
+
+The command {\tt mm3d Tapas} is used to perform relative orientation based on the bloc initialization computed before and we use the {\tt RadialStd} camera model which has 8 degrees of freedom:
+
+\begin{verbatim}
+mm3d Tapas RadialStd "image_002_00*.*tif" InOri=Martini Out=All-RS
+mm3d AperiCloud "image_002_00*.*tif" All-RS
+meshlab AperiCloud_All-RS.ply
+\end{verbatim}
+
+\subsubsection{GPS positions \& Camera centers matching}
+Time synchronization of sensors (camera \& GPS) was conducted in the laboratory. The electronic delay is negligible ($\sim$ 0.5 ms) and the GPS receiver is in charge of triggering the camera. This means that image centers are aligned with GPS positions. However, sampling of both trajectories is different, the camera does not have an internal clock (no time information in {\tt exif} meta-data) and camera triggering is not dated in the GPS time-scale. The identification of corresponding positions is done by computing the best correlation score of distances ratios curves and by testing all possible time shifts using {\tt mm3d TestLib MatchCenters}:
+
+\begin{verbatim}
+mm3d TestLib MatchCenters './' Ori-All-RS/ Output_single.xml "image_002_00*.*tif"
+mm3d TestLib MatchCenters './' Ori-All-RS/ Output_dgps.xml "image_002_00*.*tif"
+mm3d TestLib MatchCenters './' Ori-All-RS/ Output_kinematic.xml "image_002_00*.*tif"
+\end{verbatim}
+
+The output files ({\tt Ori-Output\_single.txt}, ...) gives for each image the corresponding GPS position. Then, the {\tt mm3d OriConvert} command is used to convert the resulting file into {\tt Ori-XXX/ .xml} format orientations folder and performing at the same time a coordinate system transformation using optional argument {\tt ChSys}:
+
+\begin{verbatim}
+mm3d OriConvert "#F=N_X_Y_Z" Ori-Output_single.txt Nav-Code ChSys=GeoC@SysCoRTL.xml
+mm3d OriConvert "#F=N_X_Y_Z" Ori-Output_dgps.txt Nav-DCode ChSys=GeoC@SysCoRTL.xml
+mm3d OriConvert "#F=N_X_Y_Z" Ori-Output_kinematic.txt Nav-DPhase ChSys=GeoC@SysCoRTL.xml
+\end{verbatim}
+
+At this step we performed different GPS trajectories calculations. We also have a set of images positions/orientations computed based on bundle block adjustment using only tie points. Also, we have for each GPS trajectory solution (absolute code, differential code and differential carrier-phase) correspondences between GPS positions and images centers that will allow us to convert the relative external orientation into absolute one.
+
+\subsubsection{Images georeferencing}\label{sec_basc}
+Let's first convert Ground Control Points file from {\tt .txt} to {\tt .xml MicMac} format using the {\tt mm3d GCPConvert} command and performing at the same time a coordinate system transformation using the optional argument {\tt ChSys}:
+
+\begin{verbatim}
+mm3d GCPConvert "#F=N_X_Y_Z_Ix_Iy_Iz" Pts_GeoC.txt Out=AllPts-RTL.xml 
+     ChSys=GeoC@SysCoRTL.xml
+\end{verbatim}
+
+Here we start by comparing raw similarity transformations using different GPS processing results performed above. First for absolute navigation using code measurements. The command {\tt mm3d CenterBascule} is used to generate absolute orientations, here stored in the folder {\tt Ori-Bascule-RS-Code/}. Then the command {\tt mm3d GCPCtrl} is used to control accuracy on the ground by computing residuals on all available points here all considered as check points:
+
+\begin{verbatim}
+mm3d CenterBascule "image_002_00*.*tif" Ori-All-RS/ Ori-Nav-Code/ Bascule-RS-Code
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Bascule-RS-Code/ AllPts.xml MesImages.xml
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=140.12 for Cam=image_002_00100.tif and Pt=7 ; MoyErr=130.967
+======================================================================
+=== GCP STAT ===  Dist,  Moy=1.52601 Max=1.65398
+\end{verbatim}
+% XYZ , MoyAbs=[0.902746,1.12483,0.466344] 
+%       Max=[1.10388,1.42946,0.557705] 
+%       Bias=[-0.902746,1.12483,0.466344]
+
+
+Here for differential code trajectory processed:
+
+\begin{verbatim}
+mm3d CenterBascule "image_002_00*.*tif" Ori-All-RS/ Ori-Nav-DCode/ Bascule-RS-DCode
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Bascule-RS-DCode/ AllPts.xml MesImages.xml
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=71.3855 for Cam=image_002_00058.tif and Pt=1 ; MoyErr=53.4976
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.640848 Max=0.844784
+\end{verbatim}
+
+% XYZ , MoyAbs=[0.144261,0.576277,0.1939] 
+%       Max=[0.271985,0.819833,0.332405] 
+%       Bias=[-0.0568969,-0.576277,0.1939]
+
+
+Here for differential carrier-phase trajectory processed:
+
+\begin{verbatim}
+mm3d CenterBascule "image_002_00*.*tif" Ori-All-RS/ Ori-Nav-Dphase/ Bascule-RS-DPhase
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Bascule-RS-DPhase/ AllPts.xml MesImages.xml
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=40.8538 for Cam=image_002_00076.tif and Pt=4 ; MoyErr=21.3675
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.32083 Max=0.470131
+\end{verbatim}
+% XYZ , MoyAbs=[0.107108,0.130186,0.244281] 
+%       Max=[0.285027,0.371262,0.284798] 
+%       Bias=[0.0423598,0.107904,0.244281]
+
+
+We notice after the three georeferencing computations that the reprojection error is improved by a factor of $\sim$ $2.5$ (for this dataset) when code measurements are used in differential mode ({\tt dgps}. The best georeferencing results are obtained using the calculated trajectory based on differential carrier-phase measurements ({\tt MoyErr $\sim$ 21 px}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Bundle Bloc Adjustment with GPS observations and lever-arm offset}
+Here we perform, with the {\tt mm3d Campari} command, a heterogeneous compensation using tie points and GPS camera positions estimated using GPS observations. In addition, here we take into account the fact that camera optical center and GPS antenna phase center are separated by a vector called the lever-arm offset using the optional argument {\tt GpsLa}.\newline
+
+For bundle block adjustment using C/A code positions, planimetric uncertainty is fixed to $3\ m$ and vertical component uncertainty is fixed to $5\ m$ in the optional argument {\tt EmGPS}:
+
+\begin{verbatim}
+mm3d Campari "image_002_00*.*tif" Ori-Bascule-RS-Code/ Compense-RS-Code-La
+     EmGPS=[Ori-Nav-Code/,3,5] GpsLa=[0,0,0]
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-RS-Code-La/ AllPts-RTL.xml MesImages.xml
+
+LA: [0.263412,0.034836,-2.03753]
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=212.782 for Cam=image_002_00110.tif and Pt=10 ; MoyErr=195.637
+======================================================================
+=== GCP STAT ===  Dist,  Moy=2.89733 Max=2.96082
+\end{verbatim}
+% XYZ , MoyAbs=[0.738366,1.15665,2.54211] 
+%       Max=[0.962214,1.52439,2.6305] 
+%       Bias=[-0.738366,1.15665,2.54211]
+
+
+Here using as embedded GPS trajectory the one computed based on differential code measurements, where planimetric uncertainty is fixed to $0.8\ m$ and vertical component uncertainty is fixed to $1\ m$ :
+
+\begin{verbatim}
+mm3d Campari "image_002_00*.*tif" Ori-Bascule-RS-DCode/ Compense-RS-DCode-La 
+     EmGPS=[Ori-Nav-DCode/,0.8,1] GpsLa=[0,0,0]
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-RS-DCode-La/ AllPts-RTL.xml MesImages.xml
+\end{verbatim}
+
+Here using differential carrier-phase measurements estimated GPS trajectory where planimetric uncertainty is fixed to $1.5\ cm$ and vertical component uncertainty is fixed to $2.5\ cm$:
+\begin{verbatim}
+mm3d Campari "image_002_00*.*tif" Ori-Bascule-RS-DPhase/ Compense-RS-DPhase-La 
+     EmGPS=[Ori-Nav-DPhase/,0.015,0.025] GpsLa=[0,0,0]
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-RS-DPhase-La/ AllPts-RTL.xml MesImages.xml
+
+LA: [0.10641,-0.0544187,-0.462974]
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=18.6601 for Cam=image_002_00074.tif and Pt=3 ; MoyErr=12.5342
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.282267 Max=0.309341
+\end{verbatim}
+% XYZ , MoyAbs=[0.048043,0.0372321,0.271409] 
+%       Max=[0.12457,0.115034,0.292502] 
+%       Bias=[0.0447981,0.0300201,0.271409]
+
+
+
+We note here that the bundle block adjustment using all available observations improves the accuracy for the last GPS trajectory (the most accurate computed on carrier-phase measurements) while for trajectories based on code measurements residuals on check points are more important compared to the results of a similarty estimation without any compensation \ref{sec_basc}. This is due to the fact that the high uncertainty on code estimated trajectories strongly impacts the estimation of lever-arm offset during the compensation.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Advanced internal camera model}
+Here we use a high degree distortion polynomial function. While the {\tt RadialStd} model used above contains 3 polynomial coefficients $(r^{3}, r^{5}, r^{7})$, the {\tt Four15x2} contains 7 polynomial coefficients $(r^{3}, \dots, r^{15})$. The optional argument {\tt DegRadMax=3} means that we stop at the third polynomial coefficient. The optional argument {\tt DegGen=0} means that we are note taking into account XY systematism for now. This strategy is used (several steps) to initialize internal calibration. From this section we will only use the results of the calculated GPS trajectory based on carrier-phase measurement in order not to overload the tutorial.
+
+\begin{verbatim}
+mm3d Tapas Four15x2 "image_002_00*.*tif" DegGen=0 DegRadMax=3 Out=Calib-Four
+mm3d CenterBascule "image_002_00*.*tif" Ori-Calib-Four/ Ori-Nav-DPhase/ Bascule-CF-DPhase
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Bascule-CF-DPhase/ AllPts-RTL.xml MesImages.xml
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=19.4863 for Cam=image_002_00076.tif and Pt=4 ; MoyErr=9.30796
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.11394 Max=0.221325
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
+       
+mm3d Campari "image_002_00*.*tif" Ori-Bascule-CF-DPhase/ Compense-CF-DPhase-La 
+     EmGPS=[Ori-Nav-DPhase/,0.015,0.025] GpsLa=[0,0,0]
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-CF-DPhase-La/ AllPts-RTL.xml MesImages.xml
+
+LA: [0.0959945,-0.0505342,-0.360517]
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=11.8484 for Cam=image_002_00074.tif and Pt=3 ; MoyErr=8.97186
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.209958 Max=0.226384
+\end{verbatim}
+% XYZ , MoyAbs=[0.0502763,0.0726891,0.0525736] 
+%       Max=[0.12986,0.185215,0.0771205] 
+%       Bias=[0.0140931,0.0675433,0.0525736]
+% XYZ , MoyAbs=[0.0368879,0.0276879,0.203427] 
+%       Max=[0.0744239,0.0623045,0.220685] 
+%       Bias=[0.0368879,0.0267416,0.203427]
+
+
+Here we add general parameters of degree 2.
+
+\begin{verbatim}
+mm3d Tapas Four15x2 "image_002_00*.*tif" InOri=Calib-Four DegGen=2 Out=All-F15
+mm3d CenterBascule "image_002_00*.*tif" Ori-All-F15/ Ori-Nav-DPhase/ Bascule-AF15-DPhase
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Bascule-AF15-DPhase/ AllPts-RTL.xml MesImages.xml
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=7.62354 for Cam=image_002_00081.tif and Pt=4 ; MoyErr=5.11739
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.0659771 Max=0.0942006
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+mm3d Campari "image_002_00*.*tif" Ori-Bascule-AF15-DPhase/ Compense-AF15-DPhase-La 
+     EmGPS=[Ori-Nav-DPhase/,0.015,0.025] GpsLa=[0,0,0]
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-AF15-DPhase-La/ AllPts-RTL.xml 
+     MesImages.xml
+
+LA: [0.0949466,-0.0561756,-0.261616]
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=9.8082 for Cam=image_002_00071.tif and Pt=6 ; MoyErr=7.29489
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.163896 Max=0.178663
+\end{verbatim}
+% XYZ , MoyAbs=[0.0134737,0.0464153,0.0425904] 
+%       Max=[0.0346904,0.0715495,0.0579509] 
+%       Bias=[0.000782376,0.0464153,-0.0425904]
+% XYZ , MoyAbs=[0.035135,0.0260355,0.157814] 
+%       Max=[0.0470617,0.0311468,0.173106] 
+%       Bias=[0.035135,0.0260355,0.157814]
+
+
+Here we add a general polynomial model. Only additional distortion is estimated to avoid over parametrized problems.
+
+\begin{verbatim}
+mm3d Tapas AddPolyDeg7 "image_002_00*.*tif" InOri=All-F15 Out=All-F15-AddP7
+mm3d CenterBascule "image_002_00*.*tif" Ori-All-F15-AddP7/ Ori-Nav-DPhase/ 
+     Bascule-AF15P7-DPhase
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Bascule-AF15P7-DPhase/ AllPts-RTL.xml MesImages.xml
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=7.1342 for Cam=image_002_00081.tif and Pt=4 ; MoyErr=5.69632
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.0932433 Max=0.106558
+       
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+mm3d Campari "image_002_00*.*tif" Ori-Bascule-AF15P7-DPhase/ Compense-AF15P7-DPhase-La 
+     EmGPS=[Ori-Nav-DPhase/,0.015,0.025] GpsLa=[0,0,0]
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-AF15P7-DPhase-La/ AllPts-RTL.xml 
+     MesImages.xml
+
+LA: [0.094229,-0.0559327,-0.239925]
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=8.45862 for Cam=image_002_00071.tif and Pt=6 ; MoyErr=6.2671
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.138502 Max=0.153681
+\end{verbatim}
+% XYZ , MoyAbs=[0.00782783,0.0369233,0.0849156] 
+%       Max=[0.0232894,0.0425794,0.100516] 
+%       Bias=[0.00663347,0.0369233,-0.0849156]
+% XYZ , MoyAbs=[0.0319211,0.0223887,0.132801] 
+%       Max=[0.0385501,0.028264,0.148706] 
+%       Bias=[0.0319211,0.0223887,0.132801]
+
+
+
+We perform the same processing by releasing the focal and the principal point as parameters to be reestimated using optional arguments {\tt FocFree \& PPFree}. We keep the best exterior orientations after compensation which is {\tt Ori-Compense-AF15P7-DPhase-La/} performing $\sim 6\ px$ mean reprojection error. Since the camera model here is quite complex with a large number of parameters, it is not reliable to release all parameters during the compensation.
+\begin{verbatim}
+mm3d Campari "image_002_00*.*tif" Ori-Bascule-AF15P7-DPhase/ Compense-AF15P7-DPhase-La 
+     EmGPS=[Ori-Nav-DPhase/,0.015,0.025] GpsLa=[0,0,0] FocFree=true PPFree=true
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-AF15P7-DPhase-La/ AllPts-RTL.xml MesImages.xml
+
+LA: [0.0931686,-0.0576498,-0.148083]
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=7.36595 for Cam=image_002_00071.tif and Pt=6 ; MoyErr=5.67418
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.106254 Max=0.120522
+\end{verbatim}
+% XYZ , MoyAbs=[0.0343737,0.0236073,0.0975746] 
+%       Max=[0.0406817,0.0302955,0.113167] 
+%       Bias=[0.0343737,0.0236073,0.0975746]
+
+
+\subsubsection{Direct georeferencing using embedded GPS and 1 GCP}
+
+We perform the same processing by releasing the same internal parameters as above and introducing a constraint using 1 GCP using the optional argument {\tt GCP}. The value $0.1$ is a multiplicative factor of the uncertainty field already given in the file {\tt GCP\_LA\_Calib-RTL.xml} and whose value is fixed at $1\ cm$ for planimetric components and $2\ cm$ for vertical component. On the hand, as the number of tie points is more important in the compensation, one should sometimes try to give more weight to external measurement, special when its number is very low, as here, we have only one GCP measurements. That is why the value $0.1$ means that weight of this measurement is more important ($10$ times) in order to constraint the parameters estimation during the compensation. We can verify with a value of $1$ instead of $0.1$ that the accuracy on check points is two times worse.
+
+\begin{verbatim}
+mm3d Campari "image_002_00*.*tif" Ori-Bascule-AF15P7-DPhase/ Compense-AF15P7-DPhase-La 
+     EmGPS=[Ori-Nav-DPhase/,0.015,0.025] GpsLa=[0,0,0] 
+     FocFree=true PPFree=true GCP=[GCP_LA_Calib-RTL.xml,0.1,MesImages.xml,0.5]
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-AF15P7-DPhase-La/ CPs_LA_Calib-RTL.xml
+     MesImages.xml
+
+LA: [0.0943014,-0.0574927,-0.146457]
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=1.84504 for Cam=image_002_00121.tif and Pt=5 ; MoyErr=0.933554
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.0124384 Max=0.0270012
+\end{verbatim}
+
+
+
+We show that with no prior calibration and with a cheap GPS receiver, it is possible to achieve with only one single ground control point an absolute georeferencing of camera poses with an accuracy of $\sim\ 1\ px$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Classical GCPs indirect georeferencing}
+We perform here a classical conversion of relative camera poses into absolute ones using (a reduced number) ground control points with the {\tt mm3d GCPBascule} command:
+
+\begin{verbatim}
+mm3d GCPBascule "image_002_00*.*tif" Ori-All-F15-AddP7/ Basc-GCPs-F15-AddP7 
+     Reduced_GCPs-RTL.xml MesImages.xml
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Basc-GCPs-F15-AddP7/ 
+     Reduced_CPs-RTL.xml MesImages.xml
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=1.01048 for Cam=image_002_00071.tif and Pt=6 ; MoyErr=0.722451
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.00770411 Max=0.0182981
+\end{verbatim}
+% XYZ , MoyAbs=[0.00264803,0.00210967,0.00585032] 
+%       Max=[0.00618531,0.00618894,0.0181147] 
+%       Bias=[0.000442639,0.000222271,0.00338126]
+
+
+We perform a bundle block adjustment using reduced ground control points in the compensation and releasing some internal parameters of the camera.
+
+\begin{verbatim}
+mm3d Campari "image_002_00*.*tif" Basc-GCPs-F15-AddP7 Compense-GCPs-F15-AddP7 
+     GCP=[Reduced_GCPs-RTL.xml,1,MesImages.xml,0.5] FocFree=true PPFree=true
+     
+mm3d GCPCtrl "image_002_00*.*tif" Ori-Compense-GCPs-F15-AddP7/ 
+     Reduced_CPs-RTL.xml MesImages.xml
+
+============================= ERRROR MAX PTS FL ======================
+   ||    Value=0.945775 for Cam=image_002_00071.tif and Pt=6 ; MoyErr=0.706563
+======================================================================
+=== GCP STAT ===  Dist,  Moy=0.00779557 Max=0.0187995
+\end{verbatim}
+% XYZ , MoyAbs=[0.00262473,0.00204268,0.00616358] 
+%       Max=[0.00629295,0.00574147,0.0186228] 
+%       Bias=[0.000515243,0.000266434,0.00443823]
+
+
+\subsection{Dense Matching and Orthorectification}
+First, we export optimal dataset of camera poses, here using GPS measurements, in a .ply format using the {\tt mm3d AperiCloud} command.
+\begin{verbatim}
+mm3d AperiCloud "image_002_00*.*tif" Ori-Compense-AF15P7-DPhase-La/
+\end{verbatim}
+
+Then, with the {\tt mm3d SaisieMasqQT} command, we draw a 3d polygon in order to limit the area of matching.
+\begin{verbatim}
+mm3d SaisieMasqQT AperiCloud_Compense-AF15P7-DPhase-La.ply
+\end{verbatim}
+
+\begin{figure}[H]
+    \begin{center}
+    \setlength{\unitlength}{0.5cm}
+    \includegraphics[width=0.4\linewidth]{FIGS/Viabon/masq3d.png}
+    \end{center}
+    \caption{Drawing a mask}
+    \label{fig:sel}
+\end{figure}
+
+The {\tt mm3d PIMs} command is used to generate the digital surface model using the mode {\tt QuickMac}. The optional arguments {\tt Masq3D} and {\tt FilePair} are used to speed up the processing time cost.
+\begin{verbatim}
+mm3d PIMs QuickMac "image_002_00*.*tif" Ori-Compense-AF15P7-DPhase-La/ 
+     Masq3D=AperiCloud_Compense-AF15P7-DPhase-La_polyg3d.xml 
+     Out=NuageGps.ply FilePair=CpleImgs.xml
+\end{verbatim}
+
+We use {\tt mm3d PIMs2Mn} command to merge the result of the stereo depth maps computed above. The optional argument {\tt DoOrtho} is used to generate individual orthoimages.
+\begin{verbatim}
+mm3d PIMs2Mnt QuickMac DoOrtho=1
+\end{verbatim}
+
+The orthomosaic image is generated using the {\tt mm3d Tawny} command without performing any radiometric equalization.
+\begin{verbatim}
+Tawny PIMs-ORTHO/ RadiomEgal=false
+\end{verbatim}
+
+\begin{figure}[H]
+    \begin{center}
+    \setlength{\unitlength}{0.5cm}
+    \includegraphics[width=0.4\linewidth]{FIGS/Viabon/ortho.png}
+    \end{center}
+    \caption{Orthoimage}
+    \label{fig:sel}
+\end{figure}
+
+The shading image of depth map is computed using the {\tt mm3d Grshade} command.
+\begin{verbatim}
+mm3d Grshade PIMs-TmpBasc/PIMs-Merged_Prof.tif Out=Shading.tif ModeOmbre=IgnE
+\end{verbatim}
+
+\begin{figure}[H]
+    \begin{center}
+    \setlength{\unitlength}{0.5cm}
+    \includegraphics[width=0.4\linewidth]{FIGS/Viabon/shading.png}
+    \end{center}
+    \caption{Shading image}
+    \label{fig:sel}
+\end{figure}
+
+To convert the depth map into a hypsometric representation we use the {\tt mm3d to8Bits} command.
+\begin{verbatim}
+mm3d to8Bits PIMs-TmpBasc/PIMs-Merged_Prof.tif Out=Hypso.tif Circ=1
+\end{verbatim}
+
+\begin{figure}[H]
+    \begin{center}
+    \setlength{\unitlength}{0.5cm}
+    \includegraphics[width=0.4\linewidth]{FIGS/Viabon/hypso.png}
+    \end{center}
+    \caption{Hypsometric image}
+    \label{fig:sel}
+\end{figure}
+
+The command {\tt mm3d Nuage2Ply} is used to export a dense points cloud.
+\begin{verbatim}
+mm3d Nuage2Ply PIMs-TmpBasc/PIMs-Merged.xml Scale=1 Attr=PIMs-ORTHO/Orthophotomosaic.tif 
+     RatioAttrCarte=2 Out=GpsNuage.ply
+\end{verbatim}
+
+Visualization of the 3d points cloud using {\tt meshlab}.
+\begin{verbatim}
+meshlab GpsNuage.ply
+\end{verbatim}
