@@ -2,7 +2,7 @@
 
    * plus maintenable : utilisable comme librairie
    * documente , test de non regression
-   * s'appuyer des le depart sur qq outils standard (boost ?)
+   * s'appuyer des le depart sur qq outils standard (boost , eigen ?)
 
    * Interface ? Pas en premier but, mais peut etre indirectement => facilite le de developpement d'une interface. Autre option le faire des le depart pour prendre en compte les contraites que cela impose.
 
