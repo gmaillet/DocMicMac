@@ -62,6 +62,64 @@ The MicMac tag for this parameters are:
 
 
 
+%=================================================================
+
+\section{Exporting the score}
+
+\subsection{Default behaviour}
+
+{\tt Malt}  generate an image which for each pixel
+$i,j$ contains   $Corr(i,j,Z_{Opt}(i,j))$  where $Z_{Opt}(i,j))$
+is the solution computed by {\tt Malt}.
+
+Internally these value are normlized between $-1$ and $1$ 
+\footnote{which is "natural" when it is the centered correlation coefficient}
+and they  are resampled between $0$ and $255$. Visualized as black and white
+images, the white correspond to "good" matches.
+
+The name of the file containing this correlation maps are Correl\_STD-MALT\_Num\_XXX.tif
+In MicMac , it is possible to generate or not this images with the tag {\tt <GenImagesCorrel>}.
+
+\subsection{Exporting the correlation cube}
+
+Sometime the user may  want to know $Corr(i,j,k)$ not only for $k=,Z^{Opt}(i,j)$ for all 
+the computed value. This is possible using {\tt GCC} with {\tt Malt} and {\tt GenCubeCorrel}
+in {\tt MicMac}. The structure of the data is a bit more comple as, due to the multi
+scale approach of {\tt MicMac}, $Corr(i,j,k)$ is not computed  for  all $k$ but only
+for $k \in [Z^{Min}(i,j),Z^{Max}(i,j)]$; also due to the parallelization in independant
+process, the export is done independantly for each tile. The structure is the following :
+
+\begin{itemize}
+    \item  for each step $k$ of the macthing a folder {\tt Cubek} is created;
+    \item  for each tile  :
+    \begin{itemize}
+          \item   let {\tt X,Y}  be the origin of the tile (pixel $(0,0)$ of this tile will correspond to {\tt X,Y} of the  the global data);
+          \item   two files  {\tt Data\_X\_Y\_ZMin.tif} and {\tt Data\_X\_Y\_ZMax.tif}
+                  are created, these files are $16$ bits signed tiff images, and contain the $Z^{Min}(i,j)$ and $Z^{Max}(i,j)$;
+          \item    a file   {\tt  Data\_X\_Y\_Cube.dat} is created, it is a raw file that contains on after each other
+                   the $Corr(i,j,k)$, normalized between $0$ and $255$ , and store on $8$ bits unsigned int;
+                    the order of storage is  :
+                   \begin{itemize}
+                         \item     $Corr(0,0,Z^{Min}(0,0))$   $Corr(0,0,Z^{Min}(0,0)+1)$  \dots $Corr(0,0,Z^{Max}(0,0)-1)$
+                         \item     $Corr(1,0,Z^{Min}(1,0))$   $Corr(1,0,Z^{Min}(1,0)+1)$  \dots $Corr(1,0,Z^{Max}(1,0)-1)$
+                         \item     \dots
+                   \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+
+
+
+For user interested, the code generating the data  can be found in 
+{\tt src/uti\_phgrm/MICMAC/cSurfaceOptimiseur.cpp},
+looking for the variable {\tt mCubeCorrel}.
+
+
+
+
+
+
+
 
 
 
