@@ -1,0 +1,208 @@
+\chapter{Algorithm on orientation}
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\section{Tomasi-Kanabe}
+
+This section give a brief description of the Tomasi-Kanabe algorithm
+that is (will be) used in Martini as as suplementary test of
+orientation for long focal camera. See~\cite{TomKan} , the original paper,
+for more details.
+
+
+Let $C_1,C_2, \dots C_N$ be $N$ camera with infinite focal lentgh, classically
+the projection fonction are otho centric projection, and there is a strict redundancy
+between principal-point/origin and  focal/origin. The projection $\pi_k$ fonction on camera $C_k$
+can be given by :
+
+\begin{equation}
+   \pi_k(P) =  (A_k,B_k)   + S_k * (i_k . P , j_k.P) \label{TomKanProj}
+\end{equation}
+
+Where :
+
+\begin{itemize}
+   \item  the translation $(A_k,B_k)$ represent the "principal point/origin on X,Y"
+   \item  the scaling factor $S_k$ represent the "focal legnth/origin on Z"
+   \item  $i_k$ and $j_k$ are the axes of the camera they are the two first vector
+          of an othonorme base $||i_k|| = ||j_k|| = 1$ , $i_k . j_k = 0 $ ,
+          we note $k_k = i_k \wedge j_k$.
+\end{itemize}
+
+
+Having $M$ point seen in the $N$ camera  (we know the projection of these point but not their $3$ coordinates) we note :
+
+\begin{itemize}
+    \item $P_m , m \in[1,M]$  the unknown $3d$ coordinates of the $m^{th}$ points;
+    \item $(u_{n,m},v_{n,m}), m \in[1,M], n \in [1,N] $   the $2d$ coordinates of projection
+          of $m^{th}$ points in $n^{th}$ camera;
+    \item we have :
+\end{itemize}
+
+\begin{equation}
+    \pi_n(P_m) = (u_{n,m},v_{n,m})
+\end{equation}
+As the repair in which we want to express $P_k$ is arbirtrary, we decide to  set the 
+origin at the center of mass; we then have   :
+
+
+\begin{equation}
+   \sum_{m=1}^{M} P_m = 0 \label{TomKanCDM}
+\end{equation}
+
+As equation~\ref{TomKanProj} is linear : 
+
+
+\begin{equation}
+     \forall n : \sum_{m=1}^{M} \pi_n(P_m)  
+     =  (A_n,B_n) * M + S *(i_n. \sum_{m=1}^{M} P_m,j_n. \sum_{m=1}^{M} P_m)
+     = (A_n,B_n) * M
+     = \sum_{m=1}^{M} (u_{n,m},v_{n,m})
+\end{equation}
+
+So we see that $A_n,B_n$ can easily be computed by  :
+
+
+\begin{equation}
+   A_n = \frac{\sum_{m=1}^{M}u_{n,m}}{M} ;
+   B_n = \frac{\sum_{m=1}^{M}v_{n,m}}{M} ; \label{TomKanAB}
+\end{equation}
+
+To allegeate notation as in~\cite{TomKan}, we suppose we begin normalise $u_{n,m}$ and $v_{n,m}$ 
+by substracting the center of mass, and equation~\ref{TomKanAB} resume to $A_n=B_n=0$.
+
+
+\begin{equation}
+   (u_{n,m},v_{n,m}) =  \pi_n(P_m) =   S_n * (i_n . P_m, j_n.P_m) \label{TomKanProj2}
+\end{equation}
+
+
+We note $M^u_v$ the matrix :
+
+
+\begin{equation}
+M^u_v=
+\left( \begin{array}{cccc} 
+             u_{1,1} & u_{2,1}  & \dots & u_{N,1} \\ 
+             u_{1,2} & u_{2,2}  & \dots & u_{N,2} \\
+              \dots &  \dots  & \dots &   \dots   \\
+             u_{1,M} & u_{2,M}  & \dots & u_{N,M} \\
+             v_{1,1} & v_{2,1}  & \dots & v_{N,1} \\ 
+              \dots &  \dots  & \dots &   \dots   \\
+             v_{1,M} & v_{2,M}  & \dots & v_{N,M} 
+        \end{array} 
+\right)
+\end{equation}
+
+
+\begin{equation}
+   M^u_v= \left( \begin{array}{ccc} 
+             S_1*i^x_1 & S_1*i^y_1 & S_1*i^z_1 \\
+             S_2*i^x_2 & S_2*i^y_2 & S_2*i^z_2 \\
+             \dots & \dots & \dots \\
+             S_M*i^x_M & S_M*i^y_M & S_M*i^z_M \\
+             S_1*j^x_1 & S_1* j^y_1 & S_1* j^z_1 \\
+             \dots & \dots & \dots \\
+             S_M*j^x_M & S_M*j^y_M & S_M*j^z_M 
+        \end{array} 
+\right)
+       *
+        \left( \begin{array}{cccc} 
+             P^x_1 & P^x_2 &  \dots & P^x_N \\
+             P^y_1 & P^y_2 &  \dots & P^y_N \\
+             P^z_1 & P^z_2 &  \dots & P^z_N \
+        \end{array} 
+        \right)
+     = M^i_j * M^P
+    \label{TomKanFactMUV}
+\end{equation}
+
+
+
+We can still
+suppose that $M^i_j$ is a square Matrix by padding is with $0$ column of lines.
+Padding it with $0$ column correspond to add the projection of a point of coordinate
+ $(0,0,0)$, padding with $0$ line correspond to add a camera with scaling factor $0$.
+Using a singular value decomposition $M^u_v$ can be written :
+
+
+\begin{equation}
+   M^u_v=   ^t R_1 \Delta R_2
+\end{equation}
+
+With  :
+
+\begin{itemize}
+   \item  $R_1 ^t R1 = Id$  
+   \item  $R_2 ^t R2 = Id$  
+   \item  $\Delta$ diagonal matrix.
+\end{itemize}
+
+As $M^i_j$ (or $M^p$) is of rank $3$, $M^u_v$ is also of rank $3$.  So  theoretically, $\Delta$  has only $3$
+non zero value, due to numerical erroe in $u_{n,m},v_{n,m}$ and in computation, it may be different; however,
+ $\Delta$  can be best approximated by the $3*3$ matrix corresponing to the highest eigen value. Suppressing
+the corresponding row of $R_1$ and column of $R_2$ we obtain a
+decomposition of $M^u_v$ in the form :
+
+\begin{equation}
+   M^u_v=   r_1  \delta r_2
+\end{equation}
+
+Witj $\delta$ a $3*3$ matrix, $r_1$ a $N*3$ matrix and $r_2$ a $3*N$ matrix, seting arbirtarily 
+$r'_2 =  \delta r_2$, we can write  :
+
+\begin{equation}
+   M^u_v=   r_1   r'_2
+\end{equation}
+
+
+Also this formula is close to~\ref{TomKanFactMUV}, we cannot identify $M^i_j=r_1$ and $ M^P=r'_2$
+because the decomposition is far from unique, in fact for any $3*3$ matrix $Q$, we can write :
+
+\begin{equation}
+   M^u_v=   (r_1 Q) ( Q^{-1}  r'_2)
+\end{equation}
+
+To determine $Q$ we are now using the fact that  the $(i_m,j_m)$ are orthonormal, we set 
+
+
+\begin{equation}
+   M^u_v=   ^t \left( \begin{array}{ccccccc} I_1, I_2 \dots & I_M & J_1 & \dots & J_M 
+        \end{array} 
+\right)
+\end{equation}
+
+
+And we can write the metric constraints :
+
+\begin{itemize}
+   \item  $  ^t I_1 Q ^t Q I_1 = 1 $
+   \item  $  ^t J_1 Q ^t Q J_1 = 1 $
+   \item  $\forall n :  ^t I_n Q ^t Q J_n = 0 $
+   \item  $\forall n \neq 1 :  ^t I_n Q ^t Q I_n =  ^t J_n Q ^t Q J_n   $
+\end{itemize}
+
+As $Q ^t Q$ is a symetric matrix, we can estimate it  by least mean square using the
+above linear equation. Knowing $W= Q ^t Q$, it's easy to recover $Q$, we do a singular
+value decomposition of $W$ :
+
+\begin{equation}
+    W =  ^t R D R
+\end{equation}
+
+We can compute a possible value of $Q$ by
+
+\begin{equation}
+    Q  =  ^t R  \sqrt{D}
+\end{equation}
+
+
+This value is not unique, because for any rotation $r$, $Q' = Qr$ will be also a solution. This
+non unicity simply reflect the fact that the orientation of the camera can only be computed
+up to a global rotation.
+
+
+
+
