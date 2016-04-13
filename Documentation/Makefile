@@ -23,6 +23,7 @@ FTEX=   DocMicMac.tex\
 	DocAlgo/DAGeneralites.tex\
 	DocAlgo/DACorrel.tex\
 	DocAlgo/DAEnergetik.tex\
+	DocAlgo/DAOrient.tex\
         DocUtil/DUBins.tex\
         DocUtil/DUMec.tex\
         DocUtil/DUMecaGen.tex\
