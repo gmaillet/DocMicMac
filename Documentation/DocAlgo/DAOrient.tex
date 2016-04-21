@@ -128,7 +128,7 @@ We can still
 suppose that $M^i_j$ is a square Matrix by padding is with $0$ column or lines.
 Padding it with $0$ column correspond to add the projection of a point of coordinate
  $(0,0,0)$, padding with $0$ line correspond to add a camera with scaling factor $0$.
-Using a singular value decomposition $M^u_v$ can be written :
+Using a singular value decomposition, $M^u_v$ can be written :
 
 
 \begin{equation}
@@ -145,7 +145,8 @@ With  :
 
 As $M^i_j$ (or $M^p$) is of rank $3$, $M^u_v$ is also of rank $3$.  So  theoretically, $\Delta$  has only $3$
 non zero value, due to measurement  error in $u_{n,m},v_{n,m}$ (and also numerical error in computation), the value may be not exactly equal to zero; however,
- $\Delta$  can be best approximated by the $3*3$ matrix corresponing to the highest eigen values. Suppressing
+ $\Delta$  can be best approximated by the $3*3$ matrix corresponding to the highest eigen values (in
+absolute values). Suppressing
 the corresponding void row of $R_1$ and void column of $R_2$ we obtain a
 decomposition of $M^u_v$ in the form :
 
@@ -188,12 +189,12 @@ We can write the metric constraints :
    \item  $\forall n \neq 1 :  ^t i_n Q ^t Q i_n =  ^t j_n Q ^t Q j_n   $
 \end{itemize}
 
-Note that, as there is a global arbirtrary scaling, the camera $1$ play a particular
-role setting its scaling to $1$, as the other just impose to have the same scaling
+Note that, as there is a global arbirtrary scaling, we make the camera $1$ play a particular
+role setting its scaling to $1$, for the other we just impose to have the same scaling
 in $x$ and $y$.
 
 As $W=Q ^t Q$ is a symetric matrix, we can estimate $W$  by least mean square using the
-above linear equation (there is $6$ unknow on $Q$ and ,  $N\geq 3$ and we have  $1+2*N$ equation). 
+above linear equation (there is $6$ unknow on $Q$, we have  $1+2*N$ equations and   $N\geq 3$ ). 
 Knowing $W$, it's easy to recover $Q$, we do a singular
 value decomposition of $W$ :
 
@@ -201,16 +202,39 @@ value decomposition of $W$ :
     W =  ^t R D R
 \end{equation}
 
-We can compute a possible value of $Q$ by
+When all the eigen value are positive, 
+\footnote{we see just after when it is not the case}
+we can compute a possible value of $Q$ by 
 
 \begin{equation}
     Q  =  ^t R  \sqrt{D}
 \end{equation}
 
-
 This value is not unique, because for any rotation $r$, $Q' = Qr$ will be also a solution. This
 non unicity simply reflect the fact that the orientation of the camera can only be computed
-up to a global rotation.
+up to a global rotation. We will use this fact for processing the case with negative values.
+
+When there exist negative value, the computation is still easy, also we have to use hermitian produce
+and hermitian matrices to prove the validity, we can write : 
+
+\begin{equation}
+    Q  =  ^t R  \sqrt{|D|} \mathbb{I} = Q' \mathbb{I} 
+\end{equation}
+
+Where $\mathbb{I}$  is a diagonal complex matrix containing only $1$ or $i$. We still have :
+
+\begin{equation}
+    W= ^t \overline{Q}  Q
+\end{equation}
+
+And $\mathbb{I}$ is a hermitian unitary matrix as : 
+
+\begin{equation}
+     ^t  \overline{\mathbb{I}}  \mathbb{I} = Id
+\end{equation}
+
+
+As $Q$ is defined up to a global unitary matrix, we can use $Q'$ instead of $Q$.
 
 
 
