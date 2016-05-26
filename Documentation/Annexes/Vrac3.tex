@@ -256,6 +256,18 @@ Commands are:
 
 "Normale" parameters indicates the window size to compute normal: should be 3, 5, 7, etc...
 
+
+In camera geometry, you can use {\tt Zlimit} command before {\tt Nuage2Ply} to create a mask to remove some parts of the depth image.
+
+Example :
+{\tt mm3d Zlimit Z\_Num4\_DeZoom8\_GeoI-image1.xml 0.2 1.4 CorrelIm=Correl\_GeoI-image1\_Num\_3.tif}
+
+Will create a mask (Z\_Num4\_DeZoom8\_GeoI-image1.xml\_MasqZminmax.tif) hiding every point with a depth out of [0.2m,1.4m], and points that have a bad correlation value (lower than ValDefCorrel).
+
+This mask can be used in {\tt Nuage2Ply} with the option {\tt Mask}.
+
+
+
 \subsection{Command {\tt MergePly} :}
 
 MergePly command concats several ply files.
