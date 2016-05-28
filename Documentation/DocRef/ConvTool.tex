@@ -583,6 +583,83 @@ R0040579.JPG|R0040538.JPG|R0040577.JPG|R0040534.JPG|R0040497.JPG|R0040500.JPG|R0
 This pattern may be utilized advantageously with {\tt Tapiocas} and {\tt Tapas} for example. Attention must be paid when using {\tt OriConvert} for the selection of a sub-block that coordinate system is an euclidean coordinate system, as well as for the image pairs file generation.
 
 
+
+\subsection{Extracting Gps from exif}
+
+Often the Gps information is not in separate files but directly embeded in the exif
+metadat. The tools {\tt XifGps2Xml} and {\tt XifGps2Txt} allow to do extract this 
+information and convert it to texte or xml file.
+
+\subsubsection{Extracting Gps from exif with {\tt XifGps2Xml}}
+
+
+For example, with {\tt mm3d XifGps2Xml .*jpg Test}  :
+
+\begin{itemize}
+  \item for each  image,  containing gps data in exif, a file is created containing the gps information
+        in xml micmac format;
+  \item for example for {\tt Image100.jpg},  {\tt Ori-Test/Orientation-Image100.jpg.xml} is created; 
+        in xml micmac format;
+  \item the coordinate system is a local tangent sytem, with origin at centre of images;
+  \item  the file {\tt RTLFromExif.xml} contains the definition of this system in MicMac format;
+\end{itemize}
+
+\begin{verbatim}
+mm3d XifGps2Xml
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full Name}
+  * string :: {Orientation}
+Named args : 
+  * [Name=DoRTL] bool :: {Do Local Tangent RTL (def=true)}
+  * [Name=RTL] string :: {Name RTL}
+  * [Name=SysCo] string :: {System of coordinates, by default RTL created (RTLFromExif.xml)}
+  * [Name=DefZ] REAL
+\end{verbatim}
+
+Some options :
+
+\begin{itemize}
+   \item {\tt DefZ} will allow to specify the altitude value , not implemanted for now;
+
+   \item {\tt SysCo}  allow to change the coordinate system;
+
+\end{itemize}
+
+\subsubsection{Extracting Gps from exif with {\tt XifGps2Txt}}
+
+For example, with {\tt mm3d XifGps2Txt .*jpg Test}   file {\tt GpsCoordinatesFromExif.txt}
+is created in standard txt format :
+
+\begin{verbatim}
+mm> cat GpsCoordinatesFromExif.txt
+2016-04-02_12-22-07.jpg 1.908783 47.902767 161.000000 
+2016-04-02_12-22-18.jpg 1.908758 47.902861 161.000000 
+2016-04-02_12-22-29.jpg 1.908717 47.902964 159.000000 
+2016-04-02_12-22-56.jpg 1.908556 47.902828 154.000000 
+2016-04-02_12-23-07.jpg 1.908506 47.902789 157.000000 
+2016-04-02_12-23-12.jpg 1.908511 47.902722 157.000000 
+...
+\end{verbatim}
+
+The default export coordinate is {\tt WGS84\_deg} :
+
+
+\begin{verbatim}
+mm3d XifGps2Txt
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full Name}
+Named args : 
+  * [Name=OutTxtFile] string :: {Def file created : 'GpsCoordinatesFromExif.txt' }
+  * [Name=Sys] string :: {System to express output coordinates : WGS84_deg/WGS84_rad/GeoC ; Def=WGS84_deg}
+  * [Name=DefZ] REAL
+\end{verbatim}
+
 \subsection{Exporting external oriention to Omega-Phi-Kapa}
 
 The tool {\tt OriExport} can convert MicMac external oriention to the \emph{de facto} standard
@@ -658,61 +735,12 @@ The corresponding matrix encoding using $R$ is:
 </ParamRotation>
 \end{verbatim}
 
-\subsubsection{Extracting Gps from exif with {\tt XifGps2Xml}}
 
-Often the Gps information is not in separate files but directly embeded in the exif
-metadat. The tools {\tt XifGps2Xml} and {\tt XifGps2Txt} allow to do extract this 
-information and convert it to texte or xml file.
 
-For example, with {\tt mm3d XifGps2Xml .*jpg Test}  :
 
-\begin{itemize}
-  \item for each  image, for example {\tt Image100.jpg},  containing gps data in exif, a file
-        {\tt Ori-Test/Orientation-Image100.jpg.xml} is created containing the gps information
-        in xml micmac format;
-  \item the coordinate system is a local tangent sytem, with origin at centre of images;
-  \item  the file {\tt RTLFromExif.xml} contains the definition of this system in MicMac format;
-\end{itemize}
 
-\begin{verbatim}
-mm3d XifGps2Xml
-*****************************
-*  Help for Elise Arg main  *
-*****************************
-Mandatory unnamed args : 
-  * string :: {Full Name}
-  * string :: {Orientation}
-Named args : 
-  * [Name=DoRTL] bool :: {Do Local Tangent RTL (def=true)}
-  * [Name=RTL] string :: {Name RTL}
-  * [Name=SysCo] string :: {System of coordinates, by default RTL created (RTLFromExif.xml)}
-  * [Name=DefZ] REAL
-\end{verbatim}
 
-Some options :
 
-\begin{itemize}
-   \item {\tt DefZ} will allow to specify the altitude value , not implemanted for now;
-
-   \item {\tt SysCo}  allow to change the coordinate system;
-
-\end{itemize}
-
-\subsubsection{Extracting Gps from exif with {\tt XifGps2Txt}}
-
-For example, with {\tt mm3d XifGps2Txt .*jpg Test}   file {\tt GpsCoordinatesFromExif.txt}
-is created in standard txt format :
-
-\begin{verbatim}
-mm> cat GpsCoordinatesFromExif.txt
-2016-04-02_12-22-07.jpg 1.908783 47.902767 161.000000 
-2016-04-02_12-22-18.jpg 1.908758 47.902861 161.000000 
-2016-04-02_12-22-29.jpg 1.908717 47.902964 159.000000 
-2016-04-02_12-22-56.jpg 1.908556 47.902828 154.000000 
-2016-04-02_12-23-07.jpg 1.908506 47.902789 157.000000 
-2016-04-02_12-23-12.jpg 1.908511 47.902722 157.000000 
-...
-\end{verbatim}
 
 
 
