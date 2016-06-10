@@ -1578,7 +1578,7 @@ This can be done with the tool {\tt SBGlobBascule}:
 	 compute by least square fitting an estimation of this  plane;
 
 
-   \item finally bascule {\tt SBGlobBascule} compute the rotation that transform
+   \item finally {\tt SBGlobBascule} compute the rotation that transform
 	 current coordinates in a new system where the fitted plane correspond to
 	 the plane $Z=0$;
 
@@ -1600,9 +1600,10 @@ This can be done with the tool {\tt SBGlobBascule}:
 
 With the dataset of street Saint Martin, an example of use is :
 
+{\small
 \begin{verbatim}
 SBGlobBascule "IMGP41((6[7-9])|([7-8][0-9])).JPG" Mur MesureBasc.xml  LocBasc PostPlan=_MasqPlan  DistFS=0.6
-\end{verbatim}
+\end{verbatim}}
 
 The meaning of the arguments are:
 
@@ -1617,11 +1618,12 @@ The meaning of the arguments are:
   \item fourth  arg {\tt Basc} defines the output orientation;
 
   \item optional args {\tt PostPlan=\_MasqPlan}  means that if image is {\tt IMGP4171.JPG}
-	(or {\tt IMGP4171.CR2} or \dots), then the associated mask {\tt IMGP4171\_MasqPlan.tif}
+	(or {\tt IMGP4171.CR2} or \dots), then the associated mask {\tt IMGP4171\_MasqPlan.tif}. Else,
+	if {\tt PostPlan=NONE} means that no mask is available and we do not want to change the input orientation and
+	may be only want to fix its scale; 
 
    \item  if there are several masks it will use all them for
 	 fitting the plane (which can be useful with wide dataset when high accuracy  is required);
-	 of course if there are no existing mask an error will occur;
 
   \item optional args {\tt DistFS=0.6} is used to fix the scale;
 \end{itemize}
@@ -1641,37 +1643,38 @@ in this file:
 	   {\tt Line1-Line2} is parallel to $Ox$;
 
    \item these points need only to be measured in one image, as they are
-	 assumed  to be in the plane  computed on the mask; is they have been
-	 measured several time, a warning will occur;
+	 assumed  to be in the plane  computed on the mask; if they have been
+	 measured several times, a warning will occur;
 
-   \item optional a point {\tt Origine} to fix the origin of the repair;
+   \item optionally a point {\tt Origine} to fix the origin of the repair;
 
-   \item optionally two point {\tt Ech1} and {\tt Ech2} to fix the scale,
-	 each point must be entered in two image, so that a $3d$ position
+   \item optionally two points {\tt Ech1} and {\tt Ech2} to fix the scale,
+	 each point must be measured in two images, so that a $3d$ position
 	 can be computed; when {\tt DistFS} is entered, new coordinate system
-	 is computed with the constraint that the distant between the $3d$
-	 position of  {\tt Ech1} and {\tt Ech2} is equal to {\tt DistFS} ;
+	 is computed with the constraint that the distance between the $3d$
+	 positions of {\tt Ech1} and {\tt Ech2} is equal to {\tt DistFS} ;
 	 if {\tt DistFS} is entered and {\tt Ech1} and {\tt Ech2} do not
 	 exist in at least two images, an error occurs;
 \end{itemize}
-
+~\\
 To have the full syntax, as usual:
 
 \begin{verbatim}
-   SBGlobBascule -help
+mm3d SBGlobBascule -help
 *****************************
 *  Help for Elise Arg main  *
 *****************************
-Unamed args :
+Mandatory unnamed args : 
   * string :: {Full name (Dir+Pat)}
-  * string :: {Orientaion in}
-  * string :: {XML File of Images Measures}
+  * string :: {Orientation in}
+  * string :: {Images measures xml file}
   * string :: {Out : orientation }
-Named args :
+Named args : 
   * [Name=ExpTxt] bool
-  * [Name=PostPlan] string
-  * [Name=DistFS] REAL :: {Distance between  Ech1 and Ech2 to fixe scale (if not given no scaling)}
-  * [Name=Rep] string :: {Target repere (Def = ki, ie normal is vertical)}
+  * [Name=PostPlan] string :: {Set NONE if no plane}
+  * [Name=DistFS] REAL :: {Distance between Ech1 and Ech2 to fix scale (if not given no scaling)}
+  * [Name=Rep] string :: {Target coordinate system (Def = ki, ie normal is vertical)}
+  * [Name=CPI] bool :: {Calibration Per Image (Def=false)}
 \end{verbatim}
 
 The {\tt Rep} is decsribed in section~\ref{SGB:Rep}.
