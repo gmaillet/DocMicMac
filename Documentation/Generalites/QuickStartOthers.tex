@@ -360,12 +360,13 @@ The corrected tie points are then applied to a grid also through inverse distanc
 
 Once the appropriate input data (see~\ref{inputArsenic}) is computed, the command can be run. The images produced in the output folder are to be used as "Attr" arguments in the "Nuage2Ply" command to produce equalized sub-point clouds.
 
+%***************************%
 \section{Miscellaneous tools}
 
+%------------------------%
 \subsection{InitOriLinear}
 
-
-
+%--------------------%
 \subsection{ReprojImg}
 
 With {\tt ReprojImg}, you can project an image into the orientation of an other.
@@ -409,11 +410,9 @@ mm3d ReprojImg Ori-Tout/ MM-Malt-Img-epoque1_f/Z_Num8_DeZoom1_STD-MALT.tif \
                epoque1_f.JPG epoque2_a.JPG
 \end{verbatim}
 
-
+%--------------------------%
 \subsection{ExtractMesure2D}
-The {\tt ExtractMesure2D} command extracts only a selection of targets in a 2D measures file.
-
-Its main purpose is to split images measures into used and check targets.
+The {\tt ExtractMesure2D} command extracts only a selection of targets in a 2D measures file. Its main purpose is to split images measures into used and check targets.
 
 \begin{verbatim}
 mm3d ExtractMesure2D -help
@@ -433,4 +432,267 @@ mm3d ExtractMesure2D 21pts_Mesure-S2D.xml out.xml [3,203]
 \end{verbatim}
 Will save in out.xml only the 2D measures for targets 3 and 203.
 
+%------------------------------%
+\subsection{BasculeCamsInRepCam}
+The {\tt BasculeCamsInRepCam} command express all images external parameters whith respect to the camera frame of one chosen image.
+
+\begin{verbatim}
+mm3d TestLib BasculeCamsInRepCam -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full Name (Dir+Pattern)}
+  * string :: {Orientation}
+  * string :: {Central camera}
+  * string :: {Output}
+\end{verbatim}
+
+Example :
+\begin{verbatim}
+mm3d TestLib BasculeCamsInRepCam ".*JPG" Ori-AutoCal/ IMG00004.JPG Img04
+\end{verbatim}
+
+In {\tt Ori-Img04/} one can check that external parametrs of image {\tt IMG00004.JPG} are by definition equal to identity matrix.
+
+%-----------------------------%
+\subsection{BasculePtsInRepCam}
+The {\tt BasculePtsInRepCam} command express coordinates of input points with respect to the camera frame of one chosen image.
+
+\begin{verbatim}
+mm3d TestLib BasculePtsInRepCam -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Name Camera}
+  * string :: {Name GGP In}
+Named args : 
+  * [Name=Out] string
+\end{verbatim}
+
+Example :
+\begin{verbatim}
+mm3d TestLib BasculePtsInRepCam Ori-AutoCal/Orientation-IMG00004.JPG.xml App.xml
+\end{verbatim}
+
+Output file {\tt Basc-Orientation-IMG00004.JPG-App.xml} contains points coordinates expressed in the camera frame of {\tt IMG00004.JPG}.
+
+%-----------------%
+\subsection{CorrLA}
+The {\tt CorrLA} command computes corrected images positions with respect to a given value of lever-arm offset.
+
+\begin{verbatim}
+mm3d TestLib CorrLA -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full Name (Dir+Pattern)}
+  * string :: {Directory orientation}
+  * Pt3dr :: {Lever-Arm value}
+Named args : 
+  * [Name=OriOut] string :: {Output Ori Name of corrected mandatory Ori ; Def=OriName-CorrLA}
+  * [Name=Ori2] string :: {Ori2 directory to apply LA correction to centers}
+  * [Name=Ori2Out] string :: {Output Ori Name of corrected Ori2 ; Def=Ori2Name-CorrLA}
+\end{verbatim}
+
+Example:
+\begin{verbatim}
+mm3d TestLib CorrLA ".*JPG" Ori-Basc/ [0.289,-0.043,-0.183] Ori2=Ori-Nav-GPS/
+\end{verbatim}
+
+Sometimes, it is more accurate to compute the lever-arm correction and to apply it to a second set of images positions.
+Using the optional argument {\tt Name=Ori2} one can apply corrections calculated with the orientations from the mandatory {\tt Ori-Basc/} and generate {\tt Ori-Nav-GPS-CorrLA/} with
+lever-arm corrected positions. 
+
+%---------------------------%
+\subsection{ExportXmlGcp2Txt}
+The {\tt ExportXmlGcp2Txt} command simply convert a GCP .xml file format into a column format text file.
+
+\begin{verbatim}
+mm3d TestLib ExportXmlGcp2Txt -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Directory}
+  * string :: {xml Gcps file}
+Named args : 
+  * [Name=Out] string :: {output txt file name : def=Output.txt}
+  * [Name=addInc] bool :: {export also uncertainty values : def=flase}
+\end{verbatim}
+
+Example :
+\begin{verbatim}
+mm3d TestLib ExportXmlGcp2Txt './' AppAll.xml Out=AppAll-Txt.txt
+\end{verbatim}
+
+This command can be useful for example when a GCP file is converted to .xml format using {\tt mm3d GCPConvert} with a change of system and the user wants to recover transformed coordinates in a simple format.
+
+
+%------------------------%
+\subsection{SimplePredict}
+The {\tt SimplePredict} command projects ground points on oriented images.
+
+\begin{verbatim}
+mm3d SimplePredict -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Pattern of images}
+  * string :: {Directory orientation}
+  * string :: {Ground points file}
+Named args : 
+  * [Name=ExportPolyIGN] bool :: {Export PointeInitIm files for IGN Polygon calibration method (Def=false)}
+  * [Name=PrefixeNomImageSize] INT :: {Size of PrefixeNomImage in param.txt}
+\end{verbatim}
+
+Example :
+\begin{verbatim}
+mm3d SimplePredict ".*JPG" Ori-Basc/ AppAll.xml
+\end{verbatim}
+
+The output {\tt SimplePredict.xml} file contains (i,j) coordinates of all {\tt AppAll.xml} points in all possible images.
+
+%---------------------%
+\subsection{Export2Ply}
+The {\tt Export2Ply} command generates a .ply file containing spheres to represent points.
+
+\begin{verbatim}
+mm3d TestLib Export2Ply -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Format specification}
+  * string :: {Name File of Points Coordinates}
+Named args : 
+  * [Name=Ray] REAL :: {Plot a sphere per point}
+  * [Name=NbPts] INT :: {Number of Pts / direc (Def=5, give 1000 points) only with Ray > 0}
+  * [Name=Scale] INT :: {Scaling factor}
+  * [Name=FixColor] Pt3di :: {Fix the color of points}
+  * [Name=LastPtColor] Pt3di :: {Change color only for last point}
+  * [Name=ChangeColor] INT :: {Change the color each number of points : not with FixColor}
+  * [Name=Out] string :: {Default value is NameFile.ply}
+  * [Name=Bin] INT :: {Generate Binary or Ascii (Def=1, Binary)}
+\end{verbatim}
+
+Example :
+\begin{verbatim}
+mm3d TestLib Export2Ply "#F=N_X_Y_Z" AppAll-Txt.txt Ray=0.5 FixColor=[0,0,255]
+\end{verbatim}
+
+This is sometimes useful for example when one wants to represent GCPs into a point cloud to clearly visualize its distribution.
+
+%-----------------%
+\subsection{CmpOri}
+The {\tt CmpOri} command computes average norme differences of all external parametrs of images.
+
+\begin{verbatim}
+mm3d CmpOri -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full Name (Dir+Pattern)}
+  * string :: {Orientation 1}
+  * string :: {Orientation 2}
+Named args : 
+  * [Name=DirOri2] string :: {Orientation 2}
+  * [Name=XmlG] string :: {Generate Xml}
+\end{verbatim}
+
+Example :
+\begin{verbatim}
+mm3d CmpOri ".*JPG" Ori-Bascule/ Ori-Compense/ XmlG=Delta_Basc_Comp.xml
+\end{verbatim}
+
+For example the result displayed and saved in {\tt Delta\_Basc\_Comp.xml} :
+\begin{verbatim}
+<?xml version="1.0" ?>
+<XmlTNR_TestOriReport>
+     <OriName>RTL-Compense-AllPts</OriName>
+     <TestOriDiff>false</TestOriDiff>
+     <DistCenter>0.0397097570172935677</DistCenter>
+     <DistMatrix>3.87112370850761372e-07</DistMatrix>
+</XmlTNR_TestOriReport>
+\end{verbatim}
+
+
+%-------------------%
+\subsection{CmpCalib}
+The {\tt CmpCalib} command compares two files of calibrations (in general of the same camera).
+
+\begin{verbatim}
+mm3d CmpCalib -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {First calibration file}
+  * string :: {Second calibration file}
+Named args : 
+  * [Name=Teta01] REAL
+  * [Name=Teta02] REAL
+  * [Name=Teta12] REAL
+  * [Name=L1] INT
+  * [Name=SzW] INT
+  * [Name=DynV] REAL
+  * [Name=Out] string :: {Result (Def=Name1_ecarts.txt)}
+  * [Name=DispW] bool :: {Display window}
+  * [Name=XmlG] string :: {Generate Xml}
+\end{verbatim}
+
+Example :
+\begin{verbatim}
+mm3d CmpCalib Ori-Bascule/AutoCal_Foc-35000_Cam.xml Ori-Compense/AutoCal_Foc-35000_Cam.xml Out=Delta_Calib.txt
+\end{verbatim}
+
+Calibration parameters of a camera can not be directly compared, the command estimates a rotation to align the parameters.
+The output file {\tt Delta\_Calib.txt} contains a function which gives the differences between the two sets of calibration as function of the radius and 
+a grid which provides planimetric vector deviation between each rays directions. Example of output :
+
+\begin{verbatim}
+--------------  Ecart radiaux  -----------
+ Rayon   Ecart
+ 0.000000 0.035861
+ 200.000000 0.094960
+ 400.000000 0.184629
+ ...
+ --------------  Ecart plani  -----------
+Im.X Im.Y  PhG.X Phg.Y Ec
+5017.600000 3763.200000 -0.855326 -0.588127 1.038015
+5017.600000 3394.560000 -0.951363 -0.529560 1.088818
+5017.600000 3025.920000 -0.988994 -0.465235 1.092956
+...
+\end{verbatim}
+
+%--------------------------%
+\subsection{PseudoIntersect}
+The {\tt PseudoIntersect} command estimates the 3D position coordinates of 2D measured points in oriented images.
+
+\begin{verbatim}
+mm3d TestLib PseudoIntersect -help
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Full Name (Dir+Pat)}
+  * string :: {Directory of input orientation}
+  * string :: {.xml file of 2d points}
+Named args : 
+  * [Name=Out] string :: {Name output file (def=3DCoords.txt)}
+  * [Name=XmlOut] bool :: {Export in .xml format to use as GCP file (Def=true)}
+  * [Name=Show] bool :: {Gives details on arguments (Def=true)}
+\end{verbatim}
+
+Example :
+\begin{verbatim}
+mm3d TestLib PseudoIntersect ".*JPG" Ori-All/ MesuresFinales-S2D.xml
+\end{verbatim}
+
+Each point needs to be measured at least in 2 images to compute an intersection.
+The output .xml file can be directly used as a GCP file with {\tt GCPBascule} tool.
 
