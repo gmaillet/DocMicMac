@@ -383,7 +383,7 @@ now no deep comparison between them, the user is invited to test which one best 
 For the two last one,  {\tt Ratafia} is a general command while {\tt OriRedTieP} is specialized for 
 the sub-vertical case (typically aerial or UAV) and it is expected to be a bit more
 efficient in time and quality. Also the difference is tiny and this is more for historicall reason
-than this two command co-exist.
+than these two commands co-exist.
 
 
 
@@ -452,7 +452,7 @@ Where :
 
    \item $NbI$ is the number of images that are still uncovered (see bellow the definition, initialy no image is covered),
         and $NbI_0$ is the number of initial images; this term take into account the fact that once
-        a tie point is partly covered, its benefit to the photogrammetry strenght of the block decrease.
+        a tie point is partly covered, its benefit to the photogrammetry strength of the block decrease.
 
 \end{itemize}
 
@@ -469,7 +469,7 @@ The algoritm used to select tie point is :
                 for each image  it contains,  there exist, inside  a disc of ray $D_{Mul}$, a selected tie point
                 containing the same image);
          \item  else, update the quality of  $Q$, according to formula~\ref{QualTieP} to take into account
-                the fact that the number of uncovered images has decrease.
+                the fact that the number of uncovered images has decreased.
    \end{itemize}
 \end{itemize}
 
@@ -483,8 +483,9 @@ a given disc, and a heap is used extract the tie points with highest quality.
 The previous algorithm
 waranty that for each image, it has selected tie points with "no hole". But it does not
 give the same waranty for pair of images which may be a problem for the photogrammetric
-strength of a bloc. The so named Von-Gruber \footnote{typically if the number of such point where $6$
-their optimal distribution would be those of the Von-Gruber point} point aims to fill
+strength of a bloc. The so named Von-Gruber \footnote{typically if the number of such points where $6$
+their optimal distribution would be those of the Von-Gruber point in "classical" photogrammetry} 
+points aim to fill
 this gap. A second analys of the tie point is made , the algorithm being close
 but slightly different from the previous one :
 
@@ -498,7 +499,7 @@ but slightly different from the previous one :
           $VG_{i1,i2}$ is initialized with the points
           already selected at previous steps and containing $I_1$ and $I_2$ 
           (i.e these point can come from global algorithm  in \ref{TiePSel:GlobAlgo}, or
-          from  previous iteration of these Von Gruber points).
+          from  previous iteration, with other pairs, of these Von Gruber points).
 
 \end{itemize}
 
@@ -521,7 +522,8 @@ is then :
 
 \begin{itemize}
     \item let $D^{VG}_{max}$ be the max of $D^{VG}_{i1,i2}(Q)$ for $Q\in S_{i1,i2}$ ;
-    \item let $D^{VG}_{Mul}$ be a threshold distance, by default $D^{VG}_{Mul} = 2 * D_{Mul}$;
+    \item let $D^{VG}_{Mul}$ be a threshold distance, by default $D^{VG}_{Mul} = 2 * D_{Mul}$
+          (where $ D_{Mul}$ is the distance used for in \ref{TiePSel:GlobAlgo});
 
     \item while  $D^{VG}_{max} < D^{VG}_{Mul}$  add to  $VG_{i1,i2}$ the point maximizing $ Qual^{VG}$.
 \end{itemize}
@@ -618,8 +620,8 @@ This has the following consequences :
    \item to assure a complete coverage of the acquisition, each image will have to be on it turn 
          a "master" image;
 
-   \item as soon as the first image is processed,  some tie points are selected, and it must have an influence 
-         the computation of next images as some points are already "covered" by the already selected tie points;
+   \item as soon as the first image is processed,  some tie points are selected, and it must have an influence on 
+         the computation of next images (as some points are already "covered" by the already selected tie points);
 
    \item so basically, the programm cannot be parallelized naively, as the result of each selected master
          image may influence the selection on remaining images;
@@ -633,8 +635,9 @@ The algorithm used by  {\tt Ratafia}  is the following ;
 
 \begin{itemize}
    \item create a partition of the images $P=\{S_1,S_2,...S_N\}$ such that
-         $\forall i,j,n$  with $I_i \in S_n$ and $I_j \in S_n$ then $ TieP(I_i,I_j) = \emptyset $; in fact this condition
-        is not fixed strictly, and it is accepted that the intersection be equal to a very few percentage of the points;
+         $\forall i,j,n$  with $I_i \in S_n$ and $I_j \in S_n$ we have $ TieP(I_i,I_j) = \emptyset $; 
+         in fact this condition is not fixed strictly, and it is accepted that the
+          number of tie points may be equal to a very few percentage of the points;
  
    \item sequentially process each element of the partition $S_1, S_2 \dots $, for each element $S_k$  do:
 
@@ -642,7 +645,9 @@ The algorithm used by  {\tt Ratafia}  is the following ;
         \item let  $S_k =\{I_1, I_2 , \dots \} $, for each element $I_k$  do in parallel :
         \begin{itemize}
               \item read the already computed tie points, and add them to initially selected tie points;
-              \item do the same computation as with red tie points
+              \item consider only multiple tie points linked to $I_k$, and use $I_k$ coordinates for
+                    indexation;
+              \item then do the same computation as  in  \ref{TiePSel:GlobAlgo} , 
               \item save only the tie points that were added at this step.
         \end{itemize}
    \end{itemize}
