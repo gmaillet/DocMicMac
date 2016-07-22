@@ -381,26 +381,26 @@ expected that all these options correspond to complementary requirements and, as
 now no deep comparison between them, the user is invited to test which one best comply with his particular problem.
 
 For the two last one,  {\tt Ratafia} is a general command while {\tt OriRedTieP} is specialized for 
-the sub-vertical case (typically aerial or UAV) and it is expected to be a bit more
-efficient in time and quality. Also the difference is tiny and this is more for historicall reason
-than these two commands co-exist.
+the quasi-vertical case (typically aerial or UAV) and it is expected to be a bit more
+efficient in time and quality. Also, the difference between the two is tiny and it is more for historical reasons
+that these two commands co-exist.
 
 
 
 As with all tie-point reduction methods, the general  objective is to
-limit the number of tie-point whiles maintening a good photogrammetric distribution. 
+limit the number of tie-point while maintening a good photogrammetric distribution. 
 This rather general objective leads to the (somewhat contradictory) specifications :
 
 \begin{itemize}
    \item select a minimal subset of tie points ;
    \item for each image, the subset of points where the image is present must have an homogoneous distribution
          (at least no hole, the notion of "hole" being controled by a threshold on distance);
-   \item similarly, for each pair of image, the subset of points where the pair is present must have no hole;
-   \item as far as possible, the point with high degree of multiplicity must be privilegiated (they give
+   \item similarly, for each pair of images, the subset of points where the pair is present must have no hole;
+   \item as far as possible, the point with high degree of multiplicity must be privileged (they give
          more "strength" to the photogrammetric canvas);
 
-   \item if there is any mean to evaluate the quality of tie points based on geometry, then privilegiate point
-         with good quality.
+   \item if there is any means to evaluate the quality of tie points based on geometry, then privilege the points
+         of good quality.
 
 \end{itemize}
 
@@ -409,7 +409,7 @@ and after we describe  the few points that are  specific to {\tt Ratafia}.
 
 % - - - - - - - - - - - - - - - - - - - - -- - - - - - -
 
-\subsection{Tie point reduction , sub-vertical case with {\tt OriRedTieP}}
+\subsection{Tie point reduction , quasi-vertical case with {\tt OriRedTieP}}
 
 
       %   -    -    -    -    -    -
@@ -419,22 +419,21 @@ and after we describe  the few points that are  specific to {\tt Ratafia}.
 \label{TiePSel:GlobAlgo}
 
 The command {\tt OriRedTieP} treats the problem of tie points reduction in the particular case
-where the acquisition is sub-vertical (generally applyable with UAV acquisition). 
+where the acquisition is quasi-vertical (generally applicable to UAV acquisition). 
 It requires that a global orientation has been computed with the {\tt Martini}
-command, this orientation will be used both for computing the spatial distribution of
-tie points and evaluate the quality of selectionned tie points (based on the accuracy
-of the reprojection).  As {\tt Martini} is memory efficient it can be executed
+command, as this orientation will be used both for computing the spatial distribution of
+tie points and evaluate the quality of selected tie points (based on the reprojection precision).  As {\tt Martini} is memory efficient it can be executed
 with almost arbitrary big data and there is no vicious circle.
 
 To have a spatial distribution, for each tie point, the bundle intersection $P^{Gr}$ is computed
 with the given orientation. The density of the tie point after reduction will be
 controlled with a parameter $D_{Mul}$ which will be more or less the average
 distance between $P^{Gr}$ of selected tie points. Also {\tt OriRedTieP} use only the $X,Y$
-coordinate of $P^{Gr}$  and this is why it is only suited for quasi vertical acquisition
-\footnote{this may evolve later, but is due to the fact that now in the MicMac library there is quod-tree and no octree}
+coordinate of $P^{Gr}$  and this is why it is only suited for quasi-vertical acquisition
+\footnote{this may evolve later, but is due to the fact that now in the MicMac library there is quad-tree and no octree}
 
 
-For its computation {\tt OriRedTieP} needs to evaluate the quality of each tie point, it use the
+For its computation {\tt OriRedTieP} needs to evaluate the quality of each tie point, and it uses the
 following formula :
 
 \begin{equation}
@@ -444,30 +443,30 @@ following formula :
 Where :
 
 \begin{itemize}
-   \item $NbP$ is the number of pair of images (for example with a point with multiplicity $4$,
-         its value is between $3$ and $6$); this term privilegiates multiplicity of tie points;
+   \item $NbP$ is the number of pairs of images (for example for a point with multiplicity $4$,
+         its value is between $3$ and $6$); this term privileges multiplicity of tie points;
 
    \item $R$ is the residual of reprojection and $R_m$ is the median of this residual on the data,
-         $Th_R$ is a threshold (its default value is $2$); this term penalize  high residual;
+         $Th_R$ is a threshold (its default value is $2$); this term penalizes  high residual;
 
    \item $NbI$ is the number of images that are still uncovered (see bellow the definition, initialy no image is covered),
         and $NbI_0$ is the number of initial images; this term take into account the fact that once
-        a tie point is partly covered, its benefit to the photogrammetry strength of the block decrease.
+        a tie point is partly covered, its potential contribution to the (photogrammetric) strength of the block decreases.
 
 \end{itemize}
 
-The algoritm used to select tie point is :
+Finally, the tie points selection algoritm goes as follows :
 
 \begin{itemize}
    \item extract the tie point $P$, not entirely covered, with the best quality (if none, end);
-   \item add   $P$ to the set of selected tie points , then for all points $Q$ located from $P$ at a distance  inferior to
-        $D_{Mul}$ 
+   \item add   $P$ to the set of selected tie points , then for all points $Q$ located within the distance of $D_{Mul}$ from the point $P$
+         
 
    \begin{itemize}
          \item  for all images of $Q$, that are also in $P$, mark these images as covered;
-         \item  if all images of $Q$ are covered, remove $Q$ ($Q$ is considered as no longer usefull as,
-                for each image  it contains,  there exist, inside  a disc of ray $D_{Mul}$, a selected tie point
-                containing the same image);
+         \item  if all images of $Q$ are covered, remove $Q$ ($Q$ is considered as no longer usefull if
+                for each image  it contains, inside  a disc of ray $D_{Mul}$, there exists a selected tie point
+                containing that image);
          \item  else, update the quality of  $Q$, according to formula~\ref{QualTieP} to take into account
                 the fact that the number of uncovered images has decreased.
    \end{itemize}
@@ -481,8 +480,8 @@ a given disc, and a heap is used extract the tie points with highest quality.
 \subsubsection{"Von Gruber" point}
 
 The previous algorithm
-waranty that for each image, it has selected tie points with "no hole". But it does not
-give the same waranty for pair of images which may be a problem for the photogrammetric
+guarantees that for each image, it has selected tie points with "no hole". But it does not
+give the same waranty for a pair of images which may be a problem for the photogrammetric
 strength of a bloc. The so named Von-Gruber \footnote{typically if the number of such points where $6$
 their optimal distribution would be those of the Von-Gruber point in "classical" photogrammetry} 
 points aim to fill
@@ -495,9 +494,9 @@ but slightly different from the previous one :
 
    \item  in the current step only tie point containing $I_1$ and $I_2$ are considered, let $S_{i1,i2}$ be this set;
 
-   \item  let  $VG_{i1,i2}$ be the set  of tie point to select  for $I_1,I_2$,
+   \item  let  $VG_{i1,i2}$ be the set  of tie point to be selected  for $I_1,I_2$;
           $VG_{i1,i2}$ is initialized with the points
-          already selected at previous steps and containing $I_1$ and $I_2$ 
+          selected already in the previous steps and containing $I_1$ and $I_2$ 
           (i.e these point can come from global algorithm  in \ref{TiePSel:GlobAlgo}, or
           from  previous iteration, with other pairs, of these Von Gruber points).
 
@@ -516,8 +515,8 @@ We define the quality of potentiel point $Q$ by :
   Qual^{VG}(Q)  = \frac{D^{VG}_{i1,i2}(Q)}{1+2*\frac{R}{R_m}}
 \end{equation}
 
-This formula means that we want to add the tie points which is the highest distance
-of already selected points (filling the "biggest hole") but also penalise points with high residual. The algorithm
+This formula means that we want to add the tie points with the highest distance
+from the already selected points (filling the "biggest hole") but also penalise points with high residual. The algorithm
 is then :
 
 \begin{itemize}
@@ -532,8 +531,8 @@ is then :
 
 \subsubsection{The command}
 
-Before executing {\tt OriRedTieP}, {\tt Martini} must have been executed with the same option of
-calibration for example :
+Before executing {\tt OriRedTieP}, {\tt Martini} must have been executed with the same option for the
+calibration, for example :
 
 
 \begin{verbatim}
@@ -573,15 +572,15 @@ The signification of the main parameters are :
 
 \begin{itemize}
    \item mandatory parameter the pattern of images (must be a subset of the one used with {\tt Martini}).
-   \item  {\tt OriCalib} must be coherent with the parameter of same name used in {\tt Martini};
-   \item  {\tt DistPMul} control the density of points per image, it's the average distance between 
-          tie points, there is a waranty that for each images and each initial tie points, it exist
-          a selected tie point at a distance inferioir to  {\tt DistPMul}
-   \item  {\tt MVG} control the density of points per pair, for a given pair $I_1,I_2$
-          {\tt DistPMul} that $I_1$ and $I_2$ have a given density, but it does not give any warantee
-          on the point belonging to $I_1,I_2$, which may be a problem for the robustness;
-          let $D'=MVG*DistPMul$, for each pair $I_1,I_2$   there is a waranty 
-          that for each tie points of $I_1,I_2$ , it exist
+   \item  {\tt OriCalib} must be coherent with the parameter name used in {\tt Martini};
+   \item  {\tt DistPMul} controls the density of points per image and it's the average distance between the
+          tie points; there is a waranty that for all images and the initial tie points, there exists
+          a selected tie point at a distance inferior to  {\tt DistPMul}
+   \item  {\tt MVG} controls the density of points per pair; for a given pair $I_1,I_2$ and 
+          {\tt DistPMul}, the images will have a given density, but it does not give any guarantee of "goodness"
+          on the points belonging to $I_1,I_2$, which may be a problem for the robustness;
+          let $D'=MVG*DistPMul$, for each pair $I_1,I_2$   there is a guarantee 
+          that for each tie points of $I_1,I_2$ , there exists
           a selected tie point of $I_1,I_2$ at a distance inferioir to  $D'$;
 \end{itemize}
 
@@ -617,8 +616,7 @@ This has the following consequences :
 
    \item the position of a tie-point, used for distance computation, is the value of the point in $I_0$;
 
-   \item to assure a complete coverage of the acquisition, each image will have to be on it turn 
-         a "master" image;
+   \item to assure a complete coverage of the acquisition, each image at a certain point  will have to be the "master" image;
 
    \item as soon as the first image is processed,  some tie points are selected, and it must have an influence on 
          the computation of next images (as some points are already "covered" by the already selected tie points);
@@ -626,7 +624,7 @@ This has the following consequences :
    \item so basically, the programm cannot be parallelized naively, as the result of each selected master
          image may influence the selection on remaining images;
 
-   \item however when two images $I_1$ and $I_2$ have no common points, there is no inconvenient to execute the computation
+   \item however when two images $I_1$ and $I_2$ have no common points, there is no contradiction to execute the computation
          in parallel  (their tie points are completely separated; remember : for example when computing $I_1$ only the points 
          containing $I_1$ are considered).
 \end{itemize}
@@ -654,20 +652,18 @@ The algorithm used by  {\tt Ratafia}  is the following ;
 \end{itemize}
 
 
-There is also a slight difference with {\tt OriRedTieP}, as there is no need for a global $3d$ geometry,
-and as the tool {\tt Martini} that provide it is still in progress, the evaluation of the residual is
+There is also a slight difference with {\tt OriRedTieP}, as there is no need for a global $3d$ geometry. Moreover, as the tool {\tt Martini} (that otherwise furnises the global geometry) is still in progress, the evaluation of the residual is
 not made on a global orientation, but on the relative orientation between the pair of images. This is
 theoretically not as good, because intersection of all images $2$ by $2$ is not equivalent to a global
-intersection, but the difference is tiny. However, when {\tt Martini} will be completely finished, there
+intersection, but the difference is tiny. Nonetheless, when {\tt Martini} will be completely finished, there
 will be an option to use the $3d$ geometry.
 
 
 \subsubsection{The command line}
 
-Before executing {\tt Ratafia}, to compute the relative orientation between pair of images,
+Before executing {\tt Ratafia}, compute the relative orientation between pairs of images with
 the  command {\tt TestLib NO\_AllOri2Im}
-(first step of {\tt Martini}),  must have been executed with the same option of
-calibration for example :
+(first step of {\tt Martini}). Remember to execute the command with the same calibration option, for example :
 
 
 \begin{verbatim}
@@ -683,7 +679,7 @@ mm3d Ratafia DSC01.*JPG OriCalib=Ori-Calib/
 \end{verbatim}
 
 
-Also runing {\tt Martini} instead of  {\tt TestLib NO\_AllOri2Im} would have perfectly worked, 
+Also, runing {\tt Martini} instead of  {\tt TestLib NO\_AllOri2Im} would have worked perfectly, 
 but the global orientation would not have been used. As usual to know the parameters :
 
 \begin{verbatim}
@@ -716,17 +712,17 @@ The meaning of main parameters is:
 
    \item  {\tt OriCalib} must be coherent with the parameter of same name used in {\tt TestLib NO\_AllOri2Im};
 
-   \item  {\tt NbP} number of process on which the parallelization is done:
+   \item  {\tt NbP} number of processes on which the parallelization is done:
 
    \item  {\tt RecMax} proportion of common tie point where images are considered deconnected (def=$\frac{1}{100}$);
 
    \item  {\tt DistPMul} average distance in pixel between tie points;
 
-   \item  {\tt DCA} Do Complete Arc, if this option is active a tentative will be made to complete the incomplete
-          tie points, for example with a triple tie point comming for the fusion of $(I_1,p_1,I_2,p_2)$ and
-          $(I_2,p_2,I_3,p_3)$, in the export the $(I_1,p_1,I_3,p_3)$ will be added if not already present and
+   \item  {\tt DCA} Do Complete Arc, if this option is active an attempt will be made to complete the incomplete
+          tie points; for example, with a triple tie point comming from the fusion of $(I_1,p_1,I_2,p_2)$ and
+          $(I_2,p_2,I_3,p_3)$; during the export, the $(I_1,p_1,I_3,p_3)$ will be added (i) if not already present, and if (ii)
           the geometric quality is sufficient (based on relative orientation); default value is false as it 
-          seems not to gain any accuracy;
+          seems not to improve any accuracy;
 \end{itemize}
 
 
@@ -764,13 +760,16 @@ mm3d Ratafia DSC01.*JPG OriCalib=Ori-Calib/
  ***************************************************
 \end{verbatim}
 
-The first serie of message is just an indication of the computation. The second
+The first series of message is just an indication of the computation. The second
 series is some statistic on the distribution of tie points  :
 
 \begin{itemize}
-   \item let comment {\tt For muliplicity 3 \%=25.1204 N=313 D=2.59425}
+   \item let me comment {\tt For muliplicity 3 \%=25.1204 N=313 D=2.59425} :
+   \begin{itemize}
    \item there is $313$ point of multiplicity $3$, they represent $25.1\%$ the average
          of number of couple is $2.59$ (the value being theorically between $2$ and $3$).
+   \end{itemize}
+   
 \end{itemize}
 
 
