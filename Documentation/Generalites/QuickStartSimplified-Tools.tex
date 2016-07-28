@@ -1510,6 +1510,7 @@ Unamed args :
   * string :: {Input Orientation}
   * string :: {Output Orientation}
 Named args :
+  * [Name=FactElimTieP] REAL :: {Fact elimination of tie point (prop to SigmaTieP, Def=5)}
   * [Name=AcceptGB] bool :: {Accepte new Generik Bundle image, 
                              Def=true, set false for perfect backward compatibility} 
   * [Name=PdsGBRot] REAL :: {Weighting of the global rotation constraint 
@@ -1522,7 +1523,7 @@ Named args :
 
 The optional arg \texttt{AcceptGB} indicates a generic input camera geometry (central perspective, RPCs, GRIDs). If cameras defined by RPCs are handled (which \texttt{MicMac} will automatically find out given the convention of the input orientation files), the trajectory of the satellite platform is fixed within the adjustment, and only small camera rotations are estimated. The rotations are forced to cause pixel displacements in the sensor's plane being equal to a 2D polynomial function. The coefficients of the functions likewise act as observed unknowns in the adjustment (see E. Rupnik, M. Pierrot-Deseilligny, A. Delorme, and Klinger Y. \textit{Refined satellite image orientation in the free open-source photogrammetric tools Apero/Micmac}. ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences, 2016.).\par  
 %
-The parameters of interest that steer the algoritm are : {\tt{NbLiais}}, {\tt{PdsRot}}, {\tt{PdsGBId}}, {\tt{PdsGBIter}}. The first parameter gives more force to image observations within the adjustment (as opposed to the constraints or ground control points); the {\tt{PdsRot}} parameter is the weight for the rotation constraint (the lower the value, the \textit{softer} the constraint), the {\tt{PdsGBId}} imposes that the deformation field is small, and {\tt{PdsGBIter}} is the weight that control the evolution of the deformation fireld from iteration to iteration.
+The parameters of interest that steer the algoritm are : {\tt{NbLiais}}, {\tt{PdsRot}}, {\tt{PdsGBId}}, {\tt{PdsGBIter}}. The first parameter gives more force to image observations within the adjustment (as opposed to the constraints or ground control points); the {\tt{PdsRot}} parameter is the weight for the rotation constraint (the lower the value, the \textit{softer} the constraint), the {\tt{PdsGBId}} imposes that the deformation field is small, and {\tt{PdsGBIter}} is the weight that control the evolution of the deformation fireld from iteration to iteration. For datasets with very poorly estimated RPCs (e.g. Cartosat), it is suggested to change the {\tt{FactElimTieP}} parameter to a higher value. 
 %
 \subsection{Convention for Orientation name}
 
