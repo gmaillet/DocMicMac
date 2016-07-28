@@ -1103,6 +1103,13 @@ mm3d Tapioca All .*.tif 10000
 %
 Next, as mentioned in Section~\ref{sec:rpcBundle}, the input files with rational polynomial coefficients ought to be converted to a MicMac readable format, and the processing coordinate system defined:
 \begin{verbatim}
+mm3d Convert2GenBundle "IMG_PHR1A_P_20120225002(.*)_SEN_PRG_FC_51(.*)-001_R1C1.tif"
+"RPC_PHR1A_P_20120225002\$1_SEN_PRG_FC_51\$2-001.XML" RPC-deg1 ChSys=WGS84toUTM.xml Degre=1
+\end{verbatim}
+%
+which is equivalent of independently running the same command for three images:
+%
+\begin{verbatim} 
 mm3d Convert2GenBundle IMG_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001_R1C1.tif
 RPC_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001.XML RPC-deg1 ChSys=WGS84toUTM.xml Degre=1
 mm3d Convert2GenBundle IMG_PHR1A_P_201202250025599_SEN_PRG_FC_5108-001_R1C1.tif
@@ -1111,7 +1118,7 @@ mm3d Convert2GenBundle IMG_PHR1A_P_201202250026276_SEN_PRG_FC_5109-001_R1C1.tif
 RPC_PHR1A_P_201202250026276_SEN_PRG_FC_5109-001.XML RPC-deg1 ChSys=WGS84toUTM.xml Degre=1
 \end{verbatim}
 %
-where the content of the coordinate system file renders:
+Generally you one would prefer to use the regular expression rather than run repeateadly the same command for each image as the latter is very error-prone. The content of the coordinate system file renders:
 \begin{verbatim}
 <SystemeCoord>
   <BSC>
@@ -1125,8 +1132,8 @@ Given the extracted tie points, the RPC bundle adjustment can proceed with the s
 \begin{verbatim}
 mm3d Campari .*.tif RPC-deg1 RPC-deg1_adj
 \end{verbatim}
-%
-Provided the results deliver satisfying residuals (in the presented case reflecting only the reprojection errors of the tie points, but more generally also determining the adherence of the data to some control information), the dense matching can be carried out. Nevertheless, it is worthwhile to verify the refined orientation between pairs of images using the {\tt mm3d MMTestOrient} (see Subsection~\ref{CheckOri}):
+%   
+Refer to section~\ref{subsub:rpcCampari} for a more detailed description of the adjustment algorithm. Provided the results deliver satisfying residuals (in the presented case reflecting only the reprojection errors of the tie points, but more generally also determining the adherence of the data to some control information), the dense matching can be carried out. Nevertheless, it is worthwhile to verify the refined orientation between pairs of images using the {\tt mm3d MMTestOrient} (see Subsection~\ref{CheckOri}):
 \begin{verbatim}
 mm3d MMTestOrient IMG_PHR1A_P_201202250025329_SEN_PRG_FC_5110-001_R1C1.tif 
 IMG_PHR1A_P_201202250025599_SEN_PRG_FC_5108-001_R1C1.tif Ori-RPC-deg1_adj GB=1 ZMoy=0 ZInc=500
