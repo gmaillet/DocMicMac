@@ -366,6 +366,102 @@ Once the appropriate input data (see~\ref{inputArsenic}) is computed, the comman
 %------------------------%
 \subsection{InitOriLinear}
 
+With {\tt InitOriLinear}, you can initialize your orientation in case of your acqusition is a serie of image with a displacement linear. Tool compute a vector of displacement from a set of reference image, then using it to estimate position of other image in serie.
+
+By using this tool to initialize orientation befor compute aero with Tapas, computation speed is improved.
+
+Inputs:
+\begin{itemize}
+\item Folder contain orientation of reference images
+\item Folder to output orientation file
+\item Pattern of image need to initialize. If your system have many camera ona bar rigide, you can give pattern correspondant with each camera, seperate by ",".
+\item Pattern of image use for reference. Idem if system have many camera. Order of camera must be the same.
+
+\item PatTurn : Turn image when direction of acquisition changed.(new section) (image of 1st camera)
+\item PatAngle : Turn angle correspondant with each turn image. Positive value for turn left, negative for turn right.
+\item mulF : multiplication factor to adjustment position between each section (use to spread or shorten distance between section)
+\item Axe : axe to turn around.
+\end{itemize}
+
+The output is orientation files initialized. Can be use as an initialized solution for {\tt Tapas} with option {\tt InOri}
+
+\begin{verbatim}
+mm3d InitOriLinear -help
+************************
+*  X : Initial         *
+*  X : Orientation     *
+*  X : & Position      *
+*  X : For Acquisition *
+*  X : Linear          *
+************************
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Ori folder of reference images}
+  * string :: {Folder for output initialized orientation- default = Ori-InitOut}
+  * string :: {Pattern of new images to orientate PatCam1, PatCam2,..}
+  * string :: {Pattern of Reference Image = PatRef1, PatRef2,..}
+Named args : 
+  * [Name=PatTurn] vector<std::string> :: {Images when acquisition have turn [poseTurn1,poseTurn2...]}
+  * [Name=PatAngle] vector<std::string> :: {Turn angle [angle1,angle2,...] - + => turn left, - => turn right}
+  * [Name=mulF] vector<std::string> :: {Multiplication factor for adjustment each turn [mul1,mul2,...]}
+  * [Name=Axe] string :: {Which axe to calcul rotation about - default = z}
+  * [Name=WithIdent] bool :: {Initialize with orientation identique (default = false)}
+  * [Name=Plan] bool :: {Force using vector [0,0,1] to initialize (garantie all poses will be in a same plan) - (default = false)}
+\end{verbatim}
+
+Example:
+
+We have an acqutision with 3 section continue. Each section is seperate by a turn. Section 1, then turn left 90° to section 2, then turn left 45° to section 3 (Fig 7.7). Acqusition is done by a system 2 camera on a bar rigide.
+Name image is contain an indicator of camera:
+\begin{verbatim}
+For camera 1: BIN_.*_image_023_.*.tif
+For camera 2: BIN_.*_image_024_.*.tif
+\end{verbatim}
+
+We have 2 turn in our acqusition: 
+\begin{itemize}
+\item Turn 1 : 90° left at image BIN_010-0120_14576019095_image_023_001_01316.thm.tif
+\item Turn 2 : 45° right at image BIN_021-0150_14576061046_image_023_003_02935.thm.tif
+\end{itemize}
+
+Step 1: orientate some images as a reference. Select image from 2 camera, in same declenche to compute relative position between cameras and vector displacement.
+\begin{verbatim}
+mm3d Tapas FishEyeBasic "BIN_010-011[1-2].*.tif" Out=reference
+\end{verbatim}
+We have an aero of reference image as show on Fig7.8.
+
+Step 2: Initialize another image. We have 2 serie correspondant with 2 camera, and we have 2 turn. By using command {\tt InitOriLinear}:
+
+\begin{verbatim}
+mm3d InitOriLinear 
+Ori-reference 
+Ori-InitOut 
+"BIN_.*-011[3-9]|BIN_.*-01[2-6].*_023_.*.tif,BIN_.*-011[3-9]|BIN_.*-01[2-6].*_024_.*.tif" 
+"BIN_010-011[1-2]_.*_023_.*.tif,BIN_010-011[1-2]_.*_024_.*.tif" 
+PatTurn=[BIN_010-0120_14576019095_image_023_001_01316.thm.tif,BIN_021-0150_14576061046_image_023_003_02935.thm.tif] 
+PatAngle=[90,45] 
+Axe=z 
+mulF=[1,1]
+\end{verbatim}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{FIGS/InitOriLinear/planpartir_quartier.png}
+\caption{Plan of acquisition linear with 2 turn, 3 section}
+\label{SurfCorr}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{FIGS/InitOriLinear/InitPose01.png}
+\caption{Calcul aero of reference image. System with 2 camera}
+\label{SurfCorr}
+\end{figure}
+
+
 %--------------------%
 \subsection{ReprojImg}
 
