@@ -364,6 +364,50 @@ Once the appropriate input data (see~\ref{inputArsenic}) is computed, the comman
 \section{Miscellaneous tools}
 
 %------------------------%
+\subsection{TestLib DrawVecNormalMesh}
+Tool use to compute and draw vector normal of each faces (triangle) of mesh.
+Inputs:
+\begin{itemize}
+\item Mesh File
+\item color : select color in RGB (not work! How to render edge with color in MeshLab ?)
+\item mF : multiply factor. Use to adjst length of vector. Modify if vector displayed is too short or too long.
+\end{itemize}
+\textit{Attention:} Output is PLY file format, store in \textbf{PlyVerify/} folder. If open with Meshlab: "Render/Show vertex dot".
+
+\begin{verbatim}
+**********************************************************
+* Calcul vector normal of each triangle and draw on mesh *
+**********************************************************
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Mesh}
+Named args : 
+  * [Name=color] vector<std::string> :: {[R,B,G] - default = [0,255,0]}
+  * [Name=mF] REAL :: {adjust length of vector - default = 0.05}
+
+
+\end{verbatim}
+\textit{Example:}
+\textbf{mm3d TestLib DrawVecNormalMesh meshSimpleCut.ply mF=0.08}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=15cm]{FIGS/MeshProjOnImg/VecNorMal1.png}
+\caption{Result calcul vector normal}
+\label{SurfCorr}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=15cm]{FIGS/MeshProjOnImg/VecNormalWMesh.png}
+\caption{Display vector normal with triangle.}
+\label{SurfCorr}
+\end{figure}
+
+
+%------------------------%
 \subsection{TestLib PackHomolToPly}
 Tool use to display a tie points between 2 image in 3D. By combination with a mesh 3D, we can examine where tie point is founded on object surface.
 Inputs:
