@@ -364,6 +364,52 @@ Once the appropriate input data (see~\ref{inputArsenic}) is computed, the comman
 \section{Miscellaneous tools}
 
 %------------------------%
+\subsection{TestLib MeshPartViewable}
+Tool use to compute and draw part of mesh is viewable by a specified image, under a condition of view angle limited by user. This function compute a view angle between a vector from optical center of camera to center of triangle on mesh and triangle's vector normal. Then, all triangle have a view angle upper than angle value given by user will be eliminated.
+Inputs:
+\begin{itemize}
+\item Mesh File
+\item Image need to be exemined
+\item Orientation
+\item Value of angle used to decide which part of mesh is viewable by the image.
+\end{itemize}
+\textit{Attention:} Output is PLY file format, store in \textbf{PlyVerify/} folder. It's contain part of mesh which is viewable, draw in green.
+
+\begin{verbatim}
+**********************************************************
+*       Which part of mesh is viewable by an image       *
+**********************************************************
+*****************************
+*  Help for Elise Arg main  *
+*****************************
+Mandatory unnamed args : 
+  * string :: {Mesh}
+  * string :: {Image}
+  * string :: {Ori}
+  * REAL :: {filter angle (b/w rayon (camera-centre_geo, vecNormal))}
+Named args : 
+  * [Name=mF] REAL :: {adjust length of vector - default = 0.05}
+
+\end{verbatim}
+
+\textit{Example:}
+\textbf{mm3d TestLib MeshPartViewable meshSimpleCut.ply BIN\_010-0117.tif Ori-BasculeIGN 60}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=15cm]{FIGS/MeshProjOnImg/MeshViewable.png}
+\caption{Calcul part of mesh that have view angle from an image < 60°. On the right: rayon from optical center of image to triangle on mesh.}
+\label{SurfCorr}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{FIGS/MeshProjOnImg/meshViewable2.png}
+\caption{Angle between rayon from optical center of image to bary-center of triangle on mesh and vector normal.}
+\label{SurfCorr}
+\end{figure}
+
+%------------------------%
 \subsection{TestLib DrawVecNormalMesh}
 Tool use to compute and draw vector normal of each faces (triangle) of mesh.
 Inputs:
@@ -386,8 +432,6 @@ Mandatory unnamed args :
 Named args : 
   * [Name=color] vector<std::string> :: {[R,B,G] - default = [0,255,0]}
   * [Name=mF] REAL :: {adjust length of vector - default = 0.05}
-
-
 \end{verbatim}
 \textit{Example:}
 \textbf{mm3d TestLib DrawVecNormalMesh meshSimpleCut.ply mF=0.08}
