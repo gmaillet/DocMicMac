@@ -214,22 +214,20 @@ In fact, {\tt Tapioca} is only an interface to {\tt Pastis}
 
 \subsection{General Structure}
 
-If {\tt bin/Tapioca} does not exit, build it with {\tt make bin/Tapioca}.
-
 The general syntax of {\tt Tapioca} is:
 
 \begin{center}
-   {\tt bin/Tapioca   Mode  Files  Arg1 Arg2  \dots Opt1=Val Opt2=Val \dots}
+   {\tt Tapioca   Mode  Files  Arg1 Arg2  \dots Opt1=Val Opt2=Val \dots}
 \end{center}
 
 Here are possible \UNCLEAR{use} of {\tt Tapioca}:
 
 {\scriptsize
 \begin{verbatim}
-bin/Tapioca All  "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" -1  ExpTxt=1
-bin/Tapioca Line  "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" -1   3 ExpTxt=1
-bin/Tapioca MulScale "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" 300 -1 ExpTxt=1
-bin/Tapioca File  "../micmac_data/ExempleDoc/Boudha/MesCouples.xml" -1  ExpTxt=1
+Tapioca All  "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" -1  ExpTxt=1
+Tapioca Line  "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" -1   3 ExpTxt=1
+Tapioca MulScale "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" 300 -1 ExpTxt=1
+Tapioca File  "../micmac_data/ExempleDoc/Boudha/MesCouples.xml" -1  ExpTxt=1
 \end{verbatim}
 }
 
@@ -261,7 +259,7 @@ The meaning of arguments is:
 
     \item  {\tt  Opt1=Val Opt2=Val  \dots} are optional parameters. The possible
 	   optional parameters depends upon {\tt Mode}.
-	   There is always at least two possible optional parameters:
+	   There is always at least three possible optional parameters:
 
 	    \begin{itemize}
 		 \item {\tt ExpTxt} indicates if you want an export in text mode;
@@ -270,7 +268,12 @@ The meaning of arguments is:
 		 \item {\tt ByP} indicates the number of processors that will be used
 			to \UNCLEAR{parallelize the process}; %simultaneously
 		       default is the number of
-			processors described in~\ref{Mic:File:Config}.
+			processors described in~\ref{Mic:File:Config};
+
+		 \item {\tt Ratio} to choose the ratio between first and second best points in matching.
+		    Default is 0.6, lower means that you want less ambiguity (and less points).
+		    Only used with ANN match.
+
 	    \end{itemize}
 
 \end{itemize}
@@ -278,17 +281,17 @@ The meaning of arguments is:
 If you do not remember the possible mode key words, just type:
 
 \begin{center}
-	{\tt bin/Tapioca}
+	{\tt Tapioca -help}
 \end{center}
 
 The possible values will be printed.
 
 If you do not remember the argument
-corresponding to a possible mode, just type {\tt bin/Tapioca mode -help},
+corresponding to a possible mode, just type {\tt Tapioca mode -help},
 for example:
 
 \begin{center}
-	{\tt bin/Tapioca MulScale -help}
+	{\tt Tapioca MulScale -help}
 \end{center}
 
 
@@ -302,7 +305,7 @@ between all the pairs of a set of images. The syntax is:
 
 {\scriptsize
 \begin{verbatim}
-    bin/Tapioca All  Files  Size  ArgOpt=
+    Tapioca All  Files  Size  ArgOpt=
 \end{verbatim}
 }
 
@@ -326,7 +329,7 @@ The example:
 
 {\scriptsize
 \begin{verbatim}
-    bin/Tapioca All  "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" -1  ExpTxt=1
+    Tapioca All  "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" -1  ExpTxt=1
 \end{verbatim}
 }
 
@@ -346,7 +349,7 @@ to Tapioca can save a lot of time. The syntax is:
 
 {\scriptsize
 \begin{verbatim}
-    bin/Tapioca Line  Files  Size  delta ArgOpt=
+    Tapioca Line  Files  Size  delta ArgOpt=
 \end{verbatim}
 }
 
@@ -372,7 +375,7 @@ threshold.
 
 {\scriptsize
 \begin{verbatim}
-     bin/Tapioca MulScale Files  SizeLow Size  NbMinPt=   ArgOpt=
+     Tapioca MulScale Files  SizeLow Size  NbMinPt=   ArgOpt=
 \end{verbatim}
 }
 
@@ -383,7 +386,7 @@ its default value is $2$. For example:
 
 {\scriptsize
 \begin{verbatim}
-    bin/Tapioca MulScale "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" 300 -1 ExpTxt=1
+    Tapioca MulScale "../micmac_data/ExempleDoc/Boudha/IMG_[0-9]{4}.tif" 300 -1 ExpTxt=1
 \end{verbatim}
 }
 
@@ -420,7 +423,7 @@ The syntax is:
 
 {\scriptsize
 \begin{verbatim}
-    bin/Tapioca File  NameOfFile  Size   ArgOpt=
+    Tapioca File  NameOfFile  Size   ArgOpt=
 \end{verbatim}
 }
 
@@ -430,7 +433,7 @@ For example in:
 
 {\scriptsize
 \begin{verbatim}
-bin/Tapioca File  "../micmac_data/ExempleDoc/Boudha/MesCouples.xml" -1  ExpTxt=1
+Tapioca File  "../micmac_data/ExempleDoc/Boudha/MesCouples.xml" -1  ExpTxt=1
 \end{verbatim}
 }
 
