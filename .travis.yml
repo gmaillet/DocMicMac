@@ -1,7 +1,9 @@
 language: c
 install:
- - sudo apt-get install pandoc
+# - sudo apt-get install pandoc
+ - sudo apt-get install texlive
 script:
  - cd Documentation
- - pandoc -s DocMicMac.tex -o DocMicMac.md 
+ - make
+ - ls
  
