@@ -2,6 +2,6 @@ language: c
 install:
  - sudo apt-get install pandoc
 script:
- - cd Documenation
+ - cd Documentation
  - pandoc -s DocMicMac.tex -o DocMicMac.md 
  
