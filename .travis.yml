@@ -4,6 +4,9 @@ install:
 script:
 - cd Documentation
 - make > log.txt
+- ls
+- pwd
+- ls $TRAVIS_BUILD_DIR/Documentation/DocMicMac.pdf
 deploy:
   provider: releases
   api_key:
