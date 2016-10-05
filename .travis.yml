@@ -12,5 +12,7 @@ deploy:
   api_key:
     secure: PJiAVnS6cRc9KF12Ia9nhYKrcIYWj3UyL5peFH7ZmbNF7PDh4MMNen60uugr1A9TfKTItxdUPyBUGTANdK/YuQACY/soaqamTx1ifiScaWc29AvH26an3EZSHcST0GmbS0ZSSCxZgA6ljjllKUEeKnkt15lzyV4kaPP+LeHKTYJqEuhjvTEWm+u2YvV/LLl6NR45x2yAdkb0pV3fFSxnPdNvEZQmQXdkJgOPx9me1ghWIpO9KRYYmGwe0eHieJhLuGqUFDOQlo97wQ0FktDbMyeuxRcY/54ryH7ti8u7jIui589u8R0YWzOgsI+BKzC/ZRQb203tHxugUGRPIE5HBQfjrobd0LFDWlbKvyHbq22Q+PwFFvz4ukp/BjWAFRh93XkGv29iZaCchZLOn1+NDhxqpCs7rX/M0Ld8dDm7GtyR9sBCpAPjKnLjFmvXJRhBVh2/1iNz++Yiy2A/nF+5W82E9eWiWuA0h8bf9OIErIPb2CNc16y36jC8CNGauuJZT/786m+Yrlgz4RmGekhilwED+amz8IgtVY49ujiQCJzXeO09PBhJG3pJ6mnD+eqQDoMxQ8Yhu8UrhhxBJjf9E29CWRwz8R3MH3tMmNbpwNluxLzYB9HKUsU3pvruN+lWgg9/1hdj+0MpsRjFSwIQRyku/A8o91T6vWADIUMlrqc=
   file: $TRAVIS_BUILD_DIR/Documentation/DocMicMac.pdf
+  skip_cleanup: true
   on:
     repo: gmaillet/DocMicMac
+    tags: true
